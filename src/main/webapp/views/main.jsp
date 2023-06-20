@@ -13,6 +13,7 @@
 
 CC 입니다만 ~?
 
+<a href="docWriteForm.go">문서 작성</a>
 </body>
 <script></script>
 </html>
