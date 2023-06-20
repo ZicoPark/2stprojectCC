@@ -11,7 +11,13 @@
 </head>
 <body>
 
-CC 입니다만 ~?
+<input type="button" value="승범" onclick="location.href='sb.go'"/>
+<input type="button" value="지호" onclick="location.href='jh.go'"/>
+<input type="button" value="지웅" onclick="location.href='jw.go'"/>
+<input type="button" value="진경" onclick="location.href='jk.go'"/>
+<input type="button" value="서정" onclick="location.href='sj.go'"/>
+<input type="button" value="유민" onclick="location.href='ym.go'"/>
+<input type="button" value="승원" onclick="location.href='sw.go'"/>
 
 </body>
 <script></script>
