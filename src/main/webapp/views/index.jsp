@@ -16,7 +16,12 @@
   <style>
 [class*=sidebar-dark-] .sidebar a {
     color: white;
-}  
+}
+[class*=sidebar-dark-] .sidebar a p {
+    color: white;
+}
+
+
   </style>
   
   
