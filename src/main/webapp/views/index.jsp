@@ -235,7 +235,7 @@
             <a href="#" class="nav-link">
               <i class="nav-icon fas fa-tachometer-alt"></i>
               <p>
-                제목2
+                전자결재
                 <i class="right fas fa-angle-left"></i>
               </p>
             </a>
@@ -265,30 +265,11 @@
             <a href="#" class="nav-link">
               <i class="nav-icon fas fa-tachometer-alt"></i>
               <p>
-                제목3
+                개인업무관리
                 <i class="right fas fa-angle-left"></i>
               </p>
             </a>
-            <ul class="nav nav-treeview">
-              <li class="nav-item">
-                <a href="/" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>부제목1</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="/index2.go" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>부제목2</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="../../index3.jsp" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>부제목3</p>
-                </a>
-              </li>
-            </ul>
+
           </li>
           
           
@@ -314,7 +295,7 @@
             <a href="#" class="nav-link">
               <i class="nav-icon fas fa-tachometer-alt"></i>
               <p>
-                제목5
+                쪽지
                 <i class="right fas fa-angle-left"></i>
               </p>
             </a>
@@ -345,7 +326,7 @@
             <a href="#" class="nav-link">
               <i class="nav-icon fas fa-tachometer-alt"></i>
               <p>
-                제목6
+                일정관리
                 <i class="right fas fa-angle-left"></i>
               </p>
             </a>
@@ -375,38 +356,7 @@
             <a href="#" class="nav-link">
               <i class="nav-icon fas fa-tachometer-alt"></i>
               <p>
-                제목7
-                <i class="right fas fa-angle-left"></i>
-              </p>
-            </a>
-            <ul class="nav nav-treeview">
-              <li class="nav-item">
-                <a href="/" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>부제목1</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="/index2.go" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>부제목2</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="../../index3.jsp" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>부제목3</p>
-                </a>
-              </li>
-            </ul>
-          </li>
-          
-          
-                    <li class="nav-item">
-            <a href="#" class="nav-link">
-              <i class="nav-icon fas fa-tachometer-alt"></i>
-              <p>
-                제목8
+                부서리스트
                 <i class="right fas fa-angle-left"></i>
               </p>
             </a>
@@ -437,7 +387,7 @@
             <a href="#" class="nav-link">
               <i class="nav-icon fas fa-tachometer-alt"></i>
               <p>
-                제목9
+                게시판
                 <i class="right fas fa-angle-left"></i>
               </p>
             </a>
@@ -468,7 +418,7 @@
             <a href="#" class="nav-link">
               <i class="nav-icon fas fa-tachometer-alt"></i>
               <p>
-                제목10
+                공지사항
                 <i class="right fas fa-angle-left"></i>
               </p>
             </a>
@@ -499,7 +449,7 @@
             <a href="#" class="nav-link">
               <i class="nav-icon fas fa-tachometer-alt"></i>
               <p>
-                제목11
+                통계
                 <i class="right fas fa-angle-left"></i>
               </p>
             </a>
@@ -524,6 +474,7 @@
               </li>
             </ul>
           </li>
+          
           
           
                     <li class="nav-item">
