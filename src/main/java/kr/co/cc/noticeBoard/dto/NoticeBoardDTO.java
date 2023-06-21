@@ -1,6 +1,5 @@
 package kr.co.cc.noticeBoard.dto;
 
-import org.apache.ibatis.type.Alias;
 
 //@Alias("noticeBoard")
 public class NoticeBoardDTO {

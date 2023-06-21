@@ -20,7 +20,7 @@
 <div class="wrapper">
   <div class="content-wrapper">
     <section class="content-header">
-            <h1>제목 적는 곳</h1>         
+            <h1>공지사항</h1>         
     </section>
     <!-- Main content -->
     <section class="content">
@@ -45,10 +45,10 @@
 					<tr> 
 						<td>${noticeboard.id}</td>
 						<td><a href="detail.do?idx=${noticeboard.id}">${noticeboard.subject }</a></td>
-						<td>${notice_board. create_id}</td>
-						<td>${notice_board.hit } </td>
-						<td>${notice_board.notice_date }</td>
-						<td><a href="del.do?idx=${notice_board.id}">삭제</a></td>
+						<td>${noticeboard. create_id}</td>
+						<td>${noticeboard.hit } </td>
+						<td>${noticeboard.notice_date }</td>
+						<td><a href="del.do?idx=${noticeboard.id}">삭제</a></td>
 					</tr>
 				</c:forEach>
 			</tbody>

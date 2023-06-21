@@ -28,15 +28,14 @@ public class NoticeBoardController {
 //	}
 	
 	
-	@RequestMapping(value="/list.do", method= {RequestMethod.GET, RequestMethod.POST})
+	@RequestMapping(value="/noticeBoard.go", method= {RequestMethod.GET, RequestMethod.POST})
 	public ModelAndView list(){
 		
 		logger.info("list");
-		ModelAndView mav = new ModelAndView("login") ;
+		ModelAndView mav = new ModelAndView("noticeBoardList") ;
 	
 			ArrayList<NoticeBoardDTO> list = service.list();
 			logger.info("list cnt" + list.size());
-			mav.setViewName("list");
 			mav.addObject("list", list);
 			
 		return mav;
