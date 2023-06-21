@@ -3,5 +3,18 @@
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 	
 <mapper namespace="kr.co.cc.project.dao.ProjectDAO">
-
+<<<<<<< HEAD
+=======
+	<insert  id="write" parameterType="kr.co.cc.project.dto.ProjectDTO">
+		INSERT INTO
+		project(name,member_id,public_range,priod,deadlinepriod,step,status)
+		VALUES(#{name},#{member_id},#{public_range},#{priod},#{deadlinepriod},'기획','준비중')
+	</insert>	
+	
+	<select  id="list" parameterType="kr.co.cc.project.dto.ProjectDTO">
+		SELECT * FROM project
+	</select>	
+																							
 </mapper>
+>>>>>>> origin/master
+
