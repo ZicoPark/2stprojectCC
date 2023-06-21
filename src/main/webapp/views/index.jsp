@@ -230,7 +230,7 @@
             <a href="#" class="nav-link">
               <i class="nav-icon fas fa-tachometer-alt"></i>
               <p>
-                제목2
+                전자결재
                 <i class="right fas fa-angle-left"></i>
               </p>
             </a>
@@ -260,30 +260,11 @@
             <a href="#" class="nav-link">
               <i class="nav-icon fas fa-tachometer-alt"></i>
               <p>
-                제목3
+                개인업무관리
                 <i class="right fas fa-angle-left"></i>
               </p>
             </a>
-            <ul class="nav nav-treeview">
-              <li class="nav-item">
-                <a href="/" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>부제목1</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="/index2.go" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>부제목2</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="../../index3.jsp" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>부제목3</p>
-                </a>
-              </li>
-            </ul>
+
           </li>
           
           
@@ -309,7 +290,38 @@
             <a href="#" class="nav-link">
               <i class="nav-icon fas fa-tachometer-alt"></i>
               <p>
-                제목5
+                쪽지
+                <i class="right fas fa-angle-left"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="/msWrite.go" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>쪽지 작성</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="/msSendList.go" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>보낸 쪽지함</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="../../index3.jsp" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>부제목3</p>
+                </a>
+              </li>
+            </ul>
+          </li>
+          
+          
+                    <li class="nav-item">
+            <a href="#" class="nav-link">
+              <i class="nav-icon fas fa-tachometer-alt"></i>
+              <p>
+                일정관리
                 <i class="right fas fa-angle-left"></i>
               </p>
             </a>
@@ -335,104 +347,11 @@
             </ul>
           </li>
           
-          
                     <li class="nav-item">
             <a href="#" class="nav-link">
               <i class="nav-icon fas fa-tachometer-alt"></i>
               <p>
-                제목6
-                <i class="right fas fa-angle-left"></i>
-              </p>
-            </a>
-            <ul class="nav nav-treeview">
-              <li class="nav-item">
-                <a href="/" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>부제목1</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="/index2.go" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>부제목2</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="../../index3.jsp" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>부제목3</p>
-                </a>
-              </li>
-            </ul>
-          </li>
-          
-                    <li class="nav-item">
-            <a href="#" class="nav-link">
-              <i class="nav-icon fas fa-tachometer-alt"></i>
-              <p>
-                제목7
-                <i class="right fas fa-angle-left"></i>
-              </p>
-            </a>
-            <ul class="nav nav-treeview">
-              <li class="nav-item">
-                <a href="/" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>부제목1</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="/index2.go" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>부제목2</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="../../index3.jsp" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>부제목3</p>
-                </a>
-              </li>
-            </ul>
-          </li>
-          
-          
-                    <li class="nav-item">
-            <a href="#" class="nav-link">
-              <i class="nav-icon fas fa-tachometer-alt"></i>
-              <p>
-                제목8
-                <i class="right fas fa-angle-left"></i>
-              </p>
-            </a>
-            <ul class="nav nav-treeview">
-              <li class="nav-item">
-                <a href="/" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>부제목1</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="/index2.go" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>부제목2</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="../../index3.jsp" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>부제목3</p>
-                </a>
-              </li>
-            </ul>
-          </li>
-          
-          
-                    <li class="nav-item">
-            <a href="#" class="nav-link">
-              <i class="nav-icon fas fa-tachometer-alt"></i>
-              <p>
-                제목9
+                부서리스트
                 <i class="right fas fa-angle-left"></i>
               </p>
             </a>
@@ -471,13 +390,13 @@
               <li class="nav-item">
                 <a href="/" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
-                  <p>자료실</p>
+                  <p>부제목1</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="/freeBoardList" class="nav-link">
+                <a href="/index2.go" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
-                  <p>부서별게시판</p>
+                  <p>부제목2</p>
                 </a>
               </li>
               <li class="nav-item">
@@ -494,7 +413,7 @@
             <a href="#" class="nav-link">
               <i class="nav-icon fas fa-tachometer-alt"></i>
               <p>
-                제목11
+                공지사항
                 <i class="right fas fa-angle-left"></i>
               </p>
             </a>
@@ -519,6 +438,39 @@
               </li>
             </ul>
           </li>
+          
+          
+                    <li class="nav-item">
+            <a href="#" class="nav-link">
+              <i class="nav-icon fas fa-tachometer-alt"></i>
+              <p>
+                통계
+
+                <i class="right fas fa-angle-left"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="/" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>자료실</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="/freeBoardList" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>부서별게시판</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="../../index3.jsp" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>부제목3</p>
+                </a>
+              </li>
+            </ul>
+          </li>
+          
           
           
                     <li class="nav-item">

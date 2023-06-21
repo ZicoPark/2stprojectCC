@@ -7,6 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import kr.co.cc.doc.dto.DocFormDTO;
@@ -33,13 +34,15 @@ public class DocController {
 	
 	// 기안문 양식 불러오기
 	@RequestMapping(value="/docFormCall.ajax")
+	@ResponseBody
 	public HashMap<String, Object> docFormCall(){
 		
-		ArrayList<DocFormDTO> docFormList = service.docFormCall();
-		logger.info("docForm : "+docFormList);
-		
 		HashMap<String, Object> map = new HashMap<String, Object>();
-		map.put("docFormList", map);
+		ArrayList<DocFormDTO> docFormList = service.docFormCall();
+		
+		logger.info("docFormList : "+docFormList);
+		
+		map.put("docFormList", docFormList);
 		
 		return map;
 	}

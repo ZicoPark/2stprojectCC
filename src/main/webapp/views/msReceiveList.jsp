@@ -8,6 +8,6 @@
 </head>
 <body>
 	<jsp:include page = "index.jsp"></jsp:include>
-	<h3>보낸 쪽지함</h3>
+	<h3>받은 쪽지함</h3>
 </body>
 </html>
