@@ -12,7 +12,7 @@
 <body>
 <jsp:include page = "index.jsp"></jsp:include>
 연차 관리 관리자
+</body>
 <script>
 </script>
-</body>
 </html>
