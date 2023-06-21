@@ -8,4 +8,27 @@
 		SELECT * FROM doc_form
 	</select>
 
+	<select id="approvalKindCall" resultType="kr.co.cc.doc.dto.ApprovalDTO">
+		SELECT * FROM approval
+	</select>
+	
+	<resultMap id="memberMap" type="kr.co.cc.doc.dto.MemberDTO" >
+		<id property="id" column="id"/>
+		<result property="jobName" column="job_name"/>
+		<result property="deptName" column="dept_name"/>
+		<result property="password" column="password"/>
+		<result property="name" column="name"/>
+		<result property="birthDate" column="birth_date"/>
+		<result property="hireDate" column="hire_date"/>
+		<result property="endDate" column="end_date"/>
+		<result property="email" column="email"/>
+		<result property="phone" column="phone"/>
+		<result property="status" column="status"/>
+		<result property="adminChk" column="admin_chk"/>
+	</resultMap>
+
+	<select id="memberListCall" resultMap="memberMap">
+		SELECT * FROM member
+	</select>
+
 </mapper>
