@@ -4,15 +4,11 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
-<style>
-
-</style>
+<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+<style></style>
 </head>
 <body>
-
-CC 입니다만 ~?
-
+	사원 승인/삭제 리스트
 </body>
 <script></script>
 </html>

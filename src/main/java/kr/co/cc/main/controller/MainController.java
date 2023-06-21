@@ -8,7 +8,7 @@ public class MainController {
 
 	@RequestMapping(value="/")
 	public String main() {
-		
-		return "main";
+		return "AdminList";
+		// return "main";
 	}
 }
