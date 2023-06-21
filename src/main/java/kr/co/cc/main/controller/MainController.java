@@ -72,10 +72,7 @@ public class MainController {
 		return "calender";
 	}
 	
-	@GetMapping(value="/projects.go")
-	public String projectsGo() {
-		return "projects";
-	}
+
 	
 	// 000.move 로 요청이 오면 000.jsp 로 이동
 	@GetMapping(value="/{page}.move")
