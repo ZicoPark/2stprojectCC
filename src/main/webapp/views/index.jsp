@@ -163,10 +163,10 @@
   <!-- /.navbar -->
 
   <!-- Main Sidebar Container -->
-  <aside class="main-sidebar sidebar-dark-primary elevation-4">
+  <aside class="main-sidebar sidebar-dark-primary elevation-4 bg-white">
     <!-- Brand Logo -->
     <a href="../../index3.jsp" class="brand-link">
-      <img src="../../dist/img/KakaoTalk_20230613_164257782.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
+      <img src="../../dist/img/KakaoTalk_20230613_164257782.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-10" style="opacity: .8">
       <span class="brand-text font-weight-light">CreatorCompany</span>
     </a>
 
@@ -204,7 +204,7 @@
                
           <li class="nav-item">
             <a href="#" class="nav-link">
-              <i class="nav-icon fas fa-tachometer-alt"></i>
+              <img src="../../dist/img/근태기록.png" class="nav-icon fas fa-tachometer-alt"/>
               <p>
                 근태 관리
                 <i class="right fas fa-angle-left"></i>
@@ -228,7 +228,7 @@
           
                <li class="nav-item">
             <a href="#" class="nav-link">
-              <i class="nav-icon fas fa-tachometer-alt"></i>
+              <img src="../../dist/img/결재.png" class="nav-icon fas fa-tachometer-alt"/>
               <p>
                 전자결재
                 <i class="right fas fa-angle-left"></i>
@@ -258,7 +258,7 @@
           
                     <li class="nav-item">
             <a href="#" class="nav-link">
-              <i class="nav-icon fas fa-tachometer-alt"></i>
+              <img src="../../dist/img/개인 업무.png" class="nav-icon fas fa-tachometer-alt"/>
               <p>
                 개인업무관리
                 <i class="right fas fa-angle-left"></i>
@@ -270,7 +270,7 @@
           
                     <li class="nav-item">
             <a href="#" class="nav-link">
-              <i class="nav-icon fas fa-tachometer-alt"></i>
+              <img src="../../dist/img/그룹 업무.png" class="nav-icon fas fa-tachometer-alt"/>
               <p>
                 프로젝트 업무관리
                 <i class="right fas fa-angle-left"></i>
@@ -288,7 +288,7 @@
           
                     <li class="nav-item">
             <a href="#" class="nav-link">
-              <i class="nav-icon fas fa-tachometer-alt"></i>
+              <img src="../../dist/img/쪽지.png" class="nav-icon fas fa-tachometer-alt"/>
               <p>
                 쪽지
                 <i class="right fas fa-angle-left"></i>
@@ -296,15 +296,15 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="/" class="nav-link">
+                <a href="/msWrite.go" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
-                  <p>부제목1</p>
+                  <p>쪽지 작성</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="/index2.go" class="nav-link">
+                <a href="/msSendList.go" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
-                  <p>부제목2</p>
+                  <p>보낸 쪽지함</p>
                 </a>
               </li>
               <li class="nav-item">
@@ -319,7 +319,7 @@
           
                     <li class="nav-item">
             <a href="#" class="nav-link">
-              <i class="nav-icon fas fa-tachometer-alt"></i>
+              <img src="../../dist/img/달력.png" class="nav-icon fas fa-tachometer-alt"/>
               <p>
                 일정관리
                 <i class="right fas fa-angle-left"></i>
@@ -349,7 +349,7 @@
           
                     <li class="nav-item">
             <a href="#" class="nav-link">
-              <i class="nav-icon fas fa-tachometer-alt"></i>
+              <img src="../../dist/img/부서리스트.png" class="nav-icon fas fa-tachometer-alt"/>
               <p>
                 부서리스트
                 <i class="right fas fa-angle-left"></i>
@@ -380,7 +380,7 @@
           
                     <li class="nav-item">
             <a href="#" class="nav-link">
-              <i class="nav-icon fas fa-tachometer-alt"></i>
+              <img src="../../dist/img/게시판.png" class="nav-icon fas fa-tachometer-alt"/>
               <p>
                 게시판
                 <i class="right fas fa-angle-left"></i>
@@ -411,7 +411,7 @@
           
                     <li class="nav-item">
             <a href="#" class="nav-link">
-              <i class="nav-icon fas fa-tachometer-alt"></i>
+              <img src="../../dist/img/공지사항.png" class="nav-icon fas fa-tachometer-alt"/>
               <p>
                 공지사항
                 <i class="right fas fa-angle-left"></i>
@@ -442,9 +442,10 @@
           
                     <li class="nav-item">
             <a href="#" class="nav-link">
-              <i class="nav-icon fas fa-tachometer-alt"></i>
+               <img src="../../dist/img/통계.png" class="nav-icon fas fa-tachometer-alt"/>
               <p>
                 통계
+
                 <i class="right fas fa-angle-left"></i>
               </p>
             </a>
@@ -452,13 +453,13 @@
               <li class="nav-item">
                 <a href="/" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
-                  <p>부제목1</p>
+                  <p>자료실</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="/index2.go" class="nav-link">
+                <a href="/freeBoardList" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
-                  <p>부제목2</p>
+                  <p>부서별게시판</p>
                 </a>
               </li>
               <li class="nav-item">
