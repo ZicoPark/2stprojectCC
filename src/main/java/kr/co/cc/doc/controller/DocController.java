@@ -26,10 +26,17 @@ public class DocController {
 	}
 	
 	// 기안문 작성 폼으로 이동
-	@RequestMapping(value="/docWriteForm.go")
+	@RequestMapping(value="/docWriteForm.do")
 	public ModelAndView docWriteForm() {
 		
-		return new ModelAndView("docWriteForm");
+		ModelAndView mav = new ModelAndView("docWriteForm");
+		ArrayList<DocFormDTO> docFormList = service.docFormCall();
+		
+		logger.info("docFormList : "+docFormList);
+		
+		mav.addObject("docFormList", docFormList);
+		
+		return mav;
 	}
 	
 	// 기안문 양식 불러오기

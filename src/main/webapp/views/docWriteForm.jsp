@@ -11,44 +11,40 @@
 </style>
 </head>
 <body>
-	<select name="doc_form" onclick="docFormCall(this)">
-		<option value="">---</option>
+	<h1>새 문서 작성</h1>
+	<br>
+	<br>
+	<br>
+	<select name="doc_form" id="doc_form" onchange="docForm(this)">
+		<option value="default">--</option>
+		<c:forEach items="${docFormList}" var="i">
+			<option value="${i.code}">${i.name}</option>
+		</c:forEach>
 	</select>
-	<div id="div_editor1">
-		<p>Initial Document Content</p>
+	<c:forEach items="${docFormList}" var="i">
+		<textarea id="${i.code}" hidden="true">${i.content}</textarea>
+	</c:forEach>
+	<div id="div_editor">
+		<p>Creator Company</p>
 	</div>
 </body>
 <script type="text/javascript" src="/richtexteditor/rte.js"></script>  
 <script type="text/javascript" src='/richtexteditor/plugins/all_plugins.js'></script>
 <script>
-var editor1 = new RichTextEditor("#div_editor1");
+var config = {}; // 설정
+config.editorResizeMode = "none"; // 에디터 크기조절 none
 
-function docFormCall(elem){
-	
-	console.log('docFormCall !');
-	console.log(elem);
-	
-	$.ajax({
-		
-		type: 'get',
-		url: 'docFormCall.ajax',
-		data: {},
-		dataType: 'json',
-		success: function(data){
-			console.log(data);
-			docFormListDraw(data);
-		},
-		error: function(e){
-			console.log(e);
-		}
-		
-	});
-	
-}
+var editor = new RichTextEditor("#div_editor",config);
 
-function docFormListDraw(docFormList){
+function docForm(elem){
+
+	console.log(elem.value);
 	
-	console.log(docFormList);
+	var doc_form = document.getElementById(elem.value).value;
+	
+	console.log(doc_form);
+	
+	editor.setHTMLCode(doc_form); // editor에 내용 넣기, doc_form은 기본 양식
 }
 </script>
 </html>
