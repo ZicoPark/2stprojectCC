@@ -463,7 +463,7 @@
             <a href="#" class="nav-link">
               <i class="nav-icon fas fa-tachometer-alt"></i>
               <p>
-                제목10
+                게시판
                 <i class="right fas fa-angle-left"></i>
               </p>
             </a>
@@ -471,13 +471,13 @@
               <li class="nav-item">
                 <a href="/" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
-                  <p>부제목1</p>
+                  <p>자료실</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="/index2.go" class="nav-link">
+                <a href="/freeBoardList" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
-                  <p>부제목2</p>
+                  <p>부서별게시판</p>
                 </a>
               </li>
               <li class="nav-item">
