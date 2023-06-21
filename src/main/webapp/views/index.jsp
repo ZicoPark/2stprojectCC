@@ -241,9 +241,9 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="/" class="nav-link">
+                <a href="/docWriteForm.do" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
-                  <p>부제목1</p>
+                  <p>새 문서 작성</p>
                 </a>
               </li>
               <li class="nav-item">
@@ -262,7 +262,7 @@
           </li>
           
                     <li class="nav-item">
-            <a href="#" class="nav-link">
+            <a href="/presonal.go" class="nav-link">
               <img src="../../dist/img/개인 업무.png" class="nav-icon fas fa-tachometer-alt"/>
               <p>
                 개인업무관리
@@ -412,36 +412,16 @@
               </li>
             </ul>
           </li>
-          
-          
+
+
                     <li class="nav-item">
-            <a href="#" class="nav-link">
+            <a href="/noticeBoard.go" class="nav-link">
               <img src="../../dist/img/공지사항.png" class="nav-icon fas fa-tachometer-alt"/>
               <p>
                 공지사항
                 <i class="right fas fa-angle-left"></i>
               </p>
             </a>
-            <ul class="nav nav-treeview">
-              <li class="nav-item">
-                <a href="/" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>부제목1</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="/index2.go" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>부제목2</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="../../index3.jsp" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>부제목3</p>
-                </a>
-              </li>
-            </ul>
           </li>
           
           

@@ -7,7 +7,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import kr.co.cc.doc.dao.DocDAO;
+import kr.co.cc.doc.dto.ApprovalDTO;
 import kr.co.cc.doc.dto.DocFormDTO;
+import kr.co.cc.doc.dto.MemberDTO;
 
 @Service
 @MapperScan(value={"kr.co.cc.doc.dao"})
@@ -24,6 +26,16 @@ public class DocService {
 	public ArrayList<DocFormDTO> docFormCall() {
 
 		return dao.docFormCall();
+	}
+
+	public ArrayList<ApprovalDTO> approvalKindCall() {
+
+		return dao.approvalKindCall();
+	}
+
+	public ArrayList<MemberDTO> memberListCall() {
+		
+		return dao.memberListCall();
 	}
 	
 }

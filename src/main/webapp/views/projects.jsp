@@ -117,7 +117,7 @@
                           <span class="badge badge-success">${project.step}</span>
                       </td>
                       <td class="project-actions text-right">
-                          <a class="btn btn-primary btn-sm view-btn" href="project-detail.go">
+                          <a href="projectDetail.go" class="btn btn-primary btn-sm view-btn">
                               <i class="fas fa-folder">
                               </i>
                               상세보기
@@ -168,12 +168,7 @@
 <script src="../../dist/js/demo.js"></script>
 
 <script>
-$(document).ready(function() {
-	  $(".view-btn").click(function(e) {
-	    e.preventDefault();
-	
-	  });
-	});
+
 </script>
 
 </body>

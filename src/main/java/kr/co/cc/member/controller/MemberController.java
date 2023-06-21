@@ -43,7 +43,7 @@ public class MemberController {
 	
 	@RequestMapping(value="/main.go")
 	public String main(Model model) {
-		return "main";
+		return "workHistoryList";
 	}
 	
 	@RequestMapping(value="/login.do", method = RequestMethod.POST)
