@@ -24,12 +24,12 @@ public class MemberController {
 	@Autowired MemberService memberservice;
 	
 	Logger logger = LoggerFactory.getLogger(getClass());
-	
+
 	@RequestMapping(value="/", method = RequestMethod.GET)
 	public String home(Model model) {
 		return "Login";
 	}
-	
+
 	@RequestMapping(value="/join.go", method = RequestMethod.GET)
 	public String joinForm(Model model) {
 		return "JoinForm";

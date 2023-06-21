@@ -11,7 +11,7 @@ public class MainController {
 
 	Logger logger = LoggerFactory.getLogger(getClass());
 	
-	@GetMapping(value="/")
+	@GetMapping(value="/mainGNB.go")
 	public String index() {
 		return "index";
 	}
