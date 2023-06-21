@@ -3,9 +3,8 @@ package kr.co.cc.work.dto;
 import java.sql.Date;
 import java.sql.Time;
 
-import org.apache.ibatis.type.Alias;
 
-@Alias("workdto") 
+
 public class WorkDTO {
 	
 	private int id;

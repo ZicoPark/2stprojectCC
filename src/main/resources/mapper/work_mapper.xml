@@ -4,8 +4,25 @@
 	
 <mapper namespace="kr.co.cc.work.dao.WorkDAO">
 
-	<select id="workHistoryList" resultType="workdto">
+	<select id="workHistoryList" resultType="kr.co.cc.work.dto.WorkDTO">
 		SELECT * FROM working_hour WHERE member_id=#{id}
 	</select>
 
+
+	<select id="timeGoBefore" resultType="int">
+		SELECT COUNT(member_id) FROM working_hour WHERE member_id=#{param1} AND date=#{param2}
+	</select>
+	
+	<select id="findName" resultType="String">
+		SELECT name FROM member WHERE id=#{param1}
+	</select>
+	
+	<insert id="timeGo">
+		insert into working_hour (member_id,name) values (#{param1},#{param2});
+	</insert>
+	
+	<update id="timeEnd">
+		UPDATE working_hour SET time_end=#{param3} WHERE member_id=#{param1} AND date=#{param2}
+	</update>
+	
 </mapper>

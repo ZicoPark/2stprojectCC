@@ -13,6 +13,12 @@
   <link rel="stylesheet" href="../../plugins/fontawesome-free/css/all.min.css">
   <!-- Theme style -->
   <link rel="stylesheet" href="../../dist/css/adminlte.min.css">
+  <style>
+  	button {
+		width: 25%;
+		float: right;
+	}
+  </style>
 </head>
 <body>
 <jsp:include page = "index.jsp"></jsp:include>
@@ -36,7 +42,8 @@
     				<td>날짜</td>
     				<td>출근 시간</td>
     				<td>퇴근 시간</td>
-    				<td>근무 시간</td>    				
+    				<td>근무 시간</td>
+    				<td>날짜</td> 				
     				<td>수정</td>
     			</tr>    		
     		</thead>
@@ -54,7 +61,7 @@
 	    				<td>${workList.date}</td>
 	    				<td>${workList.time_go}</td>
 	    				<td>${workList.time_end}</td>    				
-	    				<td>${workList.time_go}-${workList.time_end}</td>
+	    				<td>${(work.time_end.time - work.time_go.time) / (1000 * 60 * 60)}</td>
 	    				<td>${workList.date}</td>
 	    				<td><a href="WorkChangeRequest.do?id=${workList.id}">수정</a></td>
 	    			</tr>			
