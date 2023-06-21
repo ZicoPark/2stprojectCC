@@ -3,8 +3,7 @@
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 	
 <mapper namespace="kr.co.cc.project.dao.ProjectDAO">
-<<<<<<< HEAD
-=======
+
 	<insert  id="write" parameterType="kr.co.cc.project.dto.ProjectDTO">
 		INSERT INTO
 		project(name,member_id,public_range,priod,deadlinepriod,step,status)
@@ -16,5 +15,5 @@
 	</select>	
 																							
 </mapper>
->>>>>>> origin/master
+
 

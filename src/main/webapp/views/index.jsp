@@ -482,6 +482,18 @@
               </p>
             </a>
             <ul class="nav nav-treeview">
+            <li class="nav-item">
+                <a href="/MemberList.go" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>사원 리스트</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="/MemberONOFFList.go" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>사원 승인/삭제</p>
+                </a>
+              </li>
               <li class="nav-item">
                 <a href="/workHistoryList_Ad.go" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
@@ -516,6 +528,18 @@
                 <a href="#" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>재직상태 리스트</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="/DeptCategory.go" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>부서 카테고리</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="/ArchiveCategory.go" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>자료실 카테고리</p>
                 </a>
               </li>
             </ul>

@@ -3,8 +3,6 @@
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 	
 <mapper namespace="kr.co.cc.member.dao.MemberDAO">
-<<<<<<< HEAD
-=======
 
 	<insert id = "join" parameterType="kr.co.cc.member.dto.MemberDTO">
 		INSERT INTO member(id,password,name,birth_date,hire_date,job_name,dept_name,email,phone,status,admin_chk,end_date)
@@ -14,6 +12,5 @@
 	<select id = "login" parameterType="hashmap">
 		SELECT id FROM member WHERE id = #{id} and password = #{password}
 	</select>
->>>>>>> origin/master
 
 </mapper>

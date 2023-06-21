@@ -9,18 +9,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 @Controller
 public class MainController {
 
-<<<<<<< HEAD
-	@RequestMapping(value="/")
-	public String main() {
-		return "AdminList";
-		// return "main";
-=======
 	Logger logger = LoggerFactory.getLogger(getClass());
 	
 	@GetMapping(value="/mainGNB.go")
 	public String index() {
 		return "index";
->>>>>>> origin/master
+
 	}
 	
 	// 근태 관리 > 

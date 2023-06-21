@@ -9,6 +9,11 @@
 </head>
 <body>
 	관리자 사원 상세보기 페이지
+	<table>
+		<tr>
+		
+		</tr>
+	</table>
 </body>
 <script></script>
 </html>

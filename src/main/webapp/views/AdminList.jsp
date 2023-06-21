@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
 <style>
 	table, th, td{
 		border: 1px solid black;
@@ -17,6 +17,7 @@
 </style>
 </head>
 <body>
+<jsp:include page = "index.jsp"></jsp:include>
 	관리자
 	<table>
 		<tr>
