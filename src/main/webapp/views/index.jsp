@@ -296,15 +296,15 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="/" class="nav-link">
+                <a href="/msWrite.go" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
-                  <p>부제목1</p>
+                  <p>쪽지 작성</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="/index2.go" class="nav-link">
+                <a href="/msSendList.go" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
-                  <p>부제목2</p>
+                  <p>보낸 쪽지함</p>
                 </a>
               </li>
               <li class="nav-item">
@@ -445,6 +445,7 @@
                <img src="../../dist/img/통계.png" class="nav-icon fas fa-tachometer-alt"/>
               <p>
                 통계
+
                 <i class="right fas fa-angle-left"></i>
               </p>
             </a>
@@ -452,13 +453,13 @@
               <li class="nav-item">
                 <a href="/" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
-                  <p>부제목1</p>
+                  <p>자료실</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="/index2.go" class="nav-link">
+                <a href="/freeBoardList" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
-                  <p>부제목2</p>
+                  <p>부서별게시판</p>
                 </a>
               </li>
               <li class="nav-item">
