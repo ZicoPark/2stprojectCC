@@ -24,7 +24,9 @@
     </section>
     <br/>
     <!-- Main content -->
-    <section class="content">    
+    <section class="content">
+    	<button type="button" class="btn btn-block btn-outline-success btn-lg" onclick="location.href='timeGo.do'">출근</button>
+    	<button type="button" class="btn btn-block btn-outline-danger btn-lg" onclick="location.href='timeEnd.do'">퇴근</button> 
     	<table class="table table-bordered">
     		<thead>
     			<tr>
@@ -38,18 +40,23 @@
     				<td>수정</td>
     			</tr>    		
     		</thead>
-    		<tbody>    		
-	    		<c:forEach items="${list}" var="member">
+    		<tbody>
+    			<c:if test="${workList eq null}">
 					<tr>
-	    				<td>${member.id}</td>
-	    				<td>${member.member_id}</td>
-	    				<td>${member.name}</td>
-	    				<td>${member.date}</td>
-	    				<td>${member.time_go}</td>
-	    				<td>${member.time_end}</td>    				
-	    				<td>${member.time_go}-${member.time_end}</td>
-	    				<td>${member.date}</td>
-	    				<td><a href="WorkChangeRequest.do?id=${member.id}">수정</a></td>
+						<th colspan="8">등록된 근태가 없습니다.</th>
+					</tr>
+				</c:if>   		
+	    		<c:forEach items="${workList}" var="workList">
+					<tr>
+	    				<td>${workList.id}</td>
+	    				<td>${workList.member_id}</td>
+	    				<td>${workList.name}</td>
+	    				<td>${workList.date}</td>
+	    				<td>${workList.time_go}</td>
+	    				<td>${workList.time_end}</td>    				
+	    				<td>${workList.time_go}-${workList.time_end}</td>
+	    				<td>${workList.date}</td>
+	    				<td><a href="WorkChangeRequest.do?id=${workList.id}">수정</a></td>
 	    			</tr>			
 				</c:forEach>
     		</tbody>    	
@@ -57,13 +64,9 @@
     </section>
   </div>
 </div>
+
+
 <!-- ./wrapper -->
-
-
-
-
-
-
 <!-- jQuery -->
 <script src="../../plugins/jquery/jquery.min.js"></script>
 <!-- Bootstrap 4 -->
@@ -74,5 +77,9 @@
 <script src="../../dist/js/demo.js"></script>
 </body>
 <script>
+	var msg = "${msg}";
+	if(msg != ""){
+		alert(msg);
+	}
 </script>
 </html>

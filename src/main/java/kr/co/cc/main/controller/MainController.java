@@ -16,52 +16,6 @@ public class MainController {
 		return "index";
 	}
 	
-	// 근태 관리 > 
-	@GetMapping(value="/workHistoryList.go")
-	public String workHistoryList() {
-		return "workHistoryList";
-	}
-	
-	@GetMapping(value="/workHolidayList.go")
-	public String workHolidayList() {
-		return "workHolidayList";
-	}
-	
-	// 근태 관리 관리자
-	@GetMapping(value="/workHistoryList_Ad.go")
-	public String workHistoryList_Ad() {
-		return "workHistoryList_Ad";
-	}
-	
-	@GetMapping(value="/workHolidayList_Ad.go")
-	public String workHolidayList_Ad() {
-		return "workHolidayList_Ad";
-	}
-	
-	@GetMapping(value="/workDailyList.go")
-	public String workDailyList() {
-		return "workDailyList";
-	}
-	
-	@GetMapping(value="/workWeekList.go")
-	public String workWeekList() {
-		return "workWeekList";
-	}
-	
-	@GetMapping(value="/workWornList.go")
-	public String workWornList() {
-		return "workWornList";
-	}
-	// < 근태 관리 / 근태 관리 관리자
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	@GetMapping(value="/index2.go")
 	public String index2() {
 		return "index2";
