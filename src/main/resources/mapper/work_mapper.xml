@@ -4,7 +4,7 @@
 	
 <mapper namespace="kr.co.cc.work.dao.WorkDAO">
 
-	<select id="workHistoryList">
+	<select id="workHistoryList" resultType="workdto">
 		SELECT * FROM working_hour WHERE member_id=#{id}
 	</select>
 

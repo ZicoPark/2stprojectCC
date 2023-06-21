@@ -17,11 +17,11 @@ import kr.co.cc.work.service.WorkService;
 
 @Controller
 public class WorkController {
-	
+/*	
 	Logger logger = LoggerFactory.getLogger(getClass());
 	
-	DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("MM-dd");
-	DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
+	//DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("MM-dd");
+	//DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
 	
 	
 	
@@ -36,8 +36,8 @@ public class WorkController {
 	@GetMapping(value="/timeGo.do")
 	public String timeGo(HttpSession session, Model model) {
 		String msg = "이미 출근을 등록하였습니다.";
-		logger.info("dateFormatter"+ dateFormatter);
-		logger.info("timeFormatter"+ timeFormatter);
+		//logger.info("dateFormatter"+ dateFormatter);
+		//logger.info("timeFormatter"+ timeFormatter);
 		
 		/*
 		String id = "nodada";
@@ -47,12 +47,12 @@ public class WorkController {
 			//service.timeGo(session);
 			msg = "출근이 등록되었습니다.";
 		}
-		*/		
+				
 		model.addAttribute("msg", msg);
 		//return "redirect:/workHistoryList.go?id=";
 		return "workHistoryList";
 	}
-	
+	*/
 	
 	
 	

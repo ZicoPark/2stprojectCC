@@ -23,7 +23,9 @@ public class WorkService {
 		ModelAndView mav = new ModelAndView("workHistoryList");
 		String id = "nodada";
 		ArrayList<WorkDTO> workList = dao.workHistoryList(id);
-		mav.addObject("workList",workList);
+		if(workList != null) {
+			mav.addObject("workList",workList);			
+		}
 		return mav;
 	}
 
