@@ -2,6 +2,10 @@
 <!DOCTYPE mapper PUBLIC	"-//mybatis.org//DTD Mapper 3.0//EN"
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 	
-<mapper namespace="kr.co.cc.dao.DocDAO">
+<mapper namespace="kr.co.cc.doc.dao.DocDAO">
+
+	<select id="docFormCall" resultType="kr.co.cc.doc.dto.DocFormDTO">
+		SELECT * FROM doc_form
+	</select>
 
 </mapper>

@@ -13,7 +13,11 @@
 <jsp:include page = "index.jsp"></jsp:include>
 경고 리스트
 
+
+CC 입니다만 ~?
+
+<a href="docWriteForm.go">문서 작성</a>
+</body>
 <script>
 </script>
-</body>
 </html>
