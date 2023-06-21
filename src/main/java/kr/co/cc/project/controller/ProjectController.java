@@ -33,11 +33,10 @@ public class ProjectController {
 		return "projects";
 	}
 	
-	@RequestMapping(value="/project-detail.go")
-    public String writePage(HttpSession session, Model model) {
-		String page = "project-detail";
+	@GetMapping(value="/projectDetail.go")
+    public String writePage() {
 
-        return page;  
+        return "project-detail";  
     }
 	
 	@GetMapping(value="/project-add.go")
@@ -45,10 +44,7 @@ public class ProjectController {
 		return "project-add";
 	}
 	
-	@GetMapping(value="/project-detail.go")
-	public String projectDetailGo() {
-		return "project-detail";
-	}
+
 	
 	@RequestMapping(value = "/project_add.do", method = RequestMethod.POST)
 	public String ProjectAdd(Model model, @RequestParam HashMap<String, String> params,
