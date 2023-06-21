@@ -10,9 +10,24 @@
 </style>
 </head>
 <body>
-<jsp:include page = "index.jsp"></jsp:include>
-연차 관리 관리자
-</body>
+	<jsp:include page = "index.jsp"></jsp:include>
+	게시판 리스트
+	
+	<table>
+		<thead>
+			<tr>
+				<td>글번호</td>
+				<td>작성자</td>
+				<td>제목</td>
+				<td>작성일자</td>
+			</tr>
+		</thead>
+			
+		
+		
+		</tbody>		
+	</table>
 <script>
 </script>
+</body>
 </html>
