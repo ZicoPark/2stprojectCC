@@ -23,7 +23,7 @@ public class WorkService {
 
 	public ModelAndView workHistoryList(HttpSession session) {
 		ModelAndView mav = new ModelAndView("workHistoryList");
-		String id = "admin";
+		String id = (String) session.getAttribute("loginId");
 		ArrayList<WorkDTO> workList = dao.workHistoryList(id);
 		if(workList != null) {
 			mav.addObject("workList",workList);			
@@ -41,8 +41,7 @@ public class WorkService {
 		
 	}
 
-	public void timeEnd(HttpSession session, String date, String time) {
-		String id = "admin";
+	public void timeEnd(String id, String date, String time) {
 		dao.timeEnd(id,date,time);
 		
 	}

@@ -20,28 +20,9 @@ public class WorkController {
 	
 	Logger logger = LoggerFactory.getLogger(getClass());
 		
-	@Autowired WorkService service;
-	
+	@Autowired WorkService service;	
 	String time;
 	String date;
-	
-	public void formattedDateTime() {
-		long currentTimeMillis = System.currentTimeMillis();
-
-	    Calendar calendar = Calendar.getInstance();
-	    calendar.setTimeInMillis(currentTimeMillis);
-
-	    SimpleDateFormat format = new SimpleDateFormat("HH:mm:ss");
-	    String formattedTime = format.format(calendar.getTime());	    
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        String formattedDate = dateFormat.format(calendar.getTime());
-
-        logger.info(formattedDate);
-        logger.info(formattedTime);
-        
-        this.time=formattedTime;
-        this.date=formattedDate;
-	}	
 	
 	// 근태 관리 workHistoryList > 
 	@GetMapping(value="/workHistoryList.go")
@@ -54,7 +35,7 @@ public class WorkController {
 	@GetMapping(value="/timeGo.do")
 	public ModelAndView timeGo(HttpSession session, Model model) {
 		formattedDateTime();
-		String id = "admin";
+		String id = (String) session.getAttribute("loginId");
 		String msg = "이미 출근을 등록하였습니다.";
 		
 		int row = service.timeGoBefore(id,date);
@@ -71,20 +52,11 @@ public class WorkController {
 	@GetMapping(value="/timeEnd.do")
 	public ModelAndView timeEnd(HttpSession session, Model model) {
 		formattedDateTime();
-		service.timeEnd(session,date,time);
+		String id = (String) session.getAttribute("loginId");
+		service.timeEnd(id,date,time);
 		model.addAttribute("msg", "퇴근이 등록되었습니다.");
 		return service.workHistoryList(session);
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	
 	
 	// 연차 관리 workHolidayList > 
@@ -117,6 +89,25 @@ public class WorkController {
 	@GetMapping(value="/workWornList.go")
 	public String workWornList() {
 		return "workWornList";
+	}
+	
+	
+	public void formattedDateTime() {
+		long currentTimeMillis = System.currentTimeMillis();
+
+	    Calendar calendar = Calendar.getInstance();
+	    calendar.setTimeInMillis(currentTimeMillis);
+
+	    SimpleDateFormat format = new SimpleDateFormat("HH:mm:ss");
+	    String formattedTime = format.format(calendar.getTime());	    
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        String formattedDate = dateFormat.format(calendar.getTime());
+
+        logger.info(formattedDate);
+        logger.info(formattedTime);
+        
+        this.time=formattedTime;
+        this.date=formattedDate;
 	}
 	
 

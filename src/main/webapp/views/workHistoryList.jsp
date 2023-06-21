@@ -33,10 +33,10 @@
     <section class="content">
     	<button type="button" class="btn btn-block btn-outline-success btn-lg" onclick="location.href='timeGo.do'">출근</button>
     	<button type="button" class="btn btn-block btn-outline-danger btn-lg" onclick="location.href='timeEnd.do'">퇴근</button> 
-    	<table class="table table-bordered">
+    	<table id="example2" class="table table-bordered table-hover dataTable dtr-inline" aria-describedby="example2_info">
     		<thead>
     			<tr>
-    				<td>번호</td>
+    				<th class="sorting sorting_asc" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Rendering engine: activate to sort column descending" aria-sort="ascending">번호</td>
     				<td>아이디</td>
     				<td>이름</td>
     				<td>날짜</td>
@@ -49,21 +49,21 @@
     		</thead>
     		<tbody>
     			<c:if test="${workList eq null}">
-					<tr>
+					<tr class="odd">
 						<th colspan="8">등록된 근태가 없습니다.</th>
 					</tr>
 				</c:if>   		
 	    		<c:forEach items="${workList}" var="workList">
-					<tr>
-	    				<td>${workList.id}</td>
-	    				<td>${workList.member_id}</td>
-	    				<td>${workList.name}</td>
-	    				<td>${workList.date}</td>
-	    				<td>${workList.time_go}</td>
-	    				<td>${workList.time_end}</td>    				
-	    				<td>${(work.time_end.time - work.time_go.time) / (1000 * 60 * 60)}</td>
-	    				<td>${workList.date}</td>
-	    				<td><a href="WorkChangeRequest.do?id=${workList.id}">수정</a></td>
+					<tr class="odd">
+	    				<td class="dtr-control sorting_1" tabindex="0">${workList.id}</td>
+	    				<td class="dtr-control sorting_1" tabindex="0">${workList.member_id}</td>
+	    				<td class="dtr-control sorting_1" tabindex="0">${workList.name}</td>
+	    				<td class="dtr-control sorting_1" tabindex="0">${workList.date}</td>
+	    				<td class="dtr-control sorting_1" tabindex="0">${workList.time_go}</td>
+	    				<td class="dtr-control sorting_1" tabindex="0">${workList.time_end}</td>    				
+	    				<td class="dtr-control sorting_1" tabindex="0">${(work.time_end.time - work.time_go.time) / (1000 * 60 * 60)}</td>
+	    				<td class="dtr-control sorting_1" tabindex="0">${workList.date}</td>
+	    				<td class="dtr-control sorting_1" tabindex="0"><a href="WorkChangeRequest.do?id=${workList.id}">수정</a></td>
 	    			</tr>			
 				</c:forEach>
     		</tbody>    	
