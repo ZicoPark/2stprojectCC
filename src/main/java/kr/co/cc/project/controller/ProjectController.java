@@ -25,11 +25,6 @@ public class ProjectController {
 	
 	@Autowired ProjectService service;
 
-	@RequestMapping(value = "", method = RequestMethod.GET)
-	public String main(Model model) {
-			return "projDetail";
-	}
-	
 	@GetMapping(value="/projects.go")
 	public String projectsGo(Model model, HttpSession session) {
 		ArrayList<ProjectDTO> list = service.list();
