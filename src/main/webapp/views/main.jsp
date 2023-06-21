@@ -11,7 +11,7 @@
 </head>
 <body>
 
-CC 입니다만 ~?
+메인 홈페이지다
 
 </body>
 <script></script>
