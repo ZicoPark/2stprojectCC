@@ -20,8 +20,7 @@
 <div class="wrapper">
   <div class="content-wrapper">
     <section class="content-header">
-    
-            <h1>공지사항</h1>         
+    	<h1>공지사항</h1>         
     </section>
     <!-- Main content -->
     <section class="content">
@@ -45,11 +44,11 @@
             <c:forEach items="${list}" var="noticeBoard">
                <tr> 
                   <td>${noticeBoard.id}</td>
-                  <td><a href="detail.do?idx=${noticeBoard.id}">${noticeBoard.subject }</a></td>
+                  <td><a href="noticeBoardDetail.do?id=${noticeBoard.id}">${noticeBoard.subject}</a></td>
                   <td>${noticeBoard.create_id}</td>
                   <td>${noticeBoard.hit } </td>
                   <td>${noticeBoard.notice_date }</td>
-                  <td><a href="del.do?idx=${noticeBoard.id}">삭제</a></td>
+                  <td><a href="noticeBoardDel.do?id=${noticeBoard.id}">삭제</a></td>
                </tr>
             </c:forEach>
          </tbody>
@@ -69,5 +68,10 @@
 <script src="../../dist/js/demo.js"></script>
 </body>
 <script>
+var msg = "${msg}";
+if(msg != ""){
+	alert(msg);
+}
+
 </script>
 </html>

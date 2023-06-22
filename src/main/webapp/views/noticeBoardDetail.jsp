@@ -24,33 +24,34 @@
     </section>
     <!-- Main content -->
     <section class="content">   
-             <table>
-            <tr>
-               <th>제목</th>
-               <td>${dto.subject}</td>
-            </tr>
-            <tr>
-               <th>작성자</th>
-               <td>${dto.create_id}</td>
-            </tr>
-            <tr>
-               <th>조회수</th>
-               <td>${dto.hit}</td>
-            </tr>
-            <tr>
-               <th>작성일</th>
-               <td>${dto.notice_date}</td>
-            </tr>
-            <tr>
-               <th>내용</th>
-               <td>${dto.content}</td>
-            </tr>         
-            <tr>
-               <th colspan="2">
-                  <input type="button" class="btn btn-block btn-outline-success btn-lg"  onclick="location.href='./noticeBoardList.go'" value="뒤로가기" />         
-               </th>            
-            </tr>         
-         </table>
+    	<table class="table table-bordered table-hover dataTable dtr-inline">
+		    <tr>
+		       <th>제목</th>
+		       <td>${dto.subject}</td>
+		    </tr>
+		    <tr>
+		       <th>작성자</th>
+		       <td>${dto.create_id}</td>
+		    </tr>
+		    <tr>
+		       <th>조회수</th>
+		       <td>${dto.hit}</td>
+		    </tr>
+		    <tr>
+		       <th>작성일</th>
+		       <td>${dto.notice_date}</td>
+		    </tr>
+		    <tr>
+		       <th>내용</th>
+		       <td>${dto.content}</td>
+		    </tr>         
+		    <tr>
+		       <th colspan="2">
+		          <input type="button" class="btn btn-block btn-outline-success btn-lg"  onclick="location.href='./'" value="안읽음" />         
+		           <input type="button" class="btn btn-block btn-outline-success btn-lg"  onclick="location.href='./noticeBoard.go'" value="돌아가기" />
+		       </th>            
+		   	</tr>         
+    	</table>
     </section>
   </div>
 </div>

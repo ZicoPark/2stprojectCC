@@ -41,7 +41,7 @@
     <!-- Main content -->
     <section class="content">
       <form action="noticeBoardWrite.do" method="post" enctype="multipart/form-data">
-         <table>
+         <table class="table table-bordered table-hover dataTable dtr-inline">
             <tr>
                <th>제목</th>
                <td><input type="text" name="subject" /></td>

@@ -3,6 +3,8 @@ package kr.co.cc.noticeBoard.service;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import javax.servlet.http.HttpSession;
+
 import org.mybatis.spring.annotation.MapperScan;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,16 +27,16 @@ public class NoticeBoardService {
 		return dao.list();
 		}
 
-	public ModelAndView write(HashMap<String, String> params) {
+	public ModelAndView write(HashMap<String, String> params, HttpSession session) {
 		
 		//String page = "redirect:/noticeBoardList.go.";
 		
+		String id = (String) session.getAttribute("loginId");
 		String subject = params.get("subject");
 		String content = params.get("content");
 		
-		int success = dao.write(subject, content);
-
-		
+		int success = dao.write(id,subject, content);
+	
 		return null;
 	}
 
@@ -45,4 +47,8 @@ public class NoticeBoardService {
 		return dao.detail(id);
 	}
 	
+	public int del(String id) {
+		
+		return dao.del(id);
+	}
 }

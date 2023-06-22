@@ -10,10 +10,13 @@ public interface NoticeBoardDAO {
 
    ArrayList<NoticeBoardDTO> list();
 
-   int write(String subject, String content);
+   int write(String id, String subject, String content);
 
    void upHit(String id);
 
    NoticeBoardDTO detail(String id);
+
+   int del(String id);
+
 
 }
