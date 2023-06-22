@@ -125,7 +125,7 @@
                 <button type="button" class="btn btn-default"><i class="fas fa-reply"></i> Reply</button>
                 <button type="button" class="btn btn-default"><i class="fas fa-share"></i> Forward</button>
               </div>
-              <button type="button" class="btn btn-default"><i class="far fa-trash-alt"></i> Delete</button>
+              <button type="button" class="btn btn-default" onclick="location.href='msDelete.do?id=${info.id}'"><i class="far fa-trash-alt"></i></button>
               <button type="button" class="btn btn-default"><i class="fas fa-print"></i> Print</button>
             </div>
             <!-- /.card-footer -->

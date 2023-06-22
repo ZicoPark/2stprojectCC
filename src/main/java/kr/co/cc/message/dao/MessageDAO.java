@@ -10,7 +10,7 @@ import kr.co.cc.message.dto.MessageDTO;
 
 public interface MessageDAO {
 
-	ArrayList<MessageDTO> sendList();
+	ArrayList<MessageDTO> sendList(String id);
 
 	ArrayList<MemberDTO> search(HashMap<String, String> params);
 
@@ -18,8 +18,10 @@ public interface MessageDAO {
 
 	int msWrite(MessageDTO dto);
 
-	void fileWrite(String ori_photo_name, String new_photo_name, int id, String classification);
+	void msfileWrite(String ori_photo_name, String new_photo_name, int id, String classification);
 
-	ArrayList<MessageDTO> receiveList();
+	ArrayList<MessageDTO> receiveList(String id);
+
+	boolean msdelete(String id);
 
 }
