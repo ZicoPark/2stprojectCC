@@ -10,6 +10,11 @@
 		SELECT id, to_id , title, send_date, read_chk FROM message ORDER BY id DESC <!-- 수정 : 사원 아이디 조건 넣어야함 -->
 	</select>
 	
+	<!-- 받은 편지함 -->
+	<select id="receiveList" resultType="kr.co.cc.message.dto.MessageDTO">
+		SELECT id, to_id , from_id, title, send_date, read_chk FROM message ORDER BY id DESC <!-- 수정 : 사원 아이디 조건 넣어야함 -->
+	</select>	
+	
 	<!-- 검색 -->
 	<select id="search" resultType="kr.co.cc.message.dto.MessageDTO" parameterType="HashMap">
 		SELECT * FROM message
@@ -23,5 +28,20 @@
 	<select id="msdetail" resultType="kr.co.cc.message.dto.MessageDTO">
 		SELECT * FROM message WHERE id = #{id}
 	</select>	
+
+	<insert 
+		useGeneratedKeys="true"
+		keyColumn="id"
+		keyProperty="id"
+		id="msWrite" parameterType="kr.co.cc.message.dto.MessageDTO"
+	>
+		INSERT INTO message(from_id, to_id, title, content, send_date, del_chk, read_chk)
+			VALUES(#{from_id}, #{to_id}, #{title}, #{content}, #{send_date}, 0, 0)
+	</insert>
+
+	<insert id="fileWrite">
+		INSERT INTO attachment(ori_photo_name, new_photo_name, photo_div, classification)
+			VALUES(#{param1}, #{param2}, #{param3}, #{param4})
+	</insert>
 	
 </mapper>

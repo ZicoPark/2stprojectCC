@@ -70,5 +70,6 @@ public class MessageDTO {
     public void setFormattedDate(String formattedDate) {
         this.formattedDate = formattedDate;
     }
+
 	
 }
