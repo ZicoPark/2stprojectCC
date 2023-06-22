@@ -25,4 +25,18 @@
 		UPDATE working_hour SET time_end=#{param3} WHERE member_id=#{param1} AND date=#{param2}
 	</update>
 	
+	<insert id="WorkChangeRequest" parameterType="hashmap">
+		insert into working_hour_update (id,member_id,name,date,update_time,type,reason) 
+			values (#{id},#{member_id},#{name},#{date},#{update_time},#{type},#{reason});
+	</insert>	
+	
+	<select id="WorkChangeRequestChk">
+		SELECT count(id) FROM working_hour_update WHERE id=#{param1} AND type=#{param2}
+	</select>
+	
+	
+	<select id="workHistoryReqListGo" resultType="kr.co.cc.work.dto.WorkDTO">
+		SELECT * FROM working_hour_update WHERE member_id=#{id}
+	</select>
+	
 </mapper>

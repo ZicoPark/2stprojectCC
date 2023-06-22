@@ -15,7 +15,7 @@
 	<br>
 	<br>
 	<form action="docWrite.do" method="post" enctype="multipart/form-data">
-		<select id="doc_form" onchange="docForm(this)">
+		<select id="docForm" onchange="docFormCall(this)">
 			<option value="default">--</option>
 			<c:forEach items="${docFormList}" var="i">
 				<option value="${i.code}">${i.name}</option>
@@ -25,24 +25,32 @@
 			<textarea id="${i.code}" hidden="true">${i.content}</textarea>
 		</c:forEach>
 		<br>
+		<input type="text" name="subject" value="" placeholder="제목을 입력하세요"/>
+		<br>
+		<div id="approvalList">
+		<input type="button" value="결재선 추가" onclick="addApproval()"/>
 		<select name="approvalVariable">
 			<option value="default">--</option>
 			<c:forEach items="${approvalKindList}" var="i">
 				<option value="${i.id}">${i.name}</option>
 			</c:forEach>
 		</select>
-		<select name="approvalPerson1">
+
+		<select name="approvalPerson">
 			<option value="default">--</option>
 			<c:forEach items="${memberList}" var="i">
 				<option value="${i.id}">${i.deptName} | ${i.name}</option>
 			</c:forEach>
 		</select>
-		<input type="button" value="결재선 추가" onclick="addApproval(this)"/>
 		<br>
-
+		</div>
 		<div id="div_editor">
 			<!-- 에디터 안에 들어갈 자리 -->
 		</div>
+		<input type="hidden" id="content" name="content"/>
+		<input type="file" multiple="multiple" name="attachment"/>
+		<input type="button" onclick="pushDoc()" value="제출"/>
+		<input type="button" onclick="saveDoc()" value="임시저장"/>
 	</form>
 </body>
 <script type="text/javascript" src="/richtexteditor/rte.js"></script>  
@@ -53,20 +61,43 @@ config.editorResizeMode = "none"; // 에디터 크기조절 none
 
 var editor = new RichTextEditor("#div_editor", config);
 
-function docForm(elem){
+function docFormCall(elem){
 
-//	console.log(elem.value);
-	
 	var docForm = document.getElementById(elem.value).value;
-	
-//	console.log(docForm);
-	
 	editor.setHTMLCode(docForm); // editor에 내용 넣기, docForm은 기본 양식
+	
 }
 
-function addApproval(elem){
+// 결재선 추가할 때 쓸 변수 content, addApproval() 함수
+var content = '';
+
+content += '<input type="button" value="결재선 추가" onclick="addApproval()"/>';
+content += '<select name="approvalVariable">';
+content += '<option value="default">--</option>';
+content += '<c:forEach items="${approvalKindList}" var="i">';
+content += '<option value="${i.id}">${i.name}</option>';
+content += '</c:forEach>';
+content += '</select>';
+
+content += '<select name="approvalPerson">';
+content += '<option value="default">--</option>';
+content += '<c:forEach items="${memberList}" var="i">';
+content += '<option value="${i.id}">${i.deptName} | ${i.name}</option>';
+content += '</c:forEach>';
+content += '</select>';
+content += '<br>';
+
+function addApproval(){
 	
-	console.log(elem);
+	$('#approvalList').append(content);
+	
+}
+
+function pushDoc(){
+	
+	var submitContent = editor.getHTMLCode();
+	$('input[name="content"]').val(submitContent);
+	$('form').submit();
 	
 }
 

@@ -14,4 +14,6 @@ public interface DocDAO {
 
 	ArrayList<MemberDTO> memberListCall();
 
+	MemberDTO getMemberInfo(String loginId);
+
 }

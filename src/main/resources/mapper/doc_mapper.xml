@@ -31,4 +31,8 @@
 		SELECT * FROM member
 	</select>
 
+	<select id="getMemberInfo" resultMap="memberMap">
+		SELECT * FROM member WHERE id=#{param1}
+	</select>
+
 </mapper>
