@@ -1,6 +1,7 @@
 package kr.co.cc.work.service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import javax.servlet.http.HttpSession;
 
@@ -45,6 +46,27 @@ public class WorkService {
 		dao.timeEnd(id,date,time);
 		
 	}
+
+	public int WorkChangeRequestChk(String id, String type) {
+		return dao.WorkChangeRequestChk(id,type);
+	}
+
+	public void WorkChangeRequest(HashMap<String, String> params) {
+		dao.WorkChangeRequest(params);
+		
+	}
+
+	public ModelAndView workHistoryReqListGo(HttpSession session) {
+		String id = (String) session.getAttribute("loginId");
+		ArrayList<WorkDTO> dto = dao.workHistoryReqListGo(id);		
+		ModelAndView mav = new ModelAndView("workHistoryReqList");
+		mav.addObject("dto",dto);		
+		return mav;
+	}
+
+
+
+
 
 	
 

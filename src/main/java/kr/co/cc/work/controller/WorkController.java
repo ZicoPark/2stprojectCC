@@ -2,6 +2,7 @@ package kr.co.cc.work.controller;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.HashMap;
 
 import javax.servlet.http.HttpSession;
 
@@ -11,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -70,22 +70,54 @@ public class WorkController {
 	}
 	
 	
-	@GetMapping(value="/WorkChangeRequest.do")
-	public ModelAndView WorkChangeRequest(HttpSession session,@RequestParam String id) {
-		logger.info(time + date);
-		return service.workHistoryList(session);
+	@GetMapping(value="/WorkChangeRequest.go")
+	public ModelAndView WorkChangeRequestGo(@RequestParam HashMap<String, String> params) {
+		logger.info("WorkChangeRequest go params : {}", params);
+		ModelAndView mav = new ModelAndView("workHistoryReq");
+		mav.addObject("params",params);
+		return mav;
 	}
 	
-	@PostMapping(value = "/your-controller-url")
-    public String handleRequest(@RequestParam("inputData") String inputData) {
-        // 입력한 데이터 처리
-        System.out.println("Received data: " + inputData);
-
-        // 응답 생성
-        String response = "Data received successfully";
-
-        return "";
-    }
+	@GetMapping(value="/WorkChangeRequest.do")
+	public ModelAndView WorkChangeRequest(@RequestParam HashMap<String, String> params, Model model, HttpSession session) {
+		logger.info("WorkChangeRequest do params : {}", params);
+		
+		ModelAndView mav = new ModelAndView();
+		
+		String msg = "";
+		
+		if(params.get("update_time_h").equals("")) {
+			msg = "시간을 입력해주세요.";
+			mav = WorkChangeRequestGo(params);
+		} else if (params.get("update_time_m").equals("")) {
+			msg = "시간을 입력해주세요.";
+			mav = WorkChangeRequestGo(params);
+		} else if (params.get("type").equals("")) {			
+			msg = "유형을 선택해주세요.";
+			mav = WorkChangeRequestGo(params);
+		} else if (params.get("reason").equals("")) {
+			msg = "사유를 입력해주세요.";
+			mav = WorkChangeRequestGo(params);
+		} else {
+			int row=service.WorkChangeRequestChk(params.get("id"),params.get("type"));
+			if(row>0) {
+				msg = "이미 등록한 이력이 있습니다.";
+				mav = WorkChangeRequestGo(params);
+			} else {
+				params.put("update_time", params.get("update_time_h")+":"+params.get("update_time_m")+":00");
+				service.WorkChangeRequest(params);
+				msg = "수정이 등록 되었습니다.";
+				mav = workHistoryReqListGo(session);
+			}
+		}
+		model.addAttribute("msg",msg);
+		return mav;
+	}
+	
+	@GetMapping(value="/workHistoryReqList.go")
+	public ModelAndView workHistoryReqListGo(HttpSession session) {
+		return service.workHistoryReqListGo(session);
+	}
 	
 	
 	
