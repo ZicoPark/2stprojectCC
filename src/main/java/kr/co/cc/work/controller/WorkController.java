@@ -11,6 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import kr.co.cc.work.service.WorkService;
@@ -51,12 +53,40 @@ public class WorkController {
 	
 	@GetMapping(value="/timeEnd.do")
 	public ModelAndView timeEnd(HttpSession session, Model model) {
+		
 		formattedDateTime();
 		String id = (String) session.getAttribute("loginId");
-		service.timeEnd(id,date,time);
-		model.addAttribute("msg", "퇴근이 등록되었습니다.");
+		String msg = "출근이 등록되지 않았습니다.";
+		
+		int row = service.timeGoBefore(id,date);
+		logger.info("timeGoBefore row : " + row);		
+		
+		if(row==1) {
+			service.timeEnd(id,date,time);
+			msg = "퇴근이 등록되었습니다.";
+		}
+		model.addAttribute("msg", msg);
 		return service.workHistoryList(session);
 	}
+	
+	
+	@GetMapping(value="/WorkChangeRequest.do")
+	public ModelAndView WorkChangeRequest(HttpSession session,@RequestParam String id) {
+		logger.info(time + date);
+		return service.workHistoryList(session);
+	}
+	
+	@PostMapping(value = "/your-controller-url")
+    public String handleRequest(@RequestParam("inputData") String inputData) {
+        // 입력한 데이터 처리
+        System.out.println("Received data: " + inputData);
+
+        // 응답 생성
+        String response = "Data received successfully";
+
+        return "";
+    }
+	
 	
 	
 	// 연차 관리 workHolidayList > 
