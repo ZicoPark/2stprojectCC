@@ -13,22 +13,6 @@
   <link rel="stylesheet" href="../../plugins/fontawesome-free/css/all.min.css">
   <!-- Theme style -->
   <link rel="stylesheet" href="../../dist/css/adminlte.min.css">
-  <style>
-      table, th, td{
-         border: 1px solid black;
-         border-collapse: collapse;
-         padding: 5px 10px;
-      }
-      #login{
-         margin-bottom: 20px;
-      }
-      button{
-         margin: 5px;
-      }
-      table{
-         width: 500px;
-      }
-</style>
 </head>
 <body>
 <jsp:include page = "index.jsp"></jsp:include>
@@ -39,25 +23,34 @@
             <h1>공지사항</h1>         
     </section>
     <!-- Main content -->
-    <section class="content">
-      <form action="noticeBoardWrite.do" method="post" enctype="multipart/form-data">
-         <table>
+    <section class="content">   
+             <table>
             <tr>
                <th>제목</th>
-               <td><input type="text" name="subject" /></td>
+               <td>${dto.subject}</td>
+            </tr>
+            <tr>
+               <th>작성자</th>
+               <td>${dto.create_id}</td>
+            </tr>
+            <tr>
+               <th>조회수</th>
+               <td>${dto.hit}</td>
+            </tr>
+            <tr>
+               <th>작성일</th>
+               <td>${dto.notice_date}</td>
             </tr>
             <tr>
                <th>내용</th>
-               <td><textarea name="content"></textarea> </td>
-            </tr>
+               <td>${dto.content}</td>
+            </tr>         
             <tr>
                <th colspan="2">
-                  <input type="button" onclick="location.href='./noticeBoard.go'" value="돌아가기" />
-                  <button>작성하기</button>
-               </th>
-            </tr>      
+                  <input type="button" class="btn btn-block btn-outline-success btn-lg"  onclick="location.href='./noticeBoardList.go'" value="뒤로가기" />         
+               </th>            
+            </tr>         
          </table>
-      </form>
     </section>
   </div>
 </div>
@@ -74,4 +67,3 @@
 <script>
 </script>
 </html>
-   
