@@ -9,10 +9,17 @@ public class MessageDTO {
 	private String to_id;
 	private String title;
 	private String content;
-	private Date send_date;
+	private String send_date;
 	private boolean del_chk;
 	private boolean read_chk;
+	private String formattedDate;
 	
+	public String getSend_date() {
+		return send_date;
+	}
+	public void setSend_date(String send_date) {
+		this.send_date = send_date;
+	}
 	public String getId() {
 		return id;
 	}
@@ -43,12 +50,7 @@ public class MessageDTO {
 	public void setContent(String content) {
 		this.content = content;
 	}
-	public Date getSend_date() {
-		return send_date;
-	}
-	public void setSend_date(Date send_date) {
-		this.send_date = send_date;
-	}
+
 	public boolean isDel_chk() {
 		return del_chk;
 	}
@@ -61,6 +63,12 @@ public class MessageDTO {
 	public void setRead_chk(boolean read_chk) {
 		this.read_chk = read_chk;
 	}
-	
+    public String getFormattedDate() {
+        return formattedDate;
+    }
+
+    public void setFormattedDate(String formattedDate) {
+        this.formattedDate = formattedDate;
+    }
 	
 }
