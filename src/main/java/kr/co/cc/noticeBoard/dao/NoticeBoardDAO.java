@@ -8,6 +8,12 @@ import kr.co.cc.noticeBoard.dto.NoticeBoardDTO;
 
 public interface NoticeBoardDAO {
 
-	ArrayList<NoticeBoardDTO> list();
+   ArrayList<NoticeBoardDTO> list();
+
+   int write(String subject, String content);
+
+   void upHit(String id);
+
+   NoticeBoardDTO detail(String id);
 
 }

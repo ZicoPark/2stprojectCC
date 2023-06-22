@@ -1,12 +1,14 @@
 package kr.co.cc.noticeBoard.service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import org.mybatis.spring.annotation.MapperScan;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.servlet.ModelAndView;
 
 import kr.co.cc.noticeBoard.dao.NoticeBoardDAO;
 import kr.co.cc.noticeBoard.dto.NoticeBoardDTO;
@@ -22,4 +24,25 @@ public class NoticeBoardService {
 
 		return dao.list();
 		}
+
+	public ModelAndView write(HashMap<String, String> params) {
+		
+		//String page = "redirect:/noticeBoardList.go.";
+		
+		String subject = params.get("subject");
+		String content = params.get("content");
+		
+		int success = dao.write(subject, content);
+
+		
+		return null;
+	}
+
+	public NoticeBoardDTO detail(String id) {
+		
+		dao.upHit(id);
+		
+		return dao.detail(id);
+	}
+	
 }
