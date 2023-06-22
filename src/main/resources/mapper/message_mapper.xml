@@ -7,6 +7,21 @@
 
 	<!-- 보낸 편지함 -->
 	<select id="sendList" resultType="kr.co.cc.message.dto.MessageDTO">
-		SELECT to_id , title, send_date, read_chk FROM message ORDER BY id DESC <!-- 수정 : 사원 아이디 조건 넣어야함 -->
+		SELECT id, to_id , title, send_date, read_chk FROM message ORDER BY id DESC <!-- 수정 : 사원 아이디 조건 넣어야함 -->
 	</select>
+	
+	<!-- 검색 -->
+	<select id="search" resultType="kr.co.cc.message.dto.MessageDTO" parameterType="HashMap">
+		SELECT * FROM message
+			<where>
+			<if test="keyword != null and !keyword.equals('') ">
+			title LIKE CONCAT('%', #{keyword}, '%')
+			</if>
+			</where>
+	</select>
+
+	<select id="msdetail" resultType="kr.co.cc.message.dto.MessageDTO">
+		SELECT * FROM message WHERE id = #{id}
+	</select>	
+	
 </mapper>
