@@ -14,7 +14,7 @@ public interface MessageDAO {
 
 	ArrayList<MemberDTO> search(HashMap<String, String> params);
 
-	MessageDTO msdetail(String id);
+	MessageDTO msdetail(int id);
 
 	int msWrite(MessageDTO dto);
 
@@ -23,5 +23,9 @@ public interface MessageDAO {
 	boolean msdelete(String id);
 
 	void msfileWrite(String oriFileName, String newFileName, String cls, int id);
+
+	void upHit(int id);
+
+	String msDetailFile(int id);
 
 }

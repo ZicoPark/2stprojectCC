@@ -37,20 +37,39 @@ public class MessageController {
 	
 	// 쪽지 작성
 	@RequestMapping(value = "/msWrite.do", method = RequestMethod.POST)
-	public String msWrite(MultipartFile[] files, @RequestParam HashMap<String, String> params, HttpSession session) {
+	public String msWrite(MultipartFile file, @RequestParam HashMap<String, String> params, HttpSession session) {
 		
 		logger.info("params : "+params);
-		logger.info("컨트롤러 파일 첨부 : "+files);
+		logger.info("컨트롤러 파일 첨부 : "+file);
 		
-		return service.msWrite(files, params,session);
+		return service.msWrite(file, params,session);
 	}
 	
 	// 쪽지 상세보기
 	@RequestMapping(value="/msdetail.do")
-	public ModelAndView msdetail(String id) {
-		logger.info("쪽지 상세보기");
-		return service.msdetail(id);
-	}
+		public String msdetail(Model model, @RequestParam String id) {
+			
+			logger.info("상세보기 쪽지 번호 : "+id);
+			
+			MessageDTO detailms = service.msdetail(Integer.parseInt(id), "detail");
+			String page = "redirect:/msSendList.go";
+			
+			if(detailms != null) {
+				
+				logger.info("if문 진입");
+				String detailfile = service.msDetailFile(Integer.parseInt(id));
+				
+				logger.info("detailFile :"+detailfile);
+				
+				page = "MessageDetail";
+				model.addAttribute("detailms", detailms);
+				model.addAttribute("detailFile", detailfile);
+				
+			}
+			
+			
+			return page;
+		}
 	
 	// 보낸 쪽지함 이동
 	@RequestMapping(value="/msSendList.go")

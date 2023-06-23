@@ -1,6 +1,6 @@
 package kr.co.cc.message.dto;
 
-import java.sql.Date;
+
 
 public class MessageDTO {
 
