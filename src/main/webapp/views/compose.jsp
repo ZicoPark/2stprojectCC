@@ -55,7 +55,7 @@
               <div class="card-body">
                 <div class="form-group">
                 <input type="text" name="from_id" value="${loginId}" readonly="readonly" hidden="true" required/>
-                  <input class="form-control" name="to_id" placeholder="받는 사람: ">
+                <input type="text" class="form-control" name="to_id" placeholder="받는 사람: " />
                 </div>
                 <div class="form-group">
                   <input class="form-control" name="title" placeholder="제목을 입력하세요">
@@ -67,8 +67,9 @@
                 </div>
                 <div class="form-group">
                   <div class="btn btn-default btn-file">
-                    <i class="fas fa-paperclip"></i> Attachment
-                    <input type="file" name="attachment" multiple="multiple">
+              
+                    <i class="fas fa-paperclip"></i> 파일 첨부
+                    <input type="file" name="files" multiple="multiple">
                   </div>
                   <p class="help-block">Max. 32MB</p>
                 </div>
@@ -91,7 +92,7 @@
       </div><!-- /.container-fluid -->
     </section>
     <!-- /.content -->
-  </div>
+  <div></div>
   <!-- /.content-wrapper -->
   </form>
   <footer class="main-footer">

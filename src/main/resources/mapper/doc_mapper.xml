@@ -31,4 +31,24 @@
 		SELECT * FROM member
 	</select>
 
+	<select id="getMemberInfo" resultMap="memberMap">
+		SELECT * FROM member WHERE id=#{param1}
+	</select>
+	
+	<insert 
+		id="docWrite"
+		useGeneratedKeys="true"
+		keyProperty="id"
+		keyColumn="id"
+		parameterType="kr.co.cc.doc.dto.DocDTO"
+	>
+		INSERT INTO doc(subject, content, status, doc_form_id, member_id, dept_name, job_name, public_range)
+			VALUES(#{subject}, #{content}, #{status}, #{docFormId}, #{memberId}, #{deptName}, #{jobName}, #{publicRange})
+	</insert>
+
+	<insert id="attachmentSave">
+		INSERT INTO attachment(ori_file_name, new_file_name, classification, identify_value)
+			VALUES(#{param1}, #{param2}, #{param3}, #{param4})
+	</insert>
+	
 </mapper>
