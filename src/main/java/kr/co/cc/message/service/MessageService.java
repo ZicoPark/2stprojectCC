@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import kr.co.cc.doc.dao.DocDAO;
 import kr.co.cc.member.dto.MemberDTO;
 import kr.co.cc.message.dao.MessageDAO;
 import kr.co.cc.message.dto.MessageDTO;
@@ -30,7 +31,12 @@ public class MessageService {
 	
 	@Value("${spring.servlet.multipart.location}") private String root;
 	
-	@Autowired MessageDAO dao;
+	
+	private final MessageDAO dao;
+	
+	public MessageService(MessageDAO dao){
+		this.dao = dao;
+	}
 
 	
 	
@@ -68,7 +74,7 @@ public class MessageService {
 	}
 
 	// 쪽지 작성
-	public String msWrite(MultipartFile[] photos, HashMap<String, String> params,HttpSession session) {
+	public String msWrite(MultipartFile file, HashMap<String, String> params,HttpSession session) {
 
 
 		String page = "redirect:/msWrite.go";
@@ -77,6 +83,7 @@ public class MessageService {
 		
 		logger.info("params :"+params);
 		
+
 		dto.setFrom_id(loginId);
 		dto.setTo_id(params.get("to_id"));
 		dto.setTitle(params.get("title"));
@@ -85,50 +92,31 @@ public class MessageService {
 		logger.info("insert row : "+row);
 		
 		int idx = dto.getId();
-		logger.info("방금 insert한 idx : "+idx);
-		
-		for (MultipartFile photo : photos) {
-			logger.info("photo 있으면 false, 없으면 true :"+photo.isEmpty());
-			if(photo.isEmpty()==false) {
-				
-				fileSave(idx, photo);
-				
-				try {
-					Thread.sleep(1);
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				}
-				
-			}
-		}
-
-		page = "redirect:/msdetail.do?id="+idx;
-
-		return page;
-	}
-
-	private void fileSave(int idx, MultipartFile photo) {
-
-		String ori_photo_name = photo.getOriginalFilename();
-		String ext = ori_photo_name.substring(ori_photo_name.lastIndexOf("."));
+	    if (file != null) {		
+		// 입력받은 파일 이름
+		String fileName = file.getOriginalFilename();
+		// 확장자를 추출하기 위한 과정
+		String ext = fileName.substring(fileName.lastIndexOf("."));
+		// 새로운 파일 이름은?
+		String newFileName = System.currentTimeMillis() + ext;
 		String classification = "쪽지";
-		String new_photo_name = System.currentTimeMillis() + ext;
-		logger.info(ori_photo_name+"=>"+new_photo_name);
-		
 		try {
-			byte[] bytes = photo.getBytes();
-			
-			Path path = Paths.get("C:/upload"+new_photo_name);
-			Files.write(path, bytes);
-			logger.info(new_photo_name+" save OK");
-			
-			dao.msfileWrite(ori_photo_name, new_photo_name, idx, classification);
-			
-		} catch (IOException e) {
+			byte[] bytes = file.getBytes();
+
+			Path path = Paths.get(root + "/" + newFileName);
+			Files.write(path, bytes);			
+			dao.msfileWrite(fileName, newFileName,classification, idx);
+		} catch (IOException e) {			
 			e.printStackTrace();
-		}
-		
+		}		
+	    }	
+
+		return "msSendSuccess";
 	}
+
+
+
+
 }
 
 

@@ -37,12 +37,12 @@ public class MessageController {
 	
 	// 쪽지 작성
 	@RequestMapping(value = "/msWrite.do", method = RequestMethod.POST)
-	public String msWrite(MultipartFile[] photo, @RequestParam HashMap<String, String> params,HttpSession session) {
+	public String msWrite(MultipartFile file, @RequestParam HashMap<String, String> params,HttpSession session) {
 		
 		logger.info("params : "+params);
-		logger.info("fileName : "+photo);
+		logger.info("컨트롤러 파일 첨부 : "+file);
 		
-		return service.msWrite(photo, params,session);
+		return service.msWrite(file, params,session);
 	}
 	
 	// 쪽지 상세보기
@@ -79,6 +79,10 @@ public class MessageController {
 		return "msReceiveList";
 	}	
 
+	
+	
+	
+	// 쪽지 삭제
     @RequestMapping(value = "/msDelete.do")
     public String msDelete(String id) throws Exception {
     	service.msDelete(id);

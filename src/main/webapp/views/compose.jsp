@@ -67,8 +67,9 @@
                 </div>
                 <div class="form-group">
                   <div class="btn btn-default btn-file">
-                    <i class="fas fa-paperclip"></i> 사진 첨부
-                    <input type="file" name="photo" multiple="multiple">
+              
+                    <i class="fas fa-paperclip"></i> 파일 첨부
+                    <input type="file" name="file" multiple="multiple">
                   </div>
                   <p class="help-block">Max. 32MB</p>
                 </div>

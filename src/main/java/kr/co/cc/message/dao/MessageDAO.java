@@ -18,10 +18,10 @@ public interface MessageDAO {
 
 	int msWrite(MessageDTO dto);
 
-	void msfileWrite(String ori_photo_name, String new_photo_name, int id, String classification);
-
 	ArrayList<MessageDTO> receiveList(String id);
 
 	boolean msdelete(String id);
+
+	void msfileWrite(String fileName, String newFileName, String classification, int idx);
 
 }

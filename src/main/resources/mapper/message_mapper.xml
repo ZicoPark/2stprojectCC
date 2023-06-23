@@ -27,10 +27,10 @@
 		values(#{from_id},#{to_id},#{title},#{content},0,0); 		
 	</insert>
 	
-	<!-- 사진 첨부 -->
-	<insert id="msfileWrite">
-		INSERT INTO attachment(ori_photo_name, new_photo_name, classification,identify_value)
-			VALUES(#{param1}, #{param2},'쪽지',#{id})
+	<!-- 파일 첨부 -->
+	<insert id="msfileWrite" >
+		INSERT INTO attachment(ori_file_name, new_file_name, classification, identify_value)
+			VALUES(#{param1}, #{param2}, #{param3}, #{param4})
 	</insert>
 	
 	<!-- 삭제 -->
@@ -48,8 +48,14 @@
 			</where>
 	</select>
 
+	<!-- 쪽지 상세보기 -->
 	<select id="msdetail" resultType="kr.co.cc.message.dto.MessageDTO">
-		SELECT * FROM message WHERE id = #{id}
+		SELECT ms.id , ms.from_id ,ms.to_id ,ms.title ,ms.content ,ms.send_date ,ms.del_chk ,ms.read_chk , m1.name, m.dept_name, a.new_file_name 
+		FROM message ms
+		JOIN member m ON ms.to_id = m.id
+		JOIN member m1 ON ms.from_id = m1.id
+		JOIN attachment a ON ms.id = a.identify_value
+		WHERE ms.id =#{id}
 	</select>	
 
 
