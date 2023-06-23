@@ -2,6 +2,7 @@ package kr.co.cc.member.service;
 
 import java.util.HashMap;
 
+import org.apache.catalina.User;
 import org.mybatis.spring.annotation.MapperScan;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -42,5 +43,16 @@ public class MemberService {
 	public String login(HashMap<String, String> params) {
 		return memberdao.login(params);
 	}
+	
+	/*public boolean userEmailCheck(String userEmail, String userName) {
 
+        User user = UserRepository.findUserByUserId(userEmail);
+        if(user!=null && user.getName().equals(userName)) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+*/
 }
