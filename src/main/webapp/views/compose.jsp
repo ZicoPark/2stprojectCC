@@ -69,7 +69,7 @@
                   <div class="btn btn-default btn-file">
               
                     <i class="fas fa-paperclip"></i> 파일 첨부
-                    <input type="file" name="file" multiple="multiple">
+                    <input type="file" name="files" multiple="multiple">
                   </div>
                   <p class="help-block">Max. 32MB</p>
                 </div>

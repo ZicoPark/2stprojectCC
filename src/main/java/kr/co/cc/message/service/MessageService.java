@@ -29,7 +29,7 @@ public class MessageService {
 	
 	Logger logger = LoggerFactory.getLogger(getClass());
 	
-	@Value("${spring.servlet.multipart.location}") private String root;
+	@Value("${spring.servlet.multipart.location}") private String attachmentRoot;
 	
 	
 	private final MessageDAO dao;
@@ -74,7 +74,7 @@ public class MessageService {
 	}
 
 	// 쪽지 작성
-	public String msWrite(MultipartFile file, HashMap<String, String> params,HttpSession session) {
+	public String msWrite(MultipartFile[] files, HashMap<String, String> params,HttpSession session) {
 
 
 		String page = "redirect:/msWrite.go";
@@ -92,6 +92,47 @@ public class MessageService {
 		logger.info("insert row : "+row);
 		
 		int idx = dto.getId();
+		
+		if(idx==1) {// 업로드된 doc이 1이라면
+			for (MultipartFile file : files) {
+				logger.info("업로드할 file 있나요? :"+!file.isEmpty());
+				
+				attachmentSave(idx, file, "쪽지");
+				
+				try {// 쓰레드 0.001초 지연으로 중복파일명 막자
+					Thread.sleep(1);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+				
+			}
+		}
+		
+		return "msSendSuccess";
+	}
+
+
+	public void attachmentSave(int id, MultipartFile file, String cls) {
+
+		String oriFileName = file.getOriginalFilename();
+		String ext = oriFileName.substring(oriFileName.lastIndexOf("."));
+		String newFileName = System.currentTimeMillis() + ext;
+		logger.info("파일 업로드 : "+oriFileName+"=>"+newFileName+"으로 변경될 예정");
+		
+		try {
+			byte[] bytes = file.getBytes();
+			Path path = Paths.get(attachmentRoot+"/"+newFileName);
+			Files.write(path, bytes);
+			logger.info(newFileName+" upload 디렉토리에 저장 완료 !");
+			
+			dao.msfileWrite(oriFileName, newFileName, id, cls);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		
+	}
+		/*
 	    if (file != null) {		
 		// 입력받은 파일 이름
 		String fileName = file.getOriginalFilename();
@@ -110,9 +151,8 @@ public class MessageService {
 			e.printStackTrace();
 		}		
 	    }	
+*/
 
-		return "msSendSuccess";
-	}
 
 
 

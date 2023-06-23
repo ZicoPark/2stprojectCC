@@ -37,12 +37,12 @@ public class MessageController {
 	
 	// 쪽지 작성
 	@RequestMapping(value = "/msWrite.do", method = RequestMethod.POST)
-	public String msWrite(MultipartFile file, @RequestParam HashMap<String, String> params,HttpSession session) {
+	public String msWrite(MultipartFile[] files, @RequestParam HashMap<String, String> params,HttpSession session) {
 		
 		logger.info("params : "+params);
-		logger.info("컨트롤러 파일 첨부 : "+file);
+		logger.info("컨트롤러 파일 첨부 : "+files);
 		
-		return service.msWrite(file, params,session);
+		return service.msWrite(files, params,session);
 	}
 	
 	// 쪽지 상세보기
