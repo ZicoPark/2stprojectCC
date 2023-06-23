@@ -1,5 +1,7 @@
 package kr.co.cc.message.controller;
 
+import java.io.IOException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -8,6 +10,12 @@ import javax.servlet.http.HttpSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,6 +33,8 @@ import kr.co.cc.message.service.MessageService;
 public class MessageController {
 
 	Logger logger = LoggerFactory.getLogger(getClass());
+	
+	@Value("${spring.servlet.multipart.location}") private String root;
 	
 	@Autowired MessageService service;
 	
@@ -70,6 +80,28 @@ public class MessageController {
 			
 			return page;
 		}
+	
+	// 파일 다운로드
+	@GetMapping(value="/msdownload.do")
+	public ResponseEntity<Resource> download(String path) {
+		
+		Resource body = new FileSystemResource(root+"/"+path);//BODY		
+		HttpHeaders header = new HttpHeaders();//Header
+		try {						
+			String fileName = "이미지"+path.substring(path.lastIndexOf("."));
+			// 한글 파일명은 깨질수 있으므로 인코딩을 한번 해 준다.
+			fileName = URLEncoder.encode(fileName, "UTF-8");
+			// text/... 은 문자열, image/... 이미지, application/octet-stream 은 바이너리 데이터
+			header.add("Content-type", "application/octet-stream");
+			// content-Disposition 은 내려보낼 내용이 문자열(inline)인지 파일(attatchment)인지 알려준다. 
+			header.add("content-Disposition", "attatchment;fileName=\""+fileName+"\"");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+			
+		//body, header, status
+		return new ResponseEntity<Resource>(body, header, HttpStatus.OK);
+	}
 	
 	// 보낸 쪽지함 이동
 	@RequestMapping(value="/msSendList.go")
