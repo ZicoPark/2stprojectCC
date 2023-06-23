@@ -53,6 +53,7 @@
 			<!-- 에디터 안에 들어갈 자리 -->
 		</div>
 		<input type="hidden" id="content" name="content"/>
+		<input type="hidden" id="status" name="status"/>
 		<input type="file" multiple="multiple" name="attachment"/>
 		<input type="button" onclick="pushDoc()" value="제출"/>
 		<input type="button" onclick="saveDoc()" value="임시저장"/>
@@ -102,6 +103,16 @@ function pushDoc(){
 	
 	var submitContent = editor.getHTMLCode();
 	$('input[name="content"]').val(submitContent);
+	$('input[name="status"]').val('1');
+	$('form').submit();
+	
+}
+
+function saveDoc(){
+	
+	var submitContent = editor.getHTMLCode();
+	$('input[name="content"]').val(submitContent);
+	$('input[name="status"]').val('2');
 	$('form').submit();
 	
 }
