@@ -1,6 +1,10 @@
 package kr.co.cc.noticeBoard.controller;
 
 
+import java.io.IOException;
+import java.net.URLEncoder;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -9,10 +13,20 @@ import javax.servlet.http.HttpSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
@@ -24,6 +38,7 @@ import kr.co.cc.noticeBoard.service.NoticeBoardService;
 public class NoticeBoardController {
 
    @Autowired NoticeBoardService service;
+   @Value("${spring.servlet.multipart.location}") private String root;
    
    Logger logger = LoggerFactory.getLogger(getClass());
    
@@ -84,25 +99,77 @@ public class NoticeBoardController {
    }   
    
 	@RequestMapping(value="/noticeBoardDel.do", method=RequestMethod.GET)
-	public ModelAndView del(@RequestParam String id, RedirectAttributes rAttr, HttpSession session) {
+	public ModelAndView del(@RequestParam String id, RedirectAttributes rAttr) {
 		
-		String loginId = (String) session.getAttribute("loginId");
-		ModelAndView mav = new ModelAndView("noticeBoardList") ;
-		if(loginId != null) {
-			logger.info("delete id : "+id);			
+		ModelAndView mav = new ModelAndView("noticeBoard") ;
 
-			String msg = "삭제에 실패 했습니다.";
+			logger.info("delete id : "+id);			
 			
 			if(service.del(id) > 0) {
-				msg = "삭제에 성공 했습니다.";
-			}
-			mav.setView(new RedirectView("noticeBoardList.do"));
+				String msg = "삭제에 성공 했습니다.";
+		
+			//mav.setView(new RedirectView("noticeBoardList.do")); // 뚝딱
 			rAttr.addFlashAttribute("msg",msg);
 		}		
 
 		return mav;
 	}
 	
+	public NoticeBoardController(NoticeBoardService service) {
+		this.service = service;
+	}
 	
+	@GetMapping(value="/photo.do")
+	public ResponseEntity<Resource> showImg(String path) {
+		logger.info("show file : "+root+"/"+path);
+		//BODY
+		Resource body = new FileSystemResource(root+"/"+path);
+		
+		//Header
+		HttpHeaders header = new HttpHeaders();
+		try {						
+			String type = Files.probeContentType(Paths.get(root+"/"+path));
+			logger.info("type : "+type);
+			header.add("Content-type", type);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+			
+		//body, header, status
+		return new ResponseEntity<Resource>(body, header, HttpStatus.OK);
+	}
+	
+	@GetMapping(value="/download.do")
+	public ResponseEntity<Resource> download(String path) {
+		
+		Resource body = new FileSystemResource(root+"/"+path);//BODY		
+		HttpHeaders header = new HttpHeaders();//Header
+		try {						
+			String fileName = "이미지"+path.substring(path.lastIndexOf("."));
+			fileName = URLEncoder.encode(fileName, "UTF-8");
+			header.add("Content-type", "application/octet-stream");
+			header.add("content-Disposition", "attatchment;fileName=\""+fileName+"\"");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+			
+		//body, header, status
+		return new ResponseEntity<Resource>(body, header, HttpStatus.OK);
+	}
+	
+
+	@PostMapping(value="/multiUpload.do")
+	public String multiUpload(MultipartFile[] files) {
+		service.multiUpload(files);
+		return "redirect:/fileList.do";
+	}
+	
+	@GetMapping(value="/fileList.do")
+	public String fileList(Model model) {
+		ArrayList<String> list = service.fileList();
+		model.addAttribute("list", list);		
+		return "result";
+	}
+
       
 }

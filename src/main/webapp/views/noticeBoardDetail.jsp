@@ -44,7 +44,20 @@
 		    <tr>
 		       <th>내용</th>
 		       <td>${dto.content}</td>
-		    </tr>         
+		    </tr>      
+		   	<tr>
+		       <th>첨부파일</th>
+		       <td>	
+					<c:if test="${list.size()==0}">업로드 된 파일이 없습니다.</c:if>
+					<c:if test="${list.size()>0}">
+						<c:forEach items="${list}" var="file">
+							<img src="photo.do?path=${file}" width="250">
+							<a href="download.do?path=${file}">다운로드</a>
+							<br/>
+						</c:forEach>
+					</c:if>
+				</td>
+		    </tr>   
 		    <tr>
 		       <th colspan="2">
 		          <input type="button" class="btn btn-block btn-outline-success btn-lg"  onclick="location.href='./'" value="안읽음" />         

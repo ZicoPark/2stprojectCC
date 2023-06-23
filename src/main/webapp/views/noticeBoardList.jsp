@@ -68,10 +68,11 @@
 <script src="../../dist/js/demo.js"></script>
 </body>
 <script>
-var msg = "${msg}";
-if(msg != ""){
-	alert(msg);
-}
+
+	var msg = "${msg}";
+	if(msg != ""){
+		alert(msg);
+	}
 
 </script>
 </html>

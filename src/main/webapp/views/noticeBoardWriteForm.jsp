@@ -40,7 +40,7 @@
     </section>
     <!-- Main content -->
     <section class="content">
-      <form action="noticeBoardWrite.do" method="post" enctype="multipart/form-data">
+      <form action="noticeBoardWrite.do" method="post" enctype="multipart/form-data"> <!-- multiUpload.do -->
          <table class="table table-bordered table-hover dataTable dtr-inline">
             <tr>
                <th>제목</th>
@@ -49,6 +49,12 @@
             <tr>
                <th>내용</th>
                <td><textarea name="content"></textarea> </td>
+            </tr>
+            <tr>
+            	<th>첨부파일</th>
+            	<td>
+					<input type="file" name="files"  multiple="multiple"/>	
+				</td>
             </tr>
             <tr>
                <th colspan="2">
