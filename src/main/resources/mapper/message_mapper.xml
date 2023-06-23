@@ -5,15 +5,38 @@
 <mapper namespace="kr.co.cc.message.dao.MessageDAO">
 
 
-	<!-- 보낸 편지함 -->
+	<!-- 보낸 쪽지함 -->
 	<select id="sendList" resultType="kr.co.cc.message.dto.MessageDTO">
-		SELECT id, to_id , title, send_date, read_chk FROM message ORDER BY id DESC <!-- 수정 : 사원 아이디 조건 넣어야함 -->
+		SELECT ms.id , ms.to_id , ms.title , ms.send_date , ms.read_chk ,ms.del_chk 
+		FROM message ms JOIN member m WHERE ms.from_id = m.id and m.id = #{id} AND ms.del_chk = 0 ORDER BY id DESC 
 	</select>
 	
-	<!-- 받은 편지함 -->
+	<!-- 받은 쪽지함 -->
 	<select id="receiveList" resultType="kr.co.cc.message.dto.MessageDTO">
-		SELECT id, to_id , from_id, title, send_date, read_chk FROM message ORDER BY id DESC <!-- 수정 : 사원 아이디 조건 넣어야함 -->
+		SELECT ms.id , ms.from_id , ms.to_id , ms.title , ms.send_date , ms.read_chk ,ms.del_chk 
+		FROM message ms JOIN member m WHERE ms.to_id = m.id and m.id = #{id} AND ms.del_chk = 0 ORDER BY id DESC 
 	</select>	
+	
+	<!-- 쪽지 작성 -->
+	<insert 
+	useGeneratedKeys="true"
+	keyColumn="id"
+	keyProperty="id"	
+	id="msWrite" parameterType="kr.co.cc.message.dto.MessageDTO">
+		INSERT INTO message (from_id,to_id,title,content,del_chk,read_chk)	
+		values(#{from_id},#{to_id},#{title},#{content},0,0); 		
+	</insert>
+	
+	<!-- 사진 첨부 -->
+	<insert id="msfileWrite">
+		INSERT INTO attachment(ori_photo_name, new_photo_name, classification,identify_value)
+			VALUES(#{param1}, #{param2},'쪽지',#{id})
+	</insert>
+	
+	<!-- 삭제 -->
+	<update id="msdelete">
+		UPDATE message SET del_chk = 1 WHERE id = #{param1}
+	</update>
 	
 	<!-- 검색 -->
 	<select id="search" resultType="kr.co.cc.message.dto.MessageDTO" parameterType="HashMap">
@@ -29,19 +52,11 @@
 		SELECT * FROM message WHERE id = #{id}
 	</select>	
 
-	<insert 
-		useGeneratedKeys="true"
-		keyColumn="id"
-		keyProperty="id"
-		id="msWrite" parameterType="kr.co.cc.message.dto.MessageDTO"
-	>
-		INSERT INTO message(from_id, to_id, title, content, send_date, del_chk, read_chk)
-			VALUES(#{from_id}, #{to_id}, #{title}, #{content}, #{send_date}, 0, 0)
-	</insert>
 
 	<insert id="fileWrite">
 		INSERT INTO attachment(ori_photo_name, new_photo_name, photo_div, classification)
 			VALUES(#{param1}, #{param2}, #{param3}, #{param4})
 	</insert>
+	
 	
 </mapper>
