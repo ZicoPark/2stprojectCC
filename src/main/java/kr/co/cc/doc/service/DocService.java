@@ -6,6 +6,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map.Entry;
 
 import javax.servlet.http.HttpSession;
 
@@ -87,14 +88,16 @@ public class DocService {
 	}
 
 	public ModelAndView docWrite(HashMap<String, String> params, 
-			ArrayList<HashMap<String, String>> approvalList,
+			HashMap<String, String> approvalMap,
 			MultipartFile[] attachment, HttpSession session) {
 		
 		// dto 만들어서 받아온 전자정보 문서를 넣는다.
 		DocDTO dto = new DocDTO();
 		dto.setSubject(params.get("subject"));
 		dto.setContent(params.get("content"));
-		dto.setStatus(1); // 1 : 정상
+		
+		int status = Integer.parseInt(params.get("status"));
+		dto.setStatus(status); // 1 : 정상 2 : 임시저장
 		dto.setDocFormId(Integer.parseInt(params.get("docFormId"))); // 기안문서 양식 id
 		
 		// 세션에서 기안자 정보 모두 가져오기
@@ -108,6 +111,9 @@ public class DocService {
 		dto.setPublicRange(params.get("publicRange"));
 		
 		logger.info("params : "+params);
+		
+		// 결재요청 시 결재선에 따라서 문서를 렌더링한다.
+		
 		
 		int row = dao.docWrite(dto);
 		logger.info("inserted doc row : "+row);
@@ -129,7 +135,61 @@ public class DocService {
 			}
 		}
 		
-		return null;
+		// 상태가 1 : 정상결재요청, 2 : 임시저장이면 이동페이지를 다르게 조정해서 보낸다.
+		ModelAndView mav = new ModelAndView();
+		if(status==1) {
+			// 결재요청함으로 보낸다.
+			mav.setViewName("docList");
+			
+			// 정상결재요청 시에는 결재선을 저장한다.
+			HashMap<String, String> map = new HashMap<String, String>();
+			HashMap<String, Object> docStatusMap = new HashMap<String, Object>();
+			
+			String approvalCode;
+			String approvalMemberId;
+			MemberDTO approvalMemberInfo;
+			int orderRank = 0; // 결재순서는 0부터 시작
+			int approval = 0; // 0 : 미결재, 1 : 결재, 2 : 반려
+			int readChk = 0; // 0 안읽음, 1 : 읽음
+			
+				for(Entry<String, String> entry : approvalMap.entrySet()) {
+					
+					approvalCode = entry.getKey();
+					approvalMemberId = entry.getValue();
+					approvalMemberInfo = dao.getMemberInfo(approvalMemberId);
+					
+					docStatusMap.put("id", id);
+					docStatusMap.put("member_id", approvalMemberId);
+					docStatusMap.put("job_name", approvalMemberInfo.getJobName());
+					docStatusMap.put("dept_name", approvalMemberInfo.getDeptName());
+					docStatusMap.put("approval_code", approvalCode);
+					docStatusMap.put("order_rank", orderRank);
+					docStatusMap.put("approval", approval);
+					docStatusMap.put("read_chk", readChk);
+					
+					dao.approvalWrite(docStatusMap);
+					
+					if(orderRank==0) { // 지금 결재요청한 문서의 첫 결재자가 0순위라면 알림 테이블에 등록하자.
+						docNotice(memberInfo.getId(), approvalMemberId, "전자결재", 0, id);
+					}
+					
+					orderRank++; // 0순위를 저장 후 결재순위가 1씩 증가함.
+				}
+			
+		}else {
+			// 임시저장함으로 보낸다.
+			mav.setViewName("docTempList");
+			
+			// 임시저장 시에는 결재선은 저장하지 않는다.
+		}
+		
+		return mav;
+	}
+
+	private void docNotice(String sendId, String receiveId, String type, int status, int identifyValue) {
+		// 순서대로 보내는 아이디, 받는 아이디, 알림유형, 확인상태(0), 구분번호
+		
+		dao.docNotice(sendId, receiveId, type, status, identifyValue);
 	}
 
 	public void attachmentSave(int id, MultipartFile file, String cls) {
@@ -152,5 +212,7 @@ public class DocService {
 		
 	}
 
-	
+
+
+
 }

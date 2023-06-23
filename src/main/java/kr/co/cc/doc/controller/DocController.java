@@ -1,23 +1,17 @@
 package kr.co.cc.doc.controller;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
 import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
-import kr.co.cc.doc.dto.ApprovalDTO;
-import kr.co.cc.doc.dto.DocFormDTO;
-import kr.co.cc.doc.dto.MemberDTO;
 import kr.co.cc.doc.service.DocService;
 
 @Controller
@@ -44,16 +38,14 @@ public class DocController {
 			@RequestParam String[] approvalVariable, @RequestParam String[] approvalPerson, 
 			@RequestParam HashMap<String, String> params) {
 		
-		HashMap<String, String> map = new HashMap<String, String>();
-		ArrayList<HashMap<String, String>> approvalList = new ArrayList<HashMap<String,String>>();
+		HashMap<String, String> approvalMap = new HashMap<String, String>();
 		
 		// 결재선 정렬 로직
 		for(int i=0;i<approvalVariable.length;i++) {
-			map.put(approvalVariable[i], approvalPerson[i]);
-			approvalList.add(map);
+			approvalMap.put(approvalVariable[i], approvalPerson[i]);
 		}
 		
-		return service.docWrite(params, approvalList, attachment, session);
+		return service.docWrite(params, approvalMap, attachment, session);
 	}
 	
 	
