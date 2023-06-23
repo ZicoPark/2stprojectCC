@@ -1,5 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -48,9 +51,10 @@
             <div class="card-header">
               <h3 class="card-title">보낸쪽지함</h3>
 
+			<form action = "search.do">
               <div class="card-tools">
                 <div class="input-group input-group-sm">
-                  <input type="text" class="form-control" placeholder="Search Mail">
+                  <input type="text" name = "keyword" class="form-control" placeholder="검색어를 입력하세요">
                   <div class="input-group-append">
                     <div class="btn btn-primary">
                       <i class="fas fa-search"></i>
@@ -58,6 +62,7 @@
                   </div>
                 </div>
               </div>
+              </form>
               <!-- /.card-tools -->
             </div>
             <!-- /.card-header -->
@@ -98,7 +103,7 @@
               <div class="table-responsive mailbox-messages">
                 <table class="table table-hover table-striped">
                   <tbody>
-                  <c:forEach items = "${list}" var="list">
+                  <c:forEach items = "${list}" var="item">
                   <tr>
                     <td>
                       <div class="icheck-primary">
@@ -107,19 +112,19 @@
                       </div>
                     </td>
                     <td class="mailbox-star"><a href="#"><i class=""></i></a></td>
-                    <td class="mailbox-name"><a href="read-mail.html">${list.to_id}</a></td>
-                    <td class="mailbox-subject"> ${list.title}
-                    </td>
+                    <td class="mailbox-name"><a href="read-mail.html">${item.to_id}</a></td>
+                    <td class="mailbox-subject"><a href="msdetail.do?id=${item.id}">${item.title}</a></td>
+                    
 
 				    <td class="mailbox-attachment">
-						${list.read_chk}
-
-
-
+						<c:if test="${item.read_chk}">읽음</c:if><c:if test="${!item.read_chk}">안읽음</c:if>
+				    </td>
+				    <td class="mailbox-date">
+				   	 ${item.send_date}
 				    </td>
 
 
-                    <td class="mailbox-date">${list.send_date}</td>
+				    
                   </tr>
 				</c:forEach>
                   </tbody>
@@ -230,6 +235,9 @@
       }
     })
   })
+  
+  
+
 </script>
 </body>
 </html>
