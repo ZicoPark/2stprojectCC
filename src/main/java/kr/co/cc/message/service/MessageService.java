@@ -12,13 +12,11 @@ import javax.servlet.http.HttpSession;
 import org.mybatis.spring.annotation.MapperScan;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
-import kr.co.cc.doc.dao.DocDAO;
 import kr.co.cc.member.dto.MemberDTO;
 import kr.co.cc.message.dao.MessageDAO;
 import kr.co.cc.message.dto.MessageDTO;
@@ -82,7 +80,7 @@ public class MessageService {
 		MessageDTO dto = new MessageDTO();
 		
 		logger.info("params :"+params);
-		
+		logger.info("files :"+files);
 
 		dto.setFrom_id(loginId);
 		dto.setTo_id(params.get("to_id"));
@@ -93,45 +91,32 @@ public class MessageService {
 		
 		int idx = dto.getId();
 		
-		if(idx==1) {// 업로드된 doc이 1이라면
+		logger.info("idx : "+idx);
+		
+		if(row==1) {
 			for (MultipartFile file : files) {
-				logger.info("업로드할 file 있나요? :"+!file.isEmpty());
-				
-				attachmentSave(idx, file, "쪽지");
-				
-				try {// 쓰레드 0.001초 지연으로 중복파일명 막자
-					Thread.sleep(1);
-				} catch (InterruptedException e) {
-					e.printStackTrace();
+				if(file!=null) {
+					String oriFileName = file.getOriginalFilename();
+					String ext = oriFileName.substring(oriFileName.lastIndexOf("."));
+					String newFileName = System.currentTimeMillis() + ext;
+					String cls = "쪽지";
+					
+					try {
+						byte[] bytes = file.getBytes();
+						Path path = Paths.get(attachmentRoot + "/" + newFileName);
+						Files.write(path, bytes);
+						dao.msfileWrite(oriFileName, newFileName, cls, idx);
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
 				}
-				
 			}
+			
 		}
 		
 		return "msSendSuccess";
 	}
 
-
-	public void attachmentSave(int id, MultipartFile file, String cls) {
-
-		String oriFileName = file.getOriginalFilename();
-		String ext = oriFileName.substring(oriFileName.lastIndexOf("."));
-		String newFileName = System.currentTimeMillis() + ext;
-		logger.info("파일 업로드 : "+oriFileName+"=>"+newFileName+"으로 변경될 예정");
-		
-		try {
-			byte[] bytes = file.getBytes();
-			Path path = Paths.get(attachmentRoot+"/"+newFileName);
-			Files.write(path, bytes);
-			logger.info(newFileName+" upload 디렉토리에 저장 완료 !");
-			
-			dao.msfileWrite(oriFileName, newFileName, id, cls);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		
-		
-	}
 		/*
 	    if (file != null) {		
 		// 입력받은 파일 이름

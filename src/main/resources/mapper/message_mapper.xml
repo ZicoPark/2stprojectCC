@@ -28,7 +28,7 @@
 	</insert>
 	
 	<!-- 파일 첨부 -->
-	<insert id="msfileWrite" >
+	<insert id="msfileWrite">
 		INSERT INTO attachment(ori_file_name, new_file_name, classification, identify_value)
 			VALUES(#{param1}, #{param2}, #{param3}, #{param4})
 	</insert>
@@ -58,11 +58,6 @@
 		WHERE ms.id =#{id}
 	</select>	
 
-
-	<insert id="fileWrite">
-		INSERT INTO attachment(ori_photo_name, new_photo_name, photo_div, classification)
-			VALUES(#{param1}, #{param2}, #{param3}, #{param4})
-	</insert>
 	
 	
 </mapper>

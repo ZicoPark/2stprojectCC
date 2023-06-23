@@ -22,7 +22,6 @@ public interface MessageDAO {
 
 	boolean msdelete(String id);
 
-
-	void msfileWrite(String oriFileName, String newFileName, int id, String cls);
+	void msfileWrite(String oriFileName, String newFileName, String cls, int id);
 
 }

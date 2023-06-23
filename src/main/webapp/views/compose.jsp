@@ -92,7 +92,7 @@
       </div><!-- /.container-fluid -->
     </section>
     <!-- /.content -->
-  </div>
+  <div></div>
   <!-- /.content-wrapper -->
   </form>
   <footer class="main-footer">
