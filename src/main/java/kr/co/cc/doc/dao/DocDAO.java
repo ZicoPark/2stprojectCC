@@ -22,6 +22,6 @@ public interface DocDAO {
 
 	int docWrite(DocDTO dto);
 
-	void attachmentSave(String oriFileName, String newFileName, int id, String cls);
+	void attachmentSave(String oriFileName, String newFileName, String cls, int id);
 
 }

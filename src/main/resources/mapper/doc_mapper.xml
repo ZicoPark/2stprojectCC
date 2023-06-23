@@ -48,7 +48,7 @@
 
 	<insert id="attachmentSave">
 		INSERT INTO attachment(ori_file_name, new_file_name, classification, identify_value)
-			VALUES(#{param1}, #{param2}, #{param4}, #{param3})
+			VALUES(#{param1}, #{param2}, #{param3}, #{param4})
 	</insert>
 	
 </mapper>
