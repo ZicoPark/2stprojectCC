@@ -15,7 +15,7 @@
 	<br>
 	<br>
 	<form action="docWrite.do" method="post" enctype="multipart/form-data">
-		<select id="docForm" onchange="docFormCall(this)">
+		<select id="docForm" name="docFormId" onchange="docFormCall(this)">
 			<option value="default">--</option>
 			<c:forEach items="${docFormList}" var="i">
 				<option value="${i.code}">${i.name}</option>
@@ -26,6 +26,11 @@
 		</c:forEach>
 		<br>
 		<input type="text" name="subject" value="" placeholder="제목을 입력하세요"/>
+		<br>
+		<select name="publicRange">
+			<option value="all">전체</option>
+			<option value="dept">부서별</option>
+		</select>
 		<br>
 		<div id="approvalList">
 		<input type="button" value="결재선 추가" onclick="addApproval()"/>

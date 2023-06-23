@@ -24,7 +24,6 @@ import kr.co.cc.doc.service.DocService;
 public class DocController {
 
 	Logger logger = LoggerFactory.getLogger(this.getClass());
-	@Value("${spring.servlet.multipart.location}") private String attachmentRoot;
 	
 	// 의존성 생성자 주입
 	private final DocService service;
@@ -35,13 +34,13 @@ public class DocController {
 	
 	// 기안문 작성 폼으로 이동
 	@RequestMapping(value="/docWriteForm.do")
-	public ModelAndView docWriteForm() {
+	public ModelAndView docWriteForm(HttpSession session) {
 		
-		return service.docWriteForm();
+		return service.docWriteForm(session);
 	}
 	
 	@RequestMapping(value="/docWrite.do")
-	public ModelAndView docWrite(MultipartFile[] attachment, 
+	public ModelAndView docWrite(MultipartFile[] attachment, HttpSession session,
 			@RequestParam String[] approvalVariable, @RequestParam String[] approvalPerson, 
 			@RequestParam HashMap<String, String> params) {
 		
@@ -54,9 +53,7 @@ public class DocController {
 			approvalList.add(map);
 		}
 		
-		service.docWrite(params, approvalList, attachment);
-		
-		return null;
+		return service.docWrite(params, approvalList, attachment, session);
 	}
 	
 	
