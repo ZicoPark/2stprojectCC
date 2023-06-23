@@ -89,7 +89,8 @@ public class DocService {
 	public ModelAndView docWrite(HashMap<String, String> params, 
 			ArrayList<HashMap<String, String>> approvalList,
 			MultipartFile[] attachment, HttpSession session) {
-
+		
+		// dto 만들어서 받아온 전자정보 문서를 넣는다.
 		DocDTO dto = new DocDTO();
 		dto.setSubject(params.get("subject"));
 		dto.setContent(params.get("content"));
@@ -100,7 +101,7 @@ public class DocService {
 		String loginId = (String) session.getAttribute("loginId");
 		MemberDTO memberInfo = dao.getMemberInfo(loginId);
 		
-		dto.setMemberId(memberInfo.getId()); // 세션에서 기안자 id 가져와 넣기
+		dto.setMemberId(memberInfo.getId());
 		dto.setDeptName(memberInfo.getDeptName());
 		dto.setJobName(memberInfo.getJobName());
 		
@@ -108,10 +109,12 @@ public class DocService {
 		
 		logger.info("params : "+params);
 		
-		int id = dao.docWrite(dto);
-		logger.info("doc insert idx : "+id);
+		int row = dao.docWrite(dto);
+		logger.info("inserted doc row : "+row);
 		
-		if(id==1) {// 업로드된 doc이 1이라면
+		int id = dto.getId(); // 문서번호
+		
+		if(row==1) {// 업로드된 doc이 1이라면
 			for (MultipartFile file : attachment) {
 				logger.info("업로드할 file 있나요? :"+!file.isEmpty());
 				
@@ -129,7 +132,6 @@ public class DocService {
 		return null;
 	}
 
-
 	public void attachmentSave(int id, MultipartFile file, String cls) {
 
 		String oriFileName = file.getOriginalFilename();
@@ -143,7 +145,7 @@ public class DocService {
 			Files.write(path, bytes);
 			logger.info(newFileName+" upload 디렉토리에 저장 완료 !");
 			
-			dao.attachmentSave(oriFileName, newFileName, id, cls);
+			dao.attachmentSave(oriFileName, newFileName, cls, id);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
