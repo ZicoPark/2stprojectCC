@@ -69,7 +69,7 @@
                   <div class="btn btn-default btn-file">
               
                     <i class="fas fa-paperclip"></i> 파일 첨부
-                    <input type="file" name="files" multiple="multiple">
+                    <input type="file" name="file" multiple="multiple">
                   </div>
                   <p class="help-block">Max. 32MB</p>
                 </div>
@@ -92,9 +92,9 @@
       </div><!-- /.container-fluid -->
     </section>
     <!-- /.content -->
-  <div></div>
-  <!-- /.content-wrapper -->
   </form>
+  </div>
+  <!-- /.content-wrapper -->
   <footer class="main-footer">
     <div class="float-right d-none d-sm-block">
       <b>Version</b> 3.2.0

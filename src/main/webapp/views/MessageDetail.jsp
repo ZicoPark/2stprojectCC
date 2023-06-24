@@ -14,9 +14,7 @@
   <link rel="stylesheet" href="../../plugins/fontawesome-free/css/all.min.css">
   <!-- Theme style -->
   <link rel="stylesheet" href="../../dist/css/adminlte.min.css">
-
 </head>
-
 <body class="hold-transition sidebar-mini">
 <jsp:include page = "index.jsp"></jsp:include>
 <div class="wrapper">
@@ -30,10 +28,12 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1></h1>
+            <h1>Compose</h1>
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
+              <li class="breadcrumb-item"><a href="#">Home</a></li>
+              <li class="breadcrumb-item active">Compose</li>
             </ol>
           </div>
         </div>
@@ -48,8 +48,7 @@
         <div class="col-md-9">
           <div class="card card-primary card-outline">
             <div class="card-header">
-              <h3 class="card-title"><strong>${info.title}</strong></h3>
-
+              <h3 class="card-title">Read Mail</h3>
 
               <div class="card-tools">
                 <a href="#" class="btn btn-tool" title="Previous"><i class="fas fa-chevron-left"></i></a>
@@ -59,40 +58,44 @@
             <!-- /.card-header -->
             <div class="card-body p-0">
               <div class="mailbox-read-info">
-
-                <h6>보낸 사람: <button type="button" class="button_user">${info.name}${info.from_id}</button>
-                  <span class="mailbox-read-time float-right">${info.send_date}</span></h6>
+                <h5>${detailms.title}</h5>
+                <h6>From: ${detailms.from_id} ${detailms.name}
+                  <span class="mailbox-read-time float-right">${detailms.send_date}</span></h6>
               </div>
      
               </div>
               <!-- /.mailbox-controls -->
               <div class="mailbox-read-message">
-                <p>${info.content}</p>
+                <p>${detailms.content}</p>
               </div>
               <!-- /.mailbox-read-message -->
             </div>
             <!-- /.card-body -->
+    
+
             <div class="card-footer bg-white">
               <ul class="mailbox-attachments d-flex align-items-stretch clearfix">
-
-       
+                <li>
+                  <span class="mailbox-attachment-icon"><i class="far fa-file-pdf"></i></span>
 
                   <div class="mailbox-attachment-info">
-                    <a href="#" class="mailbox-attachment-name"><i class="fas fa-paperclip"></i> ${info.new_file_name}</a>
-                          &nbsp <a href="#" class="btn btn-default btn-sm float-right"><i class="fas fa-cloud-download-alt"></i></a>
-                         
+                    <a class="mailbox-attachment-name"><i class="fas fa-paperclip"></i> ${detailFile}</a>
+                        <span class="mailbox-attachment-size clearfix mt-1">
+                          <span>1,245 KB</span>
+                          <a href="msdownload.do?path=${detailFile}" class="btn btn-default btn-sm float-right"><i class="fas fa-cloud-download-alt"></i></a>
                         </span>
                   </div>
-
+                </li>
               </ul>
             </div>
+
             <!-- /.card-footer -->
             <div class="card-footer">
               <div class="float-right">
-                <button type="button" class="btn btn-default"><i class="fas fa-reply"></i> 답장</button>
-                <button type="button" class="btn btn-default"><i class="fas fa-share"></i> 전달</button>
+                <button type="button" class="btn btn-default"><i class="fas fa-reply"></i> Reply</button>
+                <button type="button" class="btn btn-default"><i class="fas fa-share"></i> Forward</button>
               </div>
-              <button type="button" class="btn btn-default" onclick="location.href='msDelete.do?id=${info.id}'"><i class="far fa-trash-alt"></i></button>
+              <button type="button" class="btn btn-default"><i class="far fa-trash-alt"></i> Delete</button>
               <button type="button" class="btn btn-default"><i class="fas fa-print"></i> Print</button>
             </div>
             <!-- /.card-footer -->
@@ -102,8 +105,8 @@
         <!-- /.col -->
       </div>
       <!-- /.row -->
-      </div><!-- /.container-fluid -->
     </section>
+      </div><!-- /.container-fluid -->
     <!-- /.content -->
   </div>
   <!-- /.content-wrapper -->

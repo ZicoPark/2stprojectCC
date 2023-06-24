@@ -27,7 +27,7 @@ public class MessageService {
 	
 	Logger logger = LoggerFactory.getLogger(getClass());
 	
-	@Value("${spring.servlet.multipart.location}") private String attachmentRoot;
+	@Value("${spring.servlet.multipart.location}") private String root;
 	
 	
 	private final MessageDAO dao;
@@ -50,12 +50,23 @@ public class MessageService {
 		return mav;
 	}
 
-	public ModelAndView msdetail(String id) {
-		ModelAndView mav = new ModelAndView("MessageDetail");
-		MessageDTO dto = dao.msdetail(id);
-		mav.addObject("info", dto);
-		return mav;
+	public MessageDTO msdetail(int id, String flag) {
+		if(flag.equals("detail")) {
+			logger.info("if문 진입");
+			dao.upHit(id); // 읽음 처리
+			
+		}
+		
+		return dao.msdetail(id);
 	}
+
+
+	public String msDetailFile(int id) {
+		return dao.msDetailFile(id);
+	}
+
+
+
 
 
 
@@ -72,7 +83,7 @@ public class MessageService {
 	}
 
 	// 쪽지 작성
-	public String msWrite(MultipartFile[] files, HashMap<String, String> params,HttpSession session) {
+	public String msWrite(MultipartFile file, HashMap<String, String> params,HttpSession session) {
 
 
 		String page = "redirect:/msWrite.go";
@@ -80,7 +91,7 @@ public class MessageService {
 		MessageDTO dto = new MessageDTO();
 		
 		logger.info("params :"+params);
-		logger.info("files :"+files);
+		logger.info("files :"+file);
 
 		dto.setFrom_id(loginId);
 		dto.setTo_id(params.get("to_id"));
@@ -93,32 +104,7 @@ public class MessageService {
 		
 		logger.info("idx : "+idx);
 		
-		if(row==1) {
-			for (MultipartFile file : files) {
-				if(file!=null) {
-					String oriFileName = file.getOriginalFilename();
-					String ext = oriFileName.substring(oriFileName.lastIndexOf("."));
-					String newFileName = System.currentTimeMillis() + ext;
-					String cls = "쪽지";
-					
-					try {
-						byte[] bytes = file.getBytes();
-						Path path = Paths.get(attachmentRoot + "/" + newFileName);
-						Files.write(path, bytes);
-						dao.msfileWrite(oriFileName, newFileName, cls, idx);
-					} catch (IOException e) {
-						e.printStackTrace();
-					}
-				}
-			}
-			
-		}
-		
-		return "msSendSuccess";
-	}
-
-		/*
-	    if (file != null) {		
+	    if (file != null && !file.isEmpty()) {		
 		// 입력받은 파일 이름
 		String fileName = file.getOriginalFilename();
 		// 확장자를 추출하기 위한 과정
@@ -136,7 +122,15 @@ public class MessageService {
 			e.printStackTrace();
 		}		
 	    }	
-*/
+		
+		return "msSendSuccess";
+	}
+
+
+
+
+
+
 
 
 
