@@ -14,6 +14,7 @@ public class MainController {
 	@GetMapping(value="/mainGNB.go")
 	public String index() {
 		return "index";
+
 	}
 	
 	@GetMapping(value="/index2.go")
