@@ -18,7 +18,6 @@
 <jsp:include page = "index.jsp"></jsp:include>
 <!-- Site wrapper -->
 <div class="wrapper">
-  <!-- Navbar -->
   
 
 
@@ -61,9 +60,9 @@
                 <input type="text" id="inputName" class="form-control" name = "name">
               </div>
               <div class="form-group">
-                <label for="inputMember">참가자</label>
-               <input type="text" id="inputMember" class="form-control" name = "member_id">
-              </div>
+				  <label for="inputMember">참가자</label>
+				  <textarea id="inputMember" class="form-control" name="member_id" rows="3"></textarea>
+				</div>
               <div class="form-group">
                 <label for="inputPublic_range">공개범위</label>
                 <select id="inputPublic_range" class="form-control custom-select" name="public_range">
