@@ -97,13 +97,18 @@
                           </small>
                       </td>
                       <td>
-                          <ul class="list-inline">
-                              <li class="list-inline-item">
-                                  <img alt="Avatar" class="table-avatar" src="../../dist/img/avatar.png">
-                                  ${project.member_id}
-                              </li>
-                          </ul>
-                      </td>
+				    <ul class="list-inline">
+					    <c:forEach items="${project.contributors}" var="contributor">
+					        <li class="list-inline-item">
+					            <img alt="Avatar" class="table-avatar" src="../../dist/img/avatar.png">
+					            ${contributor}
+					        </li>
+					    </c:forEach>
+					</ul>
+
+				</td>
+
+
                       <td class="project_progress">
                           <div class="progress progress-sm">
                               <div class="progress-bar bg-green" role="progressbar" aria-valuenow="57" aria-valuemin="0" aria-valuemax="100" style="width: 57%">
@@ -117,7 +122,7 @@
                           <span class="badge badge-success">${project.step}</span>
                       </td>
                       <td class="project-actions text-right">
-                          <a href="projectDetail.go" class="btn btn-primary btn-sm view-btn">
+                          <a href="projectDetail.go?id=${project.project_id}" class="btn btn-primary btn-sm view-btn">                          
                               <i class="fas fa-folder">
                               </i>
                               상세보기

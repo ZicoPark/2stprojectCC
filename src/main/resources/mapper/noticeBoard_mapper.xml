@@ -31,5 +31,5 @@
    	<delete id="del">
 		DELETE FROM notice_board WHERE id = #{param1}
 	</delete>
-   
+
 </mapper>

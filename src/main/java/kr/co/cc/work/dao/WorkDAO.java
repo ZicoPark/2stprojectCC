@@ -1,5 +1,6 @@
 package kr.co.cc.work.dao;
 
+import java.sql.Time;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -21,6 +22,17 @@ public interface WorkDAO {
 	void WorkChangeRequest(HashMap<String, String> params);
 
 	ArrayList<WorkDTO> workHistoryReqListGo(String id);
+
+	ArrayList<WorkDTO> workHistoryList_Ad();
+
+	int WorkChangeAdmin(int id, String type, int approval);
+
+	int WorkChangeAdminChk(int id, String type);
+
+	int workHistoryChange_go(int id, Time update_time);
+
+	int workHistoryChange_end(int id, Time update_time);
+
 
 
 

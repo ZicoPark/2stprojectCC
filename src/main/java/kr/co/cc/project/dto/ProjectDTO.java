@@ -4,7 +4,7 @@ import java.util.Date;
 
 public class ProjectDTO {
 
-	private int id;
+	private int project_id;
 	private int public_range;
 	private String name;
 	private String member_id;
@@ -14,14 +14,59 @@ public class ProjectDTO {
 	private String status;
 	private String priod;
 	private String deadlinepriod;
+	private String contributors;
+	private String subject;
+	private String user_name;
+	private String content;
+	private int idx;
 	
-	public int getId() {
-		return id;
-	}
-	public void setId(int id) {
-		this.id = id;
+	
+	public String getSubject() {
+		return subject;
 	}
 
+	public void setSubject(String subject) {
+		this.subject = subject;
+	}
+
+	public String getUser_name() {
+		return user_name;
+	}
+
+	public void setUser_name(String user_name) {
+		this.user_name = user_name;
+	}
+
+	public String getContent() {
+		return content;
+	}
+
+	public void setContent(String content) {
+		this.content = content;
+	}
+
+	public int getIdx() {
+		return idx;
+	}
+
+	public void setIdx(int idx) {
+		this.idx = idx;
+	}
+
+	public String getContributors() {
+        return contributors;
+    }
+
+    public void setContributors(String contributors) {
+        this.contributors = contributors;
+    }
+
+	public int getProject_id() {
+		return project_id;
+	}
+	public void setProject_id(int project_id) {
+		this.project_id = project_id;
+	}
 	public int getPublic_range() {
 		return public_range;
 	}
