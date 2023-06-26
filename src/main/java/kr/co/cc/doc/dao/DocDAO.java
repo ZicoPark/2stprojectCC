@@ -32,4 +32,12 @@ public interface DocDAO {
 
 	String getApprovalName(String approvalCode);
 
+	ArrayList<DocDTO> tempDocList(String loginId, int status);
+
+	DocDTO tempDocDetail(String id);
+
+	DocDTO getWritedDOC(int id);
+
+	void docWriteETC(int id, String dateWritedContent);
+
 }

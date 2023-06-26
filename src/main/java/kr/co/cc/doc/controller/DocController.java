@@ -55,5 +55,16 @@ public class DocController {
 		return service.docWrite(params, approvalList, attachment, session);
 	}
 	
+	@RequestMapping(value="/tempDocList.go")
+	public ModelAndView tempDocList(HttpSession session) {
+		
+		return service.tempDocList(session);
+	}
+	
+	@RequestMapping(value="/tempDocDetail.go")
+	public ModelAndView tempDocDetail(@RequestParam String id) {
+		
+		return service.tempDocDetail(id);
+	}
 	
 }
