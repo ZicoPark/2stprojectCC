@@ -30,4 +30,6 @@ public interface DocDAO {
 
 	String getMemberSignFilePath(String memberId);
 
+	String getApprovalName(String approvalCode);
+
 }
