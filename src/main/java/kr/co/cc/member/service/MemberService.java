@@ -44,6 +44,15 @@ public class MemberService {
 		return memberdao.login(params);
 	}
 	
+    public HashMap<String, Object> idChk(String id) {
+         
+         HashMap<String, Object> map = new HashMap<String, Object>();
+         logger.info("service id");
+         int idChk = memberdao.idChk(id);
+         map.put("idChk", idChk);
+         return map;
+     }
+	
 	/*public boolean userEmailCheck(String userEmail, String userName) {
 
         User user = UserRepository.findUserByUserId(userEmail);
