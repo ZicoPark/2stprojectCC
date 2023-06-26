@@ -36,19 +36,39 @@ public class NoticeBoardService {
 		return dao.list();
 		}
 
-	public ModelAndView write(HashMap<String, String> params, HttpSession session) {
+	public ModelAndView write(MultipartFile uploadFile, HashMap<String, String> params, HttpSession session) {
 		
 		//String page = "redirect:/noticeBoardList.go.";
+		String page ="redirect:/";
 		
 		String id = (String) session.getAttribute("loginId");
 		String subject = params.get("subject");
 		String content = params.get("content");
 		
 		int success = dao.write(id,subject, content);
-	
-		return null;
-	}
+	   
+		if (uploadFile != null && !uploadFile.isEmpty()) {		
+			// 입력받은 파일 이름
+			String fileName = uploadFile.getOriginalFilename();
+			// 확장자를 추출하기 위한 과정
+			String ext = fileName.substring(fileName.lastIndexOf("."));
+			// 새로운 파일 이름은?
+			String newFileName = System.currentTimeMillis() + ext;
+			String classification = "공지사항";
+			try {
+				byte[] bytes = uploadFile.getBytes();
 
+				Path path = Paths.get(root + "/" + newFileName);
+				Files.write(path, bytes);			
+				dao.noticeFile(fileName, newFileName,classification, id);
+			} catch (IOException e) {			
+				e.printStackTrace();
+			}		
+		    }	
+		
+		return new ModelAndView(page);
+	}
+	
 	public NoticeBoardDTO detail(String id) {
 		
 		dao.upHit(id);
@@ -59,50 +79,6 @@ public class NoticeBoardService {
 	public int del(String id) {
 		
 		return dao.del(id);
-	}
-
-
-
-	public void upload(MultipartFile uploadFile) {
-		
-		// 1. 파일명 추출
-		String fileName = uploadFile.getOriginalFilename();
-		
-		// 2. 새파일 생성(현재시간 + 확장자)
-		String ext = fileName.substring(fileName.lastIndexOf("."));
-		String newFileName = System.currentTimeMillis() + ext;
-		logger.info(fileName+" => "+newFileName);
-		
-		// 3. 파일 저장
-		try {
-			byte[] bytes = uploadFile.getBytes();
-			Path path = Paths.get(root+"/"+newFileName);
-			Files.write(path, bytes);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		
-	}
-
-	public void multiUpload(MultipartFile[] files) {
-		for (MultipartFile file : files) {
-			upload(file);
-			try {
-				Thread.sleep(1);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-		}
-		
-	}
-
-	public ArrayList<String> fileList() {		
-		ArrayList<String> list = new ArrayList<String>();
-		File[] files = new File(root+"/").listFiles();
-		for (File file : files) {
-			list.add(file.getName());
-		}		
-		return list;
 	}
 
 	

@@ -12,6 +12,11 @@
       INSERT INTO notice_board(create_id, subject, content)
       VALUES(#{param1}, #{param2}, #{param3})
    </insert>
+   
+   	<insert id="noticeFile">
+		INSERT INTO attachment(ori_file_name, new_file_name, classification, identify_value)
+			VALUES(#{param1}, #{param2}, #{param3}, #{param4})
+	</insert>
 
    <select id="detail"  resultType="kr.co.cc.noticeBoard.dto.NoticeBoardDTO">
       SELECT * FROM notice_board 
