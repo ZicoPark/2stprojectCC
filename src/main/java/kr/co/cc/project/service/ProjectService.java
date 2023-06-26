@@ -26,7 +26,7 @@ public class ProjectService {
 	
     public String write(ProjectDTO dto, String memberId) {
         dto.setMember_id(memberId);
-        int row = dao.write(dto);
+        int row = dao.ProjectWrite(dto);
         return String.valueOf(dto.getProject_id()); // 새로 생성된 프로젝트의 ID 반환
     }
 
@@ -36,12 +36,12 @@ public class ProjectService {
     
 	public ArrayList<ProjectDTO> list() {
 		
-		return dao.list();
+		return dao.ProjectList();
 	}
 
 	public ProjectDTO detail(int id) {
 		logger.info("detail for id: {}"+ id);
-		return dao.detail(id);
+		return dao.ProjectDetail(id);
 	}
 
 	public String insert(MultipartFile video_file, HashMap<String, String> params) {
@@ -53,7 +53,7 @@ String page = "redirect:/projects.go";
 		dto.setUser_name(params.get("user_name"));
 		dto.setContent(params.get("content"));
 		
-		int row = dao.write(dto);
+		int row = dao.ProjectWrite(dto);
 		logger.info("update row : " + row);
 		
 		// 조건 3. 받아온 키는 파라메터 DTO 에서 뺀다.
@@ -61,15 +61,17 @@ String page = "redirect:/projects.go";
 		logger.info("방금 insert 한 idx : "+idx);
 		page = "redirect:/detail.do?idx="+idx;
 		
-		
+		/*
 		// 2. 파일도 업로드 한 경우
 		if(!photo.getOriginalFilename().equals("")) {
 			logger.info("파일 업로드 작업");
 			// 2-1. 파일을 저장
 			fileSave(idx, photo); 			
-		}		
+		}
+		
+		*/		
 		return page;
-		return null;
+		
 	}
 
 

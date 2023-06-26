@@ -34,6 +34,8 @@
 						<input type="hidden" id="id" name="id" value="${params.id}" readonly>
 						<input type="hidden" id="name" name="name" value="${params.name}" readonly>
 						<input type="hidden" id="member_id" name="member_id" value="${params.member_id}" readonly>
+						<input type="hidden" id="time_go" name="time_go" value="${params.time_go}" readonly>
+						<input type="hidden" id="time_end" name="time_end" value="${params.time_end}" readonly>
 					</td>
 				</tr>
 				<tr>

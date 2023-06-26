@@ -40,7 +40,7 @@
         </div>
       </div><!-- /.container-fluid -->
     </section>
-<form action="msWrite.do" method="post" enctype="multipart/form-data">
+<form action="msReply.do" method="post" enctype="multipart/form-data">
     <!-- Main content -->
     <section class="content">
       <div class="container-fluid">
@@ -55,21 +55,16 @@
               <div class="card-body">
                 <div class="form-group">
                 <input type="text" name="from_id" value="${loginId}" readonly="readonly" hidden="true" required/>
-                <input type="text" class="form-control" name="to_id" placeholder="받는 사람: " />
+                <input type="text" class="form-control" name="to_id" value="${fromId}" placeholder="받는 사람: " />
                 </div>
-
-			
-			
                 <div class="form-group">
                   <input class="form-control" name="title" placeholder="제목을 입력하세요">
-                  
                 </div>
                 <div class="form-group" name="content">
                     <textarea id="compose-textarea" class="form-control" style="height: 300px" name="content">
                       
                     </textarea>
                 </div>
-                
                 <div class="form-group">
                   <div class="btn btn-default btn-file">
               
@@ -131,8 +126,6 @@
     //Add text editor
     $('#compose-textarea').summernote()
   })
-  
-
 </script>
 
 </body>

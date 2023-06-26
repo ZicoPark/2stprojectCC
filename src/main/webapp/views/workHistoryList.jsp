@@ -13,17 +13,7 @@
   <link rel="stylesheet" href="../../plugins/fontawesome-free/css/all.min.css">
   <!-- Theme style -->
   <link rel="stylesheet" href="../../dist/css/adminlte.min.css">
-  <style>
-  	.btn btn-block btn-outline-success btn-lg, .btn btn-block btn-outline-danger btn-lg {
-		width: 25%;
-		float: right;
-	}
-	
-	#changePopup{
-		width:30%;
-		display: none;
-	}
-  </style>
+
 </head>
 <body>
 <jsp:include page = "index.jsp"></jsp:include>
@@ -36,9 +26,12 @@
     <br/>
     <!-- Main content -->
     <section class="content">
-    	<button type="button" class="btn btn-block btn-outline-success btn-lg" onclick="location.href='timeGo.do'">출근</button>
-    	<button type="button" class="btn btn-block btn-outline-danger btn-lg" onclick="location.href='timeEnd.do'">퇴근</button>
-    	<button type="button" class="btn btn-block btn-warning btn-lg" onclick="location.href='workHistoryReqList.go'">수정 요청 리스트</button>
+    <br/>
+    	<div>
+    	<button type="button" id="b1" class="btn btn-block btn-outline-success btn-lg" onclick="location.href='timeGo.do'">출근</button>&nbsp;&nbsp;&nbsp;&nbsp;
+    	<button type="button" id="b2" class="btn btn-block btn-outline-danger btn-lg" onclick="location.href='timeEnd.do'">퇴근</button>
+    	<button type="button" id="b3" class="btn btn-block btn-outline-warning btn-lg" onclick="location.href='workHistoryReqList.go'">수정 요청 리스트</button>
+    	</div>
     	<table class="table table-bordered">
     		<thead>
     			<tr>
@@ -64,9 +57,9 @@
 	    				<td>${workList.name}</td>
 	    				<td>${workList.time_go}</td>
 	    				<td>${workList.time_end}</td>    				
-	    				<td>${(work.time_end.time - work.time_go.time) / (1000 * 60 * 60)}</td>
+	    				<td>${String.format('%.1f', (workList.time_end.time - workList.time_go.time) / (1000.0 * 60 * 60))}</td>
 	    				<td>	    			
-	    				<a href="WorkChangeRequest.go?date=${workList.date}&member_id=${workList.member_id}&name=${workList.name}&id=${workList.id}">
+	    				<a href="WorkChangeRequest.go?date=${workList.date}&member_id=${workList.member_id}&name=${workList.name}&id=${workList.id}&time_go=${workList.time_go}&time_end=${workList.time_end}">
 	    					수정
 	    				</a>
 	    				

@@ -64,4 +64,38 @@
 		SELECT new_file_name FROM attachment WHERE classification = '서명이미지' AND identify_value = #{param1}
 	</select>
 
+	<select id="getApprovalName" resultType="string">
+		SELECT name FROM approval WHERE id = #{param1}
+	</select>
+	
+	<resultMap id="docMap" type="kr.co.cc.doc.dto.DocDTO" >
+		<id property="id" column="id"/>
+		<result property="subject" column="subject"/>
+		<result property="content" column="content"/>
+		<result property="status" column="status"/>
+		<result property="docFormId" column="doc_form_id"/>
+		<result property="createDate" column="create_date"/>
+		<result property="memberId" column="member_id"/>
+		<result property="deptName" column="dept_name"/>
+		<result property="jobName" column="job_name"/>
+		<result property="publicRange" column="public_range"/>
+	</resultMap>
+	
+	<select id="tempDocList" resultMap="docMap">
+		SELECT * FROM doc WHERE member_id = #{param1} AND status = #{param2}
+	</select>
+	
+	<select id="tempDocDetail" resultMap="docMap">
+		SELECT * FROM doc WHERE id = #{param1}
+	</select>
+	
+	<select id="getWritedDOC" resultMap="docMap">
+		SELECT * FROM doc WHERE id = #{param1}
+	</select>
+	
+	<update id="docWriteETC">
+		UPDATE doc SET content = #{param2} WHERE id = #{param1}
+	</update>
+	
+	
 </mapper>
