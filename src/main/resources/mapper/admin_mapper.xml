@@ -9,4 +9,9 @@
 			FROM member
 	</select>
 	
+	<select id="AdminMemberDetail" parameterType="string" resultType="kr.co.cc.admin.dto.AdminDTO">
+		SELECT id, name, birth_date, email, phone, hire_date, dept_name, job_name, status, admin_chk
+			FROM member WHERE id = #{id}
+	</select>
+	
 </mapper>

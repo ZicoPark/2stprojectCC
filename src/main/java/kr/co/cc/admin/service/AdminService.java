@@ -19,11 +19,21 @@ public class AdminService {
 	@Autowired AdminDAO dao;
 	Logger logger = LoggerFactory.getLogger(getClass());
 	
-		public ModelAndView MemberList() {
-			ModelAndView mav = new ModelAndView("AdminMemberList");
-			ArrayList<AdminDTO> list = dao.MemberList();
-			mav.addObject("list",list);
-			return mav;
-		}
-	
+	public ModelAndView MemberList() {
+		ModelAndView mav = new ModelAndView("AdminMemberList");
+		ArrayList<AdminDTO> list = dao.MemberList();
+		mav.addObject("list",list);
+		return mav;
+	}
+
+	public ModelAndView AdminMemberDetail(String MemberId) {
+		// logger.info("MemberId : "+MemberId);
+		ModelAndView mav = new ModelAndView("AdminMemberDetail");
+		ArrayList<AdminDTO> detail = dao.AdminMemberDetail(MemberId);
+		mav.addObject("detail", detail);
+		// logger.info("디테일확인 : "+detail);
+		return mav;
+	}
+
+
 }

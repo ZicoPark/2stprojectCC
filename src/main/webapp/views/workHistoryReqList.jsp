@@ -1,6 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -21,53 +20,39 @@
 <div class="wrapper">
   <div class="content-wrapper">
     <section class="content-header">
-            <h1>관리자 회원 상세보기</h1>         
+            <h1>근태 변경 요청 리스트</h1>
     </section>
+    <br/>
     <!-- Main content -->
     <section class="content">
-		<table class="table table-bordered">
-			<tr>
-				<th>사진</th>
-			</tr>
-			<tr>
-				<td>사진 넣어야함</td>
-			</tr>
-		</table>
-		<table class="table table-bordered">
-			<tr>
-				<th colspan="5">기본 정보</th>
-			</tr>
-			<tr>
-				<td>이름 - ${detail.name}</td>
-				<td>아이디 - ${detail.id}</td>
-				<td>생년월일 - ${detail.birth_date}</td>
-				<td>이메일 - ${detail.eamil}</td>
-				<td>연락처 - ${detail.phone}</td>
-			</tr>
-		</table>
-		<table class="table table-bordered">
-			<tr>
-				<th colspan="4">관리자</th>
-			</tr>
-			<tr>
-				<td>관리자 설정</td>
-				<td>직급 기록</td>
-				<td>부서 기록</td>
-				<td>근태 기록</td>
-			</tr>
-		</table>
-		<table class="table table-bordered">
-			<tr>
-				<th colspan="5">인사 정보</th>
-			</tr>
-			<tr>
-				<td>입사일</td>
-				<td>부서</td>
-				<td>직급</td>
-				<td>계정 상태</td>
-				<td>퇴사일</td>
-			</tr>
-		</table>
+    	<table class="table table-bordered">
+    		<thead>
+    			<tr>
+    				<th>날짜</th>
+    				<th>요청 시간</th>
+    				<th>요청 유형</th>
+    				<th>처리 상태</th>				
+    			</tr>    		
+    		</thead>
+    		<tbody>
+    			<c:if test="${dto eq null}">
+					<tr>
+						<th colspan="4">근태 수정 요청 사항이 없습니다.</th>
+					</tr>
+				</c:if>   		
+	    		<c:forEach items="${dto}" var="dto">
+					<tr>
+	    				<td>${dto.date}</td>
+	    				<td>${dto.update_time}</td>
+	    				<td>${dto.type}</td>
+	    				<c:if test="${dto.approval eq 0}"><td>대기</td></c:if>
+	    				<c:if test="${dto.approval eq 1}"><td>승인</td></c:if>
+	    				<c:if test="${dto.approval eq 2}"><td>반려</td></c:if>
+	    			</tr>			
+				</c:forEach>				
+    		</tbody>    	
+    	</table>
+    	<button onclick="location.href='workHistoryList.go'">돌아가기</button>
     </section>
   </div>
 </div>

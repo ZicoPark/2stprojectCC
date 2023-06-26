@@ -43,7 +43,7 @@
 			        <td>${member.dept_name}</td>
 			        <td><span style="color: ${member.status ? 'blue' : 'red'}; display: inline-block; text-align: center; width: 100%;">${member.status ? 'Y' : 'N'}</span></td>
 			        <td><span style="color: ${member.admin_chk ? 'blue' : 'red'}; display: inline-block; text-align: center; width: 100%;">${member.admin_chk ? 'Y' : 'N'}</span></td>
-			        <td><button onclick="location.href='AdminMemberDetail.go'">상세보기</button></td>
+			        <td><button onclick="location.href='AdminMemberDetail.go?id=${member.id}'">상세보기</button></td>
 			    </tr>
 			</c:forEach>
 		</table>

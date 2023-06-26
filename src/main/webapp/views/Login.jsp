@@ -2,71 +2,81 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <html>
 <head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
-<script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>로그인</title>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
-	
-<style>
-
-	table, th, td{
-
-		border-collapse: collapse;
-		padding : 5px 10px;
-	}
-
-	body{
-		position:relative;
-		font-size:15px;
-		padding : 10px;
-
-	}
-		
-	#content {
-
-		padding: 10 30 10;
-		margin-left : 40%;
-		margin-top : 20%;
-		float:inherit;
-		
-	}
-	
-	button {
-		margin: 50px;
-	}
-
-
-
-
-</style>
+  <!-- Google Font: Source Sans Pro -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="../../plugins/fontawesome-free/css/all.min.css">
+  <!-- icheck bootstrap -->
+  <link rel="stylesheet" href="../../plugins/icheck-bootstrap/icheck-bootstrap.min.css">
+  <!-- Theme style -->
+  <link rel="stylesheet" href="../../dist/css/adminlte.min.css">
 </head>
-<body>
-<div id="content" >
-	<form action="login.do" method="post">
-		<table>
-			<tr>
-				<th>ID</th>
-				<td><input type="text" name="id"/></td>
-			</tr>
-			<tr>
-				<th>PW</th>
-				<td><input type="password" name="password"/></td>
-			</tr>
-		</table>
-		</br></br></br></br>
-	<input type="button" value="회원가입" onclick="location.href='join.go'"/>
-	&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-	<input type="submit" value="로그인"/>
-	</form>
+<body class="hold-transition login-page">
+<img class="mb-4" src="img/CC.png" alt="" >
+<div class="login-box">
+  <div class="login-logo">
+  </div>
+  <!-- /.login-logo -->
+  <div class="card">
+    <div class="card-body login-card-body">
+      <p class="login-box-msg">시작하려면 로그인 하세요</p>
+
+      <form action="login.do" method="post">
+        <div class="input-group mb-3">
+          <input type="text" class="form-control" placeholder="id를 입력하세요" name = "id">
+          <div class="input-group-append">
+            <div class="input-group-text">
+
+            </div>
+          </div>
+        </div>
+        <div class="input-group mb-3">
+          <input type="password" class="form-control" placeholder="Password를 입력하세요" name="password">
+          <div class="input-group-append">
+            <div class="input-group-text">
+
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-8">
+            <div class="icheck-primary">
+              <input type="checkbox" id="remember">
+              <label for="remember">
+                Remember Me
+              </label>
+            </div>
+          </div>
+          <!-- /.col -->
+          <div class="col-4">
+            <button type="submit" value = "login" class="btn btn-primary btn-block">로그인</button>
+          </div>
+          <!-- /.col -->
+        </div>
+      </form>
+
+
+      <p class="mb-1">
+        <a href="findPw.jsp">비밀번호 찾기</a>
+      </p>
+      <p class="mb-0">
+        <a href="/join.go" class="text-center">회원 가입</a>
+      </p>
+    </div>
+    <!-- /.login-card-body -->
+  </div>
 </div>
+<!-- /.login-box -->
+
+<!-- jQuery -->
+<script src="../../plugins/jquery/jquery.min.js"></script>
+<!-- Bootstrap 4 -->
+<script src="../../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<!-- AdminLTE App -->
+<script src="../../dist/js/adminlte.min.js"></script>
 </body>
-<script>
-	var msg = "${msg}";
-	if(msg != ""){
-		alert(msg);
-	}
-</script>
 </html>

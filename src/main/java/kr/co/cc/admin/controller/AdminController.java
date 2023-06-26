@@ -5,9 +5,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import kr.co.cc.admin.dto.AdminDTO;
 import kr.co.cc.admin.service.AdminService;
 
 @Controller
@@ -23,8 +23,9 @@ public class AdminController {
 	}
 	// 관리사 사원 상세보기
 	@RequestMapping(value = "/AdminMemberDetail.go")
-	public String AdminMemberDetail() {
-		return "";
+	public ModelAndView AdminMemberDetail(@RequestParam ("id") String MemberId) {
+		// logger.info("MemberId : "+MemberId);
+		return service.AdminMemberDetail(MemberId);
 	}
 	
 	// 관리자 사원 요청/삭제 리스트

@@ -1,16 +1,17 @@
 package kr.co.cc.doc.controller;
 
-import java.util.ArrayList;
 import java.util.HashMap;
+
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
-import kr.co.cc.doc.dto.DocFormDTO;
 import kr.co.cc.doc.service.DocService;
 
 @Controller
@@ -27,31 +28,25 @@ public class DocController {
 	
 	// 기안문 작성 폼으로 이동
 	@RequestMapping(value="/docWriteForm.do")
-	public ModelAndView docWriteForm() {
+	public ModelAndView docWriteForm(HttpSession session) {
 		
-		ModelAndView mav = new ModelAndView("docWriteForm");
-		ArrayList<DocFormDTO> docFormList = service.docFormCall();
-		
-		logger.info("docFormList : "+docFormList);
-		
-		mav.addObject("docFormList", docFormList);
-		
-		return mav;
+		return service.docWriteForm(session);
 	}
 	
-	// 기안문 양식 불러오기
-	@RequestMapping(value="/docFormCall.ajax")
-	@ResponseBody
-	public HashMap<String, Object> docFormCall(){
+	@RequestMapping(value="/docWrite.do")
+	public ModelAndView docWrite(MultipartFile[] attachment, HttpSession session,
+			@RequestParam String[] approvalVariable, @RequestParam String[] approvalPerson, 
+			@RequestParam HashMap<String, String> params) {
 		
-		HashMap<String, Object> map = new HashMap<String, Object>();
-		ArrayList<DocFormDTO> docFormList = service.docFormCall();
+		HashMap<String, String> approvalMap = new HashMap<String, String>();
 		
-		logger.info("docFormList : "+docFormList);
+		// 결재선 정렬 로직
+		for(int i=0;i<approvalVariable.length;i++) {
+			approvalMap.put(approvalVariable[i], approvalPerson[i]);
+		}
 		
-		map.put("docFormList", docFormList);
-		
-		return map;
+		return service.docWrite(params, approvalMap, attachment, session);
 	}
+	
 	
 }

@@ -2,8 +2,6 @@ package kr.co.cc.admin.dto;
 
 import java.sql.Date;
 
-import org.apache.ibatis.type.Alias;
-
 public class AdminDTO {
 
 	private String id;

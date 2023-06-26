@@ -8,4 +8,8 @@ public interface AdminDAO {
 
 	ArrayList<AdminDTO> MemberList();
 
+	ArrayList<AdminDTO> AdminMemberDetail(String memberId);
+
+
+
 }
