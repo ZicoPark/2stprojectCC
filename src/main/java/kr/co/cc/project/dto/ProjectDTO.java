@@ -15,7 +15,44 @@ public class ProjectDTO {
 	private String priod;
 	private String deadlinepriod;
 	private String contributors;
+	private String subject;
+	private String user_name;
+	private String content;
+	private int idx;
 	
+	
+	public String getSubject() {
+		return subject;
+	}
+
+	public void setSubject(String subject) {
+		this.subject = subject;
+	}
+
+	public String getUser_name() {
+		return user_name;
+	}
+
+	public void setUser_name(String user_name) {
+		this.user_name = user_name;
+	}
+
+	public String getContent() {
+		return content;
+	}
+
+	public void setContent(String content) {
+		this.content = content;
+	}
+
+	public int getIdx() {
+		return idx;
+	}
+
+	public void setIdx(int idx) {
+		this.idx = idx;
+	}
+
 	public String getContributors() {
         return contributors;
     }
