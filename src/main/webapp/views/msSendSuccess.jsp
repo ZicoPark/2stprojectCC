@@ -8,6 +8,8 @@
 </head>
 <body>
 	<jsp:include page = "index.jsp"></jsp:include>
-	<h3>받은 쪽지함</h3>
+	<div class="wrapper">
+	<h3>쪽지가 전송되었습니다.</h3>
+	</div>
 </body>
 </html>

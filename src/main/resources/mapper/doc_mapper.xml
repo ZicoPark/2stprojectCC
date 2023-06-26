@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC	"-//mybatis.org//DTD Mapper 3.0//EN"
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-	
-<mapper namespace="kr.co.cc.doc.dao.DocDAO">
 
+<mapper namespace="kr.co.cc.doc.dao.DocDAO">
 	<select id="docFormCall" resultType="kr.co.cc.doc.dto.DocFormDTO">
 		SELECT * FROM doc_form
 	</select>
@@ -29,6 +28,40 @@
 
 	<select id="memberListCall" resultMap="memberMap">
 		SELECT * FROM member
+	</select>
+
+	<select id="getMemberInfo" resultMap="memberMap">
+		SELECT * FROM member WHERE id=#{param1}
+	</select>
+	
+	<insert 
+		id="docWrite"
+		useGeneratedKeys="true"
+		keyProperty="id"
+		keyColumn="id"
+		parameterType="kr.co.cc.doc.dto.DocDTO"
+	>
+		INSERT INTO doc(subject, content, status, doc_form_id, member_id, dept_name, job_name, public_range) 
+			VALUES(#{subject}, #{content}, #{status}, #{docFormId}, #{memberId}, #{deptName}, #{jobName}, #{publicRange})
+	</insert>
+
+	<insert id="attachmentSave">
+		INSERT INTO attachment(ori_file_name, new_file_name, classification, identify_value) 
+			VALUES(#{param1}, #{param2}, #{param3}, #{param4})
+	</insert>
+	
+	<insert id="approvalWrite" parameterType="hashmap">
+		INSERT INTO doc_status(id, member_id, job_name, dept_name, approval_code, order_rank, approval, read_chk) 
+			VALUES(#{id}, #{member_id}, #{job_name}, #{dept_name}, #{approval_code}, #{order_rank}, #{approval}, #{read_chk})
+	</insert>
+	
+	<insert id="docNotice">
+		INSERT INTO notice(send_id, receive_id, type, status, identify_value) 
+			VALUES(#{param1}, #{param2}, #{param3}, #{param4}, #{param5})
+	</insert>
+
+	<select id="getMemberSignFilePath" resultType="string">
+		SELECT new_file_name FROM attachment WHERE classification = '서명이미지' AND identify_value = #{param1}
 	</select>
 
 </mapper>

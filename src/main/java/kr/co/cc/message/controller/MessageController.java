@@ -1,11 +1,21 @@
 package kr.co.cc.message.controller;
 
+import java.io.IOException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashMap;
+
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,6 +34,8 @@ public class MessageController {
 
 	Logger logger = LoggerFactory.getLogger(getClass());
 	
+	@Value("${spring.servlet.multipart.location}") private String root;
+	
 	@Autowired MessageService service;
 	
 	// 쪽지 작성 페이지 이동
@@ -33,19 +45,69 @@ public class MessageController {
 		return new ModelAndView("compose");
 	}
 	
-
+	// 쪽지 작성
+	@RequestMapping(value = "/msWrite.do", method = RequestMethod.POST)
+	public String msWrite(MultipartFile file, @RequestParam HashMap<String, String> params, HttpSession session) {
+		
+		logger.info("params : "+params);
+		logger.info("컨트롤러 파일 첨부 : "+file);
+		
+		return service.msWrite(file, params,session);
+	}
 	
 	// 쪽지 상세보기
 	@RequestMapping(value="/msdetail.do")
-	public ModelAndView msdetail(String id) {
-		return service.msdetail(id);
+		public String msdetail(Model model, @RequestParam String id) {
+			
+			logger.info("상세보기 쪽지 번호 : "+id);
+			
+			MessageDTO detailms = service.msdetail(Integer.parseInt(id), "detail");
+			String page = "redirect:/msSendList.go";
+			
+			if(detailms != null) {
+				
+				logger.info("if문 진입");
+				String detailfile = service.msDetailFile(Integer.parseInt(id));
+				
+				logger.info("detailFile :"+detailfile);
+				
+				page = "MessageDetail";
+				model.addAttribute("detailms", detailms);
+				model.addAttribute("detailFile", detailfile);
+				
+			}
+			
+			
+			return page;
+		}
+	
+	// 파일 다운로드
+	@GetMapping(value="/msdownload.do")
+	public ResponseEntity<Resource> download(String path) {
+		
+		Resource body = new FileSystemResource(root+"/"+path);//BODY		
+		HttpHeaders header = new HttpHeaders();//Header
+		try {						
+			String fileName = "이미지"+path.substring(path.lastIndexOf("."));
+			// 한글 파일명은 깨질수 있으므로 인코딩을 한번 해 준다.
+			fileName = URLEncoder.encode(fileName, "UTF-8");
+			// text/... 은 문자열, image/... 이미지, application/octet-stream 은 바이너리 데이터
+			header.add("Content-type", "application/octet-stream");
+			// content-Disposition 은 내려보낼 내용이 문자열(inline)인지 파일(attatchment)인지 알려준다. 
+			header.add("content-Disposition", "attatchment;fileName=\""+fileName+"\"");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+			
+		//body, header, status
+		return new ResponseEntity<Resource>(body, header, HttpStatus.OK);
 	}
 	
 	// 보낸 쪽지함 이동
 	@RequestMapping(value="/msSendList.go")
-	public String msSendList(Model model) {
-		logger.info("sendList call");
-		ArrayList<MessageDTO> sendList = service.sendList();
+	public String msSendList(Model model,HttpSession session) {
+		logger.info("보낸 쪽지함 이동");
+		ArrayList<MessageDTO> sendList = service.sendList(session);
 		
 		model.addAttribute("list", sendList);
 		return "msSendList";
@@ -61,13 +123,21 @@ public class MessageController {
 
 	// 받은 쪽지함 이동
 	@RequestMapping(value="/msReceiveList.go")
-	public String msReceiveList(Model model) {
-		logger.info("sendList call");
-		ArrayList<MessageDTO> receiveList = service.receiveList();
-		
+	public String msReceiveList(Model model,HttpSession session) {
+		logger.info("받은 쪽지함 이동");
+		ArrayList<MessageDTO> receiveList = service.receiveList(session);
 		model.addAttribute("list", receiveList);
 		return "msReceiveList";
 	}	
 
+	
+	
+	
+	// 쪽지 삭제
+    @RequestMapping(value = "/msDelete.do")
+    public String msDelete(String id) throws Exception {
+    	service.msDelete(id);
+       return "redirect:/msReceiveList.go";
+    }	
 	
 }
