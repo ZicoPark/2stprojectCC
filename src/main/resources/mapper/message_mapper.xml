@@ -50,14 +50,22 @@
 
 	<!-- 쪽지 상세보기 -->
 	<select id="msdetail" resultType="kr.co.cc.message.dto.MessageDTO">
-		SELECT ms.id , ms.from_id ,ms.to_id ,ms.title ,ms.content ,ms.send_date ,ms.del_chk ,ms.read_chk , m1.name, m.dept_name, a.new_file_name 
+		SELECT ms.id , ms.from_id ,ms.to_id ,ms.title ,ms.content ,ms.send_date ,ms.del_chk ,ms.read_chk , m1.name, m.dept_name
 		FROM message ms
 		JOIN member m ON ms.to_id = m.id
 		JOIN member m1 ON ms.from_id = m1.id
-		JOIN attachment a ON ms.id = a.identify_value
 		WHERE ms.id =#{id}
 	</select>	
 
+	<!-- 읽음 처리 -->
+	<update id="upHit" parameterType="Integer">
+		UPDATE message SET read_chk = 1 WHERE id = #{id}
+	</update>	
 	
+	<select id="msDetailFile">
+		SELECT a.new_file_name FROM attachment a 
+			INNER JOIN message ms ON ms.id = a.identify_value
+		AND a.classification = '쪽지' AND ms.id = #{id}
+	</select>
 	
 </mapper>

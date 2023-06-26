@@ -24,4 +24,12 @@ public interface DocDAO {
 
 	void attachmentSave(String oriFileName, String newFileName, String cls, int id);
 
+	void approvalWrite(HashMap<String, Object> docStatusMap);
+
+	void docNotice(String sendId, String receiveId, String type, int status, int identifyValue);
+
+	String getMemberSignFilePath(String memberId);
+
+	String getApprovalName(String approvalCode);
+
 }

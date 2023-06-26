@@ -2,22 +2,16 @@ package kr.co.cc.doc.controller;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-
 import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
-import kr.co.cc.doc.dto.ApprovalDTO;
-import kr.co.cc.doc.dto.DocFormDTO;
-import kr.co.cc.doc.dto.MemberDTO;
 import kr.co.cc.doc.service.DocService;
 
 @Controller
@@ -43,14 +37,19 @@ public class DocController {
 	public ModelAndView docWrite(MultipartFile[] attachment, HttpSession session,
 			@RequestParam String[] approvalVariable, @RequestParam String[] approvalPerson, 
 			@RequestParam HashMap<String, String> params) {
-		
-		HashMap<String, String> map = new HashMap<String, String>();
-		ArrayList<HashMap<String, String>> approvalList = new ArrayList<HashMap<String,String>>();
-		
-		// 결재선 정렬 로직
+
+		ArrayList<String[]> approvalList = new ArrayList<String[]>();
+		// 결재선 정렬 로직 // HashMap을 쓰면 뒤죽박죽 되어서 List에 String 2개짜리 배열 이용함.
 		for(int i=0;i<approvalVariable.length;i++) {
-			map.put(approvalVariable[i], approvalPerson[i]);
-			approvalList.add(map);
+			
+			String[] approvalStr = new String[2];
+			
+			approvalStr[0] = approvalVariable[i];
+			approvalStr[1] = approvalPerson[i];
+			approvalList.add(approvalStr);
+			logger.info("list0 :"+approvalList.get(i)[0]);
+			logger.info("list1 :"+approvalList.get(i)[1]);
+			
 		}
 		
 		return service.docWrite(params, approvalList, attachment, session);
