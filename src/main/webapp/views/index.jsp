@@ -16,7 +16,12 @@
   <style>
 [class*=sidebar-dark-] .sidebar a {
     color: white;
-}  
+}
+[class*=sidebar-dark-] .sidebar a p {
+    color: white;
+}
+
+
   </style>
   
   
@@ -308,9 +313,9 @@
                 </a>
               </li>
               <li class="nav-item">
-                <a href="../../index3.jsp" class="nav-link">
+                <a href="/msReceiveList.go" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
-                  <p>부제목3</p>
+                  <p>받은 쪽지함</p>
                 </a>
               </li>
             </ul>
@@ -462,6 +467,18 @@
               </p>
             </a>
             <ul class="nav nav-treeview">
+            <li class="nav-item">
+                <a href="/MemberList.go" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>사원 리스트</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="/MemberONOFFList.go" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>사원 승인/삭제</p>
+                </a>
+              </li>
               <li class="nav-item">
                 <a href="/workHistoryList_Ad.go" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
@@ -498,12 +515,24 @@
                   <p>재직상태 리스트</p>
                 </a>
               </li>
+              <li class="nav-item">
+                <a href="/DeptCategory.go" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>부서 카테고리</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="/ArchiveCategory.go" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>자료실 카테고리</p>
+                </a>
+              </li>
             </ul>
           </li>
           
           
   		<li class="nav-item">
-            <a href="#" class="nav-link">
+            <a href="/logout" class="nav-link">
               <i class="nav-icon fas fa-tachometer-alt"></i>
               <p>
                 로그아웃

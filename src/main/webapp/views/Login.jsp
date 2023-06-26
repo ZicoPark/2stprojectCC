@@ -16,9 +16,9 @@
   <link rel="stylesheet" href="../../dist/css/adminlte.min.css">
 </head>
 <body class="hold-transition login-page">
+<img class="mb-4" src="img/CC.png" alt="" >
 <div class="login-box">
   <div class="login-logo">
-    <a href="#"><b>Creator</b>Company</a>
   </div>
   <!-- /.login-logo -->
   <div class="card">
@@ -61,7 +61,7 @@
 
 
       <p class="mb-1">
-        <a href="forgot-password.html">비밀번호 찾기</a>
+        <a href="findPw.jsp">비밀번호 찾기</a>
       </p>
       <p class="mb-0">
         <a href="/join.go" class="text-center">회원 가입</a>
