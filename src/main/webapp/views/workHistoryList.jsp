@@ -57,9 +57,9 @@
 	    				<td>${workList.name}</td>
 	    				<td>${workList.time_go}</td>
 	    				<td>${workList.time_end}</td>    				
-	    				<td>${(work.time_end.time - work.time_go.time) / (1000 * 60 * 60)}</td>
+	    				<td>${String.format('%.1f', (workList.time_end.time - workList.time_go.time) / (1000.0 * 60 * 60))}</td>
 	    				<td>	    			
-	    				<a href="WorkChangeRequest.go?date=${workList.date}&member_id=${workList.member_id}&name=${workList.name}&id=${workList.id}">
+	    				<a href="WorkChangeRequest.go?date=${workList.date}&member_id=${workList.member_id}&name=${workList.name}&id=${workList.id}&time_go=${workList.time_go}&time_end=${workList.time_end}">
 	    					수정
 	    				</a>
 	    				
@@ -83,27 +83,6 @@
 <!-- AdminLTE for demo purposes -->
 <script src="../../dist/js/demo.js"></script>
 </body>
-  <style>
-  #b1{
-    width: 20%;
-    display: inline-block;
-    margin-top: 8px;
-    margin: 5px;
-    padding: 10px;
-	}
-	#b2{
-	    width: 20%;
-	    display: inline-block;
-	    margin-top: 8px;
-	    margin: 5px;
-	    padding: 10px;
-	}	
-	#b3{
-		float: right;
-		width: 25%;
-	}
-
-  </style>
 <script>
 	var msg = "${msg}";
 	if(msg != ""){

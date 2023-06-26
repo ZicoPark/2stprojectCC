@@ -18,12 +18,14 @@ public class WorkDTO {
 	private String reason;
 	private int approval;
 	private String dept_name;
+	private String job_name;
 	
-	
-	
-	
-	
-	
+	public String getJob_name() {
+		return job_name;
+	}
+	public void setJob_name(String job_name) {
+		this.job_name = job_name;
+	}
 	public String getDept_name() {
 		return dept_name;
 	}
