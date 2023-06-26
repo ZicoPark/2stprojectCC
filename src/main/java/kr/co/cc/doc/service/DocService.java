@@ -1,15 +1,18 @@
 package kr.co.cc.doc.service;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.HashMap;
 import java.util.Map.Entry;
 
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.io.FileUtils;
 import org.mybatis.spring.annotation.MapperScan;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -79,6 +82,7 @@ public class DocService {
 		return mav;
 	}
 	
+	// 결재문서 양식에 수정할 때 쓰는 메서드
 	public String docFormUpdate(String oriDocForm, String oriString, String newString) {
 		
 		StringBuffer sb = new StringBuffer(oriDocForm);
@@ -112,7 +116,46 @@ public class DocService {
 		
 		logger.info("params : "+params);
 		
-		// 결재요청 시 결재선에 따라서 문서를 렌더링한다.
+		// 상태가 1 : 정상결재요청 이라면? - 우선 기안자의 도장 이미지를 가져온다.
+		if(status==1) {
+			
+			String memberStampBase64;
+			String fileName = getMemberSignFilePath(memberInfo.getId());
+			logger.info("fileName : "+fileName); // 서명이미지가 없으면 null이 출력된다.
+			
+			if(fileName==null) { // 서명이미지 파일이 없으면 그냥 멤버 이름을 넣는다.
+				memberStampBase64 = memberInfo.getName();
+			}else { // 서명이미지 파일이 있으면 멤버의 이미지파일을 가져와 base64로 인코딩한다.
+				
+				try {
+					byte[] src = FileUtils.readFileToByteArray(new File(attachmentRoot+"/"+fileName));
+					memberStampBase64 = Base64.getEncoder().encodeToString(src);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				
+			}
+			
+			// 결재선을 확인하여 도장찍는 위치에 칸을 렌더링하자
+			
+			String oriDocForm = dto.getContent();
+			String approvalCode;
+			String approvalMemberId;
+			MemberDTO approvalMemberInfo;
+			int orderRank = 0; // 결재순서는 0부터 시작
+			int approval = 0; // 0 : 미결재, 1 : 결재, 2 : 반려
+			int readChk = 0; // 0 안읽음, 1 : 읽음
+			
+				for(Entry<String, String> entry : approvalMap.entrySet()) {
+					
+					approvalCode = entry.getKey();
+					approvalMemberId = entry.getValue();
+					approvalMemberInfo = dao.getMemberInfo(approvalMemberId);
+					
+				}
+			
+		}
+		
 		
 		
 		int row = dao.docWrite(dto);
@@ -142,7 +185,6 @@ public class DocService {
 			mav.setViewName("docList");
 			
 			// 정상결재요청 시에는 결재선을 저장한다.
-			HashMap<String, String> map = new HashMap<String, String>();
 			HashMap<String, Object> docStatusMap = new HashMap<String, Object>();
 			
 			String approvalCode;
@@ -212,7 +254,12 @@ public class DocService {
 		
 	}
 
-
+	public String getMemberSignFilePath(String memberId) {
+		
+		String fileName = dao.getMemberSignFilePath(memberId);
+		
+		return fileName;
+	}
 
 
 }

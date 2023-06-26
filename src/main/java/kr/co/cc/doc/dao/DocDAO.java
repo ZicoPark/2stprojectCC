@@ -28,4 +28,6 @@ public interface DocDAO {
 
 	void docNotice(String sendId, String receiveId, String type, int status, int identifyValue);
 
+	String getMemberSignFilePath(String memberId);
+
 }

@@ -1,5 +1,6 @@
 package kr.co.cc.work.controller;
 
+import java.sql.Time;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -116,10 +117,45 @@ public class WorkController {
 	
 	@GetMapping(value="/workHistoryReqList.go")
 	public ModelAndView workHistoryReqListGo(HttpSession session) {
-		return service.workHistoryReqListGo(session);
+		return service.workHistoryReqListGo(session,"","");
+	}
+	
+	@GetMapping(value="/WorkChangeAdmin.do")
+	public ModelAndView WorkChangeAdmin(HttpSession session, @RequestParam int approval, 
+			@RequestParam int id, @RequestParam String type, @RequestParam Time update_time) {
+		
+		String msg = "이미 처리된 요청입니다.";
+		String flag = "WorkChangeAdmin";
+		
+		//이미 처리 했는지 확인
+		int WorkChangeAdminChk = service.WorkChangeAdminChk(id,type);
+		if(WorkChangeAdminChk==1) {
+			int row = service.WorkChangeAdmin(id,type,approval);
+			logger.info("WorkChangeAdmin row : " + row);
+			// 승인된 건에 대해서만 처리 (반려는 변경 X)
+			if(approval==1) {
+				if(row==1) {
+					if(type.equals("출근")){
+						row = service.workHistoryChange_go(id,update_time);	
+						msg = "출근 변경 요청을 승인하였습니다.";
+					} else {
+						row = service.workHistoryChange_end(id,update_time);
+						msg = "퇴근 변경 요청을 승인하였습니다.";
+					}				
+					logger.info("WorkChangeAdmin row2 : " + row);
+				}			
+			} else {
+				msg = "요청을 반려하였습니다.";
+			}
+		}
+		return service.workHistoryReqListGo(session,msg,flag);
 	}
 	
 	
+	
+	
+	
+	//WorkChangeAdmin
 	
 	// 연차 관리 workHolidayList > 
 	@GetMapping(value="/workHolidayList.go")
@@ -129,8 +165,8 @@ public class WorkController {
 	
 	// 근태 관리 관리자
 	@GetMapping(value="/workHistoryList_Ad.go")
-	public String workHistoryList_Ad() {
-		return "workHistoryList_Ad";
+	public ModelAndView workHistoryList_Ad() {		
+		return service.workHistoryList_Ad();
 	}
 	
 	@GetMapping(value="/workHolidayList_Ad.go")
