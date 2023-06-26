@@ -1,7 +1,7 @@
 package kr.co.cc.doc.controller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
-
 import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
@@ -37,15 +37,22 @@ public class DocController {
 	public ModelAndView docWrite(MultipartFile[] attachment, HttpSession session,
 			@RequestParam String[] approvalVariable, @RequestParam String[] approvalPerson, 
 			@RequestParam HashMap<String, String> params) {
-		
-		HashMap<String, String> approvalMap = new HashMap<String, String>();
-		
-		// 결재선 정렬 로직
+
+		ArrayList<String[]> approvalList = new ArrayList<String[]>();
+		// 결재선 정렬 로직 // HashMap을 쓰면 뒤죽박죽 되어서 List에 String 2개짜리 배열 이용함.
 		for(int i=0;i<approvalVariable.length;i++) {
-			approvalMap.put(approvalVariable[i], approvalPerson[i]);
+			
+			String[] approvalStr = new String[2];
+			
+			approvalStr[0] = approvalVariable[i];
+			approvalStr[1] = approvalPerson[i];
+			approvalList.add(approvalStr);
+			logger.info("list0 :"+approvalList.get(i)[0]);
+			logger.info("list1 :"+approvalList.get(i)[1]);
+			
 		}
 		
-		return service.docWrite(params, approvalMap, attachment, session);
+		return service.docWrite(params, approvalList, attachment, session);
 	}
 	
 	

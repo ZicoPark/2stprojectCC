@@ -47,13 +47,13 @@ public class MessageController {
 	
 	// 쪽지 작성
 	@RequestMapping(value = "/msWrite.do", method = RequestMethod.POST)
-	public String msWrite(MultipartFile file, @RequestParam HashMap<String, String> params, HttpSession session) {
-		
-		logger.info("params : "+params);
-		logger.info("컨트롤러 파일 첨부 : "+file);
-		
-		return service.msWrite(file, params,session);
+	public String msWrite(MultipartFile file, @RequestParam("to_id") String[] toIds, @RequestParam HashMap<String, String> params, HttpSession session) {
+	    logger.info("params: " + params);
+	    logger.info("컨트롤러 파일 첨부: " + file);
+
+	    return service.msWrite(file, toIds, params, session);
 	}
+
 	
 	// 쪽지 상세보기
 	@RequestMapping(value="/msdetail.do")
@@ -130,7 +130,22 @@ public class MessageController {
 		return "msReceiveList";
 	}	
 
-	
+	// 답장 작성 페이지 이동
+	@RequestMapping(value = "/msReply.go")
+	public ModelAndView msReplyForm(Model model, @RequestParam("to_id") String fromId) {
+	    // from_id 값을 가져와서 모델에 추가
+	    model.addAttribute("fromId", fromId);
+
+	    return new ModelAndView("msReply");
+	}
+    
+    // 답장 작성
+    @RequestMapping(value = "/msReply.do", method = RequestMethod.POST)
+    public String msReply(MultipartFile file, @RequestParam HashMap<String, String> params, HttpSession session) {
+        logger.info("컨트롤러 파일 첨부: " + file);
+        
+        return service.msReply(file, params, session);
+    }
 	
 	
 	// 쪽지 삭제
