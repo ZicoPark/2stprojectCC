@@ -14,7 +14,7 @@
 	<h1>새 문서 작성</h1>
 	<br>
 	<br>
-	<form action="docUpdate.do" method="post" enctype="multipart/form-data">
+	<form action="docWrite.do" method="post" enctype="multipart/form-data">
 		<select id="docForm" name="docFormId" onchange="docFormCall(this)">
 			<option value="default">--</option>
 			<c:forEach items="${docFormList}" var="i">
