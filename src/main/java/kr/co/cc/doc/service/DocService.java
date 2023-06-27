@@ -2,15 +2,15 @@ package kr.co.cc.doc.service;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.Map.Entry;
-
 import javax.servlet.http.HttpSession;
 
 import org.apache.commons.io.FileUtils;
@@ -18,12 +18,18 @@ import org.mybatis.spring.annotation.MapperScan;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import kr.co.cc.doc.dao.DocDAO;
 import kr.co.cc.doc.dto.ApprovalDTO;
+import kr.co.cc.doc.dto.AttachmentDTO;
 import kr.co.cc.doc.dto.DocDTO;
 import kr.co.cc.doc.dto.DocFormDTO;
 import kr.co.cc.doc.dto.MemberDTO;
@@ -122,7 +128,7 @@ public class DocService {
 			// 결재선을 확인하여 도장찍는 위치에 칸을 렌더링하자
 			String oriDocForm = dto.getContent(); // 작성이 끝난 기안문 양식을 저장한다.
 			String lineDocForm;
-			String finalDocForm;
+			String kianSignDocForm;
 			String approvalId;
 			String approvalName;
 			String approvalMemberId;
@@ -168,9 +174,10 @@ public class DocService {
 					
 				}
 				
-				finalDocForm = docFormUpdate(lineDocForm, "(기안 서명)", kianSign);
+				kianSignDocForm = docFormUpdate(lineDocForm, "(기안 서명)", kianSign);
 				
-				dto.setContent(finalDocForm);
+				dto.setContent(kianSignDocForm);
+				
 		}
 		
 		int row = dao.docWrite(dto); // 완성된 문서를 데이터베이스에 등록한다.
@@ -178,8 +185,8 @@ public class DocService {
 		
 		int id = dto.getId(); // 문서번호
 		
-		if(row==1) {// 업로드된 doc이 1이라면
-			
+		if(row==1) { // 업로드된 doc이 1이라면
+						
 			for (MultipartFile file : attachment) {
 				
 				logger.info("업로드할 file 있나요? :"+!file.isEmpty());
@@ -198,11 +205,16 @@ public class DocService {
 			
 		}
 		
+		// status에 따라서 문서번호(1, 2)와 기안일자(1)를 업데이트한다.
+		DocDTO writedContentDTO = dao.getWritedDOC(Integer.toString(id));
+		String oriWritedContent = writedContentDTO.getContent();
+		String idWritedContent = docFormUpdate(oriWritedContent, "(문서번호 자동 입력)", Integer.toString(id));
+		
 		// 상태가 1 : 정상결재요청, 2 : 임시저장이면 이동페이지를 다르게 조정해서 보낸다.
 		ModelAndView mav = new ModelAndView();
 		if(status==1) {
 			// 결재요청함으로 보낸다.
-			mav.setViewName("docList");
+			mav.setViewName("docApprovalWaitList");
 			
 			// 정상결재요청 시에는 결재선을 저장한다.
 			HashMap<String, Object> docStatusMap = new HashMap<String, Object>();
@@ -238,23 +250,35 @@ public class DocService {
 					orderRank++; // 0순위를 저장 후 결재순위가 1씩 증가함.
 				}
 			
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+			String createDate = sdf.format(writedContentDTO.getCreateDate());
+			String dateWritedContent = docFormUpdate(idWritedContent, "(기안일자 자동 입력)", createDate);
+				
+			dao.docWriteETC(id, dateWritedContent);
+			
 		}else {
+			
 			// 임시저장함으로 보낸다.
-			mav.setViewName("docTempList");
+			mav.setViewName("redirect:/tempDocList.go");
 			
 			// 임시저장 시에는 결재선은 저장하지 않는다.
+			// 임시저장 시에는 결재선 렌더링 하지 않음.
+			// 임시저장 시에는 도장 안넣음.
+			
+			dao.docWriteETC(id, idWritedContent);
+			
 		}
 		
 		return mav;
 	}
 
-	private void docNotice(String sendId, String receiveId, String type, int status, int identifyValue) {
+	public void docNotice(String sendId, String receiveId, String type, int status, int identifyValue) {
 		// 순서대로 보내는 아이디, 받는 아이디, 알림유형, 확인상태(0), 구분번호
 		
 		dao.docNotice(sendId, receiveId, type, status, identifyValue);
 	}
 
-	public void attachmentSave(int id, MultipartFile file, String cls) {
+	private void attachmentSave(int id, MultipartFile file, String cls) {
 
 		String oriFileName = file.getOriginalFilename();
 		String ext = oriFileName.substring(oriFileName.lastIndexOf("."));
@@ -280,6 +304,53 @@ public class DocService {
 		
 		return fileName;
 	}
+
+	public ModelAndView tempDocList(HttpSession session) {
+		
+		ModelAndView mav = new ModelAndView("tempDocList");
+		
+		int status = 2; // 1: 정상결재요청 2: 임시저장
+		String loginId = (String) session.getAttribute("loginId");
+		
+		ArrayList<DocDTO> list = dao.tempDocList(loginId, status);
+		
+		mav.addObject("list", list);
+		
+		return mav;
+	}
+
+	public ModelAndView tempDocUpdateForm(String id) {
+
+		ModelAndView mav = new ModelAndView("docUpdateForm");
+		
+		DocDTO docDTO = dao.getWritedDOC(id);
+		mav.addObject("docDTO", docDTO);
+		
+		ArrayList<AttachmentDTO> attachmentList = dao.attachmentListCall(id);
+		mav.addObject("attachmentList", attachmentList);
+		
+		return mav;
+	}
+
+	public ResponseEntity<Resource> attachmentDownload(String oriFileName, String newFileName) {
+
+		Resource body = new FileSystemResource(attachmentRoot+"/"+newFileName);
+		
+		HttpHeaders headers = new HttpHeaders();
+		
+		String fileName = "다운로드_"+oriFileName;
+		
+		try {
+			fileName = URLEncoder.encode(fileName, "UTF-8");
+			headers.add("content-type", "application/octet-stream");
+			headers.add("content-disposition", "attachment;fileName=\""+fileName+"\"");
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
+		
+		return new ResponseEntity<Resource>(body, headers, HttpStatus.OK);
+	}
+
 
 
 }

@@ -73,6 +73,13 @@ public class MemberController {
 		return "redirect:/";
 	}
 	
+	@RequestMapping(value = "/idChk.ajax", method = RequestMethod.POST)
+	@ResponseBody
+	public HashMap<String, Object> idChk(@RequestParam String id) {
+		logger.info("idChk-controller");
+	    return memberservice.idChk(id);
+	}
+	
 	 /*//Email과 name의 일치여부를 check하는 컨트롤러
 	 @GetMapping("/check/findPw")
 	 public @ResponseBody Map<String, Boolean> pw_find(String userEmail, String userName){

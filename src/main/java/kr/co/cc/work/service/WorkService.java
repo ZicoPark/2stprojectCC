@@ -1,5 +1,6 @@
 package kr.co.cc.work.service;
 
+
 import java.sql.Time;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -57,21 +58,22 @@ public class WorkService {
 		
 	}
 
-	public ModelAndView workHistoryReqListGo(HttpSession session,String msg, String flag) {
+	public ModelAndView workHistoryReqListGo(HttpSession session) {
 		String id = (String) session.getAttribute("loginId");
 		ArrayList<WorkDTO> dto = dao.workHistoryReqListGo(id);		
 		ModelAndView mav = new ModelAndView("workHistoryReqList");
 		mav.addObject("dto",dto);
-		if(flag.equals("WorkChangeAdmin")) {
-			mav.addObject("msg",msg);
-		}
+		
 		return mav;
 	}
 
-	public ModelAndView workHistoryList_Ad() {
+	public ModelAndView workHistoryList_Ad(HttpSession session, String msg, String flag) {
 		ModelAndView mav = new ModelAndView("workHistoryList_Ad");
 		ArrayList<WorkDTO> dto = dao.workHistoryList_Ad();
 		mav.addObject("dto",dto);
+		if(flag.equals("WorkChangeAdmin")) {
+			mav.addObject("msg",msg);
+		}
 		return mav;
 	}
 
@@ -91,6 +93,18 @@ public class WorkService {
 	public int WorkChangeAdminChk(int id, String type) {
 		return dao.WorkChangeAdminChk(id,type);
 	}
+
+	public ModelAndView workDailyList() {		
+		ModelAndView mav = new ModelAndView("workDailyList");
+		ArrayList<WorkDTO> dto = dao.workDailyList();
+		mav.addObject("dto",dto);
+		return mav;
+	}
+
+	public ArrayList<WorkDTO> dailyListFind(String formattedDate) {
+		return dao.dailyListFind(formattedDate);
+	}
+
 
 
 

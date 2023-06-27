@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import kr.co.cc.doc.dto.ApprovalDTO;
+import kr.co.cc.doc.dto.AttachmentDTO;
 import kr.co.cc.doc.dto.DocDTO;
 import kr.co.cc.doc.dto.DocFormDTO;
 import kr.co.cc.doc.dto.MemberDTO;
@@ -31,5 +32,15 @@ public interface DocDAO {
 	String getMemberSignFilePath(String memberId);
 
 	String getApprovalName(String approvalCode);
+
+	ArrayList<DocDTO> tempDocList(String loginId, int status);
+
+	DocDTO getWritedDOC(String id);
+
+	void docWriteETC(int id, String dateWritedContent);
+
+	ArrayList<AttachmentDTO> attachmentListCall(String id);
+
+	
 
 }

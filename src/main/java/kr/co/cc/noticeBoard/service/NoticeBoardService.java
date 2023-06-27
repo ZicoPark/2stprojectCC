@@ -23,7 +23,7 @@ import kr.co.cc.noticeBoard.dao.NoticeBoardDAO;
 import kr.co.cc.noticeBoard.dto.NoticeBoardDTO;
 
 @Service
-@MapperScan(value= {"kr.co.cc.noticeBoard.dao"})
+@MapperScan(value= {"kr.co.cc.archive.dao"})
 public class NoticeBoardService {
 
 	@Autowired NoticeBoardDAO dao;

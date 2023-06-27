@@ -6,6 +6,8 @@ import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.core.io.Resource;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -55,5 +57,21 @@ public class DocController {
 		return service.docWrite(params, approvalList, attachment, session);
 	}
 	
+	@RequestMapping(value="/tempDocList.go")
+	public ModelAndView tempDocList(HttpSession session) {
+		
+		return service.tempDocList(session);
+	}
 	
+	@RequestMapping(value="/tempDocUpdateForm.go")
+	public ModelAndView tempDocUpdateForm(@RequestParam String id) {
+		
+		return service.tempDocUpdateForm(id);
+	}
+	
+	@RequestMapping(value="/attachmentDownload.do")
+	public ResponseEntity<Resource> attachmentDownload(@RequestParam String oriFileName, @RequestParam String newFileName) {
+		
+		return service.attachmentDownload(oriFileName, newFileName);
+	}
 }
