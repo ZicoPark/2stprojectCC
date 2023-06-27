@@ -12,5 +12,9 @@
 	<select id = "login" parameterType="hashmap">
 		SELECT id FROM member WHERE id = #{id} and password = #{password}
 	</select>
+	
+	<select id="idChk" resultType="int">
+      SELECT COUNT(id) FROM member WHERE id = #{param1}
+    </select>
 
 </mapper>

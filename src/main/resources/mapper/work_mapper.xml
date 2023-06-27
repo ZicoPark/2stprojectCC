@@ -65,4 +65,18 @@
 		UPDATE working_hour SET time_end=#{param2} WHERE id=#{param1}
 	</update>
 	
+	
+	<select id="workDailyList" resultType="kr.co.cc.work.dto.WorkDTO">
+	SELECT m.dept_name ,m.name ,m.job_name, w.date ,w.time_go ,w.time_end 
+		FROM working_hour w inner join member m 
+		on w.member_id = m.id
+	where w.date = (select MAX(date) from working_hour)
+	</select>	
+	<select id="dailyListFind" resultType="kr.co.cc.work.dto.WorkDTO">
+	SELECT m.dept_name ,m.name ,m.job_name, w.date ,w.time_go ,w.time_end 
+		FROM working_hour w inner join member m 
+		on w.member_id = m.id
+	where w.date = (select max(date) from working_hour where date = #{param1})	
+	</select>
+	
 </mapper>
