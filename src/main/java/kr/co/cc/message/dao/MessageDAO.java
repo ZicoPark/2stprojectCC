@@ -3,8 +3,7 @@ package kr.co.cc.message.dao;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-
-
+import kr.co.cc.admin.dto.AdminDTO;
 import kr.co.cc.member.dto.MemberDTO;
 import kr.co.cc.message.dto.MessageDTO;
 
@@ -27,5 +26,9 @@ public interface MessageDAO {
 	void upHit(int id);
 
 	String msDetailFile(int id);
+
+	ArrayList<AdminDTO> msMemberList();
+
+	boolean msSelectDelete(String id);
 
 }

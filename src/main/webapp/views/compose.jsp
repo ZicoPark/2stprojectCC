@@ -56,8 +56,16 @@
                 <div class="form-group">
                 <input type="text" name="from_id" value="${loginId}" readonly="readonly" hidden="true" required/>
                 <input type="text" class="form-control" name="to_id" placeholder="받는 사람: " />
+                <!-- <button onclick="location.href='msMemberList.go'">주소록</button> -->
+              	<a data-toggle="modal" data-target="#modal" role="button">lock</a>   
+                	                        
                 </div>
-
+				<div id="modal" class="modal fade" tabindex="-1" role="dialog">
+				    <div class="modal-dialog">
+				        <div class="modal-content">
+				        </div>
+				    </div>
+				</div>
 			
 			
                 <div class="form-group">
@@ -132,7 +140,7 @@
     $('#compose-textarea').summernote()
   })
   
-
+	$(".modal-content").load("/msMemberList.go");
 </script>
 
 </body>

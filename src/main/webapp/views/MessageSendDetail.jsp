@@ -48,7 +48,7 @@
         <div class="col-md-9">
           <div class="card card-primary card-outline">
             <div class="card-header">
-              <h3 class="card-title">Read Mail</h3>
+              <h3 class="card-title">보낸쪽지함 상세보기</h3>
 
               <div class="card-tools">
                 <a href="#" class="btn btn-tool" title="Previous"><i class="fas fa-chevron-left"></i></a>
@@ -93,9 +93,9 @@
             <div class="card-footer">
               <div class="float-right">
                 <button type="button" onclick="location.href='./msReply.go?to_id=${detailms.from_id}'"><i class="fas fa-reply"></i> 답장</button>
-                <button type="button" class="btn btn-default"><i class="fas fa-share"></i> Forward</button>
+                <button type="button" onclick="location.href='/msSendList.go'" class="btn btn-default"> 목록</button>
               </div>
-              <button type="button" class="btn btn-default"><i class="far fa-trash-alt"></i> Delete</button>
+              <button type="button" class="btn btn-default" onclick="location.href='msDelete.do?id=${detailms.id}'"><i class="far fa-trash-alt"></i></button>
               <button type="button" class="btn btn-default"><i class="fas fa-print"></i> Print</button>
             </div>
             <!-- /.card-footer -->

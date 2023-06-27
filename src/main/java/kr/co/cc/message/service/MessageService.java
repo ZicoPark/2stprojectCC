@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import kr.co.cc.admin.dto.AdminDTO;
 import kr.co.cc.member.dto.MemberDTO;
 import kr.co.cc.message.dao.MessageDAO;
 import kr.co.cc.message.dto.MessageDTO;
@@ -51,6 +52,7 @@ public class MessageService {
 		return mav;
 	}
 
+	// 받은 쪽지 상세보기
 	public MessageDTO msdetail(int id, String flag) {
 		if(flag.equals("detail")) {
 			logger.info("if문 진입");
@@ -171,6 +173,24 @@ public class MessageService {
 
 
 
+		public ModelAndView msMemberList() {
+			ModelAndView mav = new ModelAndView("msMemberList");
+			ArrayList<AdminDTO> list = dao.msMemberList();
+			mav.addObject("list",list);
+			return mav;
+		}
+
+
+
+
+
+		public boolean msSelectDelete(String id) {
+			logger.info("체크한 쪽지 삭제 요청");
+			
+		    return dao.msSelectDelete(id);
+			
+		}
+	}
 
 
 
@@ -178,7 +198,5 @@ public class MessageService {
 
 
 
-
-}
 
 
