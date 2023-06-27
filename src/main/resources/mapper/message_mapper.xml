@@ -69,13 +69,14 @@
 	</select>
 	
 	<!-- 모달 창 안에 있는 값 -->
-	<select id="msMemberList" resultType="kr.co.cc.admin.dto.AdminDTO">
-		SELECT name, id,job_name, dept_name, status FROM member
+	<select id="msDeptList" resultType="kr.co.cc.message.dto.MessageDTO">
+		SELECT*FROM dept
 		WHERE status = 1
 	</select>
-
+	
 	<update id="msSelectDelete" parameterType="java.lang.String">
 		UPDATE message SET del_chk = 1 WHERE del_chk = 0 and id = #{id}
 	</update>	
+	
 	
 </mapper>

@@ -4,6 +4,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>AdminLTE 3 | Read Mail</title>
@@ -14,12 +15,27 @@
   <link rel="stylesheet" href="../../plugins/fontawesome-free/css/all.min.css">
   <!-- Theme style -->
   <link rel="stylesheet" href="../../dist/css/adminlte.min.css">
+<style>
+
+</style>
+
 </head>
 <body class="hold-transition sidebar-mini">
+
 
 <div class="wrapper">
   <!-- Navbar -->
   
+ 		
+	<select id="addressBook" name="dept_select" onchange="memberList(this)">
+	   <option value="default">전체</option>
+	   <c:forEach items="${DeptList}" var="dept">
+	      <option value="${dept.name}">${dept.name}</option>
+	   </c:forEach>
+	</select>
+
+  
+<
 
   <table id="keywords" cellspacing="0" cellpadding="0">
   <h3>주소록</h3>
@@ -34,16 +50,7 @@
       </tr>
     </thead>
     <tbody>
-    <c:forEach items="${list}" var="list">
-      <tr>
-        <td><input type="checkbox"/></td>
-        
-        <td>${list.name}</td>
-        <td>${list.id}</td>
-        <td>${list.dept_name}</td>
-        <td>${list.job_name}</td>
-      </tr>
-     </c:forEach>
+
     </tbody>
   </table>
   
@@ -70,6 +77,20 @@
 <script src="../../dist/js/demo.js"></script>
 
 <script>
+var dropdown = document.getElementsByClassName("dropdown-btn");
+var i;
+
+for (i = 0; i < dropdown.length; i++) {
+  dropdown[i].addEventListener("click", function() {
+    this.classList.toggle("active");
+    var dropdownContent = this.nextElementSibling;
+    if (dropdownContent.style.display === "block") {
+      dropdownContent.style.display = "none";
+    } else {
+      dropdownContent.style.display = "block";
+    }
+  });
+}
 
 $('#all').click(function(e){
 	   var $chk = $('input[type="checkbox"]');
@@ -83,6 +104,12 @@ $('#all').click(function(e){
 	 
 
 	   });
+
+
+
+	
+
+
 
 </script>
 </body>

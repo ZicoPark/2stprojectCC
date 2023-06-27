@@ -28,12 +28,12 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1>보낸쪽지함 상세보기</h1>
+            <h1>Compose</h1>
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="#">Home</a></li>
-              <li class="breadcrumb-item active">보낸쪽지함 상세보기</li>
+              <li class="breadcrumb-item active">Compose</li>
             </ol>
           </div>
         </div>
@@ -48,7 +48,7 @@
         <div class="col-md-9">
           <div class="card card-primary card-outline">
             <div class="card-header">
-              <h2 class="card-title">${detailms.title}</h2>
+              <h3 class="card-title">자료실 상세보기</h3>
 
               <div class="card-tools">
                 <a href="#" class="btn btn-tool" title="Previous"><i class="fas fa-chevron-left"></i></a>
@@ -58,16 +58,12 @@
             <!-- /.card-header -->
             <div class="card-body p-0">
               <div class="mailbox-read-info">
-                <div class="direct-chat-text">
-                  <h6>From: ${detailms.name} < ${detailms.from_id} > <td class="project-state">
-                    <span class="badge badge-success">${detailms.dept_name}</span>
-                    </td>  
-                   </div>
-                  
-                  <span class="mailbox-read-time float-right">${detailms.send_date}</span></h6>  
-                    </div>
-
-             
+                <h5>${detailms.id} ${detailms.subject}</h5>
+                <h6>From: ${detailms.name} ${detailms.member_id}
+                  <span class="mailbox-read-time float-right">${detailms.create_date}
+                  ${detailms.hit}
+                  </span></h6>
+              </div>
      
               </div>
               <!-- /.mailbox-controls -->
@@ -78,10 +74,11 @@
             </div>
             <!-- /.card-body -->
     
-			<c:if test="${detailFile.length() > 0}">
-            <div class="card-footer bg-white">
- 
 
+            <div class="card-footer bg-white">
+              <ul class="mailbox-attachments d-flex align-items-stretch clearfix">
+                <li>
+                  <span class="mailbox-attachment-icon"><i class="far fa-file-pdf"></i></span>
 
                   <div class="mailbox-attachment-info">
                     <a class="mailbox-attachment-name"><i class="fas fa-paperclip"></i> ${detailFile}</a>
@@ -90,17 +87,15 @@
                           <a href="msdownload.do?path=${detailFile}" class="btn btn-default btn-sm float-right"><i class="fas fa-cloud-download-alt"></i></a>
                         </span>
                   </div>
-           
+                </li>
+              </ul>
             </div>
-   </c:if>
-
- 
 
             <!-- /.card-footer -->
             <div class="card-footer">
               <div class="float-right">
                 <button type="button" onclick="location.href='./msReply.go?to_id=${detailms.from_id}'"><i class="fas fa-reply"></i> 답장</button>
-                <button type="button" onclick="location.href='/msSendList.go'" class="btn btn-default"> 목록</button>
+                <button type="button" onclick="location.href='/msReceiveList.go'" class="btn btn-default"> 목록</button>
               </div>
               <button type="button" class="btn btn-default" onclick="location.href='msDelete.do?id=${detailms.id}'"><i class="far fa-trash-alt"></i></button>
               <button type="button" class="btn btn-default"><i class="fas fa-print"></i> Print</button>
@@ -139,12 +134,5 @@
 <script src="../../dist/js/adminlte.min.js"></script>
 <!-- AdminLTE for demo purposes -->
 <script src="../../dist/js/demo.js"></script>
-
-<script>
-
-
-
-</script>
-
 </body>
 </html>

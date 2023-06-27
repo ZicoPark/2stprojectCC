@@ -393,15 +393,15 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="/" class="nav-link">
+                <a href="/archiveBoard.go" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
-                  <p>부제목1</p>
+                  <p>자료실</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="/index2.go" class="nav-link">
+                <a href="/freeBoard.go" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
-                  <p>부제목2</p>
+                  <p>사내 게시판</p>
                 </a>
               </li>
               <li class="nav-item">

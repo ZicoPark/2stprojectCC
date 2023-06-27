@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.context.annotation.RequestScope;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
@@ -191,12 +192,15 @@ public class MessageController {
 		return service.msMemberList();
 	}
 
+	
+	// 체크박스 선택 삭제
     @RequestMapping(value = "/msSelectDelete", method = RequestMethod.GET)
     public String postdelete(String id) throws Exception {
     	service.msSelectDelete(id);
        return "redirect:/adsaleslist.do";
     }	
 	
+
 	
     @RequestMapping(value = "/msSelectDelete")
     public String ajaxTest(HttpServletRequest request) throws Exception {

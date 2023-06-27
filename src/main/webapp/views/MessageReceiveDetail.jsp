@@ -81,7 +81,7 @@
                   <div class="mailbox-attachment-info">
                     <a class="mailbox-attachment-name"><i class="fas fa-paperclip"></i> ${detailFile}</a>
                         <span class="mailbox-attachment-size clearfix mt-1">
-                          <span>1,245 KB</span>
+                          
                           <a href="msdownload.do?path=${detailFile}" class="btn btn-default btn-sm float-right"><i class="fas fa-cloud-download-alt"></i></a>
                         </span>
                   </div>
