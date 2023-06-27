@@ -2,6 +2,8 @@ package kr.co.cc.doc.service;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -16,12 +18,18 @@ import org.mybatis.spring.annotation.MapperScan;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import kr.co.cc.doc.dao.DocDAO;
 import kr.co.cc.doc.dto.ApprovalDTO;
+import kr.co.cc.doc.dto.AttachmentDTO;
 import kr.co.cc.doc.dto.DocDTO;
 import kr.co.cc.doc.dto.DocFormDTO;
 import kr.co.cc.doc.dto.MemberDTO;
@@ -177,7 +185,7 @@ public class DocService {
 		
 		int id = dto.getId(); // 문서번호
 		
-		if(row==1) {// 업로드된 doc이 1이라면
+		if(row==1) { // 업로드된 doc이 1이라면
 						
 			for (MultipartFile file : attachment) {
 				
@@ -198,7 +206,7 @@ public class DocService {
 		}
 		
 		// status에 따라서 문서번호(1, 2)와 기안일자(1)를 업데이트한다.
-		DocDTO writedContentDTO = dao.getWritedDOC(id);
+		DocDTO writedContentDTO = dao.getWritedDOC(Integer.toString(id));
 		String oriWritedContent = writedContentDTO.getContent();
 		String idWritedContent = docFormUpdate(oriWritedContent, "(문서번호 자동 입력)", Integer.toString(id));
 		
@@ -249,6 +257,7 @@ public class DocService {
 			dao.docWriteETC(id, dateWritedContent);
 			
 		}else {
+			
 			// 임시저장함으로 보낸다.
 			mav.setViewName("redirect:/tempDocList.go");
 			
@@ -269,7 +278,7 @@ public class DocService {
 		dao.docNotice(sendId, receiveId, type, status, identifyValue);
 	}
 
-	public void attachmentSave(int id, MultipartFile file, String cls) {
+	private void attachmentSave(int id, MultipartFile file, String cls) {
 
 		String oriFileName = file.getOriginalFilename();
 		String ext = oriFileName.substring(oriFileName.lastIndexOf("."));
@@ -310,15 +319,38 @@ public class DocService {
 		return mav;
 	}
 
-	public ModelAndView tempDocDetail(String id) {
+	public ModelAndView tempDocUpdateForm(String id) {
 
-		ModelAndView mav = new ModelAndView("tempDocDetail");
-		DocDTO dto = dao.tempDocDetail(id);
+		ModelAndView mav = new ModelAndView("docUpdateForm");
 		
-		mav.addObject("dto", dto);
+		DocDTO docDTO = dao.getWritedDOC(id);
+		mav.addObject("docDTO", docDTO);
+		
+		ArrayList<AttachmentDTO> attachmentList = dao.attachmentListCall(id);
+		mav.addObject("attachmentList", attachmentList);
 		
 		return mav;
 	}
+
+	public ResponseEntity<Resource> attachmentDownload(String oriFileName, String newFileName) {
+
+		Resource body = new FileSystemResource(attachmentRoot+"/"+newFileName);
+		
+		HttpHeaders headers = new HttpHeaders();
+		
+		String fileName = "다운로드_"+oriFileName;
+		
+		try {
+			fileName = URLEncoder.encode(fileName, "UTF-8");
+			headers.add("content-type", "application/octet-stream");
+			headers.add("content-disposition", "attachment;fileName=\""+fileName+"\"");
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
+		
+		return new ResponseEntity<Resource>(body, headers, HttpStatus.OK);
+	}
+
 
 
 }

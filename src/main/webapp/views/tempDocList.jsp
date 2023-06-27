@@ -10,7 +10,7 @@
 </style>
 </head>
 <body>
-	<h1>임시문서 상세보기</h1>
+	<h1>임시저장함 목록</h1>
 	<br>
 	<br>
 	<table>
@@ -30,10 +30,12 @@
 			</c:if>
 			<c:if test="${list.size() > 0 }">
 				<c:forEach items="${list }" var="i">
-					<td>${i.id }</td>
-					<td><a href="tempDocDetail.go?id=${i.id }">${i.subject }</a></td>
-					<td>${i.memberId }</td>
-					<td><a href="tempDocDelete.do?id=${i.id }">삭제</a></td>
+					<tr>
+						<td>${i.id }</td>
+						<td><a href="tempDocUpdateForm.go?id=${i.id }">${i.subject }</a></td>
+						<td>${i.memberId }</td>
+						<td><a href="tempDocDelete.do?id=${i.id }">삭제</a></td>
+					</tr>
 				</c:forEach>
 			</c:if>
 		</tbody>
