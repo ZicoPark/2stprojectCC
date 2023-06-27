@@ -4,7 +4,7 @@ package kr.co.cc.noticeBoard.dto;
 //@Alias("noticeBoard")
 public class NoticeBoardDTO {
 
-	private String id;
+	private int id;
 	private String create_id;
 	private String subject;
 	private String content;
@@ -44,10 +44,11 @@ public class NoticeBoardDTO {
 	public void setNew_file_name(String new_file_name) {
 		this.new_file_name = new_file_name;
 	}
-	public String getId() {
+
+	public int getId() {
 		return id;
 	}
-	public void setId(String id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 	public String getCreate_id() {

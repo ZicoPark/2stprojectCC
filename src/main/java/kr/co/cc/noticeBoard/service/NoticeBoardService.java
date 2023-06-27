@@ -81,5 +81,4 @@ public class NoticeBoardService {
 		return dao.del(id);
 	}
 
-	
 }

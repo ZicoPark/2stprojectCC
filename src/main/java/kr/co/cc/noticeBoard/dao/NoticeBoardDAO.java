@@ -18,7 +18,7 @@ public interface NoticeBoardDAO {
 
    int del(String id);
 
-void noticeFile(String fileName, String newFileName, String classification, String id);
+   void noticeFile(String fileName, String newFileName, String classification, String id);
 
 
 
