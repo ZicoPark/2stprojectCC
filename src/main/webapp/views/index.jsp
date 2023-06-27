@@ -247,9 +247,9 @@
                 </a>
               </li>
               <li class="nav-item">
-                <a href="/index2.go" class="nav-link">
+                <a href="/tempDocList.go" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
-                  <p>부제목2</p>
+                  <p>임시저장함</p>
                 </a>
               </li>
               <li class="nav-item">

@@ -11,23 +11,32 @@
 </style>
 </head>
 <body>
-	<h1>임시문서 상세보기</h1>
+	<h1>임시저장문서 상세보기</h1>
 	<br>
 	<br>
-		문서번호 : <input type="text" name="id" value="${dto.id }" readonly="readonly"/>
-		<br>
-		제목 : <input type="text" name="subject" value="${dto.subject }" readonly="readonly"/>
-		<br>
-		기안자 : <input type="text" name="memberId" value="${dto.memberId }" readonly="readonly"/>
-		<br>
-		공개범위 : <input type="text" name="publicRange" value="${dto.publicRange }" readonly="readonly"/>
-		<br>
-		<div id="div_editor">
-			<!-- 에디터 안에 들어갈 자리 -->
-		</div>
-		<textarea id="content" name="content" hidden="true">${dto.content }</textarea>
-
-		<input type="button" onclick="redirect:/updatetempDoc.go" value="이어서 작성하기"/>
+	문서번호 : <input type="text" name="id" value="${dto.id }" readonly="readonly"/>
+	<br>
+	제목 : <input type="text" name="subject" value="${dto.subject }" readonly="readonly"/>
+	<br>
+	기안자 : <input type="text" name="memberId" value="${dto.memberId }" readonly="readonly"/>
+	<br>
+	공개범위 : <input type="text" name="publicRange" value="${dto.publicRange }" readonly="readonly"/>
+	<br>
+	<div id="div_editor">
+		<!-- 에디터 안에 들어갈 자리 -->
+	</div>
+	<textarea id="content" name="content" hidden="true">${dto.content }</textarea>
+	<c:if test="${fileList.size() == 0 }">
+		<div>첨부파일 없음.</div>
+	</c:if>
+	<c:if test="${fileList.size() > 0 }">
+		<c:forEach items="${fileList }" var="i">
+			<div>
+				<a href="attachmentDownload.do?newFileName=${newFileName }">${i.oriFileName }</a>
+				<a href="attachmentDelete.do?id${dto.id }&newFileName=${newFileName }">삭제</a>
+			</div>
+		</c:forEach>
+	</c:if>
 
 </body>
 <script type="text/javascript" src="/richtexteditor/rte.js"></script>  
