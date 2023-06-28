@@ -1,5 +1,9 @@
 package kr.co.cc.project.service;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -39,39 +43,58 @@ public class ProjectService {
 		return dao.ProjectList();
 	}
 
-	public ProjectDTO detail(int id) {
+	public ArrayList<ProjectDTO> detail(int id) {
 		logger.info("detail for id: {}"+ id);
 		return dao.ProjectDetail(id);
 	}
 
 	public String insert(MultipartFile video_file, HashMap<String, String> params) {
-String page = "redirect:/projects.go";
+		String page = "redirect:/projects.go";
 		
 
+		
+		
 		ProjectDTO dto = new ProjectDTO();
-		dto.setSubject(params.get("subject"));
-		dto.setUser_name(params.get("user_name"));
-		dto.setContent(params.get("content"));
+		dto.setMember_id(params.get("member_id"));
+		dto.setComment_content(params.get("comment_content"));
+		dto.setStep(params.get("step"));
+		dto.setStatus(params.get("status"));
+		dto.setProject_id(Integer.valueOf(params.get("project_idx")));
+		int row = dao.commentWrite(dto);
+		dao.stateChange(dto);
+		page = "redirect:/projectDetail.go?id="+params.get("project_idx");
 		
-		int row = dao.ProjectWrite(dto);
-		logger.info("update row : " + row);
+		int id = dto.getId();
+		logger.info("insert"+id);
 		
-		// 조건 3. 받아온 키는 파라메터 DTO 에서 뺀다.
-		int idx = dto.getIdx();		
-		logger.info("방금 insert 한 idx : "+idx);
-		page = "redirect:/detail.do?idx="+idx;
-		
-		/*
-		// 2. 파일도 업로드 한 경우
-		if(!photo.getOriginalFilename().equals("")) {
+		if(!video_file.getOriginalFilename().equals("")) {
 			logger.info("파일 업로드 작업");
 			// 2-1. 파일을 저장
-			fileSave(idx, photo); 			
+			fileSave(params, video_file); 			
 		}
 		
-		*/		
+			
 		return page;
 		
+	}
+
+	private void fileSave(HashMap<String, String> params, MultipartFile file) {
+		
+		String ori_file_name = file.getOriginalFilename();
+		String ext = ori_file_name.substring(ori_file_name.lastIndexOf("."));
+		String new_file_name = System.currentTimeMillis() + ext;
+		logger.info(ori_file_name + " => " + new_file_name);
+		try {
+			byte[] bytes = file.getBytes();// 1-4. 바이트 추출
+			// 1-5. 추출한 바이트 저장
+			Path path = Paths.get("C:/img/upload/" + new_file_name); // 경로가져오기
+			Files.write(path, bytes);
+			logger.info(new_file_name + " save OK");
+			String idx= params.get("project_idx");
+			dao.ProjectFileWrite(idx, ori_file_name, new_file_name);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 
