@@ -50,8 +50,8 @@
 		<insert
 		useGeneratedKeys="true"
 		keyColumn="id"
-		keyProperty="id"
-		 id="ProjectFileWrite" parameterType="kr.co.cc.project.dto.ProjectDTO">
+		keyProperty="id" 
+		id="ProjectFileWrite" parameterType="kr.co.cc.project.dto.ProjectDTO">
 		INSERT INTO attachment(identify_value, ori_file_name, new_file_name,classification)
 		VALUES(#{idx},#{ori_file_name},#{new_file_name},'프로젝트첨부파일')
 	</insert>
@@ -60,6 +60,14 @@
 		UPDATE  project SET  step=#{step} where project_id=#{project_id}
 	</update>
 
+	<insert 
+		useGeneratedKeys="true" 
+		keyColumn="id" 
+		keyProperty="id" 
+		id="AttachmentSave" parameterType="kr.co.cc.project.dto.AttachmentDTO">
+	INSERT INTO attachment(identify_value, ori_file_name, new_file_name,classification)
+	VALUES(#{identify_value},#{ori_file_name},#{new_file_name},'프로젝트첨부파일')
+	</insert>
 																							
 </mapper>
 

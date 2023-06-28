@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import kr.co.cc.project.dto.AttachmentDTO;
 import kr.co.cc.project.dao.ProjectDAO;
 import kr.co.cc.project.dto.ProjectDTO;
 
@@ -64,16 +65,17 @@ public class ProjectService {
 		dao.stateChange(dto);
 		page = "redirect:/projectDetail.go?id="+params.get("project_idx");
 		
-		int id = dto.getId();
-		logger.info("insert"+id);
+
 		
 		if(!video_file.getOriginalFilename().equals("")) {
 			logger.info("파일 업로드 작업");
 			// 2-1. 파일을 저장
 			fileSave(params, video_file); 			
 		}
-		
-			
+	/*	
+		int id = dto.getId();
+		logger.info("insert"+id);		
+	*/		
 		return page;
 		
 	}
@@ -84,6 +86,7 @@ public class ProjectService {
 		String ext = ori_file_name.substring(ori_file_name.lastIndexOf("."));
 		String new_file_name = System.currentTimeMillis() + ext;
 		logger.info(ori_file_name + " => " + new_file_name);
+		/*
 		try {
 			byte[] bytes = file.getBytes();// 1-4. 바이트 추출
 			// 1-5. 추출한 바이트 저장
@@ -95,6 +98,19 @@ public class ProjectService {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		*/
+		
+		AttachmentDTO dto = new AttachmentDTO();
+		dto.setOri_file_name(ori_file_name);
+		dto.setNew_file_name(new_file_name);
+		dto.setClassification("프로젝트첨부파일");
+		dto.setIdentify_value(params.get("project_idx"));
+		
+		dao.AttachmentSave(dto);
+		
+		////////////// 유민아 이거 참고해랏
+		String attachmentId = dto.getId();
+		logger.info("인서트한 첨부파일의 id : "+attachmentId);
 	}
 
 

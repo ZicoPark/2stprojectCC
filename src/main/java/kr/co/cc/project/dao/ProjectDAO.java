@@ -5,6 +5,7 @@ package kr.co.cc.project.dao;
 
 import java.util.ArrayList;
 
+import kr.co.cc.project.dto.AttachmentDTO;
 import kr.co.cc.project.dto.ProjectDTO;
 
 
@@ -25,5 +26,7 @@ public interface ProjectDAO {
 	void stateChange(String string);
 
 	void stateChange(ProjectDTO dto);
+
+	void AttachmentSave(AttachmentDTO dto);
 
 }
