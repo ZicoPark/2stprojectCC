@@ -29,18 +29,18 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1>자료실 게시글 작성</h1>
+            <h1>자료실 게시글 수정</h1>
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="#">Home</a></li>
-              <li class="breadcrumb-item active">자료실 게시글 작성</li>
+              <li class="breadcrumb-item active">자료실 게시글 수정</li>
             </ol>
           </div>
         </div>
       </div><!-- /.container-fluid -->
     </section>
-<form action="archiveWrite.do" method="post" enctype="multipart/form-data">
+<form action="archiveUpdate.do" method="post" enctype="multipart/form-data">
     <!-- Main content -->
     <section class="content">
       <div class="container-fluid">
@@ -55,24 +55,33 @@
               <div class="card-body">
                 <div class="form-group">
                 <input type="text" name="from_id" value="${loginId}" readonly="readonly" hidden="true" required/>
-				
-				<input type="radio" name="category" value="업무자료"/>업무자료
-				<input type="radio" name="category" value="문서양식"/>문서양식
+					
+				${detailms.category}
 			
                 <div class="form-group">
-                  <input class="form-control" name="subject" maxlength="19" onkeyup="counter(event, '20')" placeholder="제목을 입력하세요">
+                  <input class="form-control" name="subject" maxlength="19" onkeyup="counter(event, '20')" value=${detailms.subject}>
                   <span id="reCount">0 / 20</span>
                 </div>
                 <div class="form-group" name="content">
                     <textarea id="compose-textarea" class="form-control" style="height: 300px" name="content">
-                      
+                      ${detailms.content}
                     </textarea>
                 </div>
                 
 
 			    <i class="fas fa-paperclip"></i> 파일 첨부
-			    <input type="file" name="attachment" multiple="multiple">
+			    <input type="file" name="attachment" multiple="multiple" onchange="displayFileNames(event)" id="fileInput">
 
+			    <c:if test="${detailfile.size() > 0 }">
+					<c:forEach items="${detailfile}" var="i">
+						<div id="fileNames">
+						  ${i.oriFileName}
+		                </div>
+					</c:forEach>
+				</c:if>
+				
+				</div>
+				
 
 
               <!-- /.card-body -->
@@ -89,10 +98,13 @@
           <!-- /.col -->
         </div>
         <!-- /.row -->
-      </div><!-- /.container-fluid -->
+      </div>
+      </div>
+      </div>
     </section>
-    <!-- /.content -->
   </form>
+      </div>
+    <!-- /.content -->
   </div>
   <!-- /.content-wrapper -->
   <footer class="main-footer">
@@ -190,6 +202,36 @@
 
 		    fileNameSpan.parentNode.remove();
 		  }
+		  function displayFileNames(event) {
+			    var fileNamesDiv = document.getElementById('fileNames');
+			    fileNamesDiv.innerHTML = '';
+			    
+			    var files = Array.from(event.target.files);
+			    files.forEach(function(file) {
+			      var fileNameSpan = document.createElement('span');
+			      fileNameSpan.innerText = file.name;
+
+			      var cancelIcon = document.createElement('i');
+			      cancelIcon.className = 'fas fa-times cancel-icon';
+			      cancelIcon.addEventListener('click', function() {
+			        removeFile(file, fileNameSpan);
+			      });
+
+			      var fileNameContainer = document.createElement('div');
+			      fileNameContainer.className = 'file-name-container';
+			      fileNameContainer.appendChild(fileNameSpan);
+			      fileNameContainer.appendChild(cancelIcon);
+
+			      fileNamesDiv.appendChild(fileNameContainer);
+			    });
+			  }
+
+			  function removeFile(file, fileNameSpan) {
+			    var fileInput = document.getElementById('fileInput');
+			    fileInput.value = '';
+
+			    fileNameSpan.parentNode.remove();
+			  }
 
 
 </script>
