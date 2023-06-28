@@ -41,6 +41,10 @@ public interface DocDAO {
 
 	ArrayList<AttachmentDTO> attachmentListCall(String id);
 
+	int attachmentDelete(String newFileName);
+
+	void docUpdate(HashMap<String, String> params);
+
 	
 
 }

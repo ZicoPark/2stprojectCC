@@ -19,7 +19,7 @@
 		<br>
 		제목 : <input type="text" name="subject" value="${docDTO.subject }"/>
 		<br>
-		기안자 : <input type="text" name="memberId" value="${docDTO.memberId }" readonly="readonly"/>
+		기안자 : <input type="text" value="${docDTO.memberId }" readonly="readonly"/>
 		<br>
 		공개범위 : 
 		<select name="publicRange">

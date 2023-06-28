@@ -10,6 +10,7 @@ import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Base64;
+import java.util.Date;
 import java.util.HashMap;
 import javax.servlet.http.HttpSession;
 
@@ -48,6 +49,7 @@ public class DocService {
 	}
 
 	public ModelAndView docWriteForm(HttpSession session) {
+		
 		ModelAndView mav = new ModelAndView("docWriteForm");
 		
 		// 결재 종류 불러오기
@@ -323,15 +325,28 @@ public class DocService {
 
 		ModelAndView mav = new ModelAndView("docUpdateForm");
 		
+		// 결재 종류 불러오기
+		ArrayList<ApprovalDTO> approvalKindList = dao.approvalKindCall();
+		// 기안은 제외(기안자가 나 자신이니까)
+		approvalKindList.remove(0);
+		mav.addObject("approvalKindList", approvalKindList);
+		
+		// 결재자 선택하기 위해 직원 리스트 불러오기
+		ArrayList<MemberDTO> memberList = dao.memberListCall();
+		mav.addObject("memberList", memberList);
+		
+		// 임시저장된 문서의 정보 불러오기
 		DocDTO docDTO = dao.getWritedDOC(id);
 		mav.addObject("docDTO", docDTO);
 		
+		// 임시저장된 문서의 첨부파일 불러오기
 		ArrayList<AttachmentDTO> attachmentList = dao.attachmentListCall(id);
 		mav.addObject("attachmentList", attachmentList);
 		
 		return mav;
 	}
 
+	// 첨부파일을 다운로드하는 메서드
 	public ResponseEntity<Resource> attachmentDownload(String oriFileName, String newFileName) {
 
 		Resource body = new FileSystemResource(attachmentRoot+"/"+newFileName);
@@ -349,6 +364,64 @@ public class DocService {
 		}
 		
 		return new ResponseEntity<Resource>(body, headers, HttpStatus.OK);
+	}
+
+	// 파일명을 DB에서 지우는 메서드, 이후 실제 파일을 지우는 fileDelete 메서드를 실행한다.
+	public ModelAndView attachmentDelete(String id, String newFileName) {
+		
+		ModelAndView mav = new ModelAndView("redirect:/tempDocUpdateForm.go?id="+id);
+		
+		int row = dao.attachmentDelete(newFileName);
+		
+		if(row==1){ // 삭제된 DB 상의 파일명이 1개라면 실제 파일 지우는 메서드를 실행한다.
+			
+			fileDelete(newFileName);
+			
+		}
+		
+		return mav;
+	}
+	
+	// 파일을 지우는 메서드
+	private void fileDelete(String newFileName) {
+		
+		File file = new File(attachmentRoot+"/"+newFileName);
+		
+		if(file.exists()) {
+			file.delete();
+		}
+		
+	}
+	
+	// 임시저장한 문서를 결재요청하는 메서드
+	public ModelAndView docUpdate(HashMap<String, String> params, 
+			ArrayList<String[]> approvalList,
+			MultipartFile[] attachment, HttpSession session) {
+		
+		// params : id, subject, publicRange, afterContent, status
+		
+		logger.info("update hashmap : "+params);
+		
+		// 최초 임시저장 시에 DB create_date에 데이터가 입력되었음.
+		// 결재요청 했을 때 새로 create_date를 입력해야 함.
+		long currentTime = System.currentTimeMillis();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
+		String docUpdateTime = sdf.format(new Date(currentTime));
+
+		logger.info("docUpdateTime : "+docUpdateTime);
+		
+		params.put("docUpdateTime", docUpdateTime);
+		
+		// -------------------------------도장찍어야됨
+		
+		// 업데이트 시간을 문서에 렌더링해야 함.
+		String dateWritedContent = docFormUpdate(params.get("afterContent"), "(기안일자 자동 입력)", docUpdateTime);
+		params.put("dateWritedContent", dateWritedContent);
+		
+		// DB에 수정된 문서를 업데이트한다.
+//		dao.docUpdate(params);
+		 
+		return null;
 	}
 
 

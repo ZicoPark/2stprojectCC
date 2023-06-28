@@ -105,6 +105,19 @@
 		UPDATE doc SET content = #{param2} WHERE id = #{param1}
 	</update>
 	
-
-
+	<delete id="attachmentDelete">
+		DELETE FROM attachment WHERE new_file_name = #{param1}
+	</delete>
+	
+	<update id="docUpdate" parameterType="hashmap">
+		UPDATE doc SET subject = #{subject}
+			, content = #{dateWritedContent}
+			, status = #{status}
+			, public_range = #{publicRange} 
+			, create_date = #{docUpdateTime} 
+		WHERE id = #{id}
+	</update>
+	
+	
+	
 </mapper>
