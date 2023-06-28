@@ -5,6 +5,7 @@ import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
@@ -23,6 +24,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.context.annotation.RequestScope;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -55,9 +58,9 @@ public class MessageController {
 	}
 
 	
-	// 쪽지 상세보기
-	@RequestMapping(value="/msdetail.do")
-		public String msdetail(Model model, @RequestParam String id) {
+	// 받은 쪽지 상세보기
+	@RequestMapping(value="/msRcDetail.do")
+		public String msRcDetail(Model model, @RequestParam String id) {
 			
 			logger.info("상세보기 쪽지 번호 : "+id);
 			
@@ -71,7 +74,7 @@ public class MessageController {
 				
 				logger.info("detailFile :"+detailfile);
 				
-				page = "MessageDetail";
+				page = "MessageReceiveDetail";
 				model.addAttribute("detailms", detailms);
 				model.addAttribute("detailFile", detailfile);
 				
@@ -80,6 +83,34 @@ public class MessageController {
 			
 			return page;
 		}
+	
+	
+	// 보낸 쪽지 상세보기
+	@RequestMapping(value="/msSendDetail.do")
+		public String msSendDetail(Model model, @RequestParam String id) {
+			
+			logger.info("상세보기 쪽지 번호 : "+id);
+			
+			MessageDTO detailms = service.msdetail(Integer.parseInt(id), "detail");
+			String page = "redirect:/msSendList.go";
+			
+			if(detailms != null) {
+				
+				logger.info("if문 진입");
+				String detailfile = service.msDetailFile(Integer.parseInt(id));
+				
+				logger.info("detailFile :"+detailfile);
+				
+				page = "MessageSendDetail";
+				model.addAttribute("detailms", detailms);
+				model.addAttribute("detailFile", detailfile);
+				
+			}
+			
+			
+			return page;
+		}
+	
 	
 	// 파일 다운로드
 	@GetMapping(value="/msdownload.do")
@@ -154,5 +185,34 @@ public class MessageController {
     	service.msDelete(id);
        return "redirect:/msReceiveList.go";
     }	
+    
+    // 쪽지 작성 -> 주소록
+	@RequestMapping(value = "/msMemberList.go")
+	public ModelAndView msMemberList() {
+		return service.msMemberList();
+	}
+
+	
+	// 체크박스 선택 삭제
+    @RequestMapping(value = "/msSelectDelete", method = RequestMethod.GET)
+    public String postdelete(String id) throws Exception {
+    	service.msSelectDelete(id);
+       return "redirect:/adsaleslist.do";
+    }	
+	
+
+	
+    @RequestMapping(value = "/msSelectDelete")
+    public String ajaxTest(HttpServletRequest request) throws Exception {
+
+        String[] ajaxMsg = request.getParameterValues("valueArr");
+        int size = ajaxMsg.length;
+       
+        for(int i=0; i<size; i++) {
+        	service.msSelectDelete(ajaxMsg[i]);
+        	
+        }
+        return "redirect:/msSendList.go";
+    }
 	
 }

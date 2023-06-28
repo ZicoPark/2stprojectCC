@@ -48,7 +48,7 @@
         <div class="col-md-9">
           <div class="card card-primary card-outline">
             <div class="card-header">
-              <h3 class="card-title">Read Mail</h3>
+              <h3 class="card-title">자료실 상세보기</h3>
 
               <div class="card-tools">
                 <a href="#" class="btn btn-tool" title="Previous"><i class="fas fa-chevron-left"></i></a>
@@ -58,9 +58,11 @@
             <!-- /.card-header -->
             <div class="card-body p-0">
               <div class="mailbox-read-info">
-                <h5>${detailms.title}</h5>
-                <h6>From: ${detailms.from_id} ${detailms.name}
-                  <span class="mailbox-read-time float-right">${detailms.send_date}</span></h6>
+                <h5>${detailms.id} ${detailms.subject}</h5>
+                <h6>From: ${detailms.name} ${detailms.member_id}
+                  <span class="mailbox-read-time float-right">${detailms.create_date}
+                  ${detailms.hit}
+                  </span></h6>
               </div>
      
               </div>
@@ -81,7 +83,7 @@
                   <div class="mailbox-attachment-info">
                     <a class="mailbox-attachment-name"><i class="fas fa-paperclip"></i> ${detailFile}</a>
                         <span class="mailbox-attachment-size clearfix mt-1">
-                          <span>1,245 KB</span>
+                          
                           <a href="msdownload.do?path=${detailFile}" class="btn btn-default btn-sm float-right"><i class="fas fa-cloud-download-alt"></i></a>
                         </span>
                   </div>
@@ -93,9 +95,9 @@
             <div class="card-footer">
               <div class="float-right">
                 <button type="button" onclick="location.href='./msReply.go?to_id=${detailms.from_id}'"><i class="fas fa-reply"></i> 답장</button>
-                <button type="button" class="btn btn-default"><i class="fas fa-share"></i> Forward</button>
+                <button type="button" onclick="location.href='/msReceiveList.go'" class="btn btn-default"> 목록</button>
               </div>
-              <button type="button" class="btn btn-default"><i class="far fa-trash-alt"></i> Delete</button>
+              <button type="button" class="btn btn-default" onclick="location.href='msDelete.do?id=${detailms.id}'"><i class="far fa-trash-alt"></i></button>
               <button type="button" class="btn btn-default"><i class="fas fa-print"></i> Print</button>
             </div>
             <!-- /.card-footer -->

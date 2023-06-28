@@ -2,12 +2,15 @@ package kr.co.cc.doc.service;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Base64;
+import java.util.Date;
 import java.util.HashMap;
 import javax.servlet.http.HttpSession;
 
@@ -16,12 +19,18 @@ import org.mybatis.spring.annotation.MapperScan;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import kr.co.cc.doc.dao.DocDAO;
 import kr.co.cc.doc.dto.ApprovalDTO;
+import kr.co.cc.doc.dto.AttachmentDTO;
 import kr.co.cc.doc.dto.DocDTO;
 import kr.co.cc.doc.dto.DocFormDTO;
 import kr.co.cc.doc.dto.MemberDTO;
@@ -40,6 +49,7 @@ public class DocService {
 	}
 
 	public ModelAndView docWriteForm(HttpSession session) {
+		
 		ModelAndView mav = new ModelAndView("docWriteForm");
 		
 		// 결재 종류 불러오기
@@ -177,7 +187,7 @@ public class DocService {
 		
 		int id = dto.getId(); // 문서번호
 		
-		if(row==1) {// 업로드된 doc이 1이라면
+		if(row==1) { // 업로드된 doc이 1이라면
 						
 			for (MultipartFile file : attachment) {
 				
@@ -198,7 +208,7 @@ public class DocService {
 		}
 		
 		// status에 따라서 문서번호(1, 2)와 기안일자(1)를 업데이트한다.
-		DocDTO writedContentDTO = dao.getWritedDOC(id);
+		DocDTO writedContentDTO = dao.getWritedDOC(Integer.toString(id));
 		String oriWritedContent = writedContentDTO.getContent();
 		String idWritedContent = docFormUpdate(oriWritedContent, "(문서번호 자동 입력)", Integer.toString(id));
 		
@@ -249,6 +259,7 @@ public class DocService {
 			dao.docWriteETC(id, dateWritedContent);
 			
 		}else {
+			
 			// 임시저장함으로 보낸다.
 			mav.setViewName("redirect:/tempDocList.go");
 			
@@ -269,7 +280,7 @@ public class DocService {
 		dao.docNotice(sendId, receiveId, type, status, identifyValue);
 	}
 
-	public void attachmentSave(int id, MultipartFile file, String cls) {
+	private void attachmentSave(int id, MultipartFile file, String cls) {
 
 		String oriFileName = file.getOriginalFilename();
 		String ext = oriFileName.substring(oriFileName.lastIndexOf("."));
@@ -310,15 +321,109 @@ public class DocService {
 		return mav;
 	}
 
-	public ModelAndView tempDocDetail(String id) {
+	public ModelAndView tempDocUpdateForm(String id) {
 
-		ModelAndView mav = new ModelAndView("tempDocDetail");
-		DocDTO dto = dao.tempDocDetail(id);
+		ModelAndView mav = new ModelAndView("docUpdateForm");
 		
-		mav.addObject("dto", dto);
+		// 결재 종류 불러오기
+		ArrayList<ApprovalDTO> approvalKindList = dao.approvalKindCall();
+		// 기안은 제외(기안자가 나 자신이니까)
+		approvalKindList.remove(0);
+		mav.addObject("approvalKindList", approvalKindList);
+		
+		// 결재자 선택하기 위해 직원 리스트 불러오기
+		ArrayList<MemberDTO> memberList = dao.memberListCall();
+		mav.addObject("memberList", memberList);
+		
+		// 임시저장된 문서의 정보 불러오기
+		DocDTO docDTO = dao.getWritedDOC(id);
+		mav.addObject("docDTO", docDTO);
+		
+		// 임시저장된 문서의 첨부파일 불러오기
+		ArrayList<AttachmentDTO> attachmentList = dao.attachmentListCall(id);
+		mav.addObject("attachmentList", attachmentList);
 		
 		return mav;
 	}
+
+	// 첨부파일을 다운로드하는 메서드
+	public ResponseEntity<Resource> attachmentDownload(String oriFileName, String newFileName) {
+
+		Resource body = new FileSystemResource(attachmentRoot+"/"+newFileName);
+		
+		HttpHeaders headers = new HttpHeaders();
+		
+		String fileName = "다운로드_"+oriFileName;
+		
+		try {
+			fileName = URLEncoder.encode(fileName, "UTF-8");
+			headers.add("content-type", "application/octet-stream");
+			headers.add("content-disposition", "attachment;fileName=\""+fileName+"\"");
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
+		
+		return new ResponseEntity<Resource>(body, headers, HttpStatus.OK);
+	}
+
+	// 파일명을 DB에서 지우는 메서드, 이후 실제 파일을 지우는 fileDelete 메서드를 실행한다.
+	public ModelAndView attachmentDelete(String id, String newFileName) {
+		
+		ModelAndView mav = new ModelAndView("redirect:/tempDocUpdateForm.go?id="+id);
+		
+		int row = dao.attachmentDelete(newFileName);
+		
+		if(row==1){ // 삭제된 DB 상의 파일명이 1개라면 실제 파일 지우는 메서드를 실행한다.
+			
+			fileDelete(newFileName);
+			
+		}
+		
+		return mav;
+	}
+	
+	// 파일을 지우는 메서드
+	private void fileDelete(String newFileName) {
+		
+		File file = new File(attachmentRoot+"/"+newFileName);
+		
+		if(file.exists()) {
+			file.delete();
+		}
+		
+	}
+	
+	// 임시저장한 문서를 결재요청하는 메서드
+	public ModelAndView docUpdate(HashMap<String, String> params, 
+			ArrayList<String[]> approvalList,
+			MultipartFile[] attachment, HttpSession session) {
+		
+		// params : id, subject, publicRange, afterContent, status
+		
+		logger.info("update hashmap : "+params);
+		
+		// 최초 임시저장 시에 DB create_date에 데이터가 입력되었음.
+		// 결재요청 했을 때 새로 create_date를 입력해야 함.
+		long currentTime = System.currentTimeMillis();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
+		String docUpdateTime = sdf.format(new Date(currentTime));
+
+		logger.info("docUpdateTime : "+docUpdateTime);
+		
+		params.put("docUpdateTime", docUpdateTime);
+		
+		// -------------------------------도장찍어야됨
+		
+		// 업데이트 시간을 문서에 렌더링해야 함.
+		String dateWritedContent = docFormUpdate(params.get("afterContent"), "(기안일자 자동 입력)", docUpdateTime);
+		params.put("dateWritedContent", dateWritedContent);
+		
+		// DB에 수정된 문서를 업데이트한다.
+//		dao.docUpdate(params);
+		
+		return null;
+	}
+
 
 
 }

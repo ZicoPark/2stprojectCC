@@ -85,9 +85,17 @@
 		SELECT * FROM doc WHERE member_id = #{param1} AND status = #{param2}
 	</select>
 	
-	<select id="tempDocDetail" resultMap="docMap">
-		SELECT * FROM doc WHERE id = #{param1}
-	</select>
+	<resultMap id="attachmentMap" type="kr.co.cc.doc.dto.AttachmentDTO" >
+		<id property="id" column="id"/>
+		<result property="oriFileName" column="ori_file_name"/>
+		<result property="newFileName" column="new_file_name"/>
+		<result property="classification" column="classification"/>
+		<result property="identifyValue" column="identify_value"/>		
+	</resultMap>
+	
+	<select id="attachmentListCall" resultMap="attachmentMap">
+		SELECT * FROM attachment WHERE classification = '전자문서첨부파일' AND identify_value = #{id}
+	</select>	
 	
 	<select id="getWritedDOC" resultMap="docMap">
 		SELECT * FROM doc WHERE id = #{param1}
@@ -96,6 +104,20 @@
 	<update id="docWriteETC">
 		UPDATE doc SET content = #{param2} WHERE id = #{param1}
 	</update>
+	
+	<delete id="attachmentDelete">
+		DELETE FROM attachment WHERE new_file_name = #{param1}
+	</delete>
+	
+	<update id="docUpdate" parameterType="hashmap">
+		UPDATE doc SET subject = #{subject}
+			, content = #{dateWritedContent}
+			, status = #{status}
+			, public_range = #{publicRange} 
+			, create_date = #{docUpdateTime} 
+		WHERE id = #{id}
+	</update>
+	
 	
 	
 </mapper>
