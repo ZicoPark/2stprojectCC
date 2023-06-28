@@ -104,6 +104,7 @@
         </div>
         <!-- /.row -->
       </div><!-- /.container-fluid -->
+      </div>
     </section>
     <!-- /.content -->
   </form>

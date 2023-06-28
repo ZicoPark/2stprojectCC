@@ -109,10 +109,10 @@ public class ArchiveController {
 
 	@RequestMapping(value = "/archiveUpdate.do", method = RequestMethod.POST)
 	public String archiveUpdate(MultipartFile[] attachment, @RequestParam HashMap<String, String> params, HttpSession session, Model model) {
-	    logger.info("params: " + params);
-	    logger.info("컨트롤러 파일 첨부: " + attachment);
+			
 
-	    return service.archiveWrite(attachment, params, session, model);
+
+	    return service.archiveUpdate(attachment, params, session, model);
 	}	
 
 	

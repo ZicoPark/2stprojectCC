@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 import org.springframework.web.multipart.MultipartFile;
 
+
 import kr.co.cc.archive.dao.ArchiveDAO;
 import kr.co.cc.archive.dto.ArchiveDTO;
 import kr.co.cc.message.dto.MessageDTO;
@@ -107,7 +108,7 @@ public class ArchiveService {
 			Model model) {
 			 String loginId = (String) session.getAttribute("loginId");
 			 String page = "redirect:/archiveBoard.go";
-			    logger.info("params: " + params);
+			   
 			    logger.info("files: " + attachment);		 
 			 
 			        ArchiveDTO dto = new ArchiveDTO();
@@ -115,8 +116,9 @@ public class ArchiveService {
 			        dto.setCategory(params.get("category"));
 			        dto.setSubject(params.get("subject"));
 			        dto.setContent(params.get("content"));
-
-			        int row = dao.archiveWrite(dto);
+			        logger.info("업데이트할 params: " + params);
+			        
+			        int row = dao.archiveUpdate(dto);
 			        logger.info("insert row: " + row);
 			        int idx = dto.getId();
 

@@ -69,18 +69,22 @@
                 </div>
                 
 
-			    <i class="fas fa-paperclip"></i> 파일 첨부
-			    <input type="file" name="attachment" multiple="multiple" onchange="displayFileNames(event)" id="fileInput">
+<label for="fileInput" class="file-input-label">
+    <i class="fas fa-paperclip"></i> 파일 첨부
+</label>
+<!--  파일 선택 버튼 숨겼음 !! 왜냐면 file 요소 떄문에 원래 있던 애들 사라짐 -->
+<input type="file" name="attachment" multiple="multiple" onchange="displayFileNames(event)" id="fileInput" style="display: none;">
 
-			    <c:if test="${detailfile.size() > 0 }">
-					<c:forEach items="${detailfile}" var="i">
-						<div id="fileNames">
-						  ${i.oriFileName}
-		                </div>
-					</c:forEach>
-				</c:if>
-				
-				</div>
+<div id="fileNames">
+    <c:if test="${detailfile.size() > 0 }">
+        <c:forEach items="${detailfile}" var="i">
+            <div>
+                <span>${i.oriFileName}</span>
+                <i class="fas fa-times cancel-icon" onclick="removeFile(this)"></i>
+            </div>
+        </c:forEach>
+    </c:if>
+</div>
 				
 
 
@@ -172,66 +176,31 @@
 	    }
 	  });
 
-	  function displayFileNames(event) {
-		    var fileNamesDiv = document.getElementById('fileNames');
-		    fileNamesDiv.innerHTML = '';
-		    
-		    var files = Array.from(event.target.files);
-		    files.forEach(function(file) {
-		      var fileNameSpan = document.createElement('span');
-		      fileNameSpan.innerText = file.name;
+	    function displayFileNames(event) {
+	        var fileNamesDiv = document.getElementById('fileNames');
 
-		      var cancelIcon = document.createElement('i');
-		      cancelIcon.className = 'fas fa-times cancel-icon';
-		      cancelIcon.addEventListener('click', function() {
-		        removeFile(file, fileNameSpan);
-		      });
+	        var files = Array.from(event.target.files);
+	        files.forEach(function(file) {
+	            var fileNameDiv = document.createElement('div');
+	            var fileNameSpan = document.createElement('span');
+	            fileNameSpan.innerText = file.name;
 
-		      var fileNameContainer = document.createElement('div');
-		      fileNameContainer.className = 'file-name-container';
-		      fileNameContainer.appendChild(fileNameSpan);
-		      fileNameContainer.appendChild(cancelIcon);
+	            var cancelIcon = document.createElement('i');
+	            cancelIcon.className = 'fas fa-times cancel-icon';
+	            cancelIcon.addEventListener('click', function() {
+	                removeFile(this);
+	            });
 
-		      fileNamesDiv.appendChild(fileNameContainer);
-		    });
-		  }
+	            fileNameDiv.appendChild(fileNameSpan);
+	            fileNameDiv.appendChild(cancelIcon);
+	            fileNamesDiv.appendChild(fileNameDiv);
+	        });
+	    }
 
-		  function removeFile(file, fileNameSpan) {
-		    var fileInput = document.getElementById('fileInput');
-		    fileInput.value = '';
-
-		    fileNameSpan.parentNode.remove();
-		  }
-		  function displayFileNames(event) {
-			    var fileNamesDiv = document.getElementById('fileNames');
-			    fileNamesDiv.innerHTML = '';
-			    
-			    var files = Array.from(event.target.files);
-			    files.forEach(function(file) {
-			      var fileNameSpan = document.createElement('span');
-			      fileNameSpan.innerText = file.name;
-
-			      var cancelIcon = document.createElement('i');
-			      cancelIcon.className = 'fas fa-times cancel-icon';
-			      cancelIcon.addEventListener('click', function() {
-			        removeFile(file, fileNameSpan);
-			      });
-
-			      var fileNameContainer = document.createElement('div');
-			      fileNameContainer.className = 'file-name-container';
-			      fileNameContainer.appendChild(fileNameSpan);
-			      fileNameContainer.appendChild(cancelIcon);
-
-			      fileNamesDiv.appendChild(fileNameContainer);
-			    });
-			  }
-
-			  function removeFile(file, fileNameSpan) {
-			    var fileInput = document.getElementById('fileInput');
-			    fileInput.value = '';
-
-			    fileNameSpan.parentNode.remove();
-			  }
+	    function removeFile(icon) {
+	        var fileNameDiv = icon.parentNode;
+	        fileNameDiv.remove();
+	    }
 
 
 </script>
