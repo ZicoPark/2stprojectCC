@@ -49,10 +49,39 @@ public class AdminController {
 	    String id = request.getParameter("id");
 	    String jobName = request.getParameter("job");
 	    String deptName = request.getParameter("dept");
-	    int status = Integer.parseInt(request.getParameter("status"));
-	    int admin = Integer.parseInt(request.getParameter("admin"));	    
+	    String[] statusArray = request.getParameterValues("status");
+	    String[] adminArray = request.getParameterValues("admin");
+
+	    boolean status = false;
+	    boolean admin = false;
+
+	    if (statusArray != null && statusArray.length > 0) {
+	        String statusStr = statusArray[0];
+	        if (statusStr.equalsIgnoreCase("재직")) {
+	            status = true;
+			} /*
+				 * else if (statusStr.equalsIgnoreCase("휴직")) { status = true; } else { status =
+				 * false; }
+				 */
+	    }
+
+	    if (adminArray != null && adminArray.length > 0) {
+	        String adminStr = adminArray[0];
+	        if (adminStr.equalsIgnoreCase("1")) {
+	            admin = true;
+	        }
+	    }
+	    // logger.info("jobName체크 : "+jobName);
+	    // logger.info("deptName체크 : "+deptName);
+	    // logger.info("status체크 : "+status);
+	    // logger.info("admin체크 : "+admin);
 	    AdminDTO dto = new AdminDTO();
-	    // dto.getAdmin_chk(admin);
+	    dto.setId(id);
+	    dto.setJob_name(jobName);
+	    dto.setDept_name(deptName);
+	    dto.setStatus(status);
+	    dto.setAdmin_chk(admin);
+	    
 	    return service.MemberUpdate(dto, id);
 	}
 	
