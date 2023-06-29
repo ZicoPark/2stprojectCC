@@ -70,7 +70,7 @@
 	
 	<!-- 모달 창 안에 있는 값 -->
 	<select id="msDeptList" resultType="kr.co.cc.message.dto.MessageDTO">
-		SELECT*FROM dept
+		SELECT id, name, dept_name FROM member
 		WHERE status = 1
 	</select>
 	

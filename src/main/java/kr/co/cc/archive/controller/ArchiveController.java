@@ -49,11 +49,11 @@ public class ArchiveController {
 	
 	// 자료실 작성
 	@RequestMapping(value = "archiveWrite.do", method = RequestMethod.POST)
-	public String archiveWrite(MultipartFile file, @RequestParam HashMap<String, String> params, HttpSession session) {
+	public String archiveWrite(MultipartFile[] attachment, @RequestParam HashMap<String, String> params, HttpSession session, Model model) {
 	    logger.info("params: " + params);
-	    logger.info("컨트롤러 파일 첨부: " + file);
+	    logger.info("컨트롤러 파일 첨부: " + attachment);
 
-	    return service.archiveWrite(file, params, session);
+	    return service.archiveWrite(attachment, params, session, model);
 	}	
 
 	// 게시글 상세보기
@@ -63,12 +63,12 @@ public class ArchiveController {
 			logger.info("상세보기 자료실 번호 : "+id);
 			
 			ArchiveDTO detailms = service.archivedetail(Integer.parseInt(id), "detail");
-			String page = "redirect:/msSendList.go";
+			String page = "redirect://archiveBoard.go";
 			
 			if(detailms != null) {
 				
 				logger.info("if문 진입");
-				String detailfile = service.archiveDetailFile(Integer.parseInt(id));
+				ArrayList<String> detailfile = service.archiveDetailFile(id);
 				
 				logger.info("detailFile :"+detailfile);
 				
@@ -79,5 +79,43 @@ public class ArchiveController {
 			}	
 			return page;
 	}
+	
+	// 게시글 업데이트
+	@RequestMapping(value="/archiveUpdate.go")
+		public String archiveUpdateForm(@RequestParam String id, @RequestParam String member_id, HttpSession session, Model model) {
+		logger.info("게시글 수정 요청");
+		String page = "redirect:/archiveBoard.go";
+		String loginId = null;
+		
+		if(session.getAttribute("loginId")!=null) {
+			loginId = (String) session.getAttribute("loginId");
+			if(loginId.equals(member_id)) {
+				
+				logger.info("작성자와 세션아이디 일치함");
+				ArchiveDTO detailms = service.archivedetail(Integer.parseInt(id), "detail");
+				
+				if(detailms != null) {
+					ArrayList<String> detailfile = service.archiveDetailFile(id);
+					
+					model.addAttribute("detailms", detailms);
+					model.addAttribute("detailfile", detailfile);
+					page = "archiveUpdateForm";
+				}
+			}
+		}
+		
+		return page;		
+}
+
+	@RequestMapping(value = "/archiveUpdate.do", method = RequestMethod.POST)
+	public String archiveUpdate(MultipartFile[] attachment, @RequestParam HashMap<String, String> params, HttpSession session, Model model) {
+			
+
+
+	    return service.archiveUpdate(attachment, params, session, model);
+	}	
+
+	
+	
 	
 }

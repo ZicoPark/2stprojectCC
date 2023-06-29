@@ -54,6 +54,7 @@
 		<textarea hidden="true" id="content" name="content"></textarea>
 		<input type="hidden" id="status" name="status"/>
 		<input type="file" multiple="multiple" name="attachment"/>
+		
 		<input type="button" onclick="pushDoc()" value="제출"/>
 		<input type="button" onclick="saveDoc()" value="임시저장"/>
 	</form>

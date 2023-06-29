@@ -69,24 +69,19 @@
                     </textarea>
                 </div>
                 
-			<div class="form-group">
-			  <div class="btn btn-default btn-file">
+
 			    <i class="fas fa-paperclip"></i> 파일 첨부
-			    <input type="file" name="file" multiple="multiple" onchange="displayFileNames(event)" id="fileInput">
-			  </div>
-			  <p class="help-block">Max. 32MB</p>
-			  <div id="fileNames"></div>
-			</div>
+			    <input type="file" name="attachment" multiple="multiple">
+
 
 
               <!-- /.card-body -->
               <div class="card-footer">
                 <div class="float-right">
-                  <button type="button" class="btn btn-default"><i class="fas fa-pencil-alt"></i> Draft</button>
+
                   <button type="submit" class="btn btn-primary"><i class="far fa-envelope"></i> Send</button>
                 </div>
-                <button type="reset" class="btn btn-default"><i class="fas fa-times"></i> Discard</button>
-              </div>
+  
               <!-- /.card-footer -->
             </div>
             <!-- /.card -->

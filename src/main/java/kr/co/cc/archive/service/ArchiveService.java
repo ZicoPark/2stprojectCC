@@ -15,7 +15,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.ui.Model;
 import org.springframework.web.multipart.MultipartFile;
+
 
 import kr.co.cc.archive.dao.ArchiveDAO;
 import kr.co.cc.archive.dto.ArchiveDTO;
@@ -27,6 +29,7 @@ import kr.co.cc.message.dto.MessageDTO;
 public class ArchiveService {
 	
 	Logger logger = LoggerFactory.getLogger(getClass());
+	@Value("${spring.servlet.multipart.location}") private String attachmentRoot;
 	private final ArchiveDAO dao;
 	
 	public ArchiveService(ArchiveDAO dao){
@@ -41,11 +44,11 @@ public class ArchiveService {
 		return dao.archivelist();
 	}
 
-	public String archiveWrite(MultipartFile file, HashMap<String, String> params, HttpSession session) {
+	public String archiveWrite(MultipartFile[] attachment, HashMap<String, String> params, HttpSession session, Model model) {
 		 String loginId = (String) session.getAttribute("loginId");
-		 
+		 String page = "redirect:/archiveBoard.go";
 		    logger.info("params: " + params);
-		    logger.info("files: " + file);		 
+		    logger.info("files: " + attachment);		 
 		 
 		        ArchiveDTO dto = new ArchiveDTO();
 		        dto.setMember_id(loginId);
@@ -57,32 +60,36 @@ public class ArchiveService {
 		        logger.info("insert row: " + row);
 		        int idx = dto.getId();
 
-		        logger.info("insert row: " + row);
 		        logger.info("idx: " + idx);
 
-		        if (file != null && !file.isEmpty()) {
-		            // 입력받은 파일 이름
-		            String fileName = file.getOriginalFilename();
-		            // 확장자를 추출하기 위한 과정
-		            String ext = fileName.substring(fileName.lastIndexOf("."));
-		            // 새로운 파일 이름은?
-		            String newFileName = System.currentTimeMillis() + ext;
-		            String classification = "자료실";
-		            try {
-		                byte[] bytes = file.getBytes();
+				if(row==1) { // 업로드된 자료실 게시물이 1이라면
+					
+					for (MultipartFile file : attachment) {
+						
+						logger.info("업로드할 file 있나요? :"+!file.isEmpty());
+						
+						if(!file.isEmpty()) {
+							attachmentSave(idx, file, "자료실");
+						}
+						
+						try { // 쓰레드 0.001초 지연으로 중복파일명 막자
+							Thread.sleep(1);
+						} catch (InterruptedException e) {
+							e.printStackTrace();
+						}
+						
+					}
+				}
 
-		                Path path = Paths.get(root + "/" + newFileName);
-		                Files.write(path, bytes);
-		                dao.archivefileWrite(fileName, newFileName, classification, idx);
-		            } catch (IOException e) {
-		                e.printStackTrace();
-		            }
-		        }
-		    
-
-		    return "archiveBoardList";
+			
+				page = "redirect:/archivedetail.do?id="+idx;
+				
+				
+		    return page;
 		}
 
+	
+	
 	public ArchiveDTO archivedetail(int id, String flag) {
 		if(flag.equals("detail")) {
 			logger.info("if문 진입");
@@ -93,8 +100,74 @@ public class ArchiveService {
 		return dao.archivedetail(id);
 	}
 
-	public String archiveDetailFile(int id) {
+	public ArrayList<String> archiveDetailFile(String id) {
 		return dao.archiveDetailFile(id);
 	}
 
+	public String archiveUpdate(MultipartFile[] attachment, HashMap<String, String> params, HttpSession session,
+			Model model) {
+			 String loginId = (String) session.getAttribute("loginId");
+			 String page = "redirect:/archiveBoard.go";
+			   
+			    logger.info("files: " + attachment);		 
+			 
+			        ArchiveDTO dto = new ArchiveDTO();
+			        dto.setMember_id(loginId);
+			        dto.setCategory(params.get("category"));
+			        dto.setSubject(params.get("subject"));
+			        dto.setContent(params.get("content"));
+			        logger.info("업데이트할 params: " + params);
+			        
+			        int row = dao.archiveUpdate(dto);
+			        logger.info("insert row: " + row);
+			        int idx = dto.getId();
+
+			        logger.info("idx: " + idx);
+
+					if(row==1) { // 업로드된 자료실 게시물이 1이라면
+						
+						for (MultipartFile file : attachment) {
+							
+							logger.info("업로드할 file 있나요? :"+!file.isEmpty());
+							
+							if(!file.isEmpty()) {
+								attachmentSave(idx, file, "자료실");
+							}
+							
+							try { // 쓰레드 0.001초 지연으로 중복파일명 막자
+								Thread.sleep(1);
+							} catch (InterruptedException e) {
+								e.printStackTrace();
+							}
+							
+						}
+					}
+
+				
+					page = "redirect:/archivedetail.do?id="+idx;
+					
+					
+			    return page;
+			}
+	private void attachmentSave(int id, MultipartFile file, String cls) {
+		
+		String oriFileName = file.getOriginalFilename();
+		String ext = oriFileName.substring(oriFileName.lastIndexOf("."));
+		String newFileName = System.currentTimeMillis() + ext;
+		logger.info("파일 업로드 : "+oriFileName+"=>"+newFileName+"으로 변경될 예정");
+		
+		try {
+			byte[] bytes = file.getBytes();
+			Path path = Paths.get(attachmentRoot+"/"+newFileName);
+			Files.write(path, bytes);
+			logger.info(newFileName+" upload 디렉토리에 저장 완료 !");
+			
+			dao.archivefileWrite(oriFileName, newFileName, cls, id);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+	}	
 }
+
+
