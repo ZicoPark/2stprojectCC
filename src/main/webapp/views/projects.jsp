@@ -69,10 +69,10 @@
 							<thead>
 								<tr>
 									<th style="width: 1%">#</th>
-									<th style="width: 20%">Project Name</th>
-									<th style="width: 30%">Team Members</th>
-									<th>Project Progress</th>
-									<th style="width: 8%" class="text-center">Status</th>
+									<th style="width: 20%">프로젝트 제목</th>
+									<th style="width: 30%">참여인원</th>
+									<th>프로젝트 진행도</th>
+									<th style="width: 8%" class="text-center">단계</th>
 									<th style="width: 20%"></th>
 								</tr>
 							</thead>
@@ -109,10 +109,12 @@
 											class="btn btn-primary btn-sm view-btn"> <i
 												class="fas fa-folder"> </i> 상세보기
 										</a>                            
-										<a class="btn btn-info btn-sm" href="#">
-                              				<i class="fas fa-pencil-alt"></i>
-                             					 Edit
-                         				</a>
+										<c:if test="${sessionScope.loginId eq project.member_id}">
+										    <a class="btn btn-info btn-sm" href="projectUpdate.go?id=${project.project_id}">
+										        <i class="fas fa-pencil-alt"></i>
+										        Edit
+										    </a>
+										</c:if>
                           				<a class="btn btn-danger btn-sm" href="#">
                               				<i class="fas fa-trash">
                               			</i>

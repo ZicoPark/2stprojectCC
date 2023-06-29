@@ -60,9 +60,11 @@
 			VALUES(#{param1}, #{param2}, #{param3}, #{param4}, #{param5})
 	</insert>
 
+
 	<select id="getMemberSignFilePath" resultType="string">
 		SELECT new_file_name FROM attachment WHERE classification = '서명이미지' AND identify_value = #{param1}
 	</select>
+
 
 	<select id="getApprovalName" resultType="string">
 		SELECT name FROM approval WHERE id = #{param1}
@@ -82,7 +84,7 @@
 	</resultMap>
 	
 	<select id="tempDocList" resultMap="docMap">
-		SELECT * FROM doc WHERE member_id = #{param1} AND status = #{param2}
+		SELECT * FROM doc WHERE member_id = #{param1} AND status = #{param2} ORDER BY id DESC
 	</select>
 	
 	<resultMap id="attachmentMap" type="kr.co.cc.doc.dto.AttachmentDTO" >

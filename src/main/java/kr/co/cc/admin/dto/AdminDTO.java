@@ -14,7 +14,14 @@ public class AdminDTO {
 	private String job_name;
 	private boolean status;
 	private boolean admin_chk;
+	private Date end_date;
 	
+	public Date getEnd_date() {
+		return end_date;
+	}
+	public void setEnd_date(Date end_date) {
+		this.end_date = end_date;
+	}
 	public String getId() {
 		return id;
 	}
@@ -63,13 +70,13 @@ public class AdminDTO {
 	public void setJob_name(String job_name) {
 		this.job_name = job_name;
 	}
-	public boolean isStatus() {
+	public boolean getStatus() {
 		return status;
 	}
 	public void setStatus(boolean status) {
 		this.status = status;
 	}
-	public boolean isAdmin_chk() {
+	public boolean getAdmin_chk() {
 		return admin_chk;
 	}
 	public void setAdmin_chk(boolean admin_chk) {

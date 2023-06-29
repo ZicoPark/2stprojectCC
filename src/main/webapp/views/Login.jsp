@@ -58,10 +58,12 @@
           <!-- /.col -->
         </div>
       </form>
-
-
+      
+      <p class="mb-2">
+        <a href="/findID.go">아이디 찾기</a>
+      </p>
       <p class="mb-1">
-        <a href="findPw.jsp">비밀번호 찾기</a>
+        <a href="/findPW.go">비밀번호 찾기</a>
       </p>
       <p class="mb-0">
         <a href="/join.go" class="text-center">회원 가입</a>

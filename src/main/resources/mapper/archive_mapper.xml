@@ -49,6 +49,7 @@
 		SELECT* FROM attachment WHERE classification = '자료실' AND identify_value = #{id}
 	</select>
 
+
 	<update id="archiveUpdate">
 		UPDATE archive_board SET 
 		subject = #{subject}
@@ -56,6 +57,7 @@
 		,category = #{category}
 		WHERE id = #{id}
 	</update>
+
 
 	<delete id="removeFileName" parameterType="String">
 		DELETE FROM attachment WHERE new_photo_name = #{fileName} AND classification = '자료실'

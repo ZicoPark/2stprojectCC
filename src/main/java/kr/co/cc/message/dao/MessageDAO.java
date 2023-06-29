@@ -27,7 +27,6 @@ public interface MessageDAO {
 
 	String msDetailFile(int id);
 
-
 	boolean msSelectDelete(String id);
 
 	ArrayList<MessageDTO> msDeptList();
