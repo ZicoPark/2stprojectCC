@@ -29,7 +29,7 @@ public class DocController {
 	}
 	
 	// 기안문 작성 폼으로 이동
-	@RequestMapping(value="/docWriteForm.do")
+	@RequestMapping(value="/docWriteForm.go")
 	public ModelAndView docWriteForm(HttpSession session) {
 		
 		return service.docWriteForm(session);
@@ -87,6 +87,7 @@ public class DocController {
 			@RequestParam HashMap<String, String> params) {
 
 		ArrayList<String[]> approvalList = new ArrayList<String[]>();
+		
 		// 결재선 정렬 로직 // HashMap을 쓰면 뒤죽박죽 되어서 List에 String 2개짜리 배열 이용함.
 		for(int i=0;i<approvalVariable.length;i++) {
 			
@@ -101,5 +102,11 @@ public class DocController {
 		}
 		
 		return service.docUpdate(params, approvalList, attachment, session);
+	}
+	
+	@RequestMapping(value="/docRequestList.go")
+	public ModelAndView docRequestList(HttpSession session) {
+		
+		return service.docRequestList(session);
 	}
 }

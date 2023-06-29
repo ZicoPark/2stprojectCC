@@ -241,7 +241,7 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="/docWriteForm.do" class="nav-link">
+                <a href="/docWriteForm.go" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>새 문서 작성</p>
                 </a>
