@@ -8,8 +8,15 @@ public interface AdminDAO {
 
 	ArrayList<AdminDTO> MemberList();
 
-	ArrayList<AdminDTO> AdminMemberDetail(String memberId);
+	AdminDTO AdminMemberDetail(String id);
 
+	void MemberUpdate(boolean admin, String dept, String job, String status);
+
+	int MemberUpdate(AdminDTO dto, String id);
+
+	
+
+	
 
 
 }

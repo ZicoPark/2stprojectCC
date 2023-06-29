@@ -6,9 +6,7 @@
 	<select id="docFormCall" resultType="kr.co.cc.doc.dto.DocFormDTO">
 		SELECT * FROM doc_form
 	</select>
-<<<<<<< HEAD
-=======
-
+	
 	<select id="approvalKindCall" resultType="kr.co.cc.doc.dto.ApprovalDTO">
 		SELECT * FROM approval
 	</select>
@@ -62,5 +60,4 @@
 			VALUES(#{param1}, #{param2}, #{param3}, #{param4}, #{param5})
 	</insert>
 	
->>>>>>> origin/master
 </mapper>
