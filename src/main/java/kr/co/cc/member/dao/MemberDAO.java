@@ -13,4 +13,6 @@ public interface MemberDAO {
 
 	String login(HashMap<String, String> params);
 
+	int idChk(String id);
+
 }

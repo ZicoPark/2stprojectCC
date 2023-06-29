@@ -18,9 +18,43 @@ public class ProjectDTO {
 	private String subject;
 	private String user_name;
 	private String content;
-	private int idx;
+	private int project_idx;
+	private String comment_content;
+	private int comment_status;
+	private Date comment_create_date;
+	
+	private int id;
+	private String ori_file_name;
+	   private String new_file_name;
+	   private String classification;
+	   private String identify_value;
 	
 	
+	
+	public Date getComment_create_date() {
+		return comment_create_date;
+	}
+
+	public void setComment_create_date(Date comment_create_date) {
+		this.comment_create_date = comment_create_date;
+	}
+
+	public int getComment_status() {
+		return comment_status;
+	}
+
+	public void setComment_status(int comment_status) {
+		this.comment_status = comment_status;
+	}
+
+	public String getComment_content() {
+		return comment_content;
+	}
+
+	public void setComment_content(String comment_content) {
+		this.comment_content = comment_content;
+	}
+
 	public String getSubject() {
 		return subject;
 	}
@@ -45,12 +79,14 @@ public class ProjectDTO {
 		this.content = content;
 	}
 
-	public int getIdx() {
-		return idx;
+
+
+	public int getProject_idx() {
+		return project_idx;
 	}
 
-	public void setIdx(int idx) {
-		this.idx = idx;
+	public void setProject_idx(int project_idx) {
+		this.project_idx = project_idx;
 	}
 
 	public String getContributors() {
@@ -120,6 +156,46 @@ public class ProjectDTO {
 	}
 	public void setDeadlinepriod(String deadlinepriod) {
 		this.deadlinepriod = deadlinepriod;
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public String getOri_file_name() {
+		return ori_file_name;
+	}
+
+	public void setOri_file_name(String ori_file_name) {
+		this.ori_file_name = ori_file_name;
+	}
+
+	public String getNew_file_name() {
+		return new_file_name;
+	}
+
+	public void setNew_file_name(String new_file_name) {
+		this.new_file_name = new_file_name;
+	}
+
+	public String getClassification() {
+		return classification;
+	}
+
+	public void setClassification(String classification) {
+		this.classification = classification;
+	}
+
+	public String getIdentify_value() {
+		return identify_value;
+	}
+
+	public void setIdentify_value(String identify_value) {
+		this.identify_value = identify_value;
 	}
 
 	

@@ -29,6 +29,7 @@ public class MessageDTO {
 	private String status;
 	private String admin_chk;
 	
+	
 	public String getJob_name() {
 		return job_name;
 	}
