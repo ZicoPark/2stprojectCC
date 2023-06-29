@@ -19,7 +19,41 @@ public class WorkDTO {
 	private int approval;
 	private String dept_name;
 	private String job_name;
+	private Time total_time;
+	private boolean worn;
+	private Date week;
+	private int total_worn;
 	
+	
+	
+	
+	
+	
+	
+	public int getTotal_worn() {
+		return total_worn;
+	}
+	public void setTotal_worn(int total_worn) {
+		this.total_worn = total_worn;
+	}
+	public Date getWeek() {
+		return week;
+	}
+	public void setWeek(Date week) {
+		this.week = week;
+	}
+	public boolean isWorn() {
+		return worn;
+	}
+	public void setWorn(boolean worn) {
+		this.worn = worn;
+	}
+	public Time getTotal_time() {
+		return total_time;
+	}
+	public void setTotal_time(Time total_time) {
+		this.total_time = total_time;
+	}
 	public String getJob_name() {
 		return job_name;
 	}
