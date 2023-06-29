@@ -13,22 +13,6 @@
   <link rel="stylesheet" href="../../plugins/fontawesome-free/css/all.min.css">
   <!-- Theme style -->
   <link rel="stylesheet" href="../../dist/css/adminlte.min.css">
-  <style>
-      table, th, td{
-         border: 1px solid black;
-         border-collapse: collapse;
-         padding: 5px 10px;
-      }
-      #login{
-         margin-bottom: 20px;
-      }
-      button{
-         margin: 5px;
-      }
-      table{
-         width: 500px;
-      }
-</style>
 </head>
 <body>
 <jsp:include page = "index.jsp"></jsp:include>
@@ -36,34 +20,42 @@
 <div class="wrapper">
   <div class="content-wrapper">
     <section class="content-header">
-            <h1>공지사항</h1>         
+            <h1>개인 업무 관리</h1>         
     </section>
     <!-- Main content -->
     <section class="content">
-      <form action="noticeBoardWrite.do" method="post" enctype="multipart/form-data"> <!-- multiUpload.do -->
-         <table class="table table-bordered table-hover dataTable dtr-inline">
-            <tr>
-               <th>제목</th>
-               <td><input type="text" name="subject" /></td>
-            </tr>
-            <tr>
-               <th>내용</th>
-               <td><textarea name="content"></textarea> </td>
-            </tr>
-            <tr>
-            	<th>첨부파일</th>
-            	<td>
-					<input type="file" name="file"  multiple="multiple"/>	
-				</td>
-            </tr>
-            <tr>
-               <th colspan="2">
-                  <input type="button" onclick="location.href='./noticeBoard.go'" value="돌아가기" />
-                  <button>작성하기</button>
-               </th>
-            </tr>      
-         </table>
-      </form>
+          
+<form action="personalWrite.do" method="post" enctype="multipart/form-data">
+		<table>
+			<tr>
+				<th>작성자</th>
+				<td><input type="text" name="member_id"></td>
+			</tr>
+			<tr>
+				<th>제목</th>
+				<td><input type="text" name="title"/></td>
+			</tr>
+			<tr>
+				<th>시작날짜</th>
+				<td><input type="text" name="start_date"/></td>
+			</tr>
+			<tr>
+				<th>종료날짜</th>
+				<td><input type="text" name="end_date"/></td>
+			</tr>
+			
+			<tr>
+				<th colspan="2">
+					<input type="button" onclick="location.href='./list.do'" value="리스트"/>
+					<button>저장</button>
+				</th>
+			</tr>
+		</table>	
+	</form>
+
+
+
+
     </section>
   </div>
 </div>
@@ -80,4 +72,3 @@
 <script>
 </script>
 </html>
-   
