@@ -80,23 +80,27 @@ public class MemberController {
 	    return memberservice.idChk(id);
 	}
 	
-	 /*//Email과 name의 일치여부를 check하는 컨트롤러
-	 @GetMapping("/check/findPw")
-	 public @ResponseBody Map<String, Boolean> pw_find(String userEmail, String userName){
-	    Map<String,Boolean> json = new HashMap<>();
-	    boolean pwFindCheck = memberservice.userEmailCheck(userEmail,userName);
+	@RequestMapping(value = "/findID.go", method = RequestMethod.GET)
+	public String findID(Model model) {
+			return "findID";
+	}
 
-	    System.out.println(pwFindCheck);
-	    json.put("check", pwFindCheck);
-	    return json;
-	    }
+	@RequestMapping(value="/sendMail.ajax", method = RequestMethod.POST)
+	@ResponseBody
+	public HashMap<String, Object> sendMail(@RequestParam HashMap<String, String> params) {
+		logger.info("params : " + params);
+		return memberservice.sendMail(params);
+	}
 
-	//등록된 이메일로 임시비밀번호를 발송하고 발송된 임시비밀번호로 사용자의 pw를 변경하는 컨트롤러
-	@PostMapping("/check/findPw/sendEmail")
-	public @ResponseBody void sendEmail(String userEmail, String userName){
-	    MemberDTO dto = SendEmailService.createMailAndChangePassword(userEmail, userName);
-	    SendEmailService.mailSend(dto);
-
-	    }
-*/
+	@RequestMapping(value = "/findPW.go")
+	public String findPW(Model model) {
+			return "findPw";
+	}
+	
+	@RequestMapping(value="/sendPWMail.ajax", method = RequestMethod.POST)
+	@ResponseBody
+	public HashMap<String, Object> sendPWMail(@RequestParam HashMap<String, String> params) {
+		logger.info("params : " + params);
+		return memberservice.sendPWMail(params);
+	}
 }

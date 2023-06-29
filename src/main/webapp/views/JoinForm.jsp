@@ -151,9 +151,9 @@ h1, h2, h3, h4, h5, h6 {
         <div class="input-group mb-3">
         <h6>프로필 사진 :　</h6>
           &nbsp; &nbsp; &nbsp; 
-          <form action="upload.do" method="post" enctype="multipart/form-data">
+
           	<input type="file" name="picture" id="picture">
-          </form>
+  
         </div>
         <div class="row">
           <div class="col-8">
