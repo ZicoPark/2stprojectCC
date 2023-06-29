@@ -52,7 +52,7 @@ public class AdminController {
 	    int status = Integer.parseInt(request.getParameter("status"));
 	    int admin = Integer.parseInt(request.getParameter("admin"));	    
 	    AdminDTO dto = new AdminDTO();
-	    dto.getAdmin_chk(admin);
+	    // dto.getAdmin_chk(admin);
 	    return service.MemberUpdate(dto, id);
 	}
 	
@@ -60,12 +60,5 @@ public class AdminController {
 	@RequestMapping(value = "/MemberONOFFList.go")
 	public String MemberONOFFList() {
 		return "MemberONOFFList";
-<<<<<<< HEAD
-	}	
-=======
 	}
-	
-	
->>>>>>> origin/master
-
 }
