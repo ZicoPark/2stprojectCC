@@ -2,23 +2,44 @@ package kr.co.cc.noticeBoard.dao;
 
 import java.util.ArrayList;
 
-import org.apache.ibatis.annotations.Mapper;
-
 import kr.co.cc.noticeBoard.dto.NoticeBoardDTO;
 
 public interface NoticeBoardDAO {
+   
+   ArrayList<NoticeBoardDTO> nolist();
+   
+   int noticeBoardWrite(NoticeBoardDTO dto);
+   
+   void nofileWrite(String fileName, String newFileName, String classification, int idx);
 
-   ArrayList<NoticeBoardDTO> list();
+//   int write(String id, String subject, String content);
 
-   int write(String id, String subject, String content);
-
-   void upHit(String id);
-
-   NoticeBoardDTO detail(String id);
+   void upHit(int id);
+  
+   NoticeBoardDTO nodetail(int id);
+   
+   String noDetailFile(int id);
+   
+   
 
    int del(String id);
 
    void noticeFile(String fileName, String newFileName, String classification, String id);
+
+   ArrayList<NoticeBoardDTO> nlist();
+
+   int write(NoticeBoardDTO dto);
+
+   
+
+
+
+
+
+
+
+
+
 
 
 

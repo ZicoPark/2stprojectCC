@@ -27,40 +27,33 @@
     	<table class="table table-bordered table-hover dataTable dtr-inline">
 		    <tr>
 		       <th>제목</th>
-		       <td>${dto.subject}</td>
+		       <td>${detailno.subject}</td>
 		    </tr>
 		    <tr>
 		       <th>작성자</th>
-		       <td>${dto.create_id}</td>
+		       <td>${detailno.create_id}</td>
 		    </tr>
 		    <tr>
 		       <th>조회수</th>
-		       <td>${dto.hit}</td>
+		       <td>${detailno.hit}</td>
 		    </tr>
 		    <tr>
 		       <th>작성일</th>
-		       <td>${dto.notice_date}</td>
+		       <td>${detailno.notice_date}</td>
 		    </tr>
 		    <tr>
 		       <th>내용</th>
-		       <td>${dto.content}</td>
+		       <td>${detailno.content}</td>
 		    </tr>      
 		   	<tr>
 		       <th>첨부파일</th>
 		       <td>	
-					<c:if test="${list.size()==0}">업로드 된 파일이 없습니다.</c:if>
-					<c:if test="${list.size()>0}">
-						<c:forEach items="${list}" var="file">
-							<img src="photo.do?path=${file}" width="250">
-							<a href="download.do?path=${file}">다운로드</a>
-							<br/>
-						</c:forEach>
-					</c:if>
+					<a href="msdownload.do?path=${detailFile}" class="btn btn-default btn-sm float-right"></a>
 				</td>
 		    </tr>   
 		    <tr>
 		       <th colspan="2">
-		          <input type="button" class="btn btn-block btn-outline-success btn-lg"  onclick="location.href='./'" value="안읽음" />         
+		          <input type="button" class="btn btn-block btn-outline-success btn-lg"  onclick="location.href='noticeList.go'" value="안읽음" />         
 		           <input type="button" class="btn btn-block btn-outline-success btn-lg"  onclick="location.href='./noticeBoard.go'" value="돌아가기" />
 		       </th>            
 		   	</tr>         
