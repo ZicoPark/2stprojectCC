@@ -166,6 +166,17 @@ public class WorkService {
 		return dao.wornAllList();
 	}
 
+	public ModelAndView workHolidayList(String id) {
+		ModelAndView mav = new ModelAndView("workHolidayList");
+		
+		ArrayList<WorkDTO> leave_recode_List = dao.leave_recode_List(id);
+		mav.addObject("leave_recode_List",leave_recode_List);
+		
+		WorkDTO annual_leave = dao.annual_leave(id);		
+		mav.addObject("annual_leave",annual_leave);
+		return mav;
+	}
+
 
 
 

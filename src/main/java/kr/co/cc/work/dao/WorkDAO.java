@@ -57,6 +57,10 @@ public interface WorkDAO {
 
 	void wornDel(String member_id, String week);
 
+	ArrayList<WorkDTO> leave_recode_List(String id);
+	
+	WorkDTO annual_leave(String id);
+
 
 
 

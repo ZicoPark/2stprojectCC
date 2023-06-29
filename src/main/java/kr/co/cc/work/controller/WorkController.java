@@ -279,8 +279,9 @@ public class WorkController {
 	
 	// 연차 관리 workHolidayList > 
 	@GetMapping(value="/workHolidayList.go")
-	public String workHolidayList() {
-		return "workHolidayList";
+	public ModelAndView workHolidayList(HttpSession session) {
+		String id = (String) session.getAttribute("loginId");		
+		return service.workHolidayList(id);
 	}
 	
 	

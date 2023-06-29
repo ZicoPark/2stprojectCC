@@ -34,41 +34,6 @@ public class AdminController {
 		return "MemberONOFFList";
 	}
 	
-	// 근태 수정 요청
-	@RequestMapping(value = "/WorkChangeRequest.go")
-	public String WorkChangeRequest() {
-		return "MemberONOFFList";
-	}
-	
-	// 일별 근태 현황
-	@RequestMapping(value = "/WorkDailyList.go")
-	public String WorkDailyList() {
-		return "MemberONOFFList";
-	}
-	
-	// 주별 근태 현황
-	@RequestMapping(value = "/WorkWeekList.go")
-	public String WorkWeekList() {
-		return "MemberONOFFList";
-	}
-	
-	// 연차/휴가 현황
-	@RequestMapping(value = "/HolidayListAdmin.go")
-	public String HolidayListAdmin() {
-		return "MemberONOFFList";
-	}
-	
-	// 부서 카테고리
-	@RequestMapping(value = "/DeptCategory.go")
-	public String DeptCategory() {
-		return "DeptCategory";
-	}
-	
-	// 자료실 카테고리
-	@RequestMapping(value = "/ArchiveCategory.go")
-	public String ArchiveCategory() {
-		return "ArchiveCategory";
-	}
 	
 
 }
