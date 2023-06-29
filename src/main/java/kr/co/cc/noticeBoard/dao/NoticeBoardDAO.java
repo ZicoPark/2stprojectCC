@@ -20,8 +20,6 @@ public interface NoticeBoardDAO {
    
    String noDetailFile(int id);
    
-   
-
    int del(String id);
 
    void noticeFile(String fileName, String newFileName, String classification, String id);

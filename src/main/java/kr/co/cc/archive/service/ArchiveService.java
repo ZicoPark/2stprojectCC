@@ -25,7 +25,7 @@ import kr.co.cc.message.dto.MessageDTO;
 
 
 @Service
-@MapperScan(value= {"kr.co.cc.noticeBoard.dao"})
+@MapperScan(value= {"kr.co.cc.Archive.dao"})
 public class ArchiveService {
 	
 	Logger logger = LoggerFactory.getLogger(getClass());
