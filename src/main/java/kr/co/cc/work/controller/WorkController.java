@@ -294,6 +294,15 @@ public class WorkController {
 	public String annualRegistrationGo() {
 		return "annualRegistration";
 	}
+	
+	@GetMapping(value="/annualRegistration.do")
+	public String annualRegistration() {
+		return "annualRegistration";
+	}
+	
+	
+	
+	
 
 	
 	
