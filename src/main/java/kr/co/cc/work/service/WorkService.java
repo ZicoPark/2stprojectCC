@@ -1,5 +1,6 @@
 package kr.co.cc.work.service;
 
+import java.sql.Time;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -56,13 +57,41 @@ public class WorkService {
 		
 	}
 
-	public ModelAndView workHistoryReqListGo(HttpSession session) {
+	public ModelAndView workHistoryReqListGo(HttpSession session,String msg, String flag) {
 		String id = (String) session.getAttribute("loginId");
 		ArrayList<WorkDTO> dto = dao.workHistoryReqListGo(id);		
 		ModelAndView mav = new ModelAndView("workHistoryReqList");
-		mav.addObject("dto",dto);		
+		mav.addObject("dto",dto);
+		if(flag.equals("WorkChangeAdmin")) {
+			mav.addObject("msg",msg);
+		}
 		return mav;
 	}
+
+	public ModelAndView workHistoryList_Ad() {
+		ModelAndView mav = new ModelAndView("workHistoryList_Ad");
+		ArrayList<WorkDTO> dto = dao.workHistoryList_Ad();
+		mav.addObject("dto",dto);
+		return mav;
+	}
+
+	public int WorkChangeAdmin(int id, String type, int approval) {
+		return dao.WorkChangeAdmin(id,type,approval);
+		
+	}
+
+	public int workHistoryChange_go(int id, Time update_time) {
+		return dao.workHistoryChange_go(id,update_time);
+	}
+
+	public int workHistoryChange_end(int id, Time update_time) {
+		return dao.workHistoryChange_end(id,update_time);
+	}
+
+	public int WorkChangeAdminChk(int id, String type) {
+		return dao.WorkChangeAdminChk(id,type);
+	}
+
 
 
 

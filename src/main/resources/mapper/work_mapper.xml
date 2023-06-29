@@ -5,9 +5,8 @@
 <mapper namespace="kr.co.cc.work.dao.WorkDAO">
 
 	<select id="workHistoryList" resultType="kr.co.cc.work.dto.WorkDTO">
-		SELECT * FROM working_hour WHERE member_id=#{id}
+		SELECT * FROM working_hour WHERE member_id=#{id} ORDER BY date DESC
 	</select>
-
 
 	<select id="timeGoBefore" resultType="int">
 		SELECT COUNT(member_id) FROM working_hour WHERE member_id=#{param1} AND date=#{param2}
@@ -32,11 +31,38 @@
 	
 	<select id="WorkChangeRequestChk">
 		SELECT count(id) FROM working_hour_update WHERE id=#{param1} AND type=#{param2}
-	</select>
-	
+	</select>	
 	
 	<select id="workHistoryReqListGo" resultType="kr.co.cc.work.dto.WorkDTO">
-		SELECT * FROM working_hour_update WHERE member_id=#{id}
+		SELECT * FROM working_hour_update WHERE member_id=#{id}  ORDER BY date DESC
+	</select>	
+	
+	<select id="workHistoryList_Ad" resultType="kr.co.cc.work.dto.WorkDTO">
+		SELECT w.id, w.member_id, w.name ,w.date ,w.update_time ,w.type ,w.reason ,w.approval ,m.dept_name 
+		FROM working_hour_update w inner join member m 
+		on w.member_id = m.id 
+		ORDER BY date DESC
 	</select>
+	
+	<update id="WorkChangeAdmin">	
+		UPDATE working_hour_update set approval=#{param3} where id=#{param1} and type=#{param2}
+	</update>
+	
+	<update id="workHistoryChange">	
+		UPDATE working_hour set approval=#{param3} where id=#{param1} and type=#{param2}
+	</update>
+	
+	<select id="WorkChangeAdminChk">
+		SELECT count(id) FROM working_hour_update WHERE id=#{param1} AND type=#{param2} AND approval=0
+	</select>
+	
+	
+	<update id="workHistoryChange_go">
+		UPDATE working_hour SET time_go=#{param2} WHERE id=#{param1}
+	</update>
+	
+	<update id="workHistoryChange_end">
+		UPDATE working_hour SET time_end=#{param2} WHERE id=#{param1}
+	</update>
 	
 </mapper>

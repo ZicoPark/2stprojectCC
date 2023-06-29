@@ -48,6 +48,7 @@
           <h3 class="card-title">Projects Detail</h3>
 
           <div class="card-tools">
+           <a href="projectInsert.go" class="btn btn-sm btn-primary">추가</a>
             <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
               <i class="fas fa-minus"></i>
             </button>
@@ -110,7 +111,6 @@
             <div class="col-12 col-md-12 col-lg-4 order-1 order-md-2">
 
               <div class="text-center mt-5 mb-3">
-                <a href="#" class="btn btn-sm btn-primary">추가</a>
                 <a href="#" class="btn btn-sm btn-warning">Report contact</a>
               </div>
             </div>
@@ -149,4 +149,10 @@
 <!-- AdminLTE for demo purposes -->
 <script src="../../dist/js/demo.js"></script>
 </body>
+<script>
+var msg = "${msg}";
+if(msg != ""){
+	alert(msg);
+}
+</script>
 </html>

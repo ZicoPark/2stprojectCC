@@ -14,4 +14,8 @@ public interface ProjectDAO {
 
 	ArrayList<ProjectDTO> list();
 
+	ProjectDTO detail(int id);
+
+	void addContributor(int project_id, String memberId);
+
 }

@@ -6,7 +6,11 @@
 	<select id="docFormCall" resultType="kr.co.cc.doc.dto.DocFormDTO">
 		SELECT * FROM doc_form
 	</select>
+<<<<<<< HEAD
 	
+=======
+
+>>>>>>> origin/master
 	<select id="approvalKindCall" resultType="kr.co.cc.doc.dto.ApprovalDTO">
 		SELECT * FROM approval
 	</select>
@@ -59,5 +63,13 @@
 		INSERT INTO notice(send_id, receive_id, type, status, identify_value) 
 			VALUES(#{param1}, #{param2}, #{param3}, #{param4}, #{param5})
 	</insert>
+<<<<<<< HEAD
 	
+=======
+
+	<select id="getMemberSignFilePath" resultType="string">
+		SELECT new_file_name FROM attachment WHERE classification = '서명이미지' AND identify_value = #{param1}
+	</select>
+
+>>>>>>> origin/master
 </mapper>
