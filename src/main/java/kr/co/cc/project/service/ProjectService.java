@@ -113,5 +113,21 @@ public class ProjectService {
 		logger.info("인서트한 첨부파일의 id : "+attachmentId);
 	}
 
+	public ProjectDTO projectDetailUp(int id) {
+		return dao.projectDetailUp(id);
+	}
+
+	public void projectUpdate(HashMap<String, String> params) {
+		int row = dao.projectUpdate(params);
+		
+	}
+
+	public void ContributorUpdate(int project_id, String contributorId) {
+		 dao.updateContributor(project_id, contributorId);	
+		
+	}
+
+
+
 
 }
