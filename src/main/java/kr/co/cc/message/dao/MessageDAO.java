@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 
-
 import kr.co.cc.member.dto.MemberDTO;
 import kr.co.cc.message.dto.MessageDTO;
 
@@ -27,5 +26,12 @@ public interface MessageDAO {
 	void upHit(int id);
 
 	String msDetailFile(int id);
+
+
+	boolean msSelectDelete(String id);
+
+	ArrayList<MessageDTO> msDeptList();
+
+
 
 }

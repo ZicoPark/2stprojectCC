@@ -69,10 +69,9 @@
             <div class="card-body p-0">
               <div class="mailbox-controls">
                 <!-- Check all button -->
-                <button type="button" class="btn btn-default btn-sm checkbox-toggle"><i class="far fa-square"></i>
-                </button>
+				<input type="checkbox" name="allCheck"/><i class="far fa-square"></i>
                 <div class="btn-group">
-                  <button type="button" class="btn btn-default btn-sm">
+                  <button type="button" onclick="deleteValue()" class="btn btn-default btn-sm">
                     <i class="far fa-trash-alt"></i>
                   </button>
                   <button type="button" class="btn btn-default btn-sm">
@@ -105,15 +104,10 @@
                   <tbody>
                   <c:forEach items = "${list}" var="item">
                   <tr>
-                    <td>
-                      <div class="icheck-primary">
-                        <input type="checkbox" value="" id="check1">
-                        <label for="check1"></label>
-                      </div>
-                    </td>
+					<td class="checkbox"><input type="checkbox" name="Rowcheck" value="${item.id}"></td>
                     <td class="mailbox-star"><a href="#"><i class=""></i></a></td>
                     <td class="mailbox-name"><a href="read-mail.html">${item.from_id}</a></td>
-                    <td class="mailbox-subject"><a href="msdetail.do?id=${item.id}">${item.title}</a></td>
+                    <td class="mailbox-subject"><a href="msRcDetail.do?id=${item.id}">${item.title}</a></td>
                     
 
 				    <td class="mailbox-attachment">
@@ -236,7 +230,71 @@
     })
   })
   
-  
+ $(function(){
+	var chkObj = $("input[name='Rowcheck']");
+	var rowCnt = chkObj.length;
+
+	  
+	  $("input[name='allCheck']").click(function(){
+	    var chk_listArr = $("input[name='Rowcheck']"); // 체크박스의 name 속성을 "Rowcheck"로 수정
+	    for (var i=0; i<chk_listArr.length; i++){
+	      chk_listArr[i].checked = this.checked;
+	    }
+	  });
+	  $("input[name='Rowcheck']").click(function(){
+	    if($("input[name='Rowcheck']:checked").length == rowCnt){ // 체크박스의 name 속성을 "Rowcheck"로 수정
+	      $("input[name='allCheck']")[0].checked = true;
+	    }
+	    else{
+	      $("input[name='allCheck']")[0].checked = false;
+	    }
+	  });
+	});
+
+
+
+
+
+function deleteValue(){
+   // Controller로 보내고자 하는 URL (.dh부분은 자신이 설정한 값으로 변경해야됨)
+	  var valueArr = []; // 빈 배열로 초기화
+
+	  var slist = $("input[name='Rowcheck']:checked"); // 선택된 체크박스 요소들을 가져옴
+
+	  if (slist.length === 0) {
+	    alert("선택된 글이 없습니다.");
+	    return; // 함수 종료
+	  }
+    else{
+		var chk = confirm("정말로 삭제하시겠습니까? 삭제 후에는 복구가 불가능합니다.");	
+		
+	    // 선택된 체크박스의 값을 valueArr 배열에 추가
+	    slist.each(function () {
+	      valueArr.push($(this).val());
+	    });
+		
+		$.ajax({
+		    url :'msSelectDelete',                    // 전송 URL
+		    type : 'POST',                // GET or POST 방식
+		    traditional : true,
+		    data : {
+		    	valueArr : valueArr        // 보내고자 하는 data 변수 설정
+		    },
+            success: function(jdata){
+                if(jdata = 1) {
+                    alert("쪽지가 삭제되었습니다.");
+                    location.replace("msSendList.go")
+                }
+                else{
+                    alert("블라인드 처리 실패");
+                }
+            }
+		});
+		
+
+		
+	}
+} 
 
 </script>
 </body>

@@ -29,18 +29,18 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1>Compose</h1>
+            <h1>자료실 게시글 작성</h1>
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="#">Home</a></li>
-              <li class="breadcrumb-item active">Compose</li>
+              <li class="breadcrumb-item active">자료실 게시글 작성</li>
             </ol>
           </div>
         </div>
       </div><!-- /.container-fluid -->
     </section>
-<form action="msWrite.do" method="post" enctype="multipart/form-data">
+<form action="archiveWrite.do" method="post" enctype="multipart/form-data">
     <!-- Main content -->
     <section class="content">
       <div class="container-fluid">
@@ -55,21 +55,12 @@
               <div class="card-body">
                 <div class="form-group">
                 <input type="text" name="from_id" value="${loginId}" readonly="readonly" hidden="true" required/>
-                <input type="text" class="form-control" name="to_id" placeholder="받는 사람: " />
-                <!-- <button onclick="location.href='msMemberList.go'">주소록</button> -->
-              	<a data-toggle="modal" data-target="#modal" role="button">lock</a>   
-                	                        
-                </div>
-				<div id="modal" class="modal fade" tabindex="-1" role="dialog">
-				    <div class="modal-dialog">
-				        <div class="modal-content">
-				        </div>
-				    </div>
-				</div>
-			
+				
+				<input type="radio" name="category" value="업무자료"/>업무자료
+				<input type="radio" name="category" value="문서양식"/>문서양식
 			
                 <div class="form-group">
-                  <input class="form-control" name="title" maxlength="19" onkeyup="counter(event, '20')" placeholder="제목을 입력하세요">
+                  <input class="form-control" name="subject" maxlength="19" onkeyup="counter(event, '20')" placeholder="제목을 입력하세요">
                   <span id="reCount">0 / 20</span>
                 </div>
                 <div class="form-group" name="content">
@@ -78,24 +69,19 @@
                     </textarea>
                 </div>
                 
-			<div class="form-group">
-			  <div class="btn btn-default btn-file">
+
 			    <i class="fas fa-paperclip"></i> 파일 첨부
-			    <input type="file" name="file" multiple="multiple" onchange="displayFileNames(event)" id="fileInput">
-			  </div>
-			  <p class="help-block">Max. 32MB</p>
-			  <div id="fileNames"></div>
-			</div>
+			    <input type="file" name="attachment" multiple="multiple">
+
 
 
               <!-- /.card-body -->
               <div class="card-footer">
                 <div class="float-right">
-                  <button type="button" class="btn btn-default"><i class="fas fa-pencil-alt"></i> Draft</button>
+
                   <button type="submit" class="btn btn-primary"><i class="far fa-envelope"></i> Send</button>
                 </div>
-                <button type="reset" class="btn btn-default"><i class="fas fa-times"></i> Discard</button>
-              </div>
+  
               <!-- /.card-footer -->
             </div>
             <!-- /.card -->
@@ -104,7 +90,6 @@
         </div>
         <!-- /.row -->
       </div><!-- /.container-fluid -->
-      </div>
     </section>
     <!-- /.content -->
   </form>

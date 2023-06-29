@@ -68,4 +68,15 @@
 		AND a.classification = '쪽지' AND ms.id = #{id}
 	</select>
 	
+	<!-- 모달 창 안에 있는 값 -->
+	<select id="msDeptList" resultType="kr.co.cc.message.dto.MessageDTO">
+		SELECT id, name, dept_name FROM member
+		WHERE status = 1
+	</select>
+	
+	<update id="msSelectDelete" parameterType="java.lang.String">
+		UPDATE message SET del_chk = 1 WHERE del_chk = 0 and id = #{id}
+	</update>	
+	
+	
 </mapper>

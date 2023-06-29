@@ -45,6 +45,8 @@
 			</section>
 
 			<form action="projectInsert.do" method="post" enctype="multipart/form-data">
+			<input type="hidden" name="project_idx" value="${project_idx}" />
+			<input type="hidden" name="member_id" value="${member_id}" />
 				<section class="content">
 					<div class="row">
 						<div class="col-md-6">
@@ -61,8 +63,8 @@
 								</div>
 								<div class="card-body">
 									<div class="form-group">
-										<label for="inputName">뭘까</label> <input type="text"
-											id="inputSubject" class="form-control" name="Subject">
+										<label for="inputName">작성자</label> <input type="text"
+											id="inputName" class="form-control" name="member_id" value="${member_id}">
 									</div>
 									<div class="form-group">
 										<label for="inputContent">내용</label>
