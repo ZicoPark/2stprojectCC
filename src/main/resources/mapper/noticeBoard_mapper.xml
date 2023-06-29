@@ -34,7 +34,7 @@
    
    
    <select id="nodetail" resultType="kr.co.cc.noticeBoard.dto.NoticeBoardDTO">
-      select nb.id, nb.create_id, nb.subject, nb.content 
+      select nb.id, nb.create_id, nb.subject, nb.content, nb.hit, nb.notice_date
 		from notice_board nb
 		join member m on nb.create_id = m.id 
 		where nb.id = #{id} 
