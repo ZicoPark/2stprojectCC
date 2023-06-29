@@ -99,18 +99,23 @@ public class ProjectController {
 	        // 프로젝트 정보 업데이트
 	        service.projectUpdate(params);
 
-	        int project_id = Integer.valueOf(params.get("project_id"));
+	        int project_id = Integer.parseInt(params.get("project_id"));
 	        String memberIdsString = params.get("member_id");
-	        String[] memberIds = memberIdsString.split(",");
-	        for (String contributorId : memberIds) {
-	            // 참가자 정보 업데이트
-	            service.ContributorUpdate(project_id, contributorId);
+
+	        if (memberIdsString != null) {
+	            String[] memberIds = memberIdsString.split(",");
+	            // 새로운 참가자 정보 추가
+	            for (String contributorId : memberIds) {
+	                service.addContributor(project_id, contributorId);
+	            }
 	        }
 
-	        session.setAttribute("msg", "정보가 수정되었습니다.");
+	        session.setAttribute("msg", "프로젝트가 수정되었습니다.");
 	    }
 	    return "redirect:/projects.go";
 	}
+
+
 
 
 	
