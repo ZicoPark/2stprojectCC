@@ -50,10 +50,16 @@
 	</select>
 
 	<update id="archiveUpdate">
-		UPDATE archive_board SET subject = #{
+		UPDATE archive_board SET 
+		subject = #{subject}
+		,content = #{content}
+		,category = #{category}
+		WHERE id = #{id}
 	</update>
 
-
+	<delete id="removeFileName" parameterType="String">
+		DELETE FROM attachment WHERE new_photo_name = #{fileName} AND classification = '자료실'
+	</delete>
 
 
 

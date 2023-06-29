@@ -1,5 +1,6 @@
 package kr.co.cc.archive.service;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -25,7 +26,7 @@ import kr.co.cc.message.dto.MessageDTO;
 
 
 @Service
-@MapperScan(value= {"kr.co.cc.noticeBoard.dao"})
+@MapperScan(value= {"kr.co.cc.archive.dao"})
 public class ArchiveService {
 	
 	Logger logger = LoggerFactory.getLogger(getClass());
@@ -104,27 +105,37 @@ public class ArchiveService {
 		return dao.archiveDetailFile(id);
 	}
 
-	public String archiveUpdate(MultipartFile[] attachment, HashMap<String, String> params, HttpSession session,
-			Model model) {
-			 String loginId = (String) session.getAttribute("loginId");
-			 String page = "redirect:/archiveBoard.go";
-			   
-			    logger.info("files: " + attachment);		 
+	public String archiveUpdate(MultipartFile[] attachment, HashMap<String, String> params, ArrayList<String> removeFile, HttpSession session) {
 			 
-			        ArchiveDTO dto = new ArchiveDTO();
-			        dto.setMember_id(loginId);
-			        dto.setCategory(params.get("category"));
-			        dto.setSubject(params.get("subject"));
-			        dto.setContent(params.get("content"));
-			        logger.info("업데이트할 params: " + params);
-			        
-			        int row = dao.archiveUpdate(dto);
+			logger.info("params : "+params);
+
+			if(params.get("category")!=null) {
+				String category_id = params.get("category");
+				params.put("category_id", category_id);
+			}
+			if(params.get("subject")!=null) {
+				String subject_id = params.get("subject");
+				params.put("subject_id", subject_id);
+			}
+			if(params.get("content")!=null) {
+				String content_id = params.get("content");
+				params.put("content_id", content_id);
+			}	
+
+		        
+			        int row = dao.archiveUpdate(params);
 			        logger.info("insert row: " + row);
-			        int idx = dto.getId();
+			        int idx = 0;
 
 			        logger.info("idx: " + idx);
 
 					if(row==1) { // 업로드된 자료실 게시물이 1이라면
+						
+						if(removeFile.size()>1) {
+							attachmentRemove(removeFile);
+						}
+						
+						idx = Integer.parseInt(params.get("id"));
 						
 						for (MultipartFile file : attachment) {
 							
@@ -142,13 +153,23 @@ public class ArchiveService {
 							
 						}
 					}
-
-				
-					page = "redirect:/archivedetail.do?id="+idx;
 					
 					
-			    return page;
+			    return "";
 			}
+	private void attachmentRemove(ArrayList<String> newFileName) {
+		
+		for (String FileName : newFileName) {// for 문으로 하나씩 담아서 
+			logger.info(FileName);
+			File file = new File(attachmentRoot+"/"+newFileName);// file 객체 생성 후 
+			if(file.exists()) {// 파일이 존재하면 
+				file.delete();// 파일을 삭제함
+			}
+			dao.removeFileName(FileName);
+		}
+		
+	}
+
 	private void attachmentSave(int id, MultipartFile file, String cls) {
 		
 		String oriFileName = file.getOriginalFilename();
