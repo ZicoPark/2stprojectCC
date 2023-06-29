@@ -119,6 +119,7 @@
 							계정 상태 : &nbsp;&nbsp;&nbsp;&nbsp; ${detail.status}
 							<select name="status" class="status">
 								<option value="재직">재직</option>
+								<option value="휴직">휴직</option>
 								<option value="퇴사">퇴사</option>
 							</select>
 						</td>
@@ -155,8 +156,10 @@
 	    }
 	}
 	var jobValue = '${detail.job_name}'; // 직급 값 가져오기
+	console.log('jobValue:', jobValue); // 로그 출력
+
 	var jobSelect = document.querySelector('.job'); // 직급 셀렉트 요소 가져오기
-	
+
 	// 직급 값에 따라 기본값 설정
 	for (var j = 0; j < jobSelect.options.length; j++) {
 	    if (jobSelect.options[j].value === jobValue) {
