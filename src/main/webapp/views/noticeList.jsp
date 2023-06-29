@@ -13,22 +13,6 @@
   <link rel="stylesheet" href="../../plugins/fontawesome-free/css/all.min.css">
   <!-- Theme style -->
   <link rel="stylesheet" href="../../dist/css/adminlte.min.css">
-  <style>
-      table, th, td{
-         border: 1px solid black;
-         border-collapse: collapse;
-         padding: 5px 10px;
-      }
-      #login{
-         margin-bottom: 20px;
-      }
-      button{
-         margin: 5px;
-      }
-      table{
-         width: 500px;
-      }
-</style>
 </head>
 <body>
 <jsp:include page = "index.jsp"></jsp:include>
@@ -36,34 +20,26 @@
 <div class="wrapper">
   <div class="content-wrapper">
     <section class="content-header">
-            <h1>공지사항</h1>         
+            <h1>공지 안읽은 사람</h1>         
     </section>
     <!-- Main content -->
     <section class="content">
-      <form action="noticeBoardWrite.do" method="post" enctype="multipart/form-data"> <!-- multiUpload.do -->
-         <table class="table table-bordered table-hover dataTable dtr-inline">
-            <tr>
-               <th>제목</th>
-               <td><input type="text" name="subject" /></td>
-            </tr>
-            <tr>
-               <th>내용</th>
-               <td><textarea name="content"></textarea> </td>
-            </tr>
-            <tr>
-            	<th>첨부파일</th>
-            	<td>
-					<input type="file" name="file"  multiple="multiple"/>	
-				</td>
-            </tr>
-            <tr>
-               <th colspan="2">
-                  <input type="button" onclick="location.href='./noticeBoard.go'" value="돌아가기" />
-                  <button>작성하기</button>
-               </th>
-            </tr>      
-         </table>
-      </form>
+          <table>
+			<thead>
+				<tr>
+					<th>이름</th>
+					<th>ID</th>
+				</tr>
+			</thead>
+			<tbody>
+				<c:forEach items="${list}" var="member">
+					<tr>
+						<td>${member.name}</td>
+						<td>${member.id}</td>
+					</tr>			
+				</c:forEach>
+			</tbody>
+		</table>
     </section>
   </div>
 </div>
@@ -80,4 +56,3 @@
 <script>
 </script>
 </html>
-   

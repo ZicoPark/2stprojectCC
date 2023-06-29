@@ -4,4 +4,14 @@
 	
 <mapper namespace="kr.co.cc.personal.dao.PersonalDAO">
 
+
+		<select id="personalList" resultType="kr.co.cc.personal.dto.PersonalDTO"> <!-- 메서드 가져옴 > resultType >결과 반환타입 -->
+			SELECT * FROM personal ORDER BY id DESC
+		</select>
+	
+		<insert id="pwrite" parameterType="hashmap">
+			INSERT INTO personal(member_id,title,start_date, end_date)
+			VALUES(#{member_id},#{title},#{start_date},#{end_date})
+		</insert>
+		
 </mapper>
