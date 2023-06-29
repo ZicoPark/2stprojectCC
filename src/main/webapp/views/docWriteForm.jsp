@@ -40,7 +40,6 @@
 				<option value="${i.id}">${i.name}</option>
 			</c:forEach>
 		</select>
-
 		<select name="approvalPerson">
 			<option value="default">--</option>
 			<c:forEach items="${memberList}" var="i">
@@ -52,9 +51,10 @@
 		<div id="div_editor">
 			<!-- 에디터 안에 들어갈 자리 -->
 		</div>
-		<input type="hidden" id="content" name="content"/>
+		<textarea hidden="true" id="content" name="content"></textarea>
 		<input type="hidden" id="status" name="status"/>
 		<input type="file" multiple="multiple" name="attachment"/>
+		
 		<input type="button" onclick="pushDoc()" value="제출"/>
 		<input type="button" onclick="saveDoc()" value="임시저장"/>
 	</form>
@@ -102,7 +102,7 @@ function addApproval(){
 function pushDoc(){
 	
 	var submitContent = editor.getHTMLCode();
-	$('input[name="content"]').val(submitContent);
+	$('textarea[name="content"]').val(submitContent);
 	$('input[name="status"]').val('1');
 	$('form').submit();
 	
@@ -111,7 +111,7 @@ function pushDoc(){
 function saveDoc(){
 	
 	var submitContent = editor.getHTMLCode();
-	$('input[name="content"]').val(submitContent);
+	$('textarea[name="content"]').val(submitContent);
 	$('input[name="status"]').val('2');
 	$('form').submit();
 	

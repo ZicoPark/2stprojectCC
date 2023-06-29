@@ -60,9 +60,11 @@
 			VALUES(#{param1}, #{param2}, #{param3}, #{param4}, #{param5})
 	</insert>
 
+
 	<select id="getMemberSignFilePath" resultType="string">
 		SELECT new_file_name FROM attachment WHERE classification = '서명이미지' AND identify_value = #{param1}
 	</select>
+
 
 	<select id="getApprovalName" resultType="string">
 		SELECT name FROM approval WHERE id = #{param1}
@@ -105,6 +107,19 @@
 		UPDATE doc SET content = #{param2} WHERE id = #{param1}
 	</update>
 	
-
-
+	<delete id="attachmentDelete">
+		DELETE FROM attachment WHERE new_file_name = #{param1}
+	</delete>
+	
+	<update id="docUpdate" parameterType="hashmap">
+		UPDATE doc SET subject = #{subject}
+			, content = #{dateWritedContent}
+			, status = #{status}
+			, public_range = #{publicRange} 
+			, create_date = #{docUpdateTime} 
+		WHERE id = #{id}
+	</update>
+	
+	
+	
 </mapper>

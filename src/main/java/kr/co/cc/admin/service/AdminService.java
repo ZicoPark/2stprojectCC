@@ -1,5 +1,10 @@
 package kr.co.cc.admin.service;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 import org.mybatis.spring.annotation.MapperScan;
@@ -16,6 +21,20 @@ import kr.co.cc.admin.dto.AdminDTO;
 @MapperScan(value = {"kr.co.cc.admin.dao"})
 public class AdminService {
 
+	private Connection conn;
+	private ResultSet rs;
+	String url = "jdbc:log4jdbc:mariadb://152.69.231.87:3306/cc";
+	String username = "web_user";
+	String password = "gudi@gdj63";
+	
+	public void connectToDB() {
+		try {
+		    conn = DriverManager.getConnection(url, username, password);
+		} catch (SQLException e) {
+		    e.printStackTrace();
+		}
+	}
+	
 	@Autowired AdminDAO dao;
 	Logger logger = LoggerFactory.getLogger(getClass());
 	
@@ -26,14 +45,48 @@ public class AdminService {
 		return mav;
 	}
 
-	public ModelAndView AdminMemberDetail(String MemberId) {
-		// logger.info("MemberId : "+MemberId);
+	public ModelAndView AdminMemberDetail(String id) {
+		// logger.info("MemberId : "+id);
 		ModelAndView mav = new ModelAndView("AdminMemberDetail");
-		ArrayList<AdminDTO> detail = dao.AdminMemberDetail(MemberId);
+		AdminDTO detail = dao.AdminMemberDetail(id);
 		mav.addObject("detail", detail);
-		// logger.info("디테일확인 : "+detail);
 		return mav;
 	}
+	
+	public ArrayList<AdminDTO> MemberSearch(String searchField, String searchText){ //특정한 리스트를 받아서 반환
+		ArrayList<AdminDTO> list = new ArrayList<AdminDTO>();
+		String SQL = "SELECT id, dept_name, name, status, admin_chk FROM member WHERE " + searchField.trim();
+		try {
+			connectToDB();
+			if(searchText != null && !searchText.equals("")){
+				SQL +=" LIKE '%"+searchText.trim()+"%'";
+			}
+			PreparedStatement pstmt=conn.prepareStatement(SQL);
+			rs=pstmt.executeQuery(); 
+			while(rs.next()) {
+				AdminDTO dto = new AdminDTO();
+				dto.setId(rs.getString("id"));
+	            dto.setDept_name(rs.getString("dept_name"));
+	            dto.setName(rs.getString("name"));
+	            dto.setStatus(rs.getBoolean("status"));
+	            dto.setAdmin_chk(rs.getBoolean("admin_chk"));
+				list.add(dto);
+			}     
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		return list;
+	}
 
+	public String MemberUpdate(AdminDTO dto, String id) {
+		int row = dao.MemberUpdate(dto, id);
+		logger.info("업데이트 확인 여부 : "+row);
+		// logger.info("id 확인 : "+id);
+		// String page = "redirect:/MemberList.go";
+		String page = "redirect:/AdminMemberDetail.go?id="+id;
+		return page;
+	}
 
+	
+	
 }

@@ -1,11 +1,5 @@
 package kr.co.cc.member.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.mail.SimpleMailMessage;
-import org.springframework.mail.javamail.JavaMailSender;
-
-import kr.co.cc.member.dto.MemberDTO;
-
 public class SendEmailService {
 	
 	 /*@Autowired  UserRepository userRepository;

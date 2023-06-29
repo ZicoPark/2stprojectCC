@@ -27,42 +27,49 @@
     <!-- Main content -->
     <section class="content">
     <br/>
-    	<div>
-			<input type="date" id="dailyList" name="dailyList" value=""/>
-			<button onclick="daliyListFind()">검색</button>	
-    	</div>
-    	<table class="table table-bordered">
-    		<thead>
-    			<tr>
-    				<th>부서</th>
-    				<th>이름</th>
-    				<th>직급</th>
-    				<th>근무일</th>
-    				<th>출근 시간</th>
-    				<th>퇴근 시간</th>				
-    				<th>근무 시간</th>
-    			</tr>    		
-    		</thead>
-    		<tbody id="dailyListId">
-    			<c:if test="${dto eq null}">
-					<tr>
-						<th colspan="7">등록된 근태가 없습니다.</th>
-					</tr>
-				</c:if>   		
-	    		<c:forEach items="${dto}" var="workList">
-					<tr> 
-	    				<td>${workList.dept_name}</td>
-	    				<td>${workList.name}</td>
-	    				<td>${workList.job_name}</td>
-	    				<td>${workList.date}</td>
-	    				<td>${workList.time_go}</td>    				
-	    				<td>${workList.time_end}</td>
-	    				<td>${String.format('%.1f', (workList.time_end.time - workList.time_go.time) / (1000.0 * 60 * 60))}</td>
-	    			</tr>
-				</c:forEach>
-				
-    		</tbody>    	
-    	</table>
+    
+    <form action="weekListFind.do">
+    	<input type="date" id="date" name="date"/>
+    	<button>검색</button><br/>
+		검색을 원하시는 주의 <b>월요일</b>을 선택해주세요. (해당 주의 월요일 ~ 금요일이 검색됩니다.)		
+    </form>
+    	
+	<table class="table table-bordered">    	
+   		<thead>
+   			<tr>
+   				<th>부서</th>
+   				<th>아이디</th>
+   				<th>이름</th>
+   				<th>직급</th>	
+   				<th>시작일</th>			
+   				<th>근무 시간</th>		
+   				<th>경고 상태</th>
+   				<th>경고</th>
+   			</tr>    		
+   		</thead>
+   		<tbody id="weekListId">
+   			<c:if test="${dto.size()==0}">
+				<tr>
+					<th colspan="6">검색을 원하시는 주의 <b>월요일</b>을 선택해주세요. (해당 주의 월요일 ~ 금요일이 검색됩니다.)</th>
+				</tr>
+			</c:if>   		
+    		<c:forEach items="${dto}" var="work">
+				<tr> 
+    				<td>${work.dept_name}</td>
+    				<td>${work.member_id}</td>
+    				<td>${work.name}</td>
+    				<td>${work.job_name}</td>
+    				<td>${week}</td>
+    				<td>${work.total_time}</td>
+    				<td>${work.worn == true ? 'O' : 'X'}</td>
+    				<td>
+    				<a href="workWorn.do?member_id=${work.member_id}&dept_name=${work.dept_name}&name=${work.name}&job_name=${work.job_name}&week=${week}&total_time=${work.total_time}">
+    					경고
+    				</a></td>				
+    			</tr>
+			</c:forEach>				
+   		</tbody>    	
+   	</table>       	
     </section>
   </div>
 </div>
@@ -82,62 +89,7 @@
 	if(msg != ""){
 		alert(msg);
 	}
-	
-	function daliyListFind(){
-		var dailyListDate = $('#dailyList').val();
-		console.log(dailyListDate);			
-		$.ajax({
-			type:'get',
-			url:'dailyListFind.ajax',
-			data:{'dailyListDate':dailyListDate},
-			dataType:'json',
-			success:function(data){
-				console.log(data);
-				dailyListDraw(data.dto);
-			},error:function(e){
-				console.log(e);
-			}		
-		});		
-	}
-	
-	
-	function dailyListDraw(list){
-		console.log("list : " + list);
-		var content ='';
-		if(list.length>0){
-			console.log("list if : " + list);
-			list.forEach(function(item,index){
-				content += '<tr>';
-				content += '<td>'+item.dept_name+'</td>';
-				content += '<td>'+item.name+'</td>';
-				content += '<td>'+item.job_name+'</td>';
-				content += '<td>'+item.date+'</td>';
-				content += '<td>'+item.time_go+'</td>';
-				content += '<td>'+item.time_end+'</td>';
-				var timeEnd = parseTimeString(item.time_end);
-			    var timeGo = parseTimeString(item.time_go);
-				var duration = (timeEnd.getTime() - timeGo.getTime()) / (1000 * 60 * 60);
-		        content += '<td>' + duration.toFixed(1) + '</td>';
-				content += '</tr>';
-			})
-			console.log("list forEach : " + content);			
-		} else {
-			content = '<tr><th colspan="7">해당 날짜에 등록된 근태가 없습니다.</th></tr>';
-		}
-		$('#dailyListId').empty();
-		$('#dailyListId').append(content);
-	}
-	
-	function parseTimeString(timeString) {
-		  var parts = timeString.split(':');
-		  if (parts.length === 3) {
-		    var hours = parseInt(parts[0], 10);
-		    var minutes = parseInt(parts[1], 10);
-		    var seconds = parseInt(parts[2], 10);
-		    return new Date(1970, 0, 1, hours, minutes, seconds);
-		  }
-		  return null;
-	}
-	
+	var currentDate = new Date().toISOString().split("T")[0];
+	document.getElementById("date").value = currentDate;
 </script>
 </html>

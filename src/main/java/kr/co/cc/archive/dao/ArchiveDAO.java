@@ -11,12 +11,14 @@ public interface ArchiveDAO {
 
 	int archiveWrite(ArchiveDTO dto);
 
-	void archivefileWrite(String fileName, String newFileName, String classification, int idx);
+	void archivefileWrite(String oriFileName, String newFileName, String cls, int idx);
 
 	void upHit(int id);
 
 	ArchiveDTO archivedetail(int id);
 
-	String archiveDetailFile(int id);
+	ArrayList<String> archiveDetailFile(String id);
+
+	int archiveUpdate(ArchiveDTO dto);
 
 }

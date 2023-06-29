@@ -24,7 +24,7 @@
 
 	
 	<select id="ProjectList" resultType="kr.co.cc.project.dto.ProjectDTO">
-	  SELECT p.project_id, p.name, p.start_date, p.step, GROUP_CONCAT(c.member_id SEPARATOR ',') AS contributors
+	  SELECT p.project_id, p.name, p.member_id, p.start_date, p.step, GROUP_CONCAT(c.member_id SEPARATOR ',') AS contributors
 	  FROM project p
 	  LEFT JOIN contributor c ON p.project_id = c.project_id
 	  GROUP BY p.project_id, p.name, p.start_date, p.step
@@ -32,10 +32,69 @@
 
 	
 		<select id="ProjectDetail" parameterType="int" resultType="kr.co.cc.project.dto.ProjectDTO">
-		    SELECT *
-		    FROM project
-		    WHERE project_id = #{id}
+		    SELECT c.comment_id, c.project_id, c.member_id, c.comment_content, c.comment_status, c.comment_create_date, c.step, c.status, a.new_file_name
+			FROM comment c
+			JOIN attachment a ON c.project_id = a.identify_value
+			WHERE project_id = #{id} AND a.classification = '프로젝트첨부파일';
 		</select>
+		
+		
+		
+		
+		<insert id="commentWrite" parameterType="kr.co.cc.project.dto.ProjectDTO">
+		INSERT INTO
+		comment(comment_content,member_id,project_id,step,status)
+		VALUES(#{comment_content},#{member_id},#{project_id},#{step},#{status})
+	</insert>
+		
+		<insert
+		useGeneratedKeys="true"
+		keyColumn="id"
+		keyProperty="id" 
+		id="ProjectFileWrite" parameterType="kr.co.cc.project.dto.ProjectDTO">
+		INSERT INTO attachment(identify_value, ori_file_name, new_file_name,classification)
+		VALUES(#{idx},#{ori_file_name},#{new_file_name},'프로젝트첨부파일')
+	</insert>
+	
+	<update id="stateChange" parameterType="kr.co.cc.project.dto.ProjectDTO">
+		UPDATE  project SET  step=#{step} where project_id=#{project_id}
+	</update>
+
+	<insert 
+		useGeneratedKeys="true" 
+		keyColumn="id" 
+		keyProperty="id" 
+		id="AttachmentSave" parameterType="kr.co.cc.project.dto.AttachmentDTO">
+	INSERT INTO attachment(identify_value, ori_file_name, new_file_name,classification)
+	VALUES(#{identify_value},#{ori_file_name},#{new_file_name},'프로젝트첨부파일')
+	</insert>
+	
+	<select id="projectDetailUp" resultType="kr.co.cc.project.dto.ProjectDTO">
+    SELECT p.project_id, p.name, p.member_id, p.public_range, p.priod, p.deadlinepriod, p.step, p.status, GROUP_CONCAT(c.member_id SEPARATOR ',') AS contributors
+    FROM project p
+    INNER JOIN contributor c ON p.project_id = c.project_id
+    WHERE p.project_id = #{param1}
+</select>
+
+	<update id="projectUpdate" parameterType="kr.co.cc.project.dto.ProjectDTO">
+	  UPDATE project
+	  SET name = #{name},
+	      public_range = #{public_range},
+	      priod = #{priod},
+	      deadlinepriod = #{deadlinepriod}
+	  WHERE project_id = #{project_id}
+	</update>
+	
+	<update id="updateContributor" parameterType="kr.co.cc.project.dto.ProjectDTO">
+	  UPDATE contributor
+	  SET member_id = #{contributorId}
+	  WHERE project_id = #{project_id}
+	</update>
+	
+	
+	
+	
+
 
 																							
 </mapper>

@@ -74,4 +74,32 @@ public class DocController {
 		
 		return service.attachmentDownload(oriFileName, newFileName);
 	}
+	
+	@RequestMapping(value="/attachmentDelete.do")
+	public ModelAndView attachmentDelete(@RequestParam String id, @RequestParam String newFileName) {
+		
+		return service.attachmentDelete(id, newFileName);
+	}
+	
+	@RequestMapping(value="/docUpdate.do")
+	public ModelAndView docUpdate(MultipartFile[] attachment, HttpSession session,
+			@RequestParam String[] approvalVariable, @RequestParam String[] approvalPerson, 
+			@RequestParam HashMap<String, String> params) {
+
+		ArrayList<String[]> approvalList = new ArrayList<String[]>();
+		// 결재선 정렬 로직 // HashMap을 쓰면 뒤죽박죽 되어서 List에 String 2개짜리 배열 이용함.
+		for(int i=0;i<approvalVariable.length;i++) {
+			
+			String[] approvalStr = new String[2];
+			
+			approvalStr[0] = approvalVariable[i];
+			approvalStr[1] = approvalPerson[i];
+			approvalList.add(approvalStr);
+			logger.info("list0 :"+approvalList.get(i)[0]);
+			logger.info("list1 :"+approvalList.get(i)[1]);
+			
+		}
+		
+		return service.docUpdate(params, approvalList, attachment, session);
+	}
 }

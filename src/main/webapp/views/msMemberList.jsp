@@ -27,15 +27,16 @@
   <!-- Navbar -->
   
  		
-	<select id="addressBook" name="dept_select" onchange="memberList(this)">
-	   <option value="default">전체</option>
+	
 	   <c:forEach items="${DeptList}" var="dept">
-	      <option value="${dept.name}">${dept.name}</option>
+		<td class="checkbox"><input type="checkbox" name="Rowcheck" value="${dept.id}"></td>
+        <td>${dept.name}</td>
+        <td>${dept.dept_name}</td>
 	   </c:forEach>
-	</select>
+
 
   
-<
+
 
   <table id="keywords" cellspacing="0" cellpadding="0">
   <h3>주소록</h3>
