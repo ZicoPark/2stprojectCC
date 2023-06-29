@@ -40,7 +40,7 @@
         </div>
       </div><!-- /.container-fluid -->
     </section>
-<form action="msWrite.do" method="post" enctype="multipart/form-data">
+<form action="msReply.do" method="post" enctype="multipart/form-data">
     <!-- Main content -->
     <section class="content">
       <div class="container-fluid">
@@ -55,39 +55,25 @@
               <div class="card-body">
                 <div class="form-group">
                 <input type="text" name="from_id" value="${loginId}" readonly="readonly" hidden="true" required/>
-                <input type="text" class="form-control" name="to_id" placeholder="받는 사람: " />
-                <!-- <button onclick="location.href='msMemberList.go'">주소록</button> -->
-              	<a data-toggle="modal" data-target="#modal" role="button">lock</a>   
-                	                        
+                <input type="text" class="form-control" name="to_id" value="${fromId}" placeholder="받는 사람: " />
                 </div>
-				<div id="modal" class="modal fade" tabindex="-1" role="dialog">
-				    <div class="modal-dialog">
-				        <div class="modal-content">
-				        </div>
-				    </div>
-				</div>
-			
-			
                 <div class="form-group">
-                  <input class="form-control" name="title" maxlength="19" onkeyup="counter(event, '20')" placeholder="제목을 입력하세요">
-                  <span id="reCount">0 / 20</span>
+                  <input class="form-control" name="title" placeholder="제목을 입력하세요">
                 </div>
                 <div class="form-group" name="content">
                     <textarea id="compose-textarea" class="form-control" style="height: 300px" name="content">
                       
                     </textarea>
                 </div>
-                
-			<div class="form-group">
-			  <div class="btn btn-default btn-file">
-			    <i class="fas fa-paperclip"></i> 파일 첨부
-			    <input type="file" name="file" multiple="multiple" onchange="displayFileNames(event)" id="fileInput">
-			  </div>
-			  <p class="help-block">Max. 32MB</p>
-			  <div id="fileNames"></div>
-			</div>
-
-
+                <div class="form-group">
+                  <div class="btn btn-default btn-file">
+              
+                    <i class="fas fa-paperclip"></i> 파일 첨부
+                    <input type="file" name="file" multiple="multiple">
+                  </div>
+                  <p class="help-block">Max. 32MB</p>
+                </div>
+              </div>
               <!-- /.card-body -->
               <div class="card-footer">
                 <div class="float-right">
@@ -104,7 +90,6 @@
         </div>
         <!-- /.row -->
       </div><!-- /.container-fluid -->
-      </div>
     </section>
     <!-- /.content -->
   </form>
@@ -141,72 +126,6 @@
     //Add text editor
     $('#compose-textarea').summernote()
   })
-  
-	$(".modal-content").load("/msMemberList.go");
-  
-  function counter(event, limit){
-	    var val = event.target.value.length;
-	    var elem = $(event.target).siblings().find('span');
-	    console.log(val);
-	    console.log(limit);
-	    console.log(elem);
-	    if(val <= limit){
-	      elem.html(val + " / " + limit);
-	      if (val >= 17) {
-	        elem.css('color', 'red');
-	      } else {
-	        elem.css('color', ''); // 기본 색상으로 변경 (CSS 스타일 제거)
-	      }
-	    }
-	  }
-	  
-	  // 글자 수 실시간 업데이트
-	  var titleInput = document.querySelector('input[name="title"]');
-	  var countSpan = document.getElementById('reCount');
-	  
-	  titleInput.addEventListener('input', function() {
-	    var count = this.value.length;
-	    countSpan.innerText = count + ' / 20';
-	    
-	    if (count >= 20) {
-	      countSpan.style.color = 'red';
-	    } else {
-	      countSpan.style.color = ''; // 기본 색상으로 변경 (CSS 스타일 제거)
-	    }
-	  });
-
-	  function displayFileNames(event) {
-		    var fileNamesDiv = document.getElementById('fileNames');
-		    fileNamesDiv.innerHTML = '';
-		    
-		    var files = Array.from(event.target.files);
-		    files.forEach(function(file) {
-		      var fileNameSpan = document.createElement('span');
-		      fileNameSpan.innerText = file.name;
-
-		      var cancelIcon = document.createElement('i');
-		      cancelIcon.className = 'fas fa-times cancel-icon';
-		      cancelIcon.addEventListener('click', function() {
-		        removeFile(file, fileNameSpan);
-		      });
-
-		      var fileNameContainer = document.createElement('div');
-		      fileNameContainer.className = 'file-name-container';
-		      fileNameContainer.appendChild(fileNameSpan);
-		      fileNameContainer.appendChild(cancelIcon);
-
-		      fileNamesDiv.appendChild(fileNameContainer);
-		    });
-		  }
-
-		  function removeFile(file, fileNameSpan) {
-		    var fileInput = document.getElementById('fileInput');
-		    fileInput.value = '';
-
-		    fileNameSpan.parentNode.remove();
-		  }
-
-
 </script>
 
 </body>

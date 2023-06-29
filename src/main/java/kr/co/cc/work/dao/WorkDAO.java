@@ -1,5 +1,7 @@
 package kr.co.cc.work.dao;
 
+
+
 import java.sql.Time;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -32,6 +34,33 @@ public interface WorkDAO {
 	int workHistoryChange_go(int id, Time update_time);
 
 	int workHistoryChange_end(int id, Time update_time);
+
+	ArrayList<WorkDTO> workDailyList();
+
+	ArrayList<WorkDTO> dailyListFind(String formattedDate);
+
+	ArrayList<WorkDTO> weekListFind(String week);
+
+	String dayChk(String week);
+
+	void workWorn(HashMap<String, Object> params);
+
+	int workWornChk(String member_id, String weekRe);
+
+	ArrayList<WorkDTO> workWornList();
+
+	ArrayList<WorkDTO> wornAllList();
+
+	ArrayList<WorkDTO> wornListFindName(String wornFind1, String wornFind2);
+	
+	ArrayList<WorkDTO> wornListFindId(String wornFind1, String wornFind2);
+
+	void wornDel(String member_id, String week);
+
+	ArrayList<WorkDTO> leave_recode_List(String id);
+	
+	WorkDTO annual_leave(String id);
+
 
 
 

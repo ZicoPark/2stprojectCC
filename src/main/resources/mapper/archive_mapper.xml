@@ -4,4 +4,55 @@
 	
 <mapper namespace="kr.co.cc.archive.dao.ArchiveDAO">
 
+	<select id="archivelist" resultType="kr.co.cc.archive.dto.ArchiveDTO">
+   		SELECT * FROM  archive_board WHERE status = 1
+   	</select>
+	
+	<!-- 자료실 작성 -->
+	<insert 
+	useGeneratedKeys="true"
+	keyColumn="id"
+	keyProperty="id"	
+	id="archiveWrite" parameterType="kr.co.cc.archive.dto.ArchiveDTO">
+		INSERT INTO archive_board (member_id,category, subject, content, hit, status)	
+		values(#{member_id},#{category},#{subject},#{content},0,1); 		
+	</insert>
+
+	<!-- 파일 첨부 -->
+	<insert id="archivefileWrite">
+		INSERT INTO attachment(ori_file_name, new_file_name, classification, identify_value)
+			VALUES(#{param1}, #{param2}, #{param3}, #{param4})
+	</insert>
+
+<!-- 자료실 상세보기 -->
+	<select id="archivedetail" resultType="kr.co.cc.archive.dto.ArchiveDTO">
+		select ab.id, ab.member_id ,ab.category ,ab.subject ,ab.content ,ab.hit ,ab.create_date , m.dept_name, m.name
+		from archive_board ab
+		join member m on ab.member_id = m.id 
+		where ab.id = #{id}
+	</select>	
+
+	<!-- 조회수 상승 -->
+	<update id="upHit" parameterType="Integer">
+		UPDATE archive_board SET hit = hit + 1 WHERE id = #{id}
+	</update>	
+	
+	<resultMap id="attachmentMap" type="kr.co.cc.doc.dto.AttachmentDTO" >
+		<id property="id" column="id"/>
+		<result property="oriFileName" column="ori_file_name"/>
+		<result property="newFileName" column="new_file_name"/>
+		<result property="classification" column="classification"/>
+		<result property="identifyValue" column="identify_value"/>		
+	</resultMap>
+	
+	<select id="archiveDetailFile" resultMap="attachmentMap">
+		SELECT* FROM attachment WHERE classification = '자료실' AND identify_value = #{id}
+	</select>
+
+
+
+
+
+
+
 </mapper>

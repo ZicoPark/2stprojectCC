@@ -12,5 +12,49 @@
 	<select id = "login" parameterType="hashmap">
 		SELECT id FROM member WHERE id = #{id} and password = #{password}
 	</select>
+	
+	<select id="idChk" resultType="int">
+      SELECT COUNT(id) FROM member WHERE id = #{param1}
+    </select>
+    
+    <select id="getUserInfo" parameterType="hashmap"
+		resultType="kr.co.cc.member.dto.MemberDTO">
+		SELECT id
+		, password
+		, name
+		, birth_date
+		, hire_date
+		, end_date
+		, email
+		, phone
+		, status
+		, admin_chk
+		, job_name
+		, dept_name
+		FROM member
+		WHERE name = #{name}
+		AND email = #{email}
+	</select>
+    
+    
+    <select id="getUserInfoPW" parameterType="hashmap"
+		resultType="kr.co.cc.member.dto.MemberDTO">
+		SELECT id
+		, password
+		, name
+		, birth_date
+		, hire_date
+		, end_date
+		, email
+		, phone
+		, status
+		, admin_chk
+		, job_name
+		, dept_name
+		FROM member
+		WHERE id = #{id}
+		AND name = #{name}
+		AND email = #{email}
+	</select>
 
 </mapper>

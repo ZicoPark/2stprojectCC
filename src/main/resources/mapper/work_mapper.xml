@@ -65,4 +65,83 @@
 		UPDATE working_hour SET time_end=#{param2} WHERE id=#{param1}
 	</update>
 	
+	
+	<select id="workDailyList" resultType="kr.co.cc.work.dto.WorkDTO">
+	SELECT m.dept_name ,m.name ,m.job_name, w.date ,w.time_go ,w.time_end, w.member_id
+		FROM working_hour w inner join member m 
+		on w.member_id = m.id
+	where w.date = (select MAX(date) from working_hour)
+	</select>	
+	
+	
+	<select id="dailyListFind" resultType="kr.co.cc.work.dto.WorkDTO">
+	SELECT m.dept_name ,m.name ,m.job_name, w.date ,w.time_go ,w.time_end ,w.member_id
+		FROM working_hour w inner join member m 
+		on w.member_id = m.id
+	where w.date = (select max(date) from working_hour where date = #{param1})	
+	</select>
+	
+	<select id="dayChk">
+		SELECT DATE_FORMAT(#{param1}, '%W')
+	</select>
+	
+	
+	<select id="weekListFind" resultType="kr.co.cc.work.dto.WorkDTO">
+	    SELECT
+	        m.id as member_id,
+	        m.dept_name,
+	        m.name,
+	        m.job_name,
+	        IFNULL(SEC_TO_TIME(SUM(TIME_TO_SEC(wh.time_end) - TIME_TO_SEC(wh.time_go))), '00:00:00') AS total_time,
+	        wl.worn
+	    FROM member m
+	    LEFT JOIN working_hour wh ON m.id = wh.member_id
+	        AND wh.date BETWEEN #{param1} AND DATE_ADD(#{param1}, INTERVAL 4 DAY)
+	    LEFT JOIN worn_list wl ON m.id = wl.member_id
+	        AND wl.week = #{param1}
+	    GROUP BY m.id
+	    ORDER BY total_time asc, member_id
+	</select>
+	
+	<select id="workWornChk">
+		select count(id) from worn_list where member_id=#{param1} and week=#{param2}
+	</select>
+
+	
+	<insert id="workWorn" parameterType="hashmap">
+		INSERT INTO worn_list (member_id,dept_name,name,job_name,week,total_time) 
+		VALUES (#{member_id},#{dept_name},#{name},#{job_name},#{week},#{total_time})
+	</insert>
+	
+	<select id="workWornList" resultType="kr.co.cc.work.dto.WorkDTO">
+		select * from worn_list 
+	</select>
+	
+	<select id="wornAllList">
+		SELECT member_id ,name ,dept_name ,week ,COUNT(worn) as total_worn from worn_list wl group by member_id order by count(worn) desc, member_id
+	</select>
+	
+	 
+	<select id="wornListFindName" resultType="kr.co.cc.work.dto.WorkDTO">
+		SELECT * FROM worn_list WHERE name LIKE CONCAT('%', #{param2}, '%') order by worn desc, member_id
+	</select>
+	
+	<select id="wornListFindId" resultType="kr.co.cc.work.dto.WorkDTO">
+		SELECT * FROM worn_list WHERE member_id LIKE CONCAT('%', #{param2}, '%') order by worn desc, member_id
+	</select>
+	
+	<delete id="wornDel">
+		delete from worn_list where member_id=#{param1} and week=#{param2}
+	</delete>
+		
+	<select id="annual_leave" resultType="kr.co.cc.work.dto.WorkDTO">
+		select * from annual_leave where id = #{param1}
+	</select>
+	 
+	<select id="leave_recode_List" resultType="kr.co.cc.work.dto.WorkDTO">	
+		select * from leave_recode where id = #{param1}
+	</select>
+
+	
+	
 </mapper>

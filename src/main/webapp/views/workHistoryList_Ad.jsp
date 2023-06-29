@@ -78,26 +78,7 @@
 <!-- AdminLTE for demo purposes -->
 <script src="../../dist/js/demo.js"></script>
 </body>
-<style>
-	#b1{
-	    width: 40%;
-	    display: inline-block;
-	    margin-top: 8px;
-	    margin: 5px;
-	    padding: 10px;
-	}
-	#b2{
-	    width: 40%;
-	    display: inline-block;
-	    margin-top: 8px;
-	    margin: 5px;
-	    padding: 10px;
-	}
-	table{
-		text-align: center;
-	}
 
-</style>
 <script>
 	var msg = "${msg}";
 	if(msg != ""){

@@ -60,6 +60,12 @@ public class AdminController {
 	@RequestMapping(value = "/MemberONOFFList.go")
 	public String MemberONOFFList() {
 		return "MemberONOFFList";
+<<<<<<< HEAD
 	}	
+=======
+	}
+	
+	
+>>>>>>> origin/master
 
 }

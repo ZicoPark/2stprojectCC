@@ -71,5 +71,64 @@
 		SELECT new_file_name FROM attachment WHERE classification = '서명이미지' AND identify_value = #{param1}
 	</select>
 
+<<<<<<< HEAD
+>>>>>>> origin/master
+=======
+	<select id="getApprovalName" resultType="string">
+		SELECT name FROM approval WHERE id = #{param1}
+	</select>
+	
+	<resultMap id="docMap" type="kr.co.cc.doc.dto.DocDTO" >
+		<id property="id" column="id"/>
+		<result property="subject" column="subject"/>
+		<result property="content" column="content"/>
+		<result property="status" column="status"/>
+		<result property="docFormId" column="doc_form_id"/>
+		<result property="createDate" column="create_date"/>
+		<result property="memberId" column="member_id"/>
+		<result property="deptName" column="dept_name"/>
+		<result property="jobName" column="job_name"/>
+		<result property="publicRange" column="public_range"/>
+	</resultMap>
+	
+	<select id="tempDocList" resultMap="docMap">
+		SELECT * FROM doc WHERE member_id = #{param1} AND status = #{param2}
+	</select>
+	
+	<resultMap id="attachmentMap" type="kr.co.cc.doc.dto.AttachmentDTO" >
+		<id property="id" column="id"/>
+		<result property="oriFileName" column="ori_file_name"/>
+		<result property="newFileName" column="new_file_name"/>
+		<result property="classification" column="classification"/>
+		<result property="identifyValue" column="identify_value"/>		
+	</resultMap>
+	
+	<select id="attachmentListCall" resultMap="attachmentMap">
+		SELECT * FROM attachment WHERE classification = '전자문서첨부파일' AND identify_value = #{id}
+	</select>	
+	
+	<select id="getWritedDOC" resultMap="docMap">
+		SELECT * FROM doc WHERE id = #{param1}
+	</select>
+	
+	<update id="docWriteETC">
+		UPDATE doc SET content = #{param2} WHERE id = #{param1}
+	</update>
+	
+	<delete id="attachmentDelete">
+		DELETE FROM attachment WHERE new_file_name = #{param1}
+	</delete>
+	
+	<update id="docUpdate" parameterType="hashmap">
+		UPDATE doc SET subject = #{subject}
+			, content = #{dateWritedContent}
+			, status = #{status}
+			, public_range = #{publicRange} 
+			, create_date = #{docUpdateTime} 
+		WHERE id = #{id}
+	</update>
+	
+	
+	
 >>>>>>> origin/master
 </mapper>

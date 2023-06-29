@@ -1,7 +1,9 @@
 package kr.co.cc.work.controller;
 
+import java.sql.Date;
 import java.sql.Time;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 
@@ -14,8 +16,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import kr.co.cc.work.dto.WorkDTO;
 import kr.co.cc.work.service.WorkService;
 
 @Controller
@@ -117,7 +121,7 @@ public class WorkController {
 	
 	@GetMapping(value="/workHistoryReqList.go")
 	public ModelAndView workHistoryReqListGo(HttpSession session) {
-		return service.workHistoryReqListGo(session,"","");
+		return service.workHistoryReqListGo(session);
 	}
 	
 	@GetMapping(value="/WorkChangeAdmin.do")
@@ -129,7 +133,7 @@ public class WorkController {
 		
 		//이미 처리 했는지 확인
 		int WorkChangeAdminChk = service.WorkChangeAdminChk(id,type);
-		if(WorkChangeAdminChk==1) {
+		if(WorkChangeAdminChk != 0) {
 			int row = service.WorkChangeAdmin(id,type,approval);
 			logger.info("WorkChangeAdmin row : " + row);
 			// 승인된 건에 대해서만 처리 (반려는 변경 X)
@@ -148,35 +152,88 @@ public class WorkController {
 				msg = "요청을 반려하였습니다.";
 			}
 		}
-		return service.workHistoryReqListGo(session,msg,flag);
+		return service.workHistoryList_Ad(session,msg,flag);
 	}
 	
-	
-	
-	
-	
-	//WorkChangeAdmin
-	
-	// 연차 관리 workHolidayList > 
-	@GetMapping(value="/workHolidayList.go")
-	public String workHolidayList() {
-		return "workHolidayList";
-	}
+	//WorkChangeAdmin 
 	
 	// 근태 관리 관리자
 	@GetMapping(value="/workHistoryList_Ad.go")
-	public ModelAndView workHistoryList_Ad() {		
-		return service.workHistoryList_Ad();
+	public ModelAndView workHistoryList_Ad(HttpSession session) {		
+		return service.workHistoryList_Ad(session,"","");
 	}
 	
-	@GetMapping(value="/workHolidayList_Ad.go")
-	public String workHolidayList_Ad() {
-		return "workHolidayList_Ad";
-	}
-	
+	// 일별 , 주별 사원 현황 / 관리자
 	@GetMapping(value="/workDailyList.go")
-	public String workDailyList() {
-		return "workDailyList";
+	public ModelAndView workDailyList() {
+		return service.workDailyList();
+	}
+	
+	@GetMapping(value="/dailyListFind.ajax")
+	@ResponseBody
+	public HashMap<String, Object> dailyListFind(@RequestParam Date dailyListDate) {
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+	    String formattedDate = sdf.format(dailyListDate);
+	    
+	    
+		logger.info("formattedDate : " + formattedDate);
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		
+		ArrayList<WorkDTO> dto = service.dailyListFind(formattedDate);
+		if(dto!=null) {
+			map.put("dto", dto);
+			logger.info("dailyListFind dto : " + dto);
+		}
+		return map;
+	}
+	
+	
+	@GetMapping(value="/weekListFind.do")
+	public ModelAndView weekListFind(@RequestParam Date date) {		
+		logger.info("weekListFind date : " + date);
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		String week = sdf.format(date);		
+		return service.weekListFind(week, "");
+	}
+	
+	@GetMapping(value="workWorn.do")
+	public ModelAndView workWorn(@RequestParam HashMap<String, Object> params,@RequestParam Date week,@RequestParam String member_id) {
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		String weekRe = sdf.format(week);		
+		
+		String msg = "";
+		
+		int row = service.workWornChk(member_id,weekRe);
+		if(row>0) {
+			msg = "이미 경고 처리한 내역이 있습니다.";			
+		} else {
+			service.workWorn(params);
+			msg = "경고 처리가 완료되었습니다.";
+		}		
+		return service.weekListFind(weekRe,msg);
+	}
+	
+	@GetMapping(value="/wornListFind.ajax")
+	@ResponseBody
+	public HashMap<String, Object> wornListFind(@RequestParam String wornFind1, @RequestParam String wornFind2) {
+	    
+	    
+		logger.info("wornFind : " + wornFind1 + wornFind2);
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		
+		ArrayList<WorkDTO> dto;
+		
+		if(wornFind1.equals("name")) {
+			dto = service.wornListFindName(wornFind1,wornFind2);			
+		} else {
+			dto = service.wornListFindId(wornFind1,wornFind2);	
+		}
+		
+		if(dto!=null) {
+			map.put("dto", dto);
+			logger.info("wornListFind dto : " + dto);
+		}
+		return map;
 	}
 	
 	@GetMapping(value="/workWeekList.go")
@@ -185,9 +242,55 @@ public class WorkController {
 	}
 	
 	@GetMapping(value="/workWornList.go")
-	public String workWornList() {
-		return "workWornList";
+	public ModelAndView workWornList() {
+		return service.workWornList();
 	}
+	
+	@GetMapping(value="/wornDel.ajax")
+	@ResponseBody
+	public HashMap<String, Object> wornDel(@RequestParam String member_id, @RequestParam String week,
+			@RequestParam String wornFind1, @RequestParam String wornFind2){
+		logger.info("wornDel");
+		service.wornDel(member_id,week);
+		HashMap<String, Object> map = new HashMap<String, Object>();		
+		ArrayList<WorkDTO> dto;		
+		if(wornFind1.equals("name")) {
+			dto = service.wornListFindName(wornFind1,wornFind2);			
+		} else {
+			dto = service.wornListFindId(wornFind1,wornFind2);	
+		}		
+		if(dto!=null) {
+			map.put("dto", dto);
+			logger.info("wornListFind dto : " + dto);
+		}
+		
+		ArrayList<WorkDTO> dto2 = service.wornAllList2();
+		
+		if(dto2!=null) {
+			map.put("dto2", dto2);
+			logger.info("wornListFind dto2 : " + dto2);
+		}
+		
+		return map;		
+	}
+	
+	
+	
+	
+	// 연차 관리 workHolidayList > 
+	@GetMapping(value="/workHolidayList.go")
+	public ModelAndView workHolidayList(HttpSession session) {
+		String id = (String) session.getAttribute("loginId");		
+		return service.workHolidayList(id);
+	}
+	
+	
+	@GetMapping(value="/workHolidayList_Ad.go")
+	public String workHolidayList_Ad() {
+		return "workHolidayList_Ad";
+	}
+	
+
 	
 	
 	public void formattedDateTime() {

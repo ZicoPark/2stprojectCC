@@ -18,7 +18,7 @@
 <jsp:include page = "index.jsp"></jsp:include>
 <!-- Site wrapper -->
 <div class="wrapper">
-  
+
 
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
@@ -48,7 +48,7 @@
           <h3 class="card-title">Projects Detail</h3>
 
           <div class="card-tools">
-           <a href="projectInsert.go" class="btn btn-sm btn-primary">추가</a>
+           <a href="projectInsert.go?idx=${project_id}" class="btn btn-sm btn-primary">추가</a>
             <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
               <i class="fas fa-minus"></i>
             </button>
@@ -58,63 +58,9 @@
 
           </div>
         </div>
+
         <div class="card-body">
-          <div class="row">
-            <div class="col-12 col-md-12 col-lg-8 order-2 order-md-1">
-
-              <div class="row">
-                <div class="col-12">
-                  <h4>Recent Activity</h4>
-                    <div class="post">
-                      <div class="user-block">
-                        <img class="img-circle img-bordered-sm" src="../../dist/img/user1-128x128.jpg" alt="user image">
-                        <span class="username">
-                          <a href="#">Jonathan Burke Jr.</a>
-                        </span>
-                        <span class="description">Shared publicly - 7:45 PM today</span>
-                      </div>
-                      <!-- /.user-block -->
-                      <p>
-                        Lorem ipsum represents a long-held tradition for designers,
-                        typographers and the like. Some people hate it and argue for
-                        its demise, but others ignore.
-                      </p>
-
-                      <p>
-                        <a href="#" class="link-black text-sm"><i class="fas fa-link mr-1"></i> Demo File 1 v2</a>
-                      </p>
-                    </div>
-
-                    <div class="post clearfix">
-                      <div class="user-block">
-                        <img class="img-circle img-bordered-sm" src="../../dist/img/user7-128x128.jpg" alt="User Image">
-                        <span class="username">
-                          <a href="#">Sarah Ross</a>
-                        </span>
-                        <span class="description">Sent you a message - 3 days ago</span>
-                      </div>
-                      <!-- /.user-block -->
-                      <p>
-                        Lorem ipsum represents a long-held tradition for designers,
-                        typographers and the like. Some people hate it and argue for
-                        its demise, but others ignore.
-                      </p>
-                      <p>
-                        <a href="#" class="link-black text-sm"><i class="fas fa-link mr-1"></i> Demo File 2</a>
-                      </p>
-                    </div>
-
-
-                </div>
-              </div>
-            </div>
-            <div class="col-12 col-md-12 col-lg-4 order-1 order-md-2">
-
-              <div class="text-center mt-5 mb-3">
-                <a href="#" class="btn btn-sm btn-warning">Report contact</a>
-              </div>
-            </div>
-          </div>
+          <div id="projectDetailContainer"></div>
         </div>
         <!-- /.card-body -->
       </div>
@@ -125,12 +71,6 @@
   </div>
   <!-- /.content-wrapper -->
 
-  <footer class="main-footer">
-    <div class="float-right d-none d-sm-block">
-      <b>Version</b> 3.2.0
-    </div>
-    <strong>Copyright &copy; 2014-2021 <a href="https://adminlte.io">AdminLTE.io</a>.</strong> All rights reserved.
-  </footer>
 
   <!-- Control Sidebar -->
   <aside class="control-sidebar control-sidebar-dark">
@@ -148,11 +88,54 @@
 <script src="../../dist/js/adminlte.min.js"></script>
 <!-- AdminLTE for demo purposes -->
 <script src="../../dist/js/demo.js"></script>
-</body>
 <script>
-var msg = "${msg}";
-if(msg != ""){
-	alert(msg);
-}
+$(document).ready(function() {
+  var msg = "${msg}";
+  if (msg != "") {
+    alert(msg);
+  }
+
+  var projectId = ${project_id};
+  
+  $.ajax({
+    url: "projectDetail.ajax?id=" + projectId, // 서버에서 데이터를 가져올 URL
+    method: "GET",
+    dataType: "json",
+    success: function(data) {
+      var container = $("#projectDetailContainer");
+
+      $.each(data.detailList, function(index, detail) {
+        var html = '<div class="row">';
+        html += '<div class="col-12 col-md-12 col-lg-8 order-2 order-md-1">';
+        html += '<div class="row">';
+        html += '<div class="col-12">';
+        html += '<span style="border: 1px solid green; border-radius: 5px; padding: 3px;">' + detail.step + '</span>';
+        html += '<span style="border: 1px solid red; border-radius: 5px; padding: 3px;">' + detail.status + '</span>';
+        html += '<div class="post">';
+        html += '<div class="user-block">';
+        html += '<img class="img-circle img-bordered-sm" src="../../dist/img/user1-128x128.jpg" alt="user image">';
+        html += '<span class="username">';
+        html += '<a href="#">' + detail.member_id + '</a>';
+        html += '</span>';
+        html += '<span class="description">' + detail.comment_create_date + '</span>';
+        html += '</div>';
+        html += '<p>' + detail.comment_content + '</p>';
+        html += '<p><video src="/upload/' + detail.new_file_name + '" controls></video></p>';
+        html += '</div>';
+        html += '</div>';
+        html += '</div>';
+        html += '<div class="col-12 col-md-12 col-lg-4 order-1 order-md-2">';
+        html += '</div>';
+        html += '</div>';
+
+        container.prepend(html);
+      });
+    },
+    error: function(xhr, status, error) {
+      console.log(error);
+    }
+  });
+});
 </script>
+</body>
 </html>
