@@ -13,22 +13,6 @@
   <link rel="stylesheet" href="../../plugins/fontawesome-free/css/all.min.css">
   <!-- Theme style -->
   <link rel="stylesheet" href="../../dist/css/adminlte.min.css">
-  <style>
-      table, th, td{
-         border: 1px solid black;
-         border-collapse: collapse;
-         padding: 5px 10px;
-      }
-      #login{
-         margin-bottom: 20px;
-      }
-      button{
-         margin: 5px;
-      }
-      table{
-         width: 500px;
-      }
-</style>
 </head>
 <body>
 <jsp:include page = "index.jsp"></jsp:include>
@@ -39,31 +23,41 @@
             <h1>공지사항</h1>         
     </section>
     <!-- Main content -->
-    <section class="content">
-      <form action="noticeBoardWrite.do" method="post" enctype="multipart/form-data"> <!-- multiUpload.do -->
-         <table class="table table-bordered table-hover dataTable dtr-inline">
-            <tr>
-               <th>제목</th>
-               <td><input type="text" name="subject" /></td>
-            </tr>
-            <tr>
-               <th>내용</th>
-               <td><textarea name="content"></textarea> </td>
-            </tr>
-            <tr>
-            	<th>첨부파일</th>
-            	<td>
-					<input type="file" name="file"  multiple="multiple"/>	
+    <section class="content">   
+    	<table class="table table-bordered table-hover dataTable dtr-inline">
+		    <tr>
+		       <th>제목</th>
+		       <td>${detailno.subject}</td>
+		    </tr>
+		    <tr>
+		       <th>작성자</th>
+		       <td>${detailno.create_id}</td>
+		    </tr>
+		    <tr>
+		       <th>조회수</th>
+		       <td>${detailno.hit}</td>
+		    </tr>
+		    <tr>
+		       <th>작성일</th>
+		       <td>${detailno.notice_date}</td>
+		    </tr>
+		    <tr>
+		       <th>내용</th>
+		       <td>${detailno.content}</td>
+		    </tr>      
+		   	<tr>
+		       <th>첨부파일</th>
+		       <td>	
+					<a href="msdownload.do?path=${detailFile}" class="btn btn-default btn-sm float-right"></a>
 				</td>
-            </tr>
-            <tr>
-               <th colspan="2">
-                  <input type="button" onclick="location.href='./noticeBoard.go'" value="돌아가기" />
-                  <button>작성하기</button>
-               </th>
-            </tr>      
-         </table>
-      </form>
+		    </tr>   
+		    <tr>
+		       <th colspan="2">
+		          <input type="button" class="btn btn-block btn-outline-success btn-lg"  onclick="location.href='noticeList.go'" value="안읽음" />         
+		           <input type="button" class="btn btn-block btn-outline-success btn-lg"  onclick="location.href='./noticeBoard.go'" value="돌아가기" />
+		       </th>            
+		   	</tr>         
+    	</table>
     </section>
   </div>
 </div>
@@ -80,4 +74,3 @@
 <script>
 </script>
 </html>
-   
