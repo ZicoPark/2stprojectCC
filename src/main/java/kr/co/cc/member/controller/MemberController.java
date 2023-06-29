@@ -103,4 +103,20 @@ public class MemberController {
 		logger.info("params : " + params);
 		return memberservice.sendPWMail(params);
 	}
+	
+	@RequestMapping(value="/userinfo.go")
+    public String userInfo(HttpSession session, Model model) {  
+       
+       String page = "login";      
+       
+       logger.info("로그인 세션 : "+session.getAttribute("loginId"));
+       
+        if(session.getAttribute("loginId") != null) {
+        	MemberDTO dto = memberservice.userInfo(session.getAttribute("loginId"));             
+        	model.addAttribute("user",dto);
+            page = "userInfo";
+        }
+       
+       return page;
+    }
 }

@@ -13,22 +13,6 @@
   <link rel="stylesheet" href="../../plugins/fontawesome-free/css/all.min.css">
   <!-- Theme style -->
   <link rel="stylesheet" href="../../dist/css/adminlte.min.css">
-  <style>
-      table, th, td{
-         border: 1px solid black;
-         border-collapse: collapse;
-         padding: 5px 10px;
-      }
-      #login{
-         margin-bottom: 20px;
-      }
-      button{
-         margin: 5px;
-      }
-      table{
-         width: 500px;
-      }
-</style>
 </head>
 <body>
 <jsp:include page = "index.jsp"></jsp:include>
@@ -39,31 +23,37 @@
             <h1>공지사항</h1>         
     </section>
     <!-- Main content -->
-    <section class="content">
-      <form action="noticeBoardWrite.do" method="post" enctype="multipart/form-data"> <!-- multiUpload.do -->
-         <table class="table table-bordered table-hover dataTable dtr-inline">
-            <tr>
-               <th>제목</th>
-               <td><input type="text" name="subject" /></td>
-            </tr>
-            <tr>
-               <th>내용</th>
-               <td><textarea name="content"></textarea> </td>
-            </tr>
-            <tr>
-            	<th>첨부파일</th>
-            	<td>
-					<input type="file" name="file"  multiple="multiple"/>	
-				</td>
-            </tr>
-            <tr>
-               <th colspan="2">
-                  <input type="button" onclick="location.href='./noticeBoard.go'" value="돌아가기" />
-                  <button>작성하기</button>
-               </th>
-            </tr>      
-         </table>
-      </form>
+    <section class="content">   
+    	<table>
+			<tr>
+				<th>제목</th>
+				<td>${dto.subject}</td>
+			</tr>
+			<tr>
+				<th>작성자</th>
+				<td>${dto.create_id}</td>
+			</tr>
+			<tr>
+				<th>작성일</th>
+				<td>${dto.reg_date}</td>
+			</tr>
+			<tr>
+				<th>내용</th>
+				<td>${dto.content}</td>
+			</tr>
+			<c:if test="${dto.newFileName ne null}">
+			<tr>
+				<th>사진</th>
+				<td><img width="500" src="/photo/${dto.newFileName}"/></td>
+			</tr>
+			</c:if>
+			<tr>
+				<th colspan="2">
+					<input type="button" onclick="location.href='./list.do'" value="리스트"/>
+					<input type="button" onclick="location.href='./update.go?id=${dto.id}'" value="수정"/>
+				</th>
+			</tr>
+		</table>	
     </section>
   </div>
 </div>
@@ -80,4 +70,3 @@
 <script>
 </script>
 </html>
-   

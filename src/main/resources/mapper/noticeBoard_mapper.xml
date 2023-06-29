@@ -1,11 +1,61 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE mapper PUBLIC	"-//mybatis.org//DTD Mapper 3.0//EN"
-	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-	
-<mapper namespace="kr.co.cc.noticeBoard.dao.NoticeBoardDAO">
+<!DOCTYPE mapper PUBLIC   "-//mybatis.org//DTD Mapper 3.0//EN"
+   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
    
-   <select id="list" resultType="kr.co.cc.noticeBoard.dto.NoticeBoardDTO">
+<mapper namespace="kr.co.cc.noticeBoard.dao.NoticeBoardDAO">
+
+
+   <select id="nolist" resultType="kr.co.cc.noticeBoard.dto.NoticeBoardDTO">
+         SELECT * FROM notice_board
+   </select>
+         
+<!--    <select id="list" resultType="kr.co.cc.noticeBoard.dto.NoticeBoardDTO">
    		SELECT * FROM  notice_board
+   </select> -->
+   
+   <insert
+	useGeneratedKeys="true"
+	keyColumn="id"
+	keyProperty="id"	
+	id="noticeBoardWrite" parameterType="kr.co.cc.noticeBoard.dto.NoticeBoardDTO">
+      INSERT INTO notice_board(create_id, subject, content,hit, status)
+      VALUES(#{create_id}, #{subject}, #{content},0,1)
+   </insert> 
+
+	<insert id="nofileWrite">
+		INSERT INTO attachment(ori_file_name, new_file_name, classification, identify_value)
+			VALUES(#{param1}, #{param2}, #{param3}, #{param4})
+	</insert>
+	
+<!--     <select id="detail"  resultType="kr.co.cc.noticeBoard.dto.NoticeBoardDTO">
+      SELECT * FROM notice_board 
+      WHERE id = #{param1}   
+   </select> -->
+   
+   
+   <select id="nodetail" resultType="kr.co.cc.noticeBoard.dto.NoticeBoardDTO">
+      select nb.id, nb.create_id, nb.subject, nb.content, nb.hit, nb.notice_date
+		from notice_board nb
+		join member m on nb.create_id = m.id 
+		where nb.id = #{id} 
+   </select>
+   
+   <update id="upHit">
+      UPDATE notice_board SET hit=hit+1 
+         WHERE id=#{id}
+   </update>   
+   
+   <select id="noDetailFile">
+      SELECT new_file_name FROM attachment 
+      WHERE classification = '공지사항' AND identify_value = #{id}
+   </select>
+   
+      <delete id="del">
+      DELETE FROM notice_board WHERE id = #{param1}
+   </delete>
+
+   <select id="nlist" resultType="kr.co.cc.noticeBoard.dto.NoticeBoardDTO">
+      SELECT name, id from member
    </select>
 
 </mapper>

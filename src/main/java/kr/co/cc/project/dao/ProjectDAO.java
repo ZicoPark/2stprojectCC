@@ -4,6 +4,7 @@ package kr.co.cc.project.dao;
 
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import kr.co.cc.project.dto.AttachmentDTO;
 import kr.co.cc.project.dto.ProjectDTO;
@@ -28,5 +29,13 @@ public interface ProjectDAO {
 	void stateChange(ProjectDTO dto);
 
 	void AttachmentSave(AttachmentDTO dto);
+
+	ProjectDTO projectDetailUp(int id);
+
+	int projectUpdate(HashMap<String, String> params);
+
+	void updateContributor(int project_id, String contributorId);
+
+
 
 }

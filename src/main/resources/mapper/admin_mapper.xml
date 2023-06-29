@@ -9,9 +9,50 @@
 			FROM member
 	</select>
 	
-	<select id="AdminMemberDetail" parameterType="string" resultType="kr.co.cc.admin.dto.AdminDTO">
+	<select id="AdminMemberDetail" parameterType="java.lang.String" resultType="kr.co.cc.admin.dto.AdminDTO">
 		SELECT id, name, birth_date, email, phone, hire_date, dept_name, job_name, status, admin_chk
-			FROM member WHERE id = #{id}
+			FROM member
+		WHERE id = #{id}
 	</select>
+	
+	<update id="MemberUpdate" parameterType="kr.co.cc.admin.dto.AdminDTO">
+	    UPDATE member
+	    <set>
+	        <choose>
+	            <when test="dto.job_name != null">
+	                job_name = #{dto.job_name}
+	            </when>
+	            <otherwise>
+	                job_name = job_name
+	            </otherwise>
+	        </choose>,
+	        <choose>
+	            <when test="dto.dept_name != null">
+	                dept_name = #{dto.dept_name}
+	            </when>
+	            <otherwise>
+	                dept_name = dept_name
+	            </otherwise>
+	        </choose>,
+	        <choose>
+	            <when test="dto.status != null">
+	                status = #{dto.status}
+	            </when>
+	            <otherwise>
+	                status = status
+	            </otherwise>
+	        </choose>,
+	        <choose>
+	            <when test="dto.admin_chk != null">
+	                admin_chk = #{dto.admin_chk}
+	            </when>
+	            <otherwise>
+	                admin_chk = admin_chk
+	            </otherwise>
+	        </choose>
+	    </set>
+	    WHERE id = #{id}
+	</update>
+
 	
 </mapper>

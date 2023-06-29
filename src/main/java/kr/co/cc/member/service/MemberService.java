@@ -150,4 +150,8 @@ public class MemberService {
 
 		return resMap;
 	}
+
+	public MemberDTO userInfo(Object attribute) {
+		return memberdao.userInfo(attribute);
+	}
 }

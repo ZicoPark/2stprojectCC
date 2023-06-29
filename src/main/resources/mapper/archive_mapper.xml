@@ -49,9 +49,7 @@
 		SELECT* FROM attachment WHERE classification = '자료실' AND identify_value = #{id}
 	</select>
 
-	<update id="archiveUpdate">
-		UPDATE archive_board SET subject = #{
-	</update>
+
 
 
 
