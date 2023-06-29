@@ -135,11 +135,11 @@
 	</delete>
 		
 	<select id="annual_leave" resultType="kr.co.cc.work.dto.WorkDTO">
-		select * from annual_leave where id = #{param1}
+		select * from annual_leave where member_id = #{param1}
 	</select>
 	 
 	<select id="leave_recode_List" resultType="kr.co.cc.work.dto.WorkDTO">	
-		select * from leave_recode where id = #{param1}
+		select * from leave_recode where regist_id = #{param1}
 	</select>
 
 	
