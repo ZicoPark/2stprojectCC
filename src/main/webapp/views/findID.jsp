@@ -105,9 +105,9 @@ function sendMail() {
 		},
 		success: function(res){
 			if(res.code === "COMPLETE") {
-				alert("메일 전송함");
+				alert("메일로 아이디를 전송하였습니다. 확인해주세요");
 			} else if (res.code === "NO_DATA") {
-				alert("일치하는 정보 없음");
+				alert("일치하는 정보가 없습니다");
 			} else {
 				alert("메일 전송 실패");
 			}
