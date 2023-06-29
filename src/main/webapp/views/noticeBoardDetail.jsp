@@ -48,7 +48,7 @@
 		   	<tr>
 		       <th>첨부파일</th>
 		       <td>	
-					<a href="msdownload.do?path=${detailFile}" class="btn btn-default btn-sm float-right"></a>
+					<a href="msdownload.do?path=${detailFile}" class="btn btn-default btn-sm float-right"><i class="fas fa-cloud-download-alt"></i></a>
 				</td>
 		    </tr>   
 		    <tr>

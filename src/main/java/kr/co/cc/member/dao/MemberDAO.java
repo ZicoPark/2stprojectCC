@@ -17,4 +17,6 @@ public interface MemberDAO {
 	
 	MemberDTO getUserInfoPW(HashMap<String, String> params);
 
+	MemberDTO userInfo(Object attribute);
+
 }

@@ -84,7 +84,7 @@ public class ArchiveController {
 	@RequestMapping(value="/archiveUpdate.go")
 		public String archiveUpdateForm(@RequestParam String id, @RequestParam String member_id, HttpSession session, Model model) {
 		logger.info("게시글 수정 요청");
-		String page = "redirect:/archiveBoard.go";
+		String page = "archiveBoardList";
 		String loginId = null;
 		
 		if(session.getAttribute("loginId")!=null) {
@@ -107,12 +107,28 @@ public class ArchiveController {
 		return page;		
 }
 
-	@RequestMapping(value = "/archiveUpdate.do", method = RequestMethod.POST)
-	public String archiveUpdate(MultipartFile[] attachment, @RequestParam HashMap<String, String> params, HttpSession session, Model model) {
-			
-
-
-	    return service.archiveUpdate(attachment, params, session, model);
+	@RequestMapping(value = "/archiveUpdate.do")
+	public String archiveUpdate(MultipartFile[] attachment, @RequestParam HashMap<String, String> params, 
+								@RequestParam(value="removeFile",required=true) ArrayList<String> removeFile,
+								HttpSession session, Model model) {
+		
+		String page = "redirect:/archiveBoard.go";
+		String loginId = null;
+		String idx;
+		
+		if(session.getAttribute("loginId")!=null) {//로그인 상태이고 글 작성자와 동일하면
+			loginId = (String) session.getAttribute("loginId");
+			if(loginId.equals(params.get("member_id"))) {
+				logger.info("params : "+params);
+				logger.info("attachment : "+attachment);
+				logger.info("removeFile : "+removeFile);
+				idx = service.archiveUpdate(attachment, params,removeFile, session);
+				page = "redirect:/archivedetail.do?id="+idx;
+			}
+		}		
+		
+		
+	    return page;
 	}	
 
 	
