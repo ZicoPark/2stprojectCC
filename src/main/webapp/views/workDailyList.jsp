@@ -35,6 +35,7 @@
     		<thead>
     			<tr>
     				<th>부서</th>
+    				<th>아이디</th>
     				<th>이름</th>
     				<th>직급</th>
     				<th>근무일</th>
@@ -46,12 +47,13 @@
     		<tbody id="dailyListId">
     			<c:if test="${dto eq null}">
 					<tr>
-						<th colspan="7">등록된 근태가 없습니다.</th>
+						<th colspan="8">등록된 근태가 없습니다.</th>
 					</tr>
 				</c:if>   		
 	    		<c:forEach items="${dto}" var="workList">
 					<tr> 
 	    				<td>${workList.dept_name}</td>
+	    				<td>${workList.member_id}</td>
 	    				<td>${workList.name}</td>
 	    				<td>${workList.job_name}</td>
 	    				<td>${workList.date}</td>
@@ -109,6 +111,7 @@
 			list.forEach(function(item,index){
 				content += '<tr>';
 				content += '<td>'+item.dept_name+'</td>';
+				content += '<td>'+item.member_id+'</td>';
 				content += '<td>'+item.name+'</td>';
 				content += '<td>'+item.job_name+'</td>';
 				content += '<td>'+item.date+'</td>';
