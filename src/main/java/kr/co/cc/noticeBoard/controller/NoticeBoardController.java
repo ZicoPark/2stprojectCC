@@ -1,6 +1,5 @@
 package kr.co.cc.noticeBoard.controller;
 
-
 import java.util.ArrayList;
 import java.util.HashMap;
 
