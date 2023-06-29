@@ -78,7 +78,7 @@ public class NoticeBoardController {
 		if(detailno != null) {
 			
 			logger.info("if문 진입");
-			String detailfile = service.noDetailFile(Integer.parseInt(id));
+			ArrayList<String> detailfile = service.noDetailFile(id);
 			
 			logger.info("detailFile :"+detailfile);
 			
