@@ -29,7 +29,7 @@
     <br/>
     	<div>
     	<form action="holidayListFind.do">
-			<input type="number" min=1 max=12 id="holidayList" name="holidayList" value=""/>월
+			<input type="number" max=12 id="holidayList" name="holidayList" value=""/>
 			<button>월 검색</button>
     	</form>
     	</div>
@@ -41,7 +41,7 @@
     				<th>연차 시작 날짜</th>
     				<th>연차 종료 날짜</th>
     				<th>연차 사용 일수</th>
-    				<th>연차 상태</th>
+    				<th>연차 처리</th>
     			</tr>    		
     		</thead>
     		<tbody>
@@ -52,14 +52,16 @@
 				</c:if>   		
 	    		<c:forEach items="${dto}" var="holiday">
 					<tr> 
-	    				<td>${holiday.regist_id}</td>
+	    				<td>${holiday.member_id}</td>
 	    				<td>${holiday.name}</td>
 	    				<td>${holiday.start_date}</td>
 	    				<td>${holiday.end_date}</td>
 	    				<td>${holiday.use_cnt}</td>
-	    				<c:if test="${leave_recode_List.approval.equals('0')}"><td>대기</td></c:if>
-	    				<c:if test="${leave_recode_List.approval.equals('1')}"><td>승인</td></c:if> 
-	    				<c:if test="${leave_recode_List.approval.equals('2')}"><td>반려</td></c:if>
+	    				<td>
+	    					<button type="button" class="btn btn-block btn-outline-success btn-lg" onclick="location.href='workAnnualApproval.do?id=${holiday.id}&type=${holiday.type}&approval=1'">승인</button>
+	    					<button type="button" class="btn btn-block btn-outline-success btn-lg" onclick="location.href='workAnnualApproval.do?id=${holiday.id}&type=${holiday.type}&approval=2'">반려</button>
+	    				</td>
+
 	    			</tr>
 				</c:forEach>				
     		</tbody>    	
@@ -67,6 +69,7 @@
     </section>
   </div>
 </div>
+
 <!-- ./wrapper -->
 <!-- jQuery -->
 <script src="../../plugins/jquery/jquery.min.js"></script>
