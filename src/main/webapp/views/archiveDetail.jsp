@@ -98,6 +98,7 @@
             <!-- /.card-footer -->
             <div class="card-footer">
               <div class="float-right">
+              <button type="button" onclick="location.href='/archivedelete.do?id=${detailms.id}&member_id=${detailms.member_id}'" class="btn btn-default"> 삭제</button>
             	 <button type="button" onclick="location.href='/archiveUpdate.go?id=${detailms.id}&member_id=${detailms.member_id}'" class="btn btn-default"> 수정</button>
                 <button type="button" onclick="location.href='/archiveBoard.go'" class="btn btn-default"> 목록</button>
               </div>

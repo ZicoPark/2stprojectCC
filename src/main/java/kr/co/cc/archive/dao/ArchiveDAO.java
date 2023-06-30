@@ -24,4 +24,6 @@ public interface ArchiveDAO {
 
 	void removeFileName(String fileName);
 
+	void archivedelete(String id);
+
 }

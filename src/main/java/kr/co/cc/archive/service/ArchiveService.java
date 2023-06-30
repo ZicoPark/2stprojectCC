@@ -13,7 +13,7 @@ import javax.servlet.http.HttpSession;
 import org.mybatis.spring.annotation.MapperScan;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
@@ -22,7 +22,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import kr.co.cc.archive.dao.ArchiveDAO;
 import kr.co.cc.archive.dto.ArchiveDTO;
-import kr.co.cc.message.dto.MessageDTO;
+
 
 
 @Service
@@ -105,7 +105,7 @@ public class ArchiveService {
 		return dao.archiveDetailFile(id);
 	}
 
-	public String archiveUpdate(MultipartFile[] attachment, HashMap<String, String> params, ArrayList<String> removeFile, HttpSession session) {
+	public int archiveUpdate(MultipartFile[] attachment, HashMap<String, String> params, ArrayList<String> removeFile, HttpSession session) {
 			 
 			logger.info("params : "+params);
 
@@ -125,24 +125,24 @@ public class ArchiveService {
 		        
 			        int row = dao.archiveUpdate(params);
 			        logger.info("insert row: " + row);
-			        int idx = 0;
+			        int id = 0;
 
-			        logger.info("idx: " + idx);
+			        logger.info("update idx: " + id);
 
-					if(row==1) { // 업로드된 자료실 게시물이 1이라면
+					if(row>0) { // 업로드된 자료실 게시물이 1이라면
 						
 						if(removeFile.size()>1) {
 							attachmentRemove(removeFile);
 						}
 						
-						idx = Integer.parseInt(params.get("id"));
+						id = Integer.parseInt(params.get("id"));
 						
 						for (MultipartFile file : attachment) {
 							
 							logger.info("업로드할 file 있나요? :"+!file.isEmpty());
 							
 							if(!file.isEmpty()) {
-								attachmentSave(idx, file, "자료실");
+								attachmentSave(id, file, "자료실");
 							}
 							
 							try { // 쓰레드 0.001초 지연으로 중복파일명 막자
@@ -153,9 +153,9 @@ public class ArchiveService {
 							
 						}
 					}
+	
 					
-					
-			    return "";
+			    return id;
 			}
 	private void attachmentRemove(ArrayList<String> newFileName) {
 		
@@ -188,6 +188,10 @@ public class ArchiveService {
 			e.printStackTrace();
 		}
 		
+	}
+
+	public void archivedelete(String id) {
+		dao.archivedelete(id);
 	}	
 }
 

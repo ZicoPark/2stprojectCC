@@ -50,11 +50,10 @@
 	</select>
 
 
-	<update id="archiveUpdate">
+	<update id="archiveUpdate" parameterType="hashmap">
 		UPDATE archive_board SET 
 		subject = #{subject}
 		,content = #{content}
-		,category = #{category}
 		WHERE id = #{id}
 	</update>
 
@@ -63,6 +62,8 @@
 		DELETE FROM attachment WHERE new_photo_name = #{fileName} AND classification = '자료실'
 	</delete>
 
-
+	<update id="archivedelete" parameterType="java.lang.String">
+		UPDATE archive_board SET status = 0 WHERE status = 1 and id = #{id}
+	</update>	
 
 </mapper>

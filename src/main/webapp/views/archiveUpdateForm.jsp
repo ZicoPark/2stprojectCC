@@ -25,45 +25,21 @@
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
     <!-- Content Header (Page header) -->
-    <section class="content-header">
-      <div class="container-fluid">
-        <div class="row mb-2">
-          <div class="col-sm-6">
-            <h1>자료실 게시글 수정</h1>
-          </div>
-          <div class="col-sm-6">
-            <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item"><a href="#">Home</a></li>
-              <li class="breadcrumb-item active">자료실 게시글 수정</li>
-            </ol>
-          </div>
-        </div>
-      </div><!-- /.container-fluid -->
-    </section>
+
 <form action="archiveUpdate.do" method="post" enctype="multipart/form-data">
     <!-- Main content -->
-    <section class="content">
-      <div class="container-fluid">
-        <div class="row">
- 
-          <div class="col-md-9">
-            <div class="card card-primary card-outline">
-              <div class="card-header">
-                <h3 class="card-title">Compose New Message</h3>
-              </div>
-              <!-- /.card-header -->
-              <div class="card-body">
-                <div class="form-group">
-                <input type="text" name="from_id" value="${loginId}" readonly="readonly" hidden="true" required/>
+
+
+                <input type="text" name="member_id" value="${loginId}" readonly="readonly" hidden="true" required/>
 					
 				${detailms.category}
 			
-                <div class="form-group">
+                <div>
                   <input class="form-control" name="subject" maxlength="19" onkeyup="counter(event, '20')" value=${detailms.subject}/>
                   <span id="reCount">0 / 20</span>
                 </div>
                 <div class="form-group" name="content">
-                    <textarea id="compose-textarea" class="form-control" style="height: 300px" name="content">
+                    <textarea id="compose-textarea" style="height: 300px" name="content">
                       ${detailms.content}
                     </textarea>
                 </div>
@@ -79,7 +55,7 @@
     <c:if test="${detailfile.size() > 0 }">
         <c:forEach items="${detailfile}" var="i">
             <div>
-            	<input type = "text" name="removeFile" value=${i.newFileName} hidden = true/>${i.oriFileName}
+            	<input type = "text" name="removeFile" value="${i.newFileName}" hidden = true/>${i.oriFileName}
                 
                 <i class="fas fa-times cancel-icon" onclick="removeFile(this)"></i>
             </div>
@@ -99,33 +75,13 @@
               <!-- /.card-footer -->
             </div>
             <!-- /.card -->
-          </div>
-          <!-- /.col -->
-        </div>
-        <!-- /.row -->
-      </div>
-      </div>
-      </div>
-    </section>
-  </form>
-      </div>
-    <!-- /.content -->
-  </div>
-  <!-- /.content-wrapper -->
-  <footer class="main-footer">
-    <div class="float-right d-none d-sm-block">
-      <b>Version</b> 3.2.0
-    </div>
-    <strong>Copyright &copy; 2014-2021 <a href="https://adminlte.io">AdminLTE.io</a>.</strong> All rights reserved.
-  </footer>
 
-  <!-- Control Sidebar -->
-  <aside class="control-sidebar control-sidebar-dark">
-    <!-- Control sidebar content goes here -->
-  </aside>
-  <!-- /.control-sidebar -->
+  </form>
 </div>
-<!-- ./wrapper -->
+</div>
+    <!-- /.content -->
+
+ 
 
 <!-- jQuery -->
 <script src="../../plugins/jquery/jquery.min.js"></script>
