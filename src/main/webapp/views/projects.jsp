@@ -84,15 +84,14 @@
 												${project.start_date} </small></td>
 										<td>
 											<ul class="list-inline">
-												<c:forEach items="${project.contributors}" var="contributor">
-													<li class="list-inline-item"><img alt="Avatar"
-														class="table-avatar" src="../../dist/img/avatar.png">
-														${contributor}</li>
-												</c:forEach>
+												<c:forEach items="${project.contributors}" var="contributor" varStatus="loop">
+											    <li class="list-inline-item">
+											      <img alt="Avatar" class="table-avatar" src="../../dist/img/avatar${loop.index + 1}.png">
+											      ${contributor}
+											    </li>
+											  </c:forEach>
 											</ul>
-
 										</td>
-
 
 										<td class="project_progress">
 											<div class="progress progress-sm">
@@ -156,8 +155,12 @@
 	<script src="../../dist/js/demo.js"></script>
 
 	<script>
+	var msg = "${msg}";
 
-</script>
+	if (msg != "") {
+		alert(msg);
+	}
+	</script>
 
 </body>
 </html>

@@ -18,7 +18,7 @@ public interface NoticeBoardDAO {
   
    NoticeBoardDTO nodetail(int id);
    
-   String noDetailFile(int id);
+   ArrayList<String> noDetailFile(String id);
    
    int del(String id);
 

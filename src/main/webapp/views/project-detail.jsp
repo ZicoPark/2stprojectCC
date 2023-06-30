@@ -90,10 +90,7 @@
 <script src="../../dist/js/demo.js"></script>
 <script>
 $(document).ready(function() {
-  var msg = "${msg}";
-  if (msg != "") {
-    alert(msg);
-  }
+
 
   var projectId = ${project_id};
   

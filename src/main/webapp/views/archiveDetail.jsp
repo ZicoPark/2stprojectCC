@@ -88,9 +88,7 @@
                     <a href="msdownload.do?path=${i.newFileName}" class="btn btn-default btn-sm float-right"><i class="fas fa-cloud-download-alt"></i></a>
                     
                   </div>
-       
-       
-       			
+
             	</c:forEach>
 			</c:if>
               </ul>

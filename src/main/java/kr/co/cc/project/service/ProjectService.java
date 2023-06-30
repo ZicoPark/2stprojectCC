@@ -127,6 +127,11 @@ public class ProjectService {
 		
 	}
 
+	public void clearContributors(int project_id) {
+	    dao.clearContributors(project_id);
+	}
+
+
 
 
 
