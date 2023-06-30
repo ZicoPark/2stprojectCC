@@ -61,6 +61,16 @@ public interface WorkDAO {
 	
 	WorkDTO annual_leave(String id);
 
+	void annualRegistration(String regist_id, String approval_id, String start_date, String end_date, String use_cnt,
+			String reason, String type);
+
+	ArrayList<WorkDTO> annualRegistrationGo();
+
+	ArrayList<WorkDTO> workHolidayList_Ad();
+
+	ArrayList<WorkDTO> holidayListFind(String holidayList);
+
+
 
 
 

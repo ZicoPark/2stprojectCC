@@ -27,6 +27,7 @@
     <!-- Main content -->
     <section class="content">
     	<br/>
+    	<button type="button" class="btn btn-block btn-outline-success btn-lg" onclick="location.href='workAnnualRegistration.go'">연차 등록</button>
     	<table class="table table-bordered">
 	   		<thead>
 	   			<tr>
@@ -65,7 +66,7 @@
 	   		<tbody>
 	   			<c:if test="${leave_recode_List eq null}">
 					<tr>
-						<th colspan="9">등록된 연차/휴가 내역이 없습니다.</th>
+						<th colspan="8">등록된 연차/휴가 내역이 없습니다.</th>
 					</tr>
 				</c:if>   		
 	    		<c:forEach items="${leave_recode_List}" var="leave_recode_List">
@@ -76,8 +77,13 @@
 	    				<td>${leave_recode_List.end_date}</td>
 	    				<td>${leave_recode_List.use_cnt}</td>
 	    				<td>${leave_recode_List.reason}</td> 
-	    				<td>${leave_recode_List.type}</td> 
-	    				<td>${leave_recode_List.approval}</td>
+	    				
+	    				<c:if test="${leave_recode_List.type.equals('A')}"><td>일반</td></c:if>
+	    				<c:if test="${leave_recode_List.type.equals('B')}"><td>특별</td></c:if>
+	    				
+	    				<c:if test="${leave_recode_List.approval.equals('0')}"><td>대기</td></c:if>
+	    				<c:if test="${leave_recode_List.approval.equals('1')}"><td>승인</td></c:if> 
+	    				<c:if test="${leave_recode_List.approval.equals('2')}"><td>반려</td></c:if> 
 	    			</tr>			
 				</c:forEach>				
 	   		</tbody>    	

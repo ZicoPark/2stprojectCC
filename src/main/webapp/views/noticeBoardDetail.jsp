@@ -47,9 +47,25 @@
 		    </tr>      
 		   	<tr>
 		       <th>첨부파일</th>
-		       <td>	
-					<a href="msdownload.do?path=${detailFile}" class="btn btn-default btn-sm float-right"></a>
-				</td>
+			  	<td>
+			  	<c:if test="${detailFile.size() == 0 }">
+					<div>첨부파일 없음.</div>
+				</c:if>       
+				<c:if test="${detailFile.size() > 0 }">
+					<c:forEach items="${detailFile}" var="i">
+                  <div class="mailbox-attachment-info">
+                    <a class="mailbox-attachment-name"><i class="fas fa-paperclip"></i> &nbsp ${i.oriFileName}</a>
+					&nbsp &nbsp
+                    <a href="msdownload.do?path=${i.newFileName}" class="btn btn-default btn-sm float-right"><i class="fas fa-cloud-download-alt"></i></a>
+                    
+                  </div>
+
+            	</c:forEach>
+			</c:if>
+			</td>
+		       	
+					
+				
 		    </tr>   
 		    <tr>
 		       <th colspan="2">

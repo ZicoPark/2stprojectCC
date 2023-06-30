@@ -399,9 +399,13 @@ public class DocService {
 			MultipartFile[] attachment, HttpSession session) {
 		
 		// params : id, subject, publicRange, afterContent, status
-		
 		logger.info("update hashmap : "+params);
 		
+		// 세션에서 기안자 정보 모두 가져오기
+		String loginId = (String) session.getAttribute("loginId");
+		MemberDTO memberInfo = dao.getMemberInfo(loginId);
+
+
 		// 최초 임시저장 시에 DB create_date에 데이터가 입력되었음.
 		// 결재요청 했을 때 새로 create_date를 입력해야 함.
 		long currentTime = System.currentTimeMillis();
@@ -411,16 +415,116 @@ public class DocService {
 		logger.info("docUpdateTime : "+docUpdateTime);
 		
 		params.put("docUpdateTime", docUpdateTime);
-		
-		// -------------------------------도장찍어야됨
-		
+			
 		// 업데이트 시간을 문서에 렌더링해야 함.
 		String dateWritedContent = docFormUpdate(params.get("afterContent"), "(기안일자 자동 입력)", docUpdateTime);
+		
+		// 상태가 1 : 정상결재요청 이라면?
+		String kianSignDocForm;
+		if(params.get("status").equals("1")) {
+			
+			// 결재선을 확인하여 도장찍는 위치에 칸을 렌더링하자
+			String oriDocForm = params.get("afterContent"); // 작성이 끝난 기안문 양식을 저장한다.
+			String lineDocForm;
+			String approvalId;
+			String approvalName;
+			String approvalMemberId;
+			
+			String oriLine = 
+					"<div class=\"flex-container\" style=\"display: flex;\">\r\n" + 
+					"<div style=\"width:100px float:left;\">\r\n" + 
+					"<div style=\"width:100px; height:25px; border:1px solid black; font-size: 16px; text-align : center; background-color:lightgray;\">기안</div>\r\n" + 
+					"<div style=\"width:100px; height:100px; border:1px solid black; font-size: 16px; color: rgb(255, 0, 0); font-style: italic; text-align : center;\">(기안 서명)</div>\r\n" + 
+					"</div>";
+			String newLine = oriLine;
+			
+				for(int i = 0;i<approvalList.size();i++) { // 화면 상 윗 결재선부터 풀 예정
+					
+					approvalId = approvalList.get(i)[0]; // 결재의 종류
+					approvalName = dao.getApprovalName(approvalId); // 결재종류의 이름 가져오기
+					approvalMemberId = approvalList.get(i)[1];
+					newLine += 
+							"<div style=\"width:100px float:left;\">\r\n" + 
+							"<div style=\"width:100px; height:25px; border:1px solid black; font-size: 16px; text-align : center; background-color:lightgray;\">"+approvalName+"</div>\r\n" + 
+							"<div style=\"width:100px; height:100px; border:1px solid black; font-size: 16px; color: rgb(255, 0, 0); font-style: italic; text-align : center;\" id=\""+approvalMemberId+"\">("+approvalName+" 서명)</div>\r\n" + 
+							"</div>";
+
+				}
+			
+				lineDocForm = docFormUpdate(oriDocForm, oriLine, newLine);
+				
+				// 결재선 라인을 렌더링 한 후, 우선 기안자의 도장 이미지를 가져온다.
+				String memberStampBase64;
+				String fileName = getMemberSignFilePath(memberInfo.getId());
+				String kianSign = memberInfo.getName(); // 서명이미지 파일이 없으면 그냥 멤버 이름을 넣기 때문에 멤버 이름으로 초기화한다.
+				logger.info("fileName : "+fileName); // 서명이미지가 없으면 null이 출력된다.
+				
+				if(fileName!=null) { 
+					// 서명이미지 파일이 있으면 멤버의 이미지파일을 가져와 base64로 인코딩해서 넣는다.
+					try {
+						byte[] src = FileUtils.readFileToByteArray(new File(attachmentRoot+"/"+fileName));
+						memberStampBase64 = Base64.getEncoder().encodeToString(src);
+						kianSign = "<img src=\"data:image/png;base64,"+memberStampBase64+"\" style=\"max-width: 100%;\" />"+"<span style=\"width:100px; height:100px; border:1px solid white; font-size:16px; text-align:center;\">"+memberInfo.getName()+"</span>";
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+					
+				}
+				
+				kianSignDocForm = docFormUpdate(lineDocForm, "(기안 서명)", kianSign);
+				
+		}	
+		
+		if(params.get("status").equals("1")) {
+			// 정상결재요청 시에는 결재선을 저장한다.
+			HashMap<String, Object> docStatusMap = new HashMap<String, Object>();
+			
+			String approvalId;
+			String approvalMemberId;
+			MemberDTO approvalMemberInfo;
+			int orderRank = 0; // 결재순서는 0부터 시작
+			int approval = 0; // 0 : 미결재, 1 : 결재, 2 : 반려
+			int readChk = 0; // 0 안읽음, 1 : 읽음
+			
+				for(int i = 0;i<approvalList.size();i++) {
+					
+					approvalId = approvalList.get(i)[0];
+					approvalMemberId = approvalList.get(i)[1];
+					approvalMemberInfo = dao.getMemberInfo(approvalMemberId);
+					
+					docStatusMap.put("id", params.get("id"));
+					docStatusMap.put("member_id", approvalMemberId);
+					docStatusMap.put("job_name", approvalMemberInfo.getJobName());
+					docStatusMap.put("dept_name", approvalMemberInfo.getDeptName());
+					docStatusMap.put("approval_code", approvalId);
+					docStatusMap.put("order_rank", orderRank);
+					docStatusMap.put("approval", approval);
+					docStatusMap.put("read_chk", readChk);
+					
+					dao.approvalWrite(docStatusMap);
+					
+					if(orderRank==0) { // 지금 결재요청한 문서의 첫 결재자가 0순위라면 알림 테이블에 등록하자.
+						docNotice(memberInfo.getId(), approvalMemberId, "전자결재", 0, Integer.parseInt(params.get("id")));
+					}
+					
+					orderRank++; // 0순위를 저장 후 결재순위가 1씩 증가함.
+				}
+		}
+		/*
 		params.put("dateWritedContent", dateWritedContent);
 		
 		// DB에 수정된 문서를 업데이트한다.
-//		dao.docUpdate(params);
-		 
+		dao.docUpdate(params);
+		
+		// 결재요청함 리스트로 보내자
+		ModelAndView mav = new ModelAndView("redirect:/docRequestList.go");
+		
+		*/
+		return null;
+	}
+
+	public ModelAndView docRequestList(HttpSession session) {
+		// TODO Auto-generated method stub
 		return null;
 	}
 

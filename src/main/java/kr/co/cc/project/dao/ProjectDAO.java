@@ -36,6 +36,8 @@ public interface ProjectDAO {
 
 	void updateContributor(int project_id, String contributorId);
 
+	void clearContributors(int project_id);
+
 
 
 }

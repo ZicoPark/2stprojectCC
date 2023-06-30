@@ -286,9 +286,70 @@ public class WorkController {
 	
 	
 	@GetMapping(value="/workHolidayList_Ad.go")
-	public String workHolidayList_Ad() {
-		return "workHolidayList_Ad";
+	public ModelAndView workHolidayList_Ad() {
+		return service.workHolidayList_Ad();
 	}
+	
+	@GetMapping(value="/holidayListFind.do")
+	public ModelAndView holidayListFind(@RequestParam int holidayList) {
+		String value = holidayList < 10 ? "2023-"+"0"+"holidayList" : "2023-"+"holidayList";
+
+		return service.holidayListFind(value);
+	}
+	
+	
+	@GetMapping(value="/workAnnualRegistration.go")
+	public ModelAndView annualRegistrationGo() {
+		ModelAndView mav = new ModelAndView("workAnnualRegistration");
+		ArrayList<WorkDTO> admin = service.annualRegistrationGo();		
+		mav.addObject("admin",admin);
+		
+		return mav;
+	}
+	
+	@GetMapping(value="/annualRegistration.do")
+	public ModelAndView annualRegistration(@RequestParam HashMap<String, String> params, HttpSession session) {
+		
+		ModelAndView mav = new ModelAndView("workAnnualRegistration");
+		String msg = "";
+		
+		if(params.get("approval_id").equals("")) {
+			msg = "승인자를 입력해주세요.";
+			ArrayList<WorkDTO> admin = service.annualRegistrationGo();		
+			mav.addObject("admin",admin);
+		} else if (params.get("year_go").equals("") || params.get("month_go").equals("") || params.get("day_go").equals("")) {
+			msg = "연차 시작 날짜를 입력해주세요.";
+			ArrayList<WorkDTO> admin = service.annualRegistrationGo();		
+			mav.addObject("admin",admin);
+		} else if (params.get("year_end").equals("") || params.get("month_end").equals("") || params.get("day_end").equals("")) {			
+			msg = "연차 종료 날짜를 입력해주세요.";
+			ArrayList<WorkDTO> admin = service.annualRegistrationGo();		
+			mav.addObject("admin",admin);
+		} else if (params.get("use_cnt").equals("")) {
+			msg = "사용 일 수를 입력해주세요.";
+			ArrayList<WorkDTO> admin = service.annualRegistrationGo();		
+			mav.addObject("admin",admin);
+		}else if (params.get("reason").equals("")) {
+			msg = "연차 사유를 입력해주세요.";
+			ArrayList<WorkDTO> admin = service.annualRegistrationGo();		
+			mav.addObject("admin",admin);
+		}else if (params.get("type").equals("")) {
+			msg = "연차 유형을 입력해주세요.";
+			ArrayList<WorkDTO> admin = service.annualRegistrationGo();		
+			mav.addObject("admin",admin);
+		} else {
+			service.annualRegistration(params, session);
+			msg = "연차 사용 요청을 완료 하였습니다.";
+			String id = (String) session.getAttribute("loginId");	
+			mav = service.workHolidayList(id);			
+		}		
+		mav.addObject("msg",msg);
+		
+		return mav;
+	}
+	
+	
+	
 	
 
 	

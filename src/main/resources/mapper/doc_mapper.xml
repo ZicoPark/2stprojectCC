@@ -84,7 +84,7 @@
 	</resultMap>
 	
 	<select id="tempDocList" resultMap="docMap">
-		SELECT * FROM doc WHERE member_id = #{param1} AND status = #{param2}
+		SELECT * FROM doc WHERE member_id = #{param1} AND status = #{param2} ORDER BY id DESC
 	</select>
 	
 	<resultMap id="attachmentMap" type="kr.co.cc.doc.dto.AttachmentDTO" >

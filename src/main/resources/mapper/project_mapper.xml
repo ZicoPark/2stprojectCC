@@ -76,7 +76,7 @@
     WHERE p.project_id = #{param1}
 </select>
 
-	<update id="projectUpdate" parameterType="kr.co.cc.project.dto.ProjectDTO">
+	<update id="projectUpdate" parameterType="hashmap">
 	  UPDATE project
 	  SET name = #{name},
 	      public_range = #{public_range},
@@ -85,11 +85,11 @@
 	  WHERE project_id = #{project_id}
 	</update>
 	
-	<update id="updateContributor" parameterType="kr.co.cc.project.dto.ProjectDTO">
-	  UPDATE contributor
-	  SET member_id = #{contributorId}
-	  WHERE project_id = #{project_id}
-	</update>
+	<delete id="clearContributors" parameterType="java.util.Map">
+	  DELETE FROM contributor
+	  WHERE project_id = #{projectId}
+	    AND member_id = #{contributorId}
+	</delete>
 	
 	
 	

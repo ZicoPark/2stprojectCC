@@ -59,7 +59,7 @@
 				${detailms.category}
 			
                 <div class="form-group">
-                  <input class="form-control" name="subject" maxlength="19" onkeyup="counter(event, '20')" value=${detailms.subject}>
+                  <input class="form-control" name="subject" maxlength="19" onkeyup="counter(event, '20')" value=${detailms.subject}/>
                   <span id="reCount">0 / 20</span>
                 </div>
                 <div class="form-group" name="content">
@@ -79,7 +79,8 @@
     <c:if test="${detailfile.size() > 0 }">
         <c:forEach items="${detailfile}" var="i">
             <div>
-                <span>${i.oriFileName}</span>
+            	<input type = "text" name="removeFile" value=${i.newFileName} hidden = true/>${i.oriFileName}
+                
                 <i class="fas fa-times cancel-icon" onclick="removeFile(this)"></i>
             </div>
         </c:forEach>
@@ -176,6 +177,7 @@
 	    }
 	  });
 
+	  // 첨부파일 목록 보여주고 안 보여주고 
 	    function displayFileNames(event) {
 	        var fileNamesDiv = document.getElementById('fileNames');
 
@@ -197,11 +199,16 @@
 	        });
 	    }
 
-	    function removeFile(icon) {
-	        var fileNameDiv = icon.parentNode;
-	        fileNameDiv.remove();
-	    }
 
+	    function removeFile(icon) {
+	        var fileNameDiv = $(icon).parent(); 
+	        var fileNameInput = fileNameDiv.find('input[type="text"]'); 
+	        var newFileName = fileNameInput.attr('value'); 
+
+	        fileNameDiv.remove();
+
+			console.log(newFileName);
+	    }
 
 </script>
 

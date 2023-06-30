@@ -1,6 +1,7 @@
 package kr.co.cc.archive.dao;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import kr.co.cc.archive.dto.ArchiveDTO;
 
@@ -19,6 +20,8 @@ public interface ArchiveDAO {
 
 	ArrayList<String> archiveDetailFile(String id);
 
-	int archiveUpdate(ArchiveDTO dto);
+	int archiveUpdate(HashMap<String, String> params);
+
+	void removeFileName(String fileName);
 
 }
