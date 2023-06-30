@@ -53,35 +53,35 @@ public class DocService {
 		ModelAndView mav = new ModelAndView("docWriteForm");
 		
 		// 결재 종류 불러오기
-		ArrayList<ApprovalDTO> approvalKindList = dao.approvalKindCall();
+		ArrayList<ApprovalDTO> approvalKindList = dao.getApprovalList();
 		// 기안은 제외(기안자가 나 자신이니까)
 		approvalKindList.remove(0);
 		mav.addObject("approvalKindList", approvalKindList);
 		
 		// 결재자 선택하기 위해 직원 리스트 불러오기
-		ArrayList<MemberDTO> memberList = dao.memberListCall();
+		ArrayList<HashMap<String, String>> memberList = dao.getMemberList();
 		mav.addObject("memberList", memberList);
 		
 		// 기안문 양식 불러오기
-		ArrayList<DocFormDTO> oriDocFormList = dao.docFormCall();
+		ArrayList<DocFormDTO> docFormList = dao.getDocFormList();
 		
 		// 기안문 양식에 세션 아이디의 이름과 부서 붙이기
+		
+		// 기안자의 정보를 모두 불러오기
 		String loginId = (String) session.getAttribute("loginId");
 		MemberDTO memberInfo = dao.getMemberInfo(loginId);
 		
 		String name = memberInfo.getName();
-		String deptName = memberInfo.getDeptName();
-
-		ArrayList<DocFormDTO> newDocFormList = new ArrayList<DocFormDTO>();
-		String oriDocForm;
-		String newDocForm_name;
-		String newDocForm_deptName;
+		HashMap<String, String> deptMap = dao.getDeptMap(memberInfo.getDept_id());
+		String deptName = deptMap.get("name");
 		
-		for (DocFormDTO docForm : oriDocFormList) {
-			oriDocForm = docForm.getContent();
-			newDocForm_name = docFormUpdate(oriDocForm, "(기안자 자동 입력)", name);
-			newDocForm_deptName = docFormUpdate(newDocForm_name, "(소속 자동 입력)", deptName);
-			docForm.setContent(newDocForm_deptName);
+		ArrayList<DocFormDTO> newDocFormList = new ArrayList<DocFormDTO>();
+		
+		for (DocFormDTO docForm : docFormList) {
+			String oriContent = docForm.getContent();
+			String nameWritedContent = docFormUpdate(oriContent, "(기안자 자동 입력)", name);
+			String deptWritedContent = docFormUpdate(nameWritedContent, "(소속 자동 입력)", deptName);
+			docForm.setContent(deptWritedContent);
 			newDocFormList.add(docForm);
 		}
 		
@@ -89,7 +89,7 @@ public class DocService {
 		
 		return mav;
 	}
-	
+
 	// 결재문서 양식에 수정할 때 쓰는 메서드
 	public String docFormUpdate(String oriDocForm, String oriString, String newString) {
 		
@@ -102,7 +102,7 @@ public class DocService {
 	public ModelAndView docWrite(HashMap<String, String> params, 
 			ArrayList<String[]> approvalList,
 			MultipartFile[] attachment, HttpSession session) {
-		
+
 		// dto 만들어서 받아온 전자정보 문서를 넣는다.
 		DocDTO dto = new DocDTO();
 		dto.setSubject(params.get("subject"));
@@ -110,17 +110,17 @@ public class DocService {
 		
 		int status = Integer.parseInt(params.get("status"));
 		dto.setStatus(status); // 1 : 정상 2 : 임시저장
-		dto.setDocFormId(Integer.parseInt(params.get("docFormId"))); // 기안문서 양식 id
+		dto.setDoc_form_id(params.get("docFormId")); // 기안문서 양식 id
 		
 		// 세션에서 기안자 정보 모두 가져오기
 		String loginId = (String) session.getAttribute("loginId");
 		MemberDTO memberInfo = dao.getMemberInfo(loginId);
 		
-		dto.setMemberId(memberInfo.getId());
-		dto.setDeptName(memberInfo.getDeptName());
-		dto.setJobName(memberInfo.getJobName());
+//		dto.setMemberId(memberInfo.getId());
+//		dto.setDeptName(memberInfo.getDeptName());
+//		dto.setJobName(memberInfo.getJobName());
 		
-		dto.setPublicRange(params.get("publicRange"));
+//		dto.setPublicRange(params.get("publicRange"));
 		
 		logger.info("params : "+params);
 		
@@ -185,7 +185,7 @@ public class DocService {
 		int row = dao.docWrite(dto); // 완성된 문서를 데이터베이스에 등록한다.
 		logger.info("inserted doc row : "+row);
 		
-		int id = dto.getId(); // 문서번호
+//		int id = dto.getId(); // 문서번호
 		
 		if(row==1) { // 업로드된 doc이 1이라면
 						
@@ -194,7 +194,7 @@ public class DocService {
 				logger.info("업로드할 file 있나요? :"+!file.isEmpty());
 				
 				if(!file.isEmpty()) {
-					attachmentSave(id, file, "전자문서첨부파일");
+//					attachmentSave(id, file, "전자문서첨부파일");
 				}
 				
 				try { // 쓰레드 0.001초 지연으로 중복파일명 막자
@@ -208,9 +208,9 @@ public class DocService {
 		}
 		
 		// status에 따라서 문서번호(1, 2)와 기안일자(1)를 업데이트한다.
-		DocDTO writedContentDTO = dao.getWritedDOC(Integer.toString(id));
-		String oriWritedContent = writedContentDTO.getContent();
-		String idWritedContent = docFormUpdate(oriWritedContent, "(문서번호 자동 입력)", Integer.toString(id));
+//		DocDTO writedContentDTO = dao.getWritedDOC(Integer.toString(id));
+//		String oriWritedContent = writedContentDTO.getContent();
+//		String idWritedContent = docFormUpdate(oriWritedContent, "(문서번호 자동 입력)", Integer.toString(id));
 		
 		// 상태가 1 : 정상결재요청, 2 : 임시저장이면 이동페이지를 다르게 조정해서 보낸다.
 		ModelAndView mav = new ModelAndView();
@@ -234,10 +234,10 @@ public class DocService {
 					approvalMemberId = approvalList.get(i)[1];
 					approvalMemberInfo = dao.getMemberInfo(approvalMemberId);
 					
-					docStatusMap.put("id", id);
+//					docStatusMap.put("id", id);
 					docStatusMap.put("member_id", approvalMemberId);
-					docStatusMap.put("job_name", approvalMemberInfo.getJobName());
-					docStatusMap.put("dept_name", approvalMemberInfo.getDeptName());
+//					docStatusMap.put("job_name", approvalMemberInfo.getJobName());
+//					docStatusMap.put("dept_name", approvalMemberInfo.getDeptName());
 					docStatusMap.put("approval_code", approvalId);
 					docStatusMap.put("order_rank", orderRank);
 					docStatusMap.put("approval", approval);
@@ -246,17 +246,17 @@ public class DocService {
 					dao.approvalWrite(docStatusMap);
 					
 					if(orderRank==0) { // 지금 결재요청한 문서의 첫 결재자가 0순위라면 알림 테이블에 등록하자.
-						docNotice(memberInfo.getId(), approvalMemberId, "전자결재", 0, id);
+//						docNotice(memberInfo.getId(), approvalMemberId, "전자결재", 0, id);
 					}
 					
 					orderRank++; // 0순위를 저장 후 결재순위가 1씩 증가함.
 				}
 			
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
-			String createDate = sdf.format(writedContentDTO.getCreateDate());
-			String dateWritedContent = docFormUpdate(idWritedContent, "(기안일자 자동 입력)", createDate);
+//			String createDate = sdf.format(writedContentDTO.getCreateDate());
+//			String dateWritedContent = docFormUpdate(idWritedContent, "(기안일자 자동 입력)", createDate);
 				
-			dao.docWriteETC(id, dateWritedContent);
+//			dao.docWriteETC(id, dateWritedContent);
 			
 		}else {
 			
@@ -267,7 +267,7 @@ public class DocService {
 			// 임시저장 시에는 결재선 렌더링 하지 않음.
 			// 임시저장 시에는 도장 안넣음.
 			
-			dao.docWriteETC(id, idWritedContent);
+//			dao.docWriteETC(id, idWritedContent);
 			
 		}
 		
@@ -326,14 +326,14 @@ public class DocService {
 		ModelAndView mav = new ModelAndView("docUpdateForm");
 		
 		// 결재 종류 불러오기
-		ArrayList<ApprovalDTO> approvalKindList = dao.approvalKindCall();
+//		ArrayList<ApprovalDTO> approvalKindList = dao.approvalKindCall();
 		// 기안은 제외(기안자가 나 자신이니까)
-		approvalKindList.remove(0);
-		mav.addObject("approvalKindList", approvalKindList);
+//		approvalKindList.remove(0);
+//		mav.addObject("approvalKindList", approvalKindList);
 		
 		// 결재자 선택하기 위해 직원 리스트 불러오기
-		ArrayList<MemberDTO> memberList = dao.memberListCall();
-		mav.addObject("memberList", memberList);
+//		ArrayList<MemberDTO> memberList = dao.memberListCall();
+//		mav.addObject("memberList", memberList);
 		
 		// 임시저장된 문서의 정보 불러오기
 		DocDTO docDTO = dao.getWritedDOC(id);
@@ -392,7 +392,7 @@ public class DocService {
 		}
 		
 	}
-	
+
 	// 임시저장한 문서를 결재요청하는 메서드
 	public ModelAndView docUpdate(HashMap<String, String> params, 
 			ArrayList<String[]> approvalList,
@@ -494,8 +494,8 @@ public class DocService {
 					
 					docStatusMap.put("id", params.get("id"));
 					docStatusMap.put("member_id", approvalMemberId);
-					docStatusMap.put("job_name", approvalMemberInfo.getJobName());
-					docStatusMap.put("dept_name", approvalMemberInfo.getDeptName());
+//					docStatusMap.put("job_name", approvalMemberInfo.getJobName());
+//					docStatusMap.put("dept_name", approvalMemberInfo.getDeptName());
 					docStatusMap.put("approval_code", approvalId);
 					docStatusMap.put("order_rank", orderRank);
 					docStatusMap.put("approval", approval);
@@ -522,6 +522,7 @@ public class DocService {
 		*/
 		return null;
 	}
+
 
 	public ModelAndView docRequestList(HttpSession session) {
 		// TODO Auto-generated method stub

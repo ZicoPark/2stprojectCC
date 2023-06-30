@@ -1,17 +1,20 @@
 package kr.co.cc.doc.dto;
 
+import java.sql.Date;
+
 public class DocFormDTO {
 
-	private int code;
+	private String id;
 	private String name;
 	private String content;
 	private boolean status;
+	private Date create_at;
 	
-	public int getCode() {
-		return code;
+	public String getId() {
+		return id;
 	}
-	public void setCode(int code) {
-		this.code = code;
+	public void setId(String id) {
+		this.id = id;
 	}
 	public String getName() {
 		return name;
@@ -30,6 +33,12 @@ public class DocFormDTO {
 	}
 	public void setStatus(boolean status) {
 		this.status = status;
+	}
+	public Date getCreate_at() {
+		return create_at;
+	}
+	public void setCreate_at(Date create_at) {
+		this.create_at = create_at;
 	}
 	
 }
