@@ -22,6 +22,7 @@ public class MemberDTO {
 	private String address;
 	private String title;
 	private String message;
+	
 	public String getId() {
 		return id;
 	}

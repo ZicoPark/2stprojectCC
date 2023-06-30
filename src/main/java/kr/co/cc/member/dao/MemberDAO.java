@@ -9,7 +9,7 @@ public interface MemberDAO {
 
 	int join(MemberDTO dto);
 
-	String login(HashMap<String, String> params);
+	String login(String id);
 
 	int idChk(String user_id);
 	

@@ -9,8 +9,8 @@
 			VALUES(#{user_id},#{password},#{name},#{birth_at},#{hire_at},#{email},#{phone},1,0,#{job_level_id},#{dept_id})
 	</insert>
 	
-	<select id = "login" parameterType="hashmap">
-		SELECT user_id FROM member WHERE user_id = #{user_id} and password = #{password}
+	<select id = "login" resultType="String">
+		SELECT password FROM member WHERE user_id = #{user_id}
 	</select>
 	
 	<select id="idChk" resultType="int">
@@ -19,18 +19,17 @@
     
     <select id="getUserInfo" parameterType="hashmap"
 		resultType="kr.co.cc.member.dto.MemberDTO">
-		SELECT id
+		SELECT user_id
 		, password
 		, name
-		, birth_date
-		, hire_date
-		, end_date
+		, birth_at
+		, hire_at
 		, email
 		, phone
 		, status
 		, admin_chk
-		, job_name
-		, dept_name
+		, job_level_id
+		, dept_id
 		FROM member
 		WHERE name = #{name}
 		AND email = #{email}
@@ -39,39 +38,37 @@
     
     <select id="getUserInfoPW" parameterType="hashmap"
 		resultType="kr.co.cc.member.dto.MemberDTO">
-		SELECT id
+		SELECT user_id
 		, password
 		, name
-		, birth_date
-		, hire_date
-		, end_date
+		, birth_at
+		, hire_at
 		, email
 		, phone
 		, status
 		, admin_chk
-		, job_name
-		, dept_name
+		, job_level_id
+		, dept_id
 		FROM member
-		WHERE id = #{id}
+		WHERE user_id = #{user_id}
 		AND name = #{name}
 		AND email = #{email}
 	</select>
 	
 	<select id="userInfo" resultType="kr.co.cc.member.dto.MemberDTO">
-		SELECT id
+		SELECT user_id
 		, password
 		, name
-		, birth_date
-		, hire_date
-		, end_date
+		, birth_at
+		, hire_at
 		, email
 		, phone
 		, status
 		, admin_chk
-		, job_name
-		, dept_name
+		, job_level_id
+		, dept_id
 		FROM member
-		WHERE id = #{param1}
+		WHERE user_id = #{param1}
 
 	</select>
 	

@@ -15,6 +15,7 @@ import org.mybatis.spring.annotation.MapperScan;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -27,12 +28,19 @@ public class MemberService {
 	
 	@Autowired MemberDAO memberdao;
 	
+	@Autowired PasswordEncoder encoder;
+	
 	Logger logger = LoggerFactory.getLogger(getClass());
 
 	public ModelAndView join(MemberDTO dto) {
 		
+		
+		logger.info(dto.getUser_id()+"/"+dto.getPassword());
+		String enc_pass = encoder.encode(dto.getPassword());
+		dto.setPassword(enc_pass);
 		int success = memberdao.join(dto);
-		logger.info("success : " + success);
+		logger.info("join success : "+success);
+		
 		
 		String msg = "회원등록에 실패하였습니다.";
 		String page = "JoinForm";
@@ -48,8 +56,22 @@ public class MemberService {
 		return mav;
 	}
 
-	public String login(HashMap<String, String> params) {
-		return memberdao.login(params);
+//	public String login(HashMap<String, String> params) {
+//		return memberdao.login(params);
+//	}
+	
+	public boolean login(String user_id, String password) {
+		
+		boolean success = false;
+		
+
+		String enc_pw = memberdao.login(user_id);
+	
+		if(enc_pw != null && !enc_pw.equals("")) {
+			success = encoder.matches(password, enc_pw);
+		}
+		
+		return success;
 	}
 	
     public HashMap<String, Object> idChk(String user_id) {
@@ -85,7 +107,7 @@ public class MemberService {
 
 			String receiver = userInfo.getEmail(); // 메일 받을 주소
 			String title = "[Creator Company] 아이디 찾기"; // 메일 제목
-			String content = "<b> 아이디 : " + userInfo.getId() + "</b>"; // 메일 내용
+			String content = "<b> 아이디 : " + userInfo.getUser_id() + "</b>"; // 메일 내용
 			Message message = new MimeMessage(session);
 			try {
 				message.setFrom(new InternetAddress("archeagemd1@gmail.com", "관리자", "utf-8")); // 보내는 사람 메일, 보내는 사람 이름
