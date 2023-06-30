@@ -15,14 +15,14 @@
 	<br>
 	<br>
 	<form action="docWrite.do" method="post" enctype="multipart/form-data">
-		<select id="docForm" name="docFormId" onchange="docFormCall(this)">
+		<select id="docForm" name="docFormId" onchange="docFormListCall(this)">
 			<option value="default">--</option>
 			<c:forEach items="${docFormList}" var="i">
-				<option value="${i.code}">${i.name}</option>
+				<option value="${i.id}">${i.name}</option>
 			</c:forEach>
 		</select>
 		<c:forEach items="${docFormList}" var="i">
-			<textarea id="${i.code}" hidden="true">${i.content}</textarea>
+			<textarea id="${i.id}" hidden="true">${i.content}</textarea>
 		</c:forEach>
 		<br>
 		<input type="text" name="subject" value="" placeholder="제목을 입력하세요"/>
@@ -37,13 +37,13 @@
 		<select name="approvalVariable">
 			<option value="default">--</option>
 			<c:forEach items="${approvalKindList}" var="i">
-				<option value="${i.id}">${i.name}</option>
+				<option value="${i.priority}">${i.name}</option>
 			</c:forEach>
 		</select>
 		<select name="approvalPerson">
 			<option value="default">--</option>
 			<c:forEach items="${memberList}" var="i">
-				<option value="${i.id}">${i.deptName} | ${i.name}</option>
+				<option value="${i.id}">${i.dept_name} | ${i.name}</option>
 			</c:forEach>
 		</select>
 		<br>
@@ -67,7 +67,7 @@ config.editorResizeMode = "none"; // 에디터 크기조절 none
 
 var editor = new RichTextEditor("#div_editor", config);
 
-function docFormCall(elem){
+function docFormListCall(elem){
 
 	var docForm = document.getElementById(elem.value).value;
 	editor.setHTMLCode(docForm); // editor에 내용 넣기, docForm은 기본 양식
@@ -81,14 +81,14 @@ content += '<input type="button" value="결재선 추가" onclick="addApproval()
 content += '<select name="approvalVariable">';
 content += '<option value="default">--</option>';
 content += '<c:forEach items="${approvalKindList}" var="i">';
-content += '<option value="${i.id}">${i.name}</option>';
+content += '<option value="${i.priority}">${i.name}</option>';
 content += '</c:forEach>';
 content += '</select>';
 
 content += '<select name="approvalPerson">';
 content += '<option value="default">--</option>';
 content += '<c:forEach items="${memberList}" var="i">';
-content += '<option value="${i.id}">${i.deptName} | ${i.name}</option>';
+content += '<option value="${i.id}">${i.dept_name} | ${i.name}</option>';
 content += '</c:forEach>';
 content += '</select>';
 content += '<br>';
