@@ -32,7 +32,7 @@
 					<td>
 					<select name="approval_id">
 						<c:forEach items="${admin}" var="admin">
-						<option value="${admin.id}">${admin.name}</option>
+						<option value="${admin.member_id}">${admin.name}</option>
 						</c:forEach>
 					</select>
 					</td>
@@ -40,22 +40,22 @@
 				<tr>
 					<th>연차 시작일 : </th>
 					<td>
-						<input type="number" id="year" name="year" placeholder="2023" value="2023">년
-						<input type="number" id="month" name="month" max="12" placeholder="월 입력">월
-						<input type="number" id="day" name="day" max="32" placeholder="일 입력">일
+						<input type="number" id="year_go" name="year_go" placeholder="2023" value="2023">년
+						<input type="number" id="month_go" name="month_go" max="12" placeholder="월 입력">월
+						<input type="number" id="day_go" name="day_go" max="32" placeholder="일 입력">일
 					</td>
 				</tr>
 				<tr>
 					<th>연차 종료일 : </th>
 					<td>
-						<input type="number" id="year" name="year" placeholder="2023" value="2023">년
-						<input type="number" id="month" name="month" max="12" placeholder="월 입력">월
-						<input type="number" id="day" name="day" max="32" placeholder="일 입력">일
+						<input type="number" id="year_end" name="year_end" placeholder="2023" value="2023">년
+						<input type="number" id="month_end" name="month_end" max="12" placeholder="월 입력">월
+						<input type="number" id="day_end" name="day_end" max="32" placeholder="일 입력">일
 					</td>
 				</tr>
 				<tr>
 					<th>사용 일 수 : </th>
-					<td><input type="number" id="use" name="use" placeholder="숫자만 입력"></td>
+					<td><input type="number" id="use_cnt" name="use_cnt" placeholder="숫자만 입력"></td>
 				</tr>
 				<tr>
 					<th>연차 사유 : </th>

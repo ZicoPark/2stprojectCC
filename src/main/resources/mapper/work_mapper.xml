@@ -138,8 +138,31 @@
 		select * from annual_leave where member_id = #{param1}
 	</select>
 	 
-	<select id="leave_recode_List" resultType="kr.co.cc.work.dto.WorkDTO">	
+	<select id="leave_recode_List" resultType="kr.co.cc.work.dto.WorkDTO">
 		select * from leave_recode where regist_id = #{param1}
+	</select>
+	
+	<insert id="annualRegistration">
+		INSERT INTO leave_recode (regist_id,approval_id,start_date,end_date,use_cnt,reason,type) 
+		VALUES (#{regist_id},#{approval_id},#{start_date},#{end_date},#{use_cnt},#{reason},#{type})	
+	</insert>
+	
+	<select id="annualRegistrationGo" resultType="kr.co.cc.work.dto.WorkDTO">
+		select id as member_id,name from member where admin_chk = 1
+	</select>
+	
+	<select id="workHolidayList_Ad" resultType="kr.co.cc.work.dto.WorkDTO">
+		SELECT l.regist_id , m.name, l.start_date ,l.end_date ,l.use_cnt ,l.approval 
+		FROM leave_recode l inner join member m
+		on l.regist_id = m.id
+	</select>
+	
+	<select id="holidayListFind" resultType="kr.co.cc.work.dto.WorkDTO">		
+		SELECT l.regist_id , m.name, l.start_date ,l.end_date ,l.use_cnt ,l.approval 
+		FROM leave_recode l inner join member m
+		on l.regist_id = m.id 
+		WHERE l.start_date LIKE CONCAT(#{param1}, '%') or l.end_date LIKE CONCAT(#{param1}, '%')
+		order by regist_date desc, regist_id
 	</select>
 
 	
