@@ -4,16 +4,18 @@ import java.util.Date;
 
 public class ProjectDTO {
 
-	private int project_id;
+	private String id;
 	private int public_range;
+	private String project_id;
 	private String name;
+	private String user_id;
 	private String member_id;
-	private Date start_date;
+	private String create_at;
 	private String explain; 
 	private String step;
 	private String status;
-	private String priod;
-	private String deadlinepriod;
+	private String start_at;
+	private String end_at;
 	private String contributors;
 	private String subject;
 	private String user_name;
@@ -23,7 +25,7 @@ public class ProjectDTO {
 	private int comment_status;
 	private Date comment_create_date;
 	
-	private int id;
+
 	private String ori_file_name;
 	   private String new_file_name;
 	   private String classification;
@@ -31,6 +33,23 @@ public class ProjectDTO {
 	
 	
 	
+	   
+	public String getUser_id() {
+		return user_id;
+	}
+
+	public void setUser_id(String user_id) {
+		this.user_id = user_id;
+	}
+
+	public String getProject_id() {
+		return project_id;
+	}
+
+	public void setProject_id(String project_id) {
+		this.project_id = project_id;
+	}
+
 	public Date getComment_create_date() {
 		return comment_create_date;
 	}
@@ -97,12 +116,7 @@ public class ProjectDTO {
         this.contributors = contributors;
     }
 
-	public int getProject_id() {
-		return project_id;
-	}
-	public void setProject_id(int project_id) {
-		this.project_id = project_id;
-	}
+
 	public int getPublic_range() {
 		return public_range;
 	}
@@ -121,12 +135,15 @@ public class ProjectDTO {
 	public void setMember_id(String member_id) {
 		this.member_id = member_id;
 	}
-	public Date getStart_date() {
-		return start_date;
+
+	public String getCreate_at() {
+		return create_at;
 	}
-	public void setStart_date(Date start_date) {
-		this.start_date = start_date;
+
+	public void setCreate_at(String create_at) {
+		this.create_at = create_at;
 	}
+
 	public String getExplain() {
 		return explain;
 	}
@@ -145,25 +162,29 @@ public class ProjectDTO {
 	public void setStatus(String status) {
 		this.status = status;
 	}
-	public String getPriod() {
-		return priod;
-	}
-	public void setPriod(String priod) {
-		this.priod = priod;
-	}
-	public String getDeadlinepriod() {
-		return deadlinepriod;
-	}
-	public void setDeadlinepriod(String deadlinepriod) {
-		this.deadlinepriod = deadlinepriod;
-	}
 
-	public int getId() {
+	public String getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(String id) {
 		this.id = id;
+	}
+
+	public String getStart_at() {
+		return start_at;
+	}
+
+	public void setStart_at(String start_at) {
+		this.start_at = start_at;
+	}
+
+	public String getEnd_at() {
+		return end_at;
+	}
+
+	public void setEnd_at(String end_at) {
+		this.end_at = end_at;
 	}
 
 	public String getOri_file_name() {

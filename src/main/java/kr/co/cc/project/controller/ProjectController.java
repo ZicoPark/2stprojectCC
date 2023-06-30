@@ -99,14 +99,14 @@ public class ProjectController {
 	        // 프로젝트 정보 업데이트
 	        service.projectUpdate(params);
 
-	        int project_id = Integer.parseInt(params.get("project_id"));
+	        String id = params.get("project_id");
 	        String memberIdsString = params.get("member_id");
 
 	        if (memberIdsString != null) {
 	            String[] memberIds = memberIdsString.split(",");
 	            // 새로운 참가자 정보 추가
 	            for (String contributorId : memberIds) {
-	                service.addContributor(project_id, contributorId);
+	                service.addContributor(id, contributorId);
 	            }
 	        }
 
@@ -126,20 +126,23 @@ public class ProjectController {
 	    model.addAttribute("msg", msg);
 
 	    String memberId = (String) session.getAttribute("loginId");
-
+	    logger.info("loginId" + memberId);
 	    ProjectDTO dto = new ProjectDTO();
 	    dto.setName(params.get("name"));
 	    dto.setPublic_range(Integer.valueOf(params.get("public_range")));
-	    dto.setPriod(params.get("priod"));
-	    dto.setDeadlinepriod(params.get("deadlinepriod"));
+	    dto.setStart_at(params.get("start_at"));
+	    dto.setEnd_at(params.get("end_at"));
 
 	    String projectId = service.write(dto, memberId);
-	    int project_id=dto.getProject_id();
+	    
+	    String project_id=dto.getId();
 	    logger.info("project_id"+project_id);
 
-	    String memberIdsString = params.get("member_id");
-	    String[] memberIds = memberIdsString.split(",");
-	    for (String contributorId : memberIds) {
+	    String userIdsString = params.get("user_id");
+	    logger.info("user_id"+ userIdsString);
+	    String[] userIds = userIdsString.split(",");
+	    logger.info("user_id"+ userIds);
+	    for (String contributorId : userIds) {
 	        service.addContributor(project_id, contributorId);
 	    }
 

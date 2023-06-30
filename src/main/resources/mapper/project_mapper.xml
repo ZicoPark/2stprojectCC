@@ -5,29 +5,31 @@
 <mapper namespace="kr.co.cc.project.dao.ProjectDAO">
 
 	<insert
-	   useGeneratedKeys="true"
-		keyColumn="project_id"
-		keyProperty="project_id"
-	    id="ProjectWrite" parameterType="kr.co.cc.project.dto.ProjectDTO">
-	    INSERT INTO project (name, member_id, public_range, priod, deadlinepriod, step, status)
-	    VALUES (#{name}, #{member_id}, #{public_range}, #{priod}, #{deadlinepriod}, '기획', '준비중')
+	    id="ProjectWrite" 
+	    parameterType="kr.co.cc.project.dto.ProjectDTO"
+	    useGeneratedKeys="false">
+	  <selectKey keyProperty="id" resultType="java.lang.String" order="BEFORE">
+	        SELECT UUID()
+	    </selectKey>
+	    INSERT INTO project (name, member_id, public_range, start_at, end_at, step, status)
+	    VALUES (#{name}, #{member_id}, #{public_range}, #{start_at}, #{end_at}, '기획', '준비중')
 	</insert>
 
     
     <insert id="addContributor" parameterType="java.util.Map">
-        INSERT INTO contributor (project_id, member_id)
-        VALUES (#{param1}, #{param2})
-    </insert>	
+	    INSERT INTO contributor (project_id, member_id)
+	    VALUES (#{param1},#{param2})
+	</insert>
 
 
 
 
 	
 	<select id="ProjectList" resultType="kr.co.cc.project.dto.ProjectDTO">
-	  SELECT p.project_id, p.name, p.member_id, p.start_date, p.step, GROUP_CONCAT(c.member_id SEPARATOR ',') AS contributors
+	  SELECT p.id, p.name, p.member_id, p.create_at, p.step, GROUP_CONCAT(c.member_id SEPARATOR ',') AS contributors
 	  FROM project p
-	  LEFT JOIN contributor c ON p.project_id = c.project_id
-	  GROUP BY p.project_id, p.name, p.start_date, p.step
+	  LEFT JOIN contributor c ON p.id = c.project_id
+	  GROUP BY p.id, p.name, p.create_at, p.step
 	</select>
 
 	
