@@ -16,7 +16,7 @@ public class WorkDTO {
 	private Time update_time;
 	private String type;
 	private String reason;
-	private int approval;
+	private String approval;
 	private String dept_name;
 	private String job_name;
 	private Time total_time;
@@ -144,10 +144,10 @@ public class WorkDTO {
 	public void setReason(String reason) {
 		this.reason = reason;
 	}
-	public int getApproval() {
+	public String getApproval() {
 		return approval;
 	}
-	public void setApproval(int approval) {
+	public void setApproval(String approval) {
 		this.approval = approval;
 	}
 	public int getId() {

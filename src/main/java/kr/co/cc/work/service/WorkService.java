@@ -177,6 +177,40 @@ public class WorkService {
 		return mav;
 	}
 
+	public void annualRegistration(HashMap<String, String> params, HttpSession session) {
+		
+		String regist_id =  (String) session.getAttribute("loginId");
+		String approval_id = params.get("approval_id");
+		String start_date = params.get("year_go")+"-"+params.get("month_go")+"-"+params.get("day_go");
+		String end_date = params.get("year_end")+"-"+params.get("month_end")+"-"+params.get("day_end");
+		String use_cnt = params.get("use_cnt"); 
+		String reason = params.get("reason");
+		String type = params.get("type");
+		
+		dao.annualRegistration(regist_id,approval_id,start_date,end_date,use_cnt,reason,type);		
+	}
+
+	public ArrayList<WorkDTO> annualRegistrationGo() {
+		return dao.annualRegistrationGo();
+	}
+
+	public ModelAndView workHolidayList_Ad() {
+		ModelAndView mav = new ModelAndView("workHolidayList_Ad");
+		ArrayList<WorkDTO> dto = dao.workHolidayList_Ad();
+		
+		mav.addObject("dto", dto);		
+		
+		return mav;
+	}
+
+	public ModelAndView holidayListFind(String holidayList) {
+		ModelAndView mav = new ModelAndView("workHolidayList_Ad");
+		ArrayList<WorkDTO> dto = dao.holidayListFind(holidayList);
+		mav.addObject("dto",dto);
+		
+		return mav;
+	}
+
 
 
 
