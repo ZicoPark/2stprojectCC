@@ -14,12 +14,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
-import kr.co.cc.archive.dto.ArchiveDTO;
 import kr.co.cc.noticeBoard.dto.NoticeBoardDTO;
 import kr.co.cc.noticeBoard.service.NoticeBoardService;
 
@@ -30,7 +28,7 @@ public class NoticeBoardController {
    @Autowired NoticeBoardService service;
    @Value("${spring.servlet.multipart.location}") private String root;
    
-   
+
 //   @RequestMapping(value="/noticeBoardList.go")
 //   public String noticeBoardList(){
 //      return "noticeBoardList";
@@ -72,8 +70,8 @@ public class NoticeBoardController {
       
       logger.info("nodetail : "+id);
       
-      NoticeBoardDTO detailno = service.archivedetail(Integer.parseInt(id), "detail");
-		String page = "redirect:/msSendList.go";
+      	NoticeBoardDTO detailno = service.archivedetail(id, "detail");
+		String page = "redirect:/noticeBoard.go";
 		
 		if(detailno != null) {
 			

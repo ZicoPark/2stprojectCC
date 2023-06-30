@@ -10,13 +10,13 @@ public interface NoticeBoardDAO {
    
    int noticeBoardWrite(NoticeBoardDTO dto);
    
-   void nofileWrite(String fileName, String newFileName, String classification, int idx);
+   void nofileWrite(String fileName, String newFileName, String classification, String idx);
 
 //   int write(String id, String subject, String content);
 
-   void upHit(int id);
+   void upHit(String id);
   
-   NoticeBoardDTO nodetail(int id);
+   NoticeBoardDTO nodetail(String id);
    
    ArrayList<String> noDetailFile(String id);
    

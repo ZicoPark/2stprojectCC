@@ -31,11 +31,11 @@
 			</tr>
 			<tr>
 				<th>작성자</th>
-				<td>${dto.create_id}</td>
+				<td>${dto.member_id}</td>
 			</tr>
 			<tr>
 				<th>작성일</th>
-				<td>${dto.reg_date}</td>
+				<td>${dto.create_at}</td>
 			</tr>
 			<tr>
 				<th>내용</th>
