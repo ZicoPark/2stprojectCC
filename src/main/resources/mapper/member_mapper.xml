@@ -10,7 +10,7 @@
 	</insert>
 	
 	<select id = "login" parameterType="hashmap">
-		SELECT id FROM member WHERE id = #{id} and password = #{password}
+		SELECT id FROM member WHERE user_id = #{id} and password = #{password}
 	</select>
 	
 	<select id="idChk" resultType="int">
