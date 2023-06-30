@@ -43,7 +43,7 @@
 	    		<c:forEach items="${dto}" var="dto">
 					<tr>
 	    				<td>${dto.date}</td>
-	    				<td>${dto.update_time}</td>
+	    				<td>${dto.update_at}</td>
 	    				<td>${dto.type}</td>
 	    				<c:if test="${dto.approval eq 0}"><td>대기</td></c:if>
 	    				<c:if test="${dto.approval eq 1}"><td>승인</td></c:if>
