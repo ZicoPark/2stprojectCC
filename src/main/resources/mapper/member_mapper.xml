@@ -5,16 +5,16 @@
 <mapper namespace="kr.co.cc.member.dao.MemberDAO">
 
 	<insert id = "join" parameterType="kr.co.cc.member.dto.MemberDTO">
-		INSERT INTO member(id,password,name,birth_date,hire_date,job_name,dept_name,email,phone,status,admin_chk,end_date)
-			VALUES(#{id},#{password},#{name},#{birth_date},#{hire_date},#{job_name},#{dept_name},#{email},#{phone},1,0,'9999-12-31')
+		INSERT INTO member(user_id,password,name,birth_at,hire_at,email,phone,status,admin_chk,job_level_id,dept_id)
+			VALUES(#{user_id},#{password},#{name},#{birth_at},#{hire_at},#{email},#{phone},1,0,#{job_level_id},#{dept_id})
 	</insert>
 	
 	<select id = "login" parameterType="hashmap">
-		SELECT id FROM member WHERE id = #{id} and password = #{password}
+		SELECT user_id FROM member WHERE user_id = #{user_id} and password = #{password}
 	</select>
 	
 	<select id="idChk" resultType="int">
-      SELECT COUNT(id) FROM member WHERE id = #{param1}
+      SELECT COUNT(user_id) FROM member WHERE user_id = #{param1}
     </select>
     
     <select id="getUserInfo" parameterType="hashmap"

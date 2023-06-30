@@ -11,7 +11,7 @@ public interface MemberDAO {
 
 	String login(HashMap<String, String> params);
 
-	int idChk(String id);
+	int idChk(String user_id);
 	
 	MemberDTO getUserInfo(HashMap<String, String> params);
 	

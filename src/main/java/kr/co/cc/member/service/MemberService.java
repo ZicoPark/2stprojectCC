@@ -52,11 +52,11 @@ public class MemberService {
 		return memberdao.login(params);
 	}
 	
-    public HashMap<String, Object> idChk(String id) {
+    public HashMap<String, Object> idChk(String user_id) {
          
          HashMap<String, Object> map = new HashMap<String, Object>();
-         logger.info("service id");
-         int idChk = memberdao.idChk(id);
+         logger.info("service user_id");
+         int idChk = memberdao.idChk(user_id);
          map.put("idChk", idChk);
          return map;
      }

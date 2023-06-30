@@ -41,7 +41,7 @@ public class MemberController {
 	
 	@PostMapping(value="/join.do")
 	public ModelAndView join(MemberDTO dto) {
-		logger.info("dto : " + dto.getId());
+		logger.info("dto : " + dto.getUser_id());
 		return memberservice.join(dto);
 	}
 	
@@ -75,9 +75,9 @@ public class MemberController {
 	
 	@RequestMapping(value = "/idChk.ajax", method = RequestMethod.POST)
 	@ResponseBody
-	public HashMap<String, Object> idChk(@RequestParam String id) {
+	public HashMap<String, Object> idChk(@RequestParam String user_id) {
 		logger.info("idChk-controller");
-	    return memberservice.idChk(id);
+	    return memberservice.idChk(user_id);
 	}
 	
 	@RequestMapping(value = "/findID.go", method = RequestMethod.GET)
