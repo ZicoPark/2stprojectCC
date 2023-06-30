@@ -61,9 +61,11 @@
                 <input type="text" id="inputName" class="form-control" name = "name" value="${projectDetailUp.name}">
               </div>
               <div class="form-group">
-				  <label for="inputMember">참가자</label>
-				  <textarea id="inputMember" class="form-control" name="member_id" rows="3">${projectDetailUp.contributors}</textarea>
+				  <label for="inputMember">기존 참가자</label>
+				  <button type="button" class="btn btn-primary" onclick="addNewMember()">추가</button>
+				  <input type="text" class="form-control" name = "member" value="${projectDetailUp.contributors}" readonly>
 				</div>
+				<div id="newMembersContainer"></div>
               <div class="form-group">
                 <label for="inputPublic_range">공개범위</label>
                 <select id="inputPublic_range" class="form-control custom-select" name="public_range">
@@ -126,4 +128,17 @@
 <!-- AdminLTE for demo purposes -->
 <script src="../../dist/js/demo.js"></script>
 </body>
+<script>
+	function addNewMember() {
+	    var newMembersContainer = document.getElementById("newMembersContainer");
+	
+	    var newMemberInput = document.createElement("input");
+	    newMemberInput.type = "text";
+	    newMemberInput.className = "form-control";
+	    newMemberInput.name = "member_id";
+	    newMemberInput.placeholder = "추가 참가자";
+	
+	    newMembersContainer.appendChild(newMemberInput);
+	}
+</script>
 </html>

@@ -27,6 +27,7 @@
     <!-- Main content -->
     <section class="content">
     	<br/>
+    	<button id="b1" type="button" class="btn btn-block btn-outline-success btn-lg" onclick="location.href='annualRegistration.go'">연차 등록</button>
     	<table class="table table-bordered">
 	   		<thead>
 	   			<tr>
@@ -65,7 +66,7 @@
 	   		<tbody>
 	   			<c:if test="${leave_recode_List eq null}">
 					<tr>
-						<th colspan="9">등록된 연차/휴가 내역이 없습니다.</th>
+						<th colspan="8">등록된 연차/휴가 내역이 없습니다.</th>
 					</tr>
 				</c:if>   		
 	    		<c:forEach items="${leave_recode_List}" var="leave_recode_List">

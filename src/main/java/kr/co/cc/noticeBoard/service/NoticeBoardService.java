@@ -155,7 +155,7 @@ public class NoticeBoardService {
 		return dao.nodetail(id);
 	}
    
-   public String noDetailFile(int id) {
+   public ArrayList<String> noDetailFile(String id) {
 	   return dao.noDetailFile(id);
 	}
    

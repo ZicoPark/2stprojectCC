@@ -290,6 +290,19 @@ public class WorkController {
 		return "workHolidayList_Ad";
 	}
 	
+	@GetMapping(value="/annualRegistration.go")
+	public String annualRegistrationGo() {
+		return "annualRegistration";
+	}
+	
+	@GetMapping(value="/annualRegistration.do")
+	public String annualRegistration() {
+		return "annualRegistration";
+	}
+	
+	
+	
+	
 
 	
 	
