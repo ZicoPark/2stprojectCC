@@ -67,7 +67,7 @@ public class WorkService {
 		
 		return mav;
 	}
-
+	
 	public ModelAndView workHistoryList_Ad(HttpSession session, String msg, String flag) {
 		ModelAndView mav = new ModelAndView("workHistoryList_Ad");
 		ArrayList<WorkDTO> dto = dao.workHistoryList_Ad();
@@ -77,23 +77,24 @@ public class WorkService {
 		}
 		return mav;
 	}
-
-	public int WorkChangeAdmin(int id, String type, int approval) {
-		return dao.WorkChangeAdmin(id,type,approval);
+	public int WorkChangeAdmin(String working_hour_id, String type, int approval) {
+		return dao.WorkChangeAdmin(working_hour_id,type,approval);
 		
 	}
 
-	public int workHistoryChange_go(int id, Time update_time) {
-		return dao.workHistoryChange_go(id,update_time);
+	public int workHistoryChange_go(String working_hour_id, Time update_time) {
+		return dao.workHistoryChange_go(working_hour_id,update_time);
 	}
 
-	public int workHistoryChange_end(int id, Time update_time) {
-		return dao.workHistoryChange_end(id,update_time);
+	public int workHistoryChange_end(String working_hour_id, Time update_time) {
+		return dao.workHistoryChange_end(working_hour_id,update_time);
 	}
 
-	public int WorkChangeAdminChk(int id, String type) {
-		return dao.WorkChangeAdminChk(id,type);
+	public int WorkChangeAdminChk(String working_hour_id, String type) {
+		return dao.WorkChangeAdminChk(working_hour_id,type);
 	}
+	
+	// 완료
 
 	public ModelAndView workDailyList() {		
 		ModelAndView mav = new ModelAndView("workDailyList");
@@ -105,6 +106,19 @@ public class WorkService {
 	public ArrayList<WorkDTO> dailyListFind(String formattedDate) {
 		return dao.dailyListFind(formattedDate);
 	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 
 	public ModelAndView weekListFind(String week, String msg) {
 		ModelAndView mav = new ModelAndView("workWeekList");		

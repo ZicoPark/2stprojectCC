@@ -15,6 +15,7 @@ public interface WorkDAO {
 	int timeGoBefore(String id, String date);
 
 	String findName(String id);
+	
 	void timeGo(String id, String name);
 
 	void timeEnd(String id, String date, String time);
@@ -27,13 +28,21 @@ public interface WorkDAO {
 
 	ArrayList<WorkDTO> workHistoryList_Ad();
 
-	int WorkChangeAdmin(int id, String type, int approval);
+	int WorkChangeAdmin(String working_hour_id, String type, int approval);
 
-	int WorkChangeAdminChk(int id, String type);
+	int WorkChangeAdminChk(String working_hour_id, String type);
 
-	int workHistoryChange_go(int id, Time update_time);
+	int workHistoryChange_go(String working_hour_id, Time update_time);
 
-	int workHistoryChange_end(int id, Time update_time);
+	int workHistoryChange_end(String working_hour_id, Time update_time);
+	
+	
+	
+	
+	
+	
+	
+	
 
 	ArrayList<WorkDTO> workDailyList();
 

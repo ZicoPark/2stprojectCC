@@ -36,7 +36,6 @@
     		<thead>
     			<tr>
     				<th>날짜</th>
-    				<th>아이디</th>
     				<th>이름</th>
     				<th>출근 시간</th>
     				<th>퇴근 시간</th>
@@ -53,13 +52,12 @@
 	    		<c:forEach items="${workList}" var="workList">
 					<tr>
 	    				<td>${workList.date}</td>
-	    				<td>${workList.member_id}</td>
 	    				<td>${workList.name}</td>
 	    				<td>${workList.time_go}</td>
 	    				<td>${workList.time_end}</td>    				
 	    				<td>${String.format('%.1f', (workList.time_end.time - workList.time_go.time) / (1000.0 * 60 * 60))}</td>
 	    				<td>	    			
-	    				<a href="WorkChangeRequest.go?date=${workList.date}&member_id=${workList.member_id}&name=${workList.name}&id=${workList.id}&time_go=${workList.time_go}&time_end=${workList.time_end}">
+	    				<a href="WorkChangeRequest.go?date=${workList.date}&member_id=${workList.member_id}&name=${workList.name}&working_hour_id=${workList.id}&time_go=${workList.time_go}&time_end=${workList.time_end}">
 	    					수정
 	    				</a>
 	    				

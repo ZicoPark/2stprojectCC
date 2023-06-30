@@ -24,38 +24,42 @@
 		UPDATE working_hour SET time_end=#{param3} WHERE member_id=#{param1} AND date=#{param2}
 	</update>
 	
+	<select id="WorkChangeRequestChk">
+		SELECT count(id) FROM working_hour_update WHERE working_hour_id=#{param1} AND type=#{param2}
+	</select>
+	
 	<insert id="WorkChangeRequest" parameterType="hashmap">
-		insert into working_hour_update (id,member_id,name,date,update_time,type,reason) 
-			values (#{id},#{member_id},#{name},#{date},#{update_time},#{type},#{reason});
+		insert into working_hour_update (working_hour_id,name,date,update_at,type,reason) 
+			values (#{working_hour_id},#{name},#{date},#{update_at},#{type},#{reason})
 	</insert>	
 	
-	<select id="WorkChangeRequestChk">
-		SELECT count(id) FROM working_hour_update WHERE id=#{param1} AND type=#{param2}
-	</select>	
-	
 	<select id="workHistoryReqListGo" resultType="kr.co.cc.work.dto.WorkDTO">
-		SELECT * FROM working_hour_update WHERE member_id=#{id}  ORDER BY date DESC
+		SELECT * FROM working_hour_update 
+		WHERE working_hour_id =  
+		(select wh.id from member m inner join working_hour wh on m.id = wh.member_id where m.id = #{param1})
+		ORDER BY date DESC
 	</select>	
 	
 	<select id="workHistoryList_Ad" resultType="kr.co.cc.work.dto.WorkDTO">
-		SELECT w.id, w.member_id, w.name ,w.date ,w.update_time ,w.type ,w.reason ,w.approval ,m.dept_name 
-		FROM working_hour_update w inner join member m 
-		on w.member_id = m.id 
-		ORDER BY date DESC
+		SELECT whu.date,whu.name,whu.working_hour_id , m.user_id,whu.`type` ,whu.update_at ,whu.approval ,whu.reason
+		FROM working_hour_update whu
+		INNER JOIN working_hour wh ON whu.working_hour_id = wh.id
+		INNER JOIN member m ON wh.member_id = m.id
+		WHERE whu.working_hour_id = (
+		    SELECT wh.id
+		    FROM member m
+		    INNER JOIN working_hour wh ON m.id = wh.member_id
+		)
+		ORDER BY whu.date DESC
+	</select>
+	
+	<select id="WorkChangeAdminChk">
+		SELECT count(id) FROM working_hour_update WHERE working_hour_id=#{param1} AND type=#{param2} AND approval=0
 	</select>
 	
 	<update id="WorkChangeAdmin">	
-		UPDATE working_hour_update set approval=#{param3} where id=#{param1} and type=#{param2}
+		UPDATE working_hour_update set approval=#{param3} where working_hour_id=#{param1} and type=#{param2}
 	</update>
-	
-	<update id="workHistoryChange">	
-		UPDATE working_hour set approval=#{param3} where id=#{param1} and type=#{param2}
-	</update>
-	
-	<select id="WorkChangeAdminChk">
-		SELECT count(id) FROM working_hour_update WHERE id=#{param1} AND type=#{param2} AND approval=0
-	</select>
-	
 	
 	<update id="workHistoryChange_go">
 		UPDATE working_hour SET time_go=#{param2} WHERE id=#{param1}
@@ -65,6 +69,11 @@
 		UPDATE working_hour SET time_end=#{param2} WHERE id=#{param1}
 	</update>
 	
+	<!-- 
+	<update id="workHistoryChange">	
+		UPDATE working_hour set approval=#{param3} where id=#{param1} and type=#{param2}
+	</update>
+	 -->
 	
 	<select id="workDailyList" resultType="kr.co.cc.work.dto.WorkDTO">
 	SELECT m.dept_name ,m.name ,m.job_name, w.date ,w.time_go ,w.time_end, w.member_id
@@ -80,6 +89,13 @@
 		on w.member_id = m.id
 	where w.date = (select max(date) from working_hour where date = #{param1})	
 	</select>
+	
+	
+	
+	
+	
+	
+	
 	
 	<select id="dayChk">
 		SELECT DATE_FORMAT(#{param1}, '%W')
