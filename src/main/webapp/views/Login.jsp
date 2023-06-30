@@ -27,7 +27,7 @@
 
       <form action="login.do" method="post">
         <div class="input-group mb-3">
-          <input type="text" class="form-control" placeholder="id를 입력하세요" name = "id">
+          <input type="text" class="form-control" placeholder="id를 입력하세요" name = "user_id">
           <div class="input-group-append">
             <div class="input-group-text">
 
@@ -81,4 +81,10 @@
 <!-- AdminLTE App -->
 <script src="../../dist/js/adminlte.min.js"></script>
 </body>
+<script>
+var msg = "${msg}";
+if(msg != ""){
+	alert(msg);
+}
+</script>
 </html>

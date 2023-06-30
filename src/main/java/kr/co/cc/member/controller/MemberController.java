@@ -41,7 +41,7 @@ public class MemberController {
 	
 	@PostMapping(value="/join.do")
 	public ModelAndView join(MemberDTO dto) {
-		logger.info("dto : " + dto.getId());
+		logger.info("dto : " + dto.getUser_id());
 		return memberservice.join(dto);
 	}
 	
@@ -51,15 +51,12 @@ public class MemberController {
 	}
 	
 	@RequestMapping(value="/login.do", method = RequestMethod.POST)
-	public String login(Model model, @RequestParam HashMap<String, String> params, HttpSession session) {
+	public String login(String user_id, String password, Model model, HttpSession session) {
 		String page = "Login";
 		
-		String loginId = memberservice.login(params);
-		logger.info("loginId : " + loginId);
-		
-		if (loginId !=null) {
+		if (memberservice.login(user_id,password)){
 			page = "redirect:/main.go";
-			session.setAttribute("loginId", loginId);
+			session.setAttribute("loginId", user_id);
 		}else {
 			model.addAttribute("msg", "아이디 또는 비밀번호를 확인해주세요");
 		}
@@ -67,7 +64,7 @@ public class MemberController {
 		return page;
 	}
 	
-	@RequestMapping(value="/logout", method=RequestMethod.GET)
+	@RequestMapping(value="/login?logout", method=RequestMethod.GET)
 	public String logout(HttpSession session) {
 		session.removeAttribute("loginId");
 		return "redirect:/";
@@ -75,9 +72,9 @@ public class MemberController {
 	
 	@RequestMapping(value = "/idChk.ajax", method = RequestMethod.POST)
 	@ResponseBody
-	public HashMap<String, Object> idChk(@RequestParam String id) {
+	public HashMap<String, Object> idChk(@RequestParam String user_id) {
 		logger.info("idChk-controller");
-	    return memberservice.idChk(id);
+	    return memberservice.idChk(user_id);
 	}
 	
 	@RequestMapping(value = "/findID.go", method = RequestMethod.GET)

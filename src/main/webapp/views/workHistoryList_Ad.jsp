@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>AdminLTE 3 | Projects</title>
+  <title>근태 변경 요청 리스트</title>
 
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
@@ -32,7 +32,7 @@
     			<tr>
     				<th>날짜</th>
     				<th>이름</th>
-    				<th>부서</th>
+    				<th>아이디</th>
     				<th>요청 시간</th>
     				<th>요청 유형</th>
     				<th>요청 사유</th>
@@ -50,16 +50,16 @@
 					<tr>
 	    				<td>${dto.date}</td>
 	    				<td>${dto.name}</td>
-	    				<td>${dto.dept_name}</td>
-	    				<td>${dto.update_time}</td>
+	    				<td>${dto.user_id}</td>
+	    				<td>${dto.update_at}</td>
 	    				<td>${dto.type}</td>
 	    				<td>${dto.reason}</td>
 	    				<c:if test="${dto.approval eq 0}"><td>대기</td></c:if>
 	    				<c:if test="${dto.approval eq 1}"><td>승인</td></c:if>
 	    				<c:if test="${dto.approval eq 2}"><td>반려</td></c:if>
 	    				<td>
-	    					<button id="b1" type="button" class="btn btn-block btn-outline-success btn-lg" onclick="location.href='WorkChangeAdmin.do?approval=1&id=${dto.id}&type=${dto.type}&update_time=${dto.update_time}'">승인</button>
-    						<button id="b2" type="button" class="btn btn-block btn-outline-danger btn-lg" onclick="location.href='WorkChangeAdmin.do?approval=2&id=${dto.id}&type=${dto.type}&update_time=${dto.update_time}'">반려</button>
+	    					<button id="b1" type="button" class="btn btn-block btn-outline-success btn-lg" onclick="location.href='WorkChangeAdmin.do?approval=1&working_hour_id=${dto.working_hour_id}&type=${dto.type}&update_at=${dto.update_at}'">승인</button>
+    						<button id="b2" type="button" class="btn btn-block btn-outline-danger btn-lg" onclick="location.href='WorkChangeAdmin.do?approval=2&working_hour_id=${dto.working_hour_id}&type=${dto.type}&update_at=${dto.update_at}'">반려</button>
 	    				</td>
 	    			</tr>			
 				</c:forEach>				
