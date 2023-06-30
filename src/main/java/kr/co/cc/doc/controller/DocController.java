@@ -54,6 +54,9 @@ public class DocController {
 			
 		}
 		
+		logger.info("params"+params);
+
+		
 		return service.docWrite(params, approvalList, attachment, session);
 	}
 	

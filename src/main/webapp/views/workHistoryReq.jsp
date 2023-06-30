@@ -31,7 +31,7 @@
 					<th>날짜:</th>
 					<td>
 						<input type="date" id="date" name="date" value="${params.date}" readonly>
-						<input type="hidden" id="id" name="id" value="${params.id}" readonly>
+						<input type="hidden" id="working_hour_id" name="working_hour_id" value="${params.working_hour_id}" readonly>
 						<input type="hidden" id="name" name="name" value="${params.name}" readonly>
 						<input type="hidden" id="member_id" name="member_id" value="${params.member_id}" readonly>
 						<input type="hidden" id="time_go" name="time_go" value="${params.time_go}" readonly>
