@@ -533,7 +533,7 @@
           
           
   		<li class="nav-item">
-            <a href="/logout" class="nav-link">
+            <a href="/logout.do" class="nav-link">
               <i class="nav-icon fas fa-tachometer-alt"></i>
               <p>
                 로그아웃
@@ -544,12 +544,14 @@
           
           
           
+          
         </ul>
       </nav>
       <!-- /.sidebar-menu -->
     </div>
     <!-- /.sidebar -->
   </aside>
+          <a href="/logout">로그아웃</a>
 
 
    <!-- 

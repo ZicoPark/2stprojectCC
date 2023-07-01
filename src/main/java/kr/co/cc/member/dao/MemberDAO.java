@@ -19,4 +19,6 @@ public interface MemberDAO {
 
 	MemberDTO userInfo(Object attribute);
 
+	boolean updateTemporaryPassword(MemberDTO userInfoPW);
+
 }
