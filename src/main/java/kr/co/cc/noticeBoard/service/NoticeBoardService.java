@@ -6,6 +6,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.UUID;
 
 import javax.servlet.http.HttpSession;
 
@@ -72,47 +73,49 @@ public class NoticeBoardService {
 //      
 //      return new ModelAndView(page);
 //   }
-   
-   
-   public String nowrite(MultipartFile file, HashMap<String, String> params, HttpSession session) {
-	   String loginId = (String) session.getAttribute("loginId");
-		 String page="noticeBoard.go";
+
+	
+	public String nowrite(MultipartFile file, HashMap<String, String> params, HttpSession session) {
+	    String loginId = (String) session.getAttribute("loginId");
+	    String page = "noticeBoard.go";
 	    logger.info("params: " + params);
-	    logger.info("files: " + file);		 
-	 
-	        NoticeBoardDTO dto = new NoticeBoardDTO();
-	        dto.setCreate_id(loginId);
-	        dto.setSubject(params.get("subject"));
-	        dto.setContent(params.get("content"));
-
-	        int row = dao.noticeBoardWrite(dto);
-	        logger.info("insert row: " + row);
-	        int idx = dto.getId();
-
-	        logger.info("insert row: " + row);
-	        logger.info("idx: " + idx);
-
-	        if (file != null && !file.isEmpty()) {
-	            // 입력받은 파일 이름
-	            String fileName = file.getOriginalFilename();
-	            // 확장자를 추출하기 위한 과정
-	            String ext = fileName.substring(fileName.lastIndexOf("."));
-	            // 새로운 파일 이름은?
-	            String newFileName = System.currentTimeMillis() + ext;
-	            String classification = "공지사항";
-	            try {
-	                byte[] bytes = file.getBytes();
-
-	                Path path = Paths.get(root + "/" + newFileName);
-	                Files.write(path, bytes);
-	                dao.nofileWrite(fileName, newFileName, classification, idx);
-	            } catch (IOException e) {
-	                e.printStackTrace();
-	            }
-	        }
+	    logger.info("files: " + file);
+	
+	    NoticeBoardDTO dto = new NoticeBoardDTO();
+	    dto.setMember_id(loginId);
+	    dto.setSubject(params.get("subject"));
+	    dto.setContent(params.get("content"));
+	
+	    int row = dao.noticeBoardWrite(dto);
+	    logger.info("insert row: " + row);
+	    String idx = dto.getId();
 	    
-	        page = "redirect:/noticeBoardDetail.do?id="+idx;
-	        
+//	    String idx = String.valueOf(dto.getId()); // ID를 문자열로 변환
+	
+	    logger.info("insert row: " + row);
+	    logger.info("idx: " + idx);
+	
+	    if (file != null && !file.isEmpty()) {
+	        // 입력받은 파일 이름
+	        String fileName = file.getOriginalFilename();
+	        // 확장자를 추출하기 위한 과정
+	        String ext = fileName.substring(fileName.lastIndexOf("."));
+	        // 새로운 파일 이름은 UUID로 생성
+	        String id = UUID.randomUUID().toString() + ext;
+	        String classification = "공지사항";
+	        try {
+	            byte[] bytes = file.getBytes();
+	
+	            Path path = Paths.get(root + "/" + id);
+	            Files.write(path, bytes);
+	            dao.nofileWrite(fileName, id, classification, idx);
+	        } catch (IOException e) {
+	            e.printStackTrace();
+	        }
+	    }
+	
+	    page = "redirect:/noticeBoardDetail.do?id=" + idx;
+	
 	    return page;
 	}
    
@@ -144,7 +147,7 @@ public class NoticeBoardService {
 //	      return dao.detail(id);
 //	   }
    
-   public NoticeBoardDTO archivedetail(int id, String flag) {
+   public NoticeBoardDTO archivedetail(String id, String flag) {
 		
 		if(flag.equals("detail")) {
 			logger.info("if문");
@@ -163,8 +166,6 @@ public class NoticeBoardService {
       
       return dao.del(id);
    }
-
-
 
 
 
