@@ -1,7 +1,9 @@
 package kr.co.cc.member.service;
 
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Properties;
+import java.util.UUID;
 
 import javax.mail.Authenticator;
 import javax.mail.Message;
@@ -15,6 +17,7 @@ import org.mybatis.spring.annotation.MapperScan;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.ModelAndView;
@@ -56,22 +59,18 @@ public class MemberService {
 		return mav;
 	}
 
-//	public String login(HashMap<String, String> params) {
-//		return memberdao.login(params);
-//	}
 	
-	public boolean login(String user_id, String password) {
+	public Map<String, Object> login(String user_id, String password,String id) {
 		
-		boolean success = false;
 		
 
-		String enc_pw = memberdao.login(user_id);
+		Map<String, Object> enc_pw = memberdao.login(user_id);
 	
-		if(enc_pw != null && !enc_pw.equals("")) {
-			success = encoder.matches(password, enc_pw);
-		}
-		
-		return success;
+		if (enc_pw != null && !enc_pw.isEmpty()) {
+	        boolean matches = encoder.matches(password, enc_pw.get("password").toString());
+	    }
+
+	    return enc_pw;
 	}
 	
     public HashMap<String, Object> idChk(String user_id) {
@@ -134,6 +133,16 @@ public class MemberService {
 		MemberDTO userInfoPW = memberdao.getUserInfoPW(params);
 		logger.info(userInfoPW.getName());
 		if (userInfoPW != null) {
+			String temporaryPassword = generateTemporaryPassword(); // 임시 비밀번호 생성
+			temporaryPassword = temporaryPassword.substring(0, 6);
+			String encodedPassword = encodePassword(temporaryPassword); // 비밀번호 암호화
+			userInfoPW.setPassword(encodedPassword);
+			
+			// DB에 임시 비밀번호 업데이트
+	        boolean updateResult = memberdao.updateTemporaryPassword(userInfoPW);
+	        
+	        if(updateResult) {
+	        
 			Properties props = new Properties();
 
 			props.put("mail.smtp.host", "smtp.gmail.com");
@@ -145,35 +154,57 @@ public class MemberService {
 			Session session = Session.getInstance(props, new Authenticator() {
 				@Override
 				protected PasswordAuthentication getPasswordAuthentication() {
-					return new PasswordAuthentication("archeagemd1@gmail.com", "xgltqqhqiitmzzyd"); // 보내는 사람 메일, 앱
+					return new PasswordAuthentication("archeagemd1@gmail.com", "xgltqqhqiitmzzyd"); // 보내는 사람 메일, sendmail구글쪽
 																								
 				}
 			});
 
 			String receiver = userInfoPW.getEmail(); // 메일 받을 주소
-			String title = "[Creator Company] 비밀번호 찾기"; // 메일 제목
-			String content = "<b> 비밀번호 : " + userInfoPW.getPassword() + "</b>"; // 메일 내용
+			String title = "[Creator Company] 임시 비밀번호 발급"; // 메일 제목
+			String content = "<b>임시 비밀번호: " + temporaryPassword + "</b>"; // 메일 내용
+			logger.info("암호화 전 tp : " + temporaryPassword);
+			logger.info("암호화 후 ep : " + encodedPassword);
 			Message message = new MimeMessage(session);
-			try {
-				message.setFrom(new InternetAddress("archeagemd1@gmail.com", "관리자", "utf-8")); // 보내는 사람 메일, 보내는 사람 이름
-				message.addRecipient(Message.RecipientType.TO, new InternetAddress(receiver));
-				message.setSubject(title);
-				message.setContent(content, "text/html; charset=utf-8");
-
-				Transport.send(message);
-				resMap.put("code", "TRANSFER_COMPLETE");
-			} catch (Exception e) {
-				e.printStackTrace();
-				resMap.put("code", "ERROR");
-			}
-		} else {
-			resMap.put("code", "NO_MATCHING_DATA");
+				try {
+					message.setFrom(new InternetAddress("archeagemd1@gmail.com", "관리자", "utf-8")); // 보내는 사람 메일, 보내는 사람 이름
+					message.addRecipient(Message.RecipientType.TO, new InternetAddress(receiver));
+					message.setSubject(title);
+					message.setContent(content, "text/html; charset=utf-8");
+	
+					Transport.send(message);
+					resMap.put("code", "TRANSFER_COMPLETE");
+				} catch (Exception e) {
+					e.printStackTrace();
+					resMap.put("code", "ERROR");
+				}
+	        }
+	    } else {
+			resMap.put("code", "DB_UPDATE_ERROR");
 		}
 
 		return resMap;
 	}
+    
+    private String encodePassword(String password) {
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        return passwordEncoder.encode(password);
+    }
+
+
+	private String generateTemporaryPassword() {
+        // UUID를 사용하여 임시 비밀번호 생성
+        return UUID.randomUUID().toString();
+    }
+    
+
 
 	public MemberDTO userInfo(Object attribute) {
 		return memberdao.userInfo(attribute);
 	}
+
+
+	public String loginid(String user_id) {
+		return memberdao.loginid(user_id);
+	}
+
 }
