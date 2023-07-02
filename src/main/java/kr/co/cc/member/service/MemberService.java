@@ -1,6 +1,7 @@
 package kr.co.cc.member.service;
 
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Properties;
 import java.util.UUID;
 
@@ -59,17 +60,17 @@ public class MemberService {
 	}
 
 	
-	public boolean login(String user_id, String password) {
+	public Map<String, Object> login(String user_id, String password,String id) {
 		
-		boolean success = false;
+		
 
-		String enc_pw = memberdao.login(user_id);
+		Map<String, Object> enc_pw = memberdao.login(user_id);
 	
-		if(enc_pw != null && !enc_pw.equals("")) {
-			success = encoder.matches(password, enc_pw);
-		}
-		
-		return success;
+		if (enc_pw != null && !enc_pw.isEmpty()) {
+	        boolean matches = encoder.matches(password, enc_pw.get("password").toString());
+	    }
+
+	    return enc_pw;
 	}
 	
     public HashMap<String, Object> idChk(String user_id) {
@@ -199,6 +200,11 @@ public class MemberService {
 
 	public MemberDTO userInfo(Object attribute) {
 		return memberdao.userInfo(attribute);
+	}
+
+
+	public String loginid(String user_id) {
+		return memberdao.loginid(user_id);
 	}
 
 }
