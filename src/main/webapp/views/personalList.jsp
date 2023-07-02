@@ -115,27 +115,38 @@
       <input type="checkbox" value="" name="todo6" id="todoCheck6">
       <label for="todoCheck6"></label>
       </div> -->
-      <span class="text">
-
-
-
-         <c:if test="${list.size()==0}" >
-         <tr><th colspan="2">게시물이 없습니다.</th></tr>
-         	</c:if>
-	         <c:forEach items="${list}" var="personal">
-	         <tr>
-	            <td>${personal.member_id}</td>
-	            <td>${personal.title}</td>
-	            <td>${personal.start_date}</td>
-	            <td>${personal.end_date}</td>
-	            <td><a href="del.do?id=${personal.id}">삭제</a></td>
-	         </tr>
-         </c:forEach>
-
-
-
-		</span>
-<!--       <div class="tools">
+			<div class="card-body p-0">
+						<table class="table table-striped projects">
+							<thead>
+								<tr>
+									<th >#</th>
+									<th>생성일</th>
+									<th>to do list</th>
+									<th>시작일</th>
+									<th>마감일</th>
+									<th>상태<th>
+									<th>상세보기</th>
+<!-- 									<th style="width: 20%"></th> -->
+								</tr>
+							</thead>
+							<tbody>
+							<tr>
+										<td>#</td>
+										<td>${personal.create_at}</td>
+										<td>${personal.title}</td>
+										<td>${personal.start_at}</td>
+										<td>${personal.end_at}</td>
+										<td>${personal.status}</td>
+										<td class="project-actions text-right"><a
+											href="projectDetail.go?id=${project.project_id}"
+											class="btn btn-primary btn-sm view-btn"> <i
+												class="fas fa-folder"> </i> 상세보기</a>
+										</td>
+							</tr>
+							</tbody>
+						</table>
+					</div>
+<!--       <div class="tools">j
        <i class="fas fa-edit"></i>
       <i class="fas fa-trash-o"></i>
       </div> -->

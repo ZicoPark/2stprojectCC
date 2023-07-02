@@ -4,7 +4,6 @@
    
 <mapper namespace="kr.co.cc.noticeBoard.dao.NoticeBoardDAO">
 
-
    <select id="nolist" resultType="kr.co.cc.noticeBoard.dto.NoticeBoardDTO">
          SELECT * FROM notice_board
    </select>
