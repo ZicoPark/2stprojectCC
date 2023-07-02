@@ -59,8 +59,8 @@
 				분류 ${detailms.category}
                 <h6>
                   <span class="mailbox-read-time float-right"> 
-                  작성자 ${detailms.name} < ${detailms.dept_name} > <br>
-                  작성일  &nbsp ${detailms.create_date}
+                  작성자 ${detailms.name} < ${detailms.dept_id} > <br>
+                  작성일  &nbsp ${detailms.create_at}
                   &nbsp &nbsp 조회수 &nbsp ${detailms.hit}
                   </span></h6>
               </div>
@@ -96,6 +96,7 @@
             <!-- /.card-footer -->
             <div class="card-footer">
               <div class="float-right">
+              <button type="button" onclick="location.href='/archivedelete.do?id=${detailms.id}&member_id=${detailms.member_id}'" class="btn btn-default"> 삭제</button>
             	 <button type="button" onclick="location.href='/archiveUpdate.go?id=${detailms.id}&member_id=${detailms.member_id}'" class="btn btn-default"> 수정</button>
                 <button type="button" onclick="location.href='/archiveBoard.go'" class="btn btn-default"> 목록</button>
               </div>

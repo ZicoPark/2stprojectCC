@@ -45,7 +45,7 @@
 						<td>${archive.id}</td>
 						<td>${archive.category}<a href="archivedetail.do?id=${archive.id}">${archive.subject}</a></td>
 						<td>${archive.member_id}</td>
-						<td>${archive.create_date}</td>
+						<td>${archive.create_at}</td>
 						<td>${archive.hit} </td>
 					</tr>
 				</c:forEach>
