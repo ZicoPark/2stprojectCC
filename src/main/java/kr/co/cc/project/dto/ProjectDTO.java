@@ -1,29 +1,32 @@
 package kr.co.cc.project.dto;
 
 import java.util.Date;
+import java.util.List;
 
 public class ProjectDTO {
 
-	private int project_id;
+	private String id;
 	private int public_range;
 	private String name;
 	private String member_id;
-	private Date start_date;
+	private String user_id;
+	private Date create_at;
 	private String explain; 
 	private String step;
 	private String status;
-	private String priod;
-	private String deadlinepriod;
+	private String start_at;
+	private String end_at;
 	private String contributors;
 	private String subject;
 	private String user_name;
 	private String content;
-	private int project_idx;
+	private int project_id;
+	private List<String> userIds;
 	private String comment_content;
 	private int comment_status;
 	private Date comment_create_date;
 	
-	private int id;
+
 	private String ori_file_name;
 	   private String new_file_name;
 	   private String classification;
@@ -31,6 +34,47 @@ public class ProjectDTO {
 	
 	
 	
+	
+	public List<String> getUserIds() {
+		return userIds;
+	}
+
+	public void setUserIds(List<String> userIds) {
+		this.userIds = userIds;
+	}
+
+	public String getUser_id() {
+		return user_id;
+	}
+
+	public void setUser_id(String user_id) {
+		this.user_id = user_id;
+	}
+
+	public Date getCreate_at() {
+		return create_at;
+	}
+
+	public void setCreate_at(Date create_at) {
+		this.create_at = create_at;
+	}
+
+	public String getStart_at() {
+		return start_at;
+	}
+
+	public void setStart_at(String start_at) {
+		this.start_at = start_at;
+	}
+
+	public String getEnd_at() {
+		return end_at;
+	}
+
+	public void setEnd_at(String end_at) {
+		this.end_at = end_at;
+	}
+
 	public Date getComment_create_date() {
 		return comment_create_date;
 	}
@@ -79,14 +123,12 @@ public class ProjectDTO {
 		this.content = content;
 	}
 
-
-
-	public int getProject_idx() {
-		return project_idx;
+	public int getProject_id() {
+		return project_id;
 	}
 
-	public void setProject_idx(int project_idx) {
-		this.project_idx = project_idx;
+	public void setProject_id(int project_id) {
+		this.project_id = project_id;
 	}
 
 	public String getContributors() {
@@ -97,12 +139,7 @@ public class ProjectDTO {
         this.contributors = contributors;
     }
 
-	public int getProject_id() {
-		return project_id;
-	}
-	public void setProject_id(int project_id) {
-		this.project_id = project_id;
-	}
+
 	public int getPublic_range() {
 		return public_range;
 	}
@@ -121,12 +158,7 @@ public class ProjectDTO {
 	public void setMember_id(String member_id) {
 		this.member_id = member_id;
 	}
-	public Date getStart_date() {
-		return start_date;
-	}
-	public void setStart_date(Date start_date) {
-		this.start_date = start_date;
-	}
+
 	public String getExplain() {
 		return explain;
 	}
@@ -145,24 +177,12 @@ public class ProjectDTO {
 	public void setStatus(String status) {
 		this.status = status;
 	}
-	public String getPriod() {
-		return priod;
-	}
-	public void setPriod(String priod) {
-		this.priod = priod;
-	}
-	public String getDeadlinepriod() {
-		return deadlinepriod;
-	}
-	public void setDeadlinepriod(String deadlinepriod) {
-		this.deadlinepriod = deadlinepriod;
-	}
 
-	public int getId() {
+	public String getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 

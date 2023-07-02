@@ -2,6 +2,7 @@ package kr.co.cc.project.controller;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
@@ -36,6 +37,11 @@ public class ProjectController {
 	    
 	    ArrayList<ProjectDTO> list = service.list();
 	    logger.info("list cnt : " + list.size());
+	    for (ProjectDTO project : list) {
+	        List<String> userIds = service.getUserIdsByProjectId(project.getId());
+	        project.setUserIds(userIds);
+	    }
+	    
 	    model.addAttribute("list", list);
 	    model.addAttribute("loginId", loginId);
 	    logger.info("loginid : " + loginId);
@@ -99,7 +105,7 @@ public class ProjectController {
 	        // 프로젝트 정보 업데이트
 	        service.projectUpdate(params);
 
-	        int project_id = Integer.parseInt(params.get("project_id"));
+	        String project_id = params.get("project_id");
 	        String memberIdsString = params.get("member_id");
 
 	        if (memberIdsString != null) {
@@ -125,22 +131,23 @@ public class ProjectController {
 	    String msg = "프로젝트 등록";
 	    model.addAttribute("msg", msg);
 
-	    String memberId = (String) session.getAttribute("loginId");
+	    String id = (String) session.getAttribute("id");
+	    logger.info("loginId"+id);
 
 	    ProjectDTO dto = new ProjectDTO();
 	    dto.setName(params.get("name"));
 	    dto.setPublic_range(Integer.valueOf(params.get("public_range")));
-	    dto.setPriod(params.get("priod"));
-	    dto.setDeadlinepriod(params.get("deadlinepriod"));
+	    dto.setStart_at(params.get("start_at"));
+	    dto.setEnd_at(params.get("end_at"));
 
-	    String projectId = service.write(dto, memberId);
-	    int project_id=dto.getProject_id();
+	    String projectId = service.write(dto, id);
+	    String project_id=dto.getId();
 	    logger.info("project_id"+project_id);
 
-	    String memberIdsString = params.get("member_id");
+	    String memberIdsString = params.get("user_id");
 	    String[] memberIds = memberIdsString.split(",");
 	    for (String contributorId : memberIds) {
-	        service.addContributor(project_id, contributorId);
+	        service.addContributor(contributorId, project_id);
 	    }
 
 
