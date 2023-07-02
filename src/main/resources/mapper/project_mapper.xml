@@ -11,7 +11,7 @@
         SELECT UUID()
     </selectKey>
 	    INSERT INTO project (name, member_id, public_range, start_at, end_at, step, status)
-	    VALUES (#{name}, '7b4b4517-17dd-11ee-973f-0242ac110002', #{public_range}, #{start_at}, #{end_at}, '기획', '준비중')
+	    VALUES (#{name}, #{member_id}, #{public_range}, #{start_at}, #{end_at}, '기획', '준비중')
 	</insert>
 
     

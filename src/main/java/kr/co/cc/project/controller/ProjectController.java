@@ -131,7 +131,7 @@ public class ProjectController {
 	    String msg = "프로젝트 등록";
 	    model.addAttribute("msg", msg);
 
-	    String id = (String) session.getAttribute("loginId");
+	    String id = (String) session.getAttribute("id");
 	    logger.info("loginId"+id);
 
 	    ProjectDTO dto = new ProjectDTO();
