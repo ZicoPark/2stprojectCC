@@ -9,9 +9,15 @@
 			VALUES(#{user_id},#{password},#{name},#{birth_at},#{hire_at},#{email},#{phone},1,0,#{job_level_id},#{dept_id})
 	</insert>
 	
-	<select id = "login" resultType="String">
-		SELECT password FROM member WHERE user_id = #{user_id}
+	<select id = "login" resultType="map">
+		SELECT id, password FROM member WHERE user_id = #{param1}
 	</select>
+	
+	<select id = "loginid" resultType="String">
+		SELECT id FROM member WHERE user_id = #{param1}
+	</select>
+	
+	
 	
 	<select id="idChk" resultType="int">
       SELECT COUNT(user_id) FROM member WHERE user_id = #{param1}

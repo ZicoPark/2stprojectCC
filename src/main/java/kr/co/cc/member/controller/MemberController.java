@@ -55,13 +55,14 @@ public class MemberController {
 	}
 	
 	@RequestMapping(value="/login.do", method = RequestMethod.POST)
-	public String login(String user_id, String password, Model model, HttpSession session) {
+	public String login(String user_id, String password, Model model, HttpSession session, String id) {
 		String page = "Login";
 		
-		if (memberservice.login(user_id,password)){
+		if (memberservice.login(user_id,password,id) != null){
 			page = "redirect:/main.go";
-			session.setAttribute("loginId", user_id);
-			logger.info("user_id : " + user_id + "/ " + "password  : " + password);
+			id = memberservice.loginid(user_id);
+			session.setAttribute("id", id);
+			logger.info("id : " + id + "/ " + "user_id : " + user_id + "/ " + "password  : " + password);
 		}else {
 			model.addAttribute("msg", "아이디 또는 비밀번호를 확인해주세요");
 		}
@@ -71,8 +72,8 @@ public class MemberController {
 	
 	@RequestMapping(value="/logout.do")
 	public String logout(HttpSession session) {
-		session.removeAttribute("loginId");
-		logger.info("loginId 제거 실행되었나 ? ");
+		session.removeAttribute("id");
+		logger.info("id 제거 실행되었나 ? ");
 		return "redirect:/";
 	}
 	
