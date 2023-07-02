@@ -59,8 +59,8 @@
 				분류 ${detailms.category}
                 <h6>
                   <span class="mailbox-read-time float-right"> 
-                  작성자 ${detailms.name} < ${detailms.dept_name} > <br>
-                  작성일  &nbsp ${detailms.create_date}
+                  작성자 ${detailms.name} < ${detailms.dept_id} > <br>
+                  작성일  &nbsp ${detailms.create_at}
                   &nbsp &nbsp 조회수 &nbsp ${detailms.hit}
                   </span></h6>
               </div>

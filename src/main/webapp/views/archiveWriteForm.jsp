@@ -54,7 +54,7 @@
               <!-- /.card-header -->
               <div class="card-body">
                 <div class="form-group">
-                <input type="text" name="from_id" value="${loginId}" readonly="readonly" hidden="true" required/>
+                <input type="text" name="member_id" value="${loginId}" readonly="readonly" hidden="true" required/>
 				
 				<input type="radio" name="category" value="업무자료"/>업무자료
 				<input type="radio" name="category" value="문서양식"/>문서양식
@@ -90,6 +90,9 @@
         </div>
         <!-- /.row -->
       </div><!-- /.container-fluid -->
+      </div>
+      </div>
+      </div>
     </section>
     <!-- /.content -->
   </form>

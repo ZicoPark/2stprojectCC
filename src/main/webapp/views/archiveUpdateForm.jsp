@@ -55,9 +55,9 @@
     <c:if test="${detailfile.size() > 0 }">
         <c:forEach items="${detailfile}" var="i">
             <div>
-            	<input type = "text" name="removeFile" value="${i.newFileName}" hidden = true/>${i.oriFileName}
+            	<input type="text" name="removeFile" value="${i.id}" hidden="true"/>${i.oriFileName}
                 
-                <i class="fas fa-times cancel-icon" onclick="removeFile(this)"></i>
+                <i class="fas fa-times cancel-icon" onclick="removeFileEvent(this)"></i>
             </div>
         </c:forEach>
     </c:if>
@@ -156,7 +156,7 @@
 	    }
 
 
-	    function removeFile(icon) {
+	    function removeFileEvent(icon) {
 	        var fileNameDiv = $(icon).parent(); 
 	        var fileNameInput = fileNameDiv.find('input[type="text"]'); 
 	        var newFileName = fileNameInput.attr('value'); 

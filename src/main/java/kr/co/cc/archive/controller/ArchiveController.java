@@ -62,7 +62,7 @@ public class ArchiveController {
 			
 			logger.info("상세보기 자료실 번호 : "+id);
 			
-			ArchiveDTO detailms = service.archivedetail(Integer.parseInt(id), "detail");
+			ArchiveDTO detailms = service.archivedetail(id, "detail");
 			String page = "redirect:/archiveBoard.go";
 			
 			if(detailms != null) {
@@ -92,7 +92,7 @@ public class ArchiveController {
 			if(loginId.equals(member_id)) {
 				
 				logger.info("작성자와 세션아이디 일치함");
-				ArchiveDTO detailms = service.archivedetail(Integer.parseInt(id), "detail");
+				ArchiveDTO detailms = service.archivedetail(id, "detail");
 				
 				if(detailms != null) {
 					ArrayList<String> detailfile = service.archiveDetailFile(id);
@@ -116,7 +116,7 @@ public class ArchiveController {
 		String page = "redirect:/archiveBoard.go";
 		String loginId = null;
 		int id;
-		
+		logger.info("remove File : "+removeFile);
 		if(session.getAttribute("loginId")!=null) {//로그인 상태이고 글 작성자와 동일하면
 			loginId = (String) session.getAttribute("loginId");
 			if(loginId.equals(params.get("member_id"))) {

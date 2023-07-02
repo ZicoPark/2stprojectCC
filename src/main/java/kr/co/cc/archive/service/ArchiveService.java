@@ -7,6 +7,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.UUID;
 
 import javax.servlet.http.HttpSession;
 
@@ -59,7 +60,8 @@ public class ArchiveService {
 
 		        int row = dao.archiveWrite(dto);
 		        logger.info("insert row: " + row);
-		        int idx = dto.getId();
+		        String idx = dto.getId();
+
 
 		        logger.info("idx: " + idx);
 
@@ -91,7 +93,7 @@ public class ArchiveService {
 
 	
 	
-	public ArchiveDTO archivedetail(int id, String flag) {
+	public ArchiveDTO archivedetail(String id, String flag) {
 		if(flag.equals("detail")) {
 			logger.info("if문 진입");
 			dao.upHit(id); // 읽음 처리
@@ -108,24 +110,20 @@ public class ArchiveService {
 	public int archiveUpdate(MultipartFile[] attachment, HashMap<String, String> params, ArrayList<String> removeFile, HttpSession session) {
 			 
 			logger.info("params : "+params);
-
-			if(params.get("category")!=null) {
-				String category_id = params.get("category");
-				params.put("category_id", category_id);
-			}
+/*
 			if(params.get("subject")!=null) {
 				String subject_id = params.get("subject");
-				params.put("subject_id", subject_id);
+				params.put("subject", subject_id);
 			}
 			if(params.get("content")!=null) {
 				String content_id = params.get("content");
-				params.put("content_id", content_id);
+				params.put("content", content_id);
 			}	
-
+*/
 		        
-			        int row = dao.archiveUpdate(params);
+			        int row = dao.archiveUpdate(params,session);
 			        logger.info("insert row: " + row);
-			        int id = 0;
+			        String id = "";
 
 			        logger.info("update idx: " + id);
 
@@ -135,7 +133,7 @@ public class ArchiveService {
 							attachmentRemove(removeFile);
 						}
 						
-						id = Integer.parseInt(params.get("id"));
+						id = params.get("id");
 						
 						for (MultipartFile file : attachment) {
 							
@@ -155,7 +153,7 @@ public class ArchiveService {
 					}
 	
 					
-			    return id;
+			    return 0;
 			}
 	private void attachmentRemove(ArrayList<String> newFileName) {
 		
@@ -170,11 +168,12 @@ public class ArchiveService {
 		
 	}
 
-	private void attachmentSave(int id, MultipartFile file, String cls) {
+	private void attachmentSave(String id, MultipartFile file, String cls) {
 		
 		String oriFileName = file.getOriginalFilename();
 		String ext = oriFileName.substring(oriFileName.lastIndexOf("."));
-		String newFileName = System.currentTimeMillis() + ext;
+		UUID uuid = UUID.randomUUID();
+		String newFileName = uuid.toString() + ext;
 		logger.info("파일 업로드 : "+oriFileName+"=>"+newFileName+"으로 변경될 예정");
 		
 		try {
