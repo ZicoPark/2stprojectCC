@@ -81,7 +81,7 @@
 									<tr>
 										<td>#</td>
 										<td><a> ${project.name} </a> <br /> <small>
-												${project.start_date} </small></td>
+												${project.create_at} </small></td>
 										<td>
 											<ul class="list-inline">
 												<c:forEach items="${project.contributors}" var="contributor" varStatus="loop">

@@ -18,7 +18,7 @@ public interface ProjectDAO {
 
 	ArrayList<ProjectDTO> ProjectDetail(int id);
 
-	void addContributor(int project_id, String memberId);
+	void addContributor(String memberId, String project_id);
 
 	void ProjectFileWrite(String idx, String ori_file_name, String new_file_name);
 

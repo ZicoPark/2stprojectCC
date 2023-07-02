@@ -61,7 +61,7 @@
               </div>
               <div class="form-group">
 				  <label for="inputMember">참가자</label>
-				  <textarea id="inputMember" class="form-control" name="member_id" rows="3"></textarea>
+				  <textarea id="inputMember" class="form-control" name="user_id" rows="3"></textarea>
 				</div>
               <div class="form-group">
                 <label for="inputPublic_range">공개범위</label>
@@ -74,12 +74,12 @@
               
               <div class="form-group">
                 <label for="inputPriod">시작일</label>
-                <input type="date" class="form-control" name="priod" placeholder="시작일">
+                <input type="date" class="form-control" name="start_at" placeholder="시작일">
               </div>
 
               <div class="form-group">
                 <label for="inputDeadLinePriod">마감일</label>
-                <input type="date" class="form-control" name="deadlinepriod" placeholder="마감일">
+                <input type="date" class="form-control" name="end_at" placeholder="마감일">
               </div>
               
             </div>
