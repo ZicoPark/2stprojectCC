@@ -27,7 +27,7 @@
 
       <form action="login.do" method="post">
         <div class="input-group mb-3">
-          <input type="text" class="form-control" placeholder="id를 입력하세요" name = "id">
+          <input type="text" class="form-control" placeholder="id를 입력하세요" name = "user_id">
           <div class="input-group-append">
             <div class="input-group-text">
 
@@ -43,14 +43,7 @@
           </div>
         </div>
         <div class="row">
-          <div class="col-8">
-            <div class="icheck-primary">
-              <input type="checkbox" id="remember">
-              <label for="remember">
-                Remember Me
-              </label>
-            </div>
-          </div>
+          
           <!-- /.col -->
           <div class="col-4">
             <button type="submit" value = "login" class="btn btn-primary btn-block">로그인</button>
@@ -63,7 +56,7 @@
         <a href="/findID.go">아이디 찾기</a>
       </p>
       <p class="mb-1">
-        <a href="/findPW.go">비밀번호 찾기</a>
+        <a href="/findPW.go">임시 비밀번호 발급</a>
       </p>
       <p class="mb-0">
         <a href="/join.go" class="text-center">회원 가입</a>
@@ -81,4 +74,10 @@
 <!-- AdminLTE App -->
 <script src="../../dist/js/adminlte.min.js"></script>
 </body>
+<script>
+var msg = "${msg}";
+if(msg != ""){
+	alert(msg);
+}
+</script>
 </html>

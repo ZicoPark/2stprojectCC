@@ -54,7 +54,7 @@ h1, h2, h3, h4, h5, h6 {
       
         <div class="input-group mb-3">
           <h6>아이디 : 　　　</h6>
-          &nbsp; &nbsp; &nbsp; <input type="text" class="form-control" name="id" id="id" placeholder="사용할 id를 입력하세요">
+          &nbsp; &nbsp; &nbsp; <input type="text" class="form-control" name="user_id" id="user_id" placeholder="사용할 id를 입력하세요">
           <div class="input-group-append">
           <div class="input-group-text"></div>
           </div>
@@ -89,7 +89,7 @@ h1, h2, h3, h4, h5, h6 {
         
         <div class="input-group mb-3">
         <h6>생년월일 : 　　</h6>
-          &nbsp; &nbsp; &nbsp; <input type="text" class="form-control" id="birthday" name="birth_date" placeholder="생일을 선택해주세요">
+          &nbsp; &nbsp; &nbsp; <input type="text" class="form-control" id="birthday" name="birth_at" placeholder="생일을 선택해주세요">
           <div class="input-group-append">
             <div class="input-group-text"></div>
           </div>
@@ -97,7 +97,7 @@ h1, h2, h3, h4, h5, h6 {
         
         <div class="input-group mb-3">
         <h6>입사일 : 　　　</h6>
-          &nbsp; &nbsp; &nbsp; <input type="text" class="form-control" id="hiredate" name="hire_date" placeholder="입사일을 선택해주세요">
+          &nbsp; &nbsp; &nbsp; <input type="text" class="form-control" id="hiredate" name="hire_at" placeholder="입사일을 선택해주세요">
           <div class="input-group-append">
             <div class="input-group-text"></div>
           </div>
@@ -106,10 +106,11 @@ h1, h2, h3, h4, h5, h6 {
         <div class="input-group mb-3">
         <h6>직급 : 　　　　</h6>
           &nbsp; &nbsp; &nbsp; 
-          <select name="job_name" id="job_name" class="form-control">
-          	<option value="사원">사원</option>
-		  	<option value="대리">대리</option>
-		  	<option value="팀장">팀장</option>
+          <select name="job_level_id" id="job_level_id" class="form-control">
+          	<option value="8ade9167-1703-11ee-973f-0242ac110002">팀원</option>
+		  	<option value="8bbf948d-1703-11ee-973f-0242ac110002">팀장</option>
+		  	<option value="8c4e7542-1703-11ee-973f-0242ac110002">이사</option>
+		  	<option value="8cdd8503-1703-11ee-973f-0242ac110002">사장</option>
       	  </select>
           <div class="input-group-append">
             <div class="input-group-text"></div>
@@ -119,11 +120,11 @@ h1, h2, h3, h4, h5, h6 {
         <div class="input-group mb-3">
         <h6>부서 : 　　　　</h6>
           &nbsp; &nbsp; &nbsp; 
-          <select name="dept_name" id="dept_name" class="form-control">
-          	<option value="총무팀">총무팀</option>
-		  	<option value="촬영팀">촬영팀</option>
-		  	<option value="편집팀">편집팀</option>
-		  	<option value="배포팀">배포팀</option>
+          <select name="dept_id" id="dept_id" class="form-control">
+          	<option value="8e5f3282-1703-11ee-973f-0242ac110002">총무팀</option>
+		  	<option value="8ee07433-1703-11ee-973f-0242ac110002">기획팀</option>
+		  	<option value="8f963853-1703-11ee-973f-0242ac110002">촬영팀</option>
+		  	<option value="9022f64a-1703-11ee-973f-0242ac110002">편집팀</option>
       	  </select>
           <div class="input-group-append">
             <div class="input-group-text"></div>
@@ -206,9 +207,9 @@ h1, h2, h3, h4, h5, h6 {
 
 	function register(){
 	   if(overlayChk == true){
-	      if($('#id').val()=='' || $('#id').val().includes("admin")){
+	      if($('#user_id').val()=='' || $('#user_id').val().includes("admin")){
 	         alert('아이디을 입력해주세요!');
-	         $('#id').focus();
+	         $('#user_id').focus();
 	      }else if($('#password').val()==''){
 	         alert('비밀번호를 입력해주세요!');
 	         $('#password').focus();
@@ -224,15 +225,12 @@ h1, h2, h3, h4, h5, h6 {
 	         }else if($('#hiredate').val()==''){
 		            alert('입사일을 선택해주세요!');
 		            $('#hiredate').focus();
-		     }else if($('#job_name').val()==''){
+		     }else if($('#job_level_id').val()==''){
 		            alert('직급을 선택해주세요!');
-		            $('#job_name').focus();
-		     }else if($('#job_name').val()==''){
-		            alert('직급을 선택해주세요!');
-		            $('#job_name').focus();
-		     }else if($('#dept_name').val()==''){
+		            $('#job_level_id').focus();
+		     }else if($('#dept_id').val()==''){
 		            alert('부서를 선택해주세요!');
-		            $('#dept_name').focus();
+		            $('#dept_id').focus();
 		     }else if($('#email').val()==''){
 		            alert('이메일을 입력해주세요!');
 		            $('#email').focus();
@@ -255,12 +253,12 @@ h1, h2, h3, h4, h5, h6 {
 	
 	$('#idChk').on('click',function(e){
 		   
-		   var id = $('#id').val();
+		   var user_id = $('#user_id').val();
 		   
 		   $.ajax({
 		      type:'post',
 		      url:'idChk.ajax',
-		      data:{id:id},
+		      data:{user_id:user_id},
 		      dataType:'json',
 		      success:function(data){
 		         if(data.idChk == 0){
