@@ -1,6 +1,7 @@
 package kr.co.cc.member.dao;
 
 import java.util.HashMap;
+import java.util.Map;
 
 import kr.co.cc.member.dto.MemberDTO;
 
@@ -9,7 +10,7 @@ public interface MemberDAO {
 
 	int join(MemberDTO dto);
 
-	String login(String id);
+	Map<String, Object> login(String user_id);
 
 	int idChk(String user_id);
 	
@@ -20,5 +21,7 @@ public interface MemberDAO {
 	MemberDTO userInfo(Object attribute);
 
 	boolean updateTemporaryPassword(MemberDTO userInfoPW);
+
+	String loginid(String user_id);
 
 }
