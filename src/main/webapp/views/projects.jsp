@@ -60,8 +60,6 @@
 
 							<a href="project-add.go" class="btn btn-sm btn-primary">추가</a>
 
-
-
 						</div>
 					</div>
 					<div class="card-body p-0">
@@ -122,9 +120,6 @@
                           				</td>
 									</tr>
 								</c:forEach>
-
-
-
 
 							</tbody>
 						</table>
