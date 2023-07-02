@@ -39,7 +39,7 @@ body {
 
       <form method="post" name="sendForm">
         <div class="input-group mb-3">
-          <input type="text" class="form-control" placeholder="아이디를 입력하세요" name="id">
+          <input type="text" class="form-control" placeholder="아이디를 입력하세요" name="user_id">
           <div class="input-group-append">
             <div class="input-group-text">
 
@@ -67,7 +67,7 @@ body {
         
         <div class="row">
           <div class="col-12">
-            <button type="submit" class="btn btn-primary btn-block" onclick="sendMail()">비밀번호 찾기</button>
+            <button type="submit" class="btn btn-primary btn-block" onclick="sendMail()">임시 비밀번호 발급</button>
           </div>
           <!-- /.col -->
         </div>
@@ -109,6 +109,11 @@ function sendMail() {
 			console.log(e);
 		}
 	});
+}
+
+var msg = "${msg}";
+if(msg != ""){
+	alert(msg);
 }
 
 </script>

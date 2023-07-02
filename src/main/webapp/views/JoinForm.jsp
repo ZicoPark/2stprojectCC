@@ -239,7 +239,6 @@ h1, h2, h3, h4, h5, h6 {
 		            $('#phone').focus();
 		     }else{
 	            $('button').attr('type','submit');
-	            alert('회원가입이 완료되었습니다');
 	      }
 	   }else{
 		   if(overlayChk == false){ 

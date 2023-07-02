@@ -22,7 +22,29 @@ public class MemberDTO {
 	private String address;
 	private String title;
 	private String message;
+	private String TemporaryPassword;
+	private String updateTemporaryPassword;
+	private String encodedPassword;
 	
+
+	public String getEncodedPassword() {
+		return encodedPassword;
+	}
+	public void setEncodedPassword(String encodedPassword) {
+		this.encodedPassword = encodedPassword;
+	}
+	public String getUpdateTemporaryPassword() {
+		return updateTemporaryPassword;
+	}
+	public void setUpdateTemporaryPassword(String updateTemporaryPassword) {
+		this.updateTemporaryPassword = updateTemporaryPassword;
+	}
+	public String getTemporaryPassword() {
+		return TemporaryPassword;
+	}
+	public void setTemporaryPassword(String temporaryPassword) {
+		TemporaryPassword = temporaryPassword;
+	}
 	public String getId() {
 		return id;
 	}
@@ -125,7 +147,5 @@ public class MemberDTO {
 	public void setMessage(String message) {
 		this.message = message;
 	}
-	
-	
-	
+		
 }
