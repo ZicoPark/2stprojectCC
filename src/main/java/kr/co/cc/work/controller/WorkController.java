@@ -104,12 +104,12 @@ public class WorkController {
 			msg = "사유를 입력해주세요.";
 			mav = WorkChangeRequestGo(params);
 		} else {
-			int row=service.WorkChangeRequestChk(params.get("id"),params.get("type"));
+			int row=service.WorkChangeRequestChk(params.get("working_hour_id"),params.get("type"));
 			if(row>0) {
 				msg = "이미 등록한 이력이 있습니다.";
 				mav = WorkChangeRequestGo(params);
 			} else {
-				params.put("update_time", params.get("update_time_h")+":"+params.get("update_time_m")+":00");
+				params.put("update_at", params.get("update_time_h")+":"+params.get("update_time_m")+":00");
 				service.WorkChangeRequest(params);
 				msg = "수정이 등록 되었습니다.";
 				mav = workHistoryReqListGo(session);
@@ -124,26 +124,33 @@ public class WorkController {
 		return service.workHistoryReqListGo(session);
 	}
 	
+	@GetMapping(value="/workHistoryList_Ad.go")
+	public ModelAndView workHistoryList_Ad(HttpSession session) {		
+		return service.workHistoryList_Ad(session,"","");
+	}
+	
+	// 근태 관리 관리자	
+	
 	@GetMapping(value="/WorkChangeAdmin.do")
 	public ModelAndView WorkChangeAdmin(HttpSession session, @RequestParam int approval, 
-			@RequestParam int id, @RequestParam String type, @RequestParam Time update_time) {
+			@RequestParam String working_hour_id, @RequestParam String type, @RequestParam Time update_at) {
 		
 		String msg = "이미 처리된 요청입니다.";
 		String flag = "WorkChangeAdmin";
 		
 		//이미 처리 했는지 확인
-		int WorkChangeAdminChk = service.WorkChangeAdminChk(id,type);
+		int WorkChangeAdminChk = service.WorkChangeAdminChk(working_hour_id,type);
 		if(WorkChangeAdminChk != 0) {
-			int row = service.WorkChangeAdmin(id,type,approval);
+			int row = service.WorkChangeAdmin(working_hour_id,type,approval);
 			logger.info("WorkChangeAdmin row : " + row);
 			// 승인된 건에 대해서만 처리 (반려는 변경 X)
 			if(approval==1) {
 				if(row==1) {
 					if(type.equals("출근")){
-						row = service.workHistoryChange_go(id,update_time);	
+						row = service.workHistoryChange_go(working_hour_id,update_at);	
 						msg = "출근 변경 요청을 승인하였습니다.";
 					} else {
-						row = service.workHistoryChange_end(id,update_time);
+						row = service.workHistoryChange_end(working_hour_id,update_at);
 						msg = "퇴근 변경 요청을 승인하였습니다.";
 					}				
 					logger.info("WorkChangeAdmin row2 : " + row);
@@ -155,13 +162,11 @@ public class WorkController {
 		return service.workHistoryList_Ad(session,msg,flag);
 	}
 	
-	//WorkChangeAdmin 
 	
-	// 근태 관리 관리자
-	@GetMapping(value="/workHistoryList_Ad.go")
-	public ModelAndView workHistoryList_Ad(HttpSession session) {		
-		return service.workHistoryList_Ad(session,"","");
-	}
+	
+	
+	// 완료
+	
 	
 	// 일별 , 주별 사원 현황 / 관리자
 	@GetMapping(value="/workDailyList.go")
@@ -186,6 +191,15 @@ public class WorkController {
 		}
 		return map;
 	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 	@GetMapping(value="/weekListFind.do")
@@ -286,18 +300,66 @@ public class WorkController {
 	
 	
 	@GetMapping(value="/workHolidayList_Ad.go")
-	public String workHolidayList_Ad() {
-		return "workHolidayList_Ad";
+	public ModelAndView workHolidayList_Ad() {
+		return service.workHolidayList_Ad();
 	}
 	
-	@GetMapping(value="/annualRegistration.go")
-	public String annualRegistrationGo() {
-		return "annualRegistration";
+	@GetMapping(value="/holidayListFind.do")
+	public ModelAndView holidayListFind(@RequestParam int holidayList) {
+		String value = holidayList < 10 ? "2023-"+"0"+"holidayList" : "2023-"+"holidayList";
+
+		return service.holidayListFind(value);
+	}
+	
+	
+	@GetMapping(value="/workAnnualRegistration.go")
+	public ModelAndView annualRegistrationGo() {
+		ModelAndView mav = new ModelAndView("workAnnualRegistration");
+		ArrayList<WorkDTO> admin = service.annualRegistrationGo();		
+		mav.addObject("admin",admin);
+		
+		return mav;
 	}
 	
 	@GetMapping(value="/annualRegistration.do")
-	public String annualRegistration() {
-		return "annualRegistration";
+	public ModelAndView annualRegistration(@RequestParam HashMap<String, String> params, HttpSession session) {
+		
+		ModelAndView mav = new ModelAndView("workAnnualRegistration");
+		String msg = "";
+		
+		if(params.get("approval_id").equals("")) {
+			msg = "승인자를 입력해주세요.";
+			ArrayList<WorkDTO> admin = service.annualRegistrationGo();		
+			mav.addObject("admin",admin);
+		} else if (params.get("year_go").equals("") || params.get("month_go").equals("") || params.get("day_go").equals("")) {
+			msg = "연차 시작 날짜를 입력해주세요.";
+			ArrayList<WorkDTO> admin = service.annualRegistrationGo();		
+			mav.addObject("admin",admin);
+		} else if (params.get("year_end").equals("") || params.get("month_end").equals("") || params.get("day_end").equals("")) {			
+			msg = "연차 종료 날짜를 입력해주세요.";
+			ArrayList<WorkDTO> admin = service.annualRegistrationGo();		
+			mav.addObject("admin",admin);
+		} else if (params.get("use_cnt").equals("")) {
+			msg = "사용 일 수를 입력해주세요.";
+			ArrayList<WorkDTO> admin = service.annualRegistrationGo();		
+			mav.addObject("admin",admin);
+		}else if (params.get("reason").equals("")) {
+			msg = "연차 사유를 입력해주세요.";
+			ArrayList<WorkDTO> admin = service.annualRegistrationGo();		
+			mav.addObject("admin",admin);
+		}else if (params.get("type").equals("")) {
+			msg = "연차 유형을 입력해주세요.";
+			ArrayList<WorkDTO> admin = service.annualRegistrationGo();		
+			mav.addObject("admin",admin);
+		} else {
+			service.annualRegistration(params, session);
+			msg = "연차 사용 요청을 완료 하였습니다.";
+			String id = (String) session.getAttribute("loginId");	
+			mav = service.workHolidayList(id);			
+		}		
+		mav.addObject("msg",msg);
+		
+		return mav;
 	}
 	
 	

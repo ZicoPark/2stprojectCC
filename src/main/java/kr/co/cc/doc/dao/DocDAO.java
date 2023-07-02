@@ -11,11 +11,15 @@ import kr.co.cc.doc.dto.MemberDTO;
 
 public interface DocDAO {
 
-	ArrayList<DocFormDTO> docFormCall();
+	ArrayList<ApprovalDTO> getApprovalList();
+	
+	ArrayList<HashMap<String, String>> getMemberList();
+	
+	ArrayList<DocFormDTO> getDocFormList();
 
-	ArrayList<ApprovalDTO> approvalKindCall();
+	HashMap<String, String> getDeptMap(String deptId);
 
-	ArrayList<MemberDTO> memberListCall();
+
 
 	MemberDTO getMemberInfo(String loginId);
 
@@ -44,6 +48,8 @@ public interface DocDAO {
 	int attachmentDelete(String newFileName);
 
 	void docUpdate(HashMap<String, String> params);
+
+
 
 	
 

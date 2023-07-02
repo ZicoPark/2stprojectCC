@@ -67,7 +67,7 @@ public class WorkService {
 		
 		return mav;
 	}
-
+	
 	public ModelAndView workHistoryList_Ad(HttpSession session, String msg, String flag) {
 		ModelAndView mav = new ModelAndView("workHistoryList_Ad");
 		ArrayList<WorkDTO> dto = dao.workHistoryList_Ad();
@@ -77,23 +77,24 @@ public class WorkService {
 		}
 		return mav;
 	}
-
-	public int WorkChangeAdmin(int id, String type, int approval) {
-		return dao.WorkChangeAdmin(id,type,approval);
+	public int WorkChangeAdmin(String working_hour_id, String type, int approval) {
+		return dao.WorkChangeAdmin(working_hour_id,type,approval);
 		
 	}
 
-	public int workHistoryChange_go(int id, Time update_time) {
-		return dao.workHistoryChange_go(id,update_time);
+	public int workHistoryChange_go(String working_hour_id, Time update_time) {
+		return dao.workHistoryChange_go(working_hour_id,update_time);
 	}
 
-	public int workHistoryChange_end(int id, Time update_time) {
-		return dao.workHistoryChange_end(id,update_time);
+	public int workHistoryChange_end(String working_hour_id, Time update_time) {
+		return dao.workHistoryChange_end(working_hour_id,update_time);
 	}
 
-	public int WorkChangeAdminChk(int id, String type) {
-		return dao.WorkChangeAdminChk(id,type);
+	public int WorkChangeAdminChk(String working_hour_id, String type) {
+		return dao.WorkChangeAdminChk(working_hour_id,type);
 	}
+	
+	// 완료
 
 	public ModelAndView workDailyList() {		
 		ModelAndView mav = new ModelAndView("workDailyList");
@@ -105,6 +106,19 @@ public class WorkService {
 	public ArrayList<WorkDTO> dailyListFind(String formattedDate) {
 		return dao.dailyListFind(formattedDate);
 	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 
 	public ModelAndView weekListFind(String week, String msg) {
 		ModelAndView mav = new ModelAndView("workWeekList");		
@@ -174,6 +188,40 @@ public class WorkService {
 		
 		WorkDTO annual_leave = dao.annual_leave(id);		
 		mav.addObject("annual_leave",annual_leave);
+		return mav;
+	}
+
+	public void annualRegistration(HashMap<String, String> params, HttpSession session) {
+		
+		String regist_id =  (String) session.getAttribute("loginId");
+		String approval_id = params.get("approval_id");
+		String start_date = params.get("year_go")+"-"+params.get("month_go")+"-"+params.get("day_go");
+		String end_date = params.get("year_end")+"-"+params.get("month_end")+"-"+params.get("day_end");
+		String use_cnt = params.get("use_cnt"); 
+		String reason = params.get("reason");
+		String type = params.get("type");
+		
+		dao.annualRegistration(regist_id,approval_id,start_date,end_date,use_cnt,reason,type);		
+	}
+
+	public ArrayList<WorkDTO> annualRegistrationGo() {
+		return dao.annualRegistrationGo();
+	}
+
+	public ModelAndView workHolidayList_Ad() {
+		ModelAndView mav = new ModelAndView("workHolidayList_Ad");
+		ArrayList<WorkDTO> dto = dao.workHolidayList_Ad();
+		
+		mav.addObject("dto", dto);		
+		
+		return mav;
+	}
+
+	public ModelAndView holidayListFind(String holidayList) {
+		ModelAndView mav = new ModelAndView("workHolidayList_Ad");
+		ArrayList<WorkDTO> dto = dao.holidayListFind(holidayList);
+		mav.addObject("dto",dto);
+		
 		return mav;
 	}
 
