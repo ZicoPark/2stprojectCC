@@ -49,7 +49,7 @@
       <li>
       
       
-      <!-- <div class="icheck-primary d-inline ml-2">
+       <div class="icheck-primary d-inline ml-2">
       <input type="checkbox" value="" name="todo1" id="todoCheck1">
       <label for="todoCheck1"></label>
       </div>
@@ -109,7 +109,7 @@
       <i class="fas fa-trash-o"></i>
       </div>
       </li>
-      <li> -->
+      <li>
 
       <!-- <div class="icheck-primary d-inline ml-2">
       <input type="checkbox" value="" name="todo6" id="todoCheck6">
@@ -137,7 +137,7 @@
 										<td>${personal.start_at}</td>
 										<td>${personal.end_at}</td>
 										<td>${personal.status}</td>
-										<td class="project-actions text-right"><a
+										<td ><a
 											href="projectDetail.go?id=${project.project_id}"
 											class="btn btn-primary btn-sm view-btn"> <i
 												class="fas fa-folder"> </i> 상세보기</a>
