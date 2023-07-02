@@ -41,6 +41,7 @@ public class WorkService {
 
 	public void timeGo(String id) {
 		String name = dao.findName(id);
+		logger.info("find name : " + name);
 		dao.timeGo(id, name);
 		
 	}
@@ -107,18 +108,6 @@ public class WorkService {
 		return dao.dailyListFind(formattedDate);
 	}
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 
 	public ModelAndView weekListFind(String week, String msg) {
 		ModelAndView mav = new ModelAndView("workWeekList");		
@@ -147,6 +136,8 @@ public class WorkService {
 	public int workWornChk(String member_id, String weekRe) {
 		return dao.workWornChk(member_id,weekRe);
 	}
+	
+	
 
 	public ModelAndView workWornList() {
 		ModelAndView mav = new ModelAndView("workWornList");

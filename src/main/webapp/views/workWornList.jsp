@@ -45,7 +45,7 @@
 				</c:if>   		
 	    		<c:forEach items="${wornAllList}" var="wornAllList">
 					<tr>
-	    				<td>${wornAllList.member_id}</td>
+	    				<td>${wornAllList.user_id}</td>
 	    				<td>${wornAllList.name}</td>
 	    				<td>${wornAllList.dept_name}</td>
 	    				<td>${wornAllList.week}</td>
@@ -84,7 +84,7 @@
 				</c:if>   		
 	    		<c:forEach items="${wornList}" var="wornList">
 					<tr> 
-	    				<td>${wornList.member_id}</td>
+	    				<td>${wornList.user_id}</td>
 	    				<td>${wornList.name}</td>
 	    				<td>${wornList.dept_name}</td>
 	    				<td>${wornList.week}</td>
@@ -145,7 +145,7 @@
 			console.log("list if : " + list);
 			list.forEach(function(item,index){
 				content += '<tr>';
-				content += '<td>'+item.member_id+'</td>';
+				content += '<td>'+item.user_id+'</td>';
 				content += '<td>'+item.name+'</td>';
 				content += '<td>'+item.dept_name+'</td>';
 				content += '<td>'+item.week+'</td>';
@@ -170,7 +170,7 @@
 			console.log("list if : " + list);
 			list.forEach(function(item,index){
 				allContent += '<tr>';
-				allContent += '<td>' + item.member_id + '</td>';
+				allContent += '<td>' + item.user_id + '</td>';
 				allContent += '<td>' + item.name + '</td>';
 				allContent += '<td>' + item.dept_name + '</td>';
 				allContent += '<td>' + item.week + '</td>';

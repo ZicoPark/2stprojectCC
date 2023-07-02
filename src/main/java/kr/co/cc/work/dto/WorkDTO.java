@@ -34,14 +34,24 @@ public class WorkDTO {
     private String working_hour_id;
     private Time update_at;
     private String dept_name;
+    
 
     private String job_name;
     private Date week;
     private String total_time;
     private boolean worn;
+    private int total_worn;
     
     
     
+    
+    
+	public int getTotal_worn() {
+		return total_worn;
+	}
+	public void setTotal_worn(int total_worn) {
+		this.total_worn = total_worn;
+	}
 	public String getUser_id() {
 		return user_id;
 	}

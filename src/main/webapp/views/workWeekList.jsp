@@ -48,7 +48,7 @@
    			</tr>    		
    		</thead>
    		<tbody id="weekListId">
-   			<c:if test="${dto.size()==0}">
+   			<c:if test="${dto.size()<1}">
 				<tr>
 					<th colspan="6">검색을 원하시는 주의 <b>월요일</b>을 선택해주세요. (해당 주의 월요일 ~ 금요일이 검색됩니다.)</th>
 				</tr>
@@ -56,14 +56,14 @@
     		<c:forEach items="${dto}" var="work">
 				<tr> 
     				<td>${work.dept_name}</td>
-    				<td>${work.member_id}</td>
+    				<td>${work.user_id}</td>
     				<td>${work.name}</td>
     				<td>${work.job_name}</td>
     				<td>${week}</td>
     				<td>${work.total_time}</td>
     				<td>${work.worn == true ? 'O' : 'X'}</td>
     				<td>
-    				<a href="workWorn.do?member_id=${work.member_id}&dept_name=${work.dept_name}&name=${work.name}&job_name=${work.job_name}&week=${week}&total_time=${work.total_time}">
+    				<a href="workWorn.do?member_id=${work.user_id}&dept_name=${work.dept_name}&name=${work.name}&job_name=${work.job_name}&week=${week}&total_time=${work.total_time}">
     					경고
     				</a></td>				
     			</tr>

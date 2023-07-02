@@ -35,14 +35,6 @@ public interface WorkDAO {
 	int workHistoryChange_go(String working_hour_id, Time update_time);
 
 	int workHistoryChange_end(String working_hour_id, Time update_time);
-	
-	
-	
-	
-	
-	
-	
-	
 
 	ArrayList<WorkDTO> workDailyList();
 
@@ -55,6 +47,8 @@ public interface WorkDAO {
 	void workWorn(HashMap<String, Object> params);
 
 	int workWornChk(String member_id, String weekRe);
+	
+	
 
 	ArrayList<WorkDTO> workWornList();
 

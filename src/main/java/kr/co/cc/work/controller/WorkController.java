@@ -192,16 +192,6 @@ public class WorkController {
 		return map;
 	}
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	@GetMapping(value="/weekListFind.do")
 	public ModelAndView weekListFind(@RequestParam Date date) {		
 		logger.info("weekListFind date : " + date);
@@ -211,21 +201,31 @@ public class WorkController {
 	}
 	
 	@GetMapping(value="workWorn.do")
-	public ModelAndView workWorn(@RequestParam HashMap<String, Object> params,@RequestParam Date week,@RequestParam String member_id) {
+	public ModelAndView workWorn(@RequestParam HashMap<String, Object> params,@RequestParam Date week, HttpSession session) {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		String weekRe = sdf.format(week);		
+		
+		String member_id = (String) session.getAttribute("loginId");
+		
+		params.put("member_id", member_id);
 		
 		String msg = "";
 		
 		int row = service.workWornChk(member_id,weekRe);
 		if(row>0) {
-			msg = "이미 경고 처리한 내역이 있습니다.";			
+			msg = "이미 경고 처리한 내역이 있습니다.";		
 		} else {
 			service.workWorn(params);
 			msg = "경고 처리가 완료되었습니다.";
 		}		
 		return service.weekListFind(weekRe,msg);
 	}
+	
+	
+	
+	
+	
+	
 	
 	@GetMapping(value="/wornListFind.ajax")
 	@ResponseBody
