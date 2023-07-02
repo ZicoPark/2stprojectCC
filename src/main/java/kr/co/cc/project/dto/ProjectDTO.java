@@ -1,6 +1,7 @@
 package kr.co.cc.project.dto;
 
 import java.util.Date;
+import java.util.List;
 
 public class ProjectDTO {
 
@@ -20,6 +21,7 @@ public class ProjectDTO {
 	private String user_name;
 	private String content;
 	private int project_id;
+	private List<String> userIds;
 	private String comment_content;
 	private int comment_status;
 	private Date comment_create_date;
@@ -33,6 +35,14 @@ public class ProjectDTO {
 	
 	
 	
+	public List<String> getUserIds() {
+		return userIds;
+	}
+
+	public void setUserIds(List<String> userIds) {
+		this.userIds = userIds;
+	}
+
 	public String getUser_id() {
 		return user_id;
 	}

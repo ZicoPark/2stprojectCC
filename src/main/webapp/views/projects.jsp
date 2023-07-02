@@ -84,12 +84,12 @@
 												${project.create_at} </small></td>
 										<td>
 											<ul class="list-inline">
-												<c:forEach items="${project.contributors}" var="contributor" varStatus="loop">
-											    <li class="list-inline-item">
-											      <img alt="Avatar" class="table-avatar" src="../../dist/img/avatar${loop.index + 1}.png">
-											      ${contributor}
-											    </li>
-											  </c:forEach>
+											    <c:forEach items="${project.userIds}" var="userId" varStatus="loop">
+											        <li class="list-inline-item">
+											            <img alt="Avatar" class="table-avatar" src="../../dist/img/avatar${loop.index + 1}.png">
+											            ${userId}
+											        </li>
+											    </c:forEach>
 											</ul>
 										</td>
 

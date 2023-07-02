@@ -16,20 +16,33 @@
 
     
     <insert id="addContributor" parameterType="java.util.Map">
-        INSERT INTO contributor (member_id, project_id)
-        VALUES (#{param1}, #{param2})
-    </insert>	
+	    INSERT INTO contributor (member_id, project_id)
+	    VALUES (
+	        (SELECT id FROM member WHERE user_id = #{param1}),
+	        #{param2}
+	    )
+	</insert>
 
 
+	<select id="getUserIdsByProjectId" resultType="java.lang.String">
+	        SELECT member.user_id
+	        FROM project
+	        INNER JOIN contributor ON project.id = contributor.project_id
+	        INNER JOIN member ON contributor.member_id = member.id
+	        WHERE project.id = #{id}
+    </select>
 
 
 	
-	<select id="ProjectList" resultType="kr.co.cc.project.dto.ProjectDTO">
-	  SELECT p.id, p.name, p.member_id, p.create_at, p.step, GROUP_CONCAT(c.member_id SEPARATOR ',') AS contributors
-	  FROM project p
-	  LEFT JOIN contributor c ON p.id = c.project_id
-	  GROUP BY p.id, p.name, p.create_at, p.step
-	</select>
+		<select id="ProjectList" resultType="kr.co.cc.project.dto.ProjectDTO">
+		    SELECT p.id, p.name, m.user_id AS member_id, p.create_at, p.step, GROUP_CONCAT(c.member_id SEPARATOR ',') AS contributors
+		    FROM project p
+		    LEFT JOIN contributor c ON p.id = c.project_id
+		    LEFT JOIN member m ON c.member_id = m.id
+		    GROUP BY p.id, p.name, p.create_at, p.step
+		</select>
+
+
 
 	
 		<select id="ProjectDetail" parameterType="int" resultType="kr.co.cc.project.dto.ProjectDTO">

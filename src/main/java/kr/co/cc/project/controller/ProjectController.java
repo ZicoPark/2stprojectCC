@@ -2,6 +2,7 @@ package kr.co.cc.project.controller;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
@@ -36,6 +37,11 @@ public class ProjectController {
 	    
 	    ArrayList<ProjectDTO> list = service.list();
 	    logger.info("list cnt : " + list.size());
+	    for (ProjectDTO project : list) {
+	        List<String> userIds = service.getUserIdsByProjectId(project.getId());
+	        project.setUserIds(userIds);
+	    }
+	    
 	    model.addAttribute("list", list);
 	    model.addAttribute("loginId", loginId);
 	    logger.info("loginid : " + loginId);

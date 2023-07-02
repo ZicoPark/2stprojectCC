@@ -5,6 +5,7 @@ package kr.co.cc.project.dao;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import kr.co.cc.project.dto.AttachmentDTO;
 import kr.co.cc.project.dto.ProjectDTO;
@@ -18,7 +19,7 @@ public interface ProjectDAO {
 
 	ArrayList<ProjectDTO> ProjectDetail(int id);
 
-	void addContributor(String memberId, String project_id);
+	void addContributor(String contributorId, String project_id);
 
 	void ProjectFileWrite(String idx, String ori_file_name, String new_file_name);
 
@@ -37,6 +38,8 @@ public interface ProjectDAO {
 	void updateContributor(int project_id, String contributorId);
 
 	void clearContributors(int project_id);
+
+	List<String> getUserIdsByProjectId(String id);
 
 
 
