@@ -27,10 +27,12 @@
     <!-- Main content -->
     <section class="content">
     <br/>
-    	<div>
-			<input type="date" id="dailyList" name="dailyList" value=""/>
-			<button onclick="daliyListFind()">검색</button>	
-    	</div>
+    	<div class="input-group" style="width: 20%;">
+		    <input type="date" id="dailyList" name="dailyList" class="form-control" value=""/>
+		    <button class="btn btn-primary" onclick="daliyListFind()">검색</button>	
+		</div>
+		<br/>
+
     	<table class="table table-bordered">
     		<thead>
     			<tr>
@@ -53,7 +55,7 @@
 	    		<c:forEach items="${dto}" var="workList">
 					<tr> 
 	    				<td>${workList.dept_name}</td>
-	    				<td>${workList.member_id}</td>
+	    				<td>${workList.user_id}</td>
 	    				<td>${workList.name}</td>
 	    				<td>${workList.job_name}</td>
 	    				<td>${workList.date}</td>
@@ -111,7 +113,7 @@
 			list.forEach(function(item,index){
 				content += '<tr>';
 				content += '<td>'+item.dept_name+'</td>';
-				content += '<td>'+item.member_id+'</td>';
+				content += '<td>'+item.user_id+'</td>';
 				content += '<td>'+item.name+'</td>';
 				content += '<td>'+item.job_name+'</td>';
 				content += '<td>'+item.date+'</td>';

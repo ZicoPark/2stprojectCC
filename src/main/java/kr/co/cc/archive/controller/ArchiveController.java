@@ -13,6 +13,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -29,17 +30,21 @@ public class ArchiveController {
 	@Autowired ArchiveService service;
 	
 	@RequestMapping(value="/archiveBoard.go")
-	public ModelAndView archiveBoard() {
+	public String archiveBoard() {
 		logger.info("자료실 이동");
-		ModelAndView mav = new ModelAndView("archiveBoardList") ;
 	
-			ArrayList<ArchiveDTO> list = service.archivelist();
-			logger.info("list cnt" + list.size());
-			mav.addObject("list", list);
-			
-		return mav;
+		return "archiveBoardList";
 	}
 
+    @RequestMapping(value="/archivelist.ajax", method = RequestMethod.POST)
+    @ResponseBody
+    public HashMap<String, Object> list(HttpSession session, @RequestParam HashMap<String, Object> params){
+    logger.info("자료실 리스트 호출");
+       return service.archivelist(session, params);
+    }	
+	
+	
+	
 	// 자료실 작성 페이지 이동
 	@RequestMapping(value="/archiveWrite.go")
 	public ModelAndView msWriteForm() {
@@ -58,10 +63,10 @@ public class ArchiveController {
 
 	// 게시글 상세보기
 	@RequestMapping(value="/archivedetail.do")
-		public String archivedetail(Model model, @RequestParam String id) {
+		public String archivedetail(Model model, HttpSession session,@RequestParam String id) {
 			
 			logger.info("상세보기 자료실 번호 : "+id);
-			
+			String loginId = (String) session.getAttribute("id");
 			ArchiveDTO detailms = service.archivedetail(id, "detail");
 			String page = "redirect:/archiveBoard.go";
 			
@@ -75,7 +80,7 @@ public class ArchiveController {
 				page = "archiveDetail";
 				model.addAttribute("detailms", detailms);
 				model.addAttribute("detailFile", detailfile);
-				
+				model.addAttribute("loginId", loginId);
 			}	
 			return page;
 	}
@@ -87,8 +92,8 @@ public class ArchiveController {
 		String page = "archiveBoardList";
 		String loginId = null;
 		
-		if(session.getAttribute("loginId")!=null) {
-			loginId = (String) session.getAttribute("loginId");
+		if(session.getAttribute("id")!=null) {
+			loginId = (String) session.getAttribute("id");
 			if(loginId.equals(member_id)) {
 				
 				logger.info("작성자와 세션아이디 일치함");
@@ -109,21 +114,21 @@ public class ArchiveController {
 
 	@RequestMapping(value = "/archiveUpdate.do")
 	public String archiveUpdate(MultipartFile[] attachment, @RequestParam HashMap<String, String> params, 
-								@RequestParam ArrayList<String> removeFile,
+								@RequestParam ArrayList<String> deletedFiles,
 								HttpSession session, Model model) {
 		
 		logger.info("게시글 수정 하겠습니다");
 		String page = "redirect:/archiveBoard.go";
 		String loginId = null;
 		int id;
-		logger.info("remove File : "+removeFile);
-		if(session.getAttribute("loginId")!=null) {//로그인 상태이고 글 작성자와 동일하면
-			loginId = (String) session.getAttribute("loginId");
+		logger.info("remove File : "+deletedFiles);
+		if(session.getAttribute("id")!=null) {//로그인 상태이고 글 작성자와 동일하면
+			loginId = (String) session.getAttribute("id");
 			if(loginId.equals(params.get("member_id"))) {
-				logger.info("params : "+params);
+				logger.info("컨트롤러 params : "+params);
 				logger.info("attachment : "+attachment);
-				logger.info("removeFile : "+removeFile);
-				id = service.archiveUpdate(attachment, params,removeFile, session);
+				logger.info("removeFile : "+deletedFiles);
+				id = service.archiveUpdate(attachment, params,deletedFiles);
 				page = "redirect:/archivedetail.do?id="+id;
 			}
 		}		

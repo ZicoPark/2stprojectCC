@@ -60,20 +60,14 @@
 										<td>${personal.start_at}</td>
 										<td>${personal.end_at}</td>
 										<td class="project-actions text-right"><a
-											href="projectDetail.go?id=${project.project_id}"
+											href="personalUpdate.do?id=${personal.id}"
 											class="btn btn-primary btn-sm view-btn"> <i
-												class="fas fa-folder"> </i> 상세보기
-										</a>                            
-										<c:if test="${sessionScope.loginId eq personal.member_id}">
-										    <a class="btn btn-info btn-sm" href="projectUpdate.go?id=${project.project_id}">
-										        <i class="fas fa-pencil-alt"></i>
-										        Edit
-										    </a>
-										</c:if>
+												class="fas fa-edit"> </i> 수정
+										</a>                       
                           				<a class="btn btn-danger btn-sm" href="personalDel.do?id=${personal.id}">
                               				<i class="fas fa-trash">
                               			</i>
-                              					Delete
+                              					삭제
                           				</a> 
                           				</td>
 									</tr>

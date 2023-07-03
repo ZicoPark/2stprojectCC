@@ -32,7 +32,7 @@
 					<td>
 					<select name="approval_id">
 						<c:forEach items="${admin}" var="admin">
-						<option value="${admin.member_id}">${admin.name}</option>
+						<option value="${admin.id}">${admin.name} (${admin.user_id})</option>
 						</c:forEach>
 					</select>
 					</td>
@@ -72,10 +72,10 @@
 				</tr>
 			</tbody>
 		</table>
-		<button>연차/휴가 신청</button>
+		<button type="submit" class="btn btn-primary">연차/휴가 신청</button>
 	</form>
 	<br/>
-	<button onclick="location.href='workHolidayList.go'">돌아가기</button>
+	<button onclick="location.href='workHolidayList.go'" class="btn btn-secondary">돌아가기</button>
     </section>
   </div>
 </div>

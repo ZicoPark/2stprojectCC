@@ -23,6 +23,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import kr.co.cc.archive.dao.ArchiveDAO;
 import kr.co.cc.archive.dto.ArchiveDTO;
+import kr.co.cc.freeBoard.dto.FreeBoardDTO;
 
 
 
@@ -41,19 +42,71 @@ public class ArchiveService {
 	@Value("${spring.servlet.multipart.location}") private String root;
 	
 	
-	public ArrayList<ArchiveDTO> archivelist() {
-		logger.info("자료실 dao 이동 슝슝");
-		return dao.archivelist();
+	public HashMap<String, Object> archivelist(HttpSession session, HashMap<String, Object> params) {
+		int page = Integer.parseInt(String.valueOf(params.get("page")));
+	    String search = String.valueOf(params.get("search"));
+	    String loginId = (String) session.getAttribute("id");
+	    ArchiveDTO loginid = dao.logincheck(loginId);
+	    
+	    HashMap<String, Object> map = new HashMap<String, Object>();
+
+	    int offset = 10*(page-1);	    
+		
+	    logger.info("offset : " + offset);
+	    
+	    logger.info("params : " + params);
+	    
+	    int total = 0;	    
+		
+	    if(search.equals("default") || search.equals("")) {
+	      
+	    	  total = dao.totalCount();
+
+	      	}else {	      
+	    	   	   
+	    	  total = dao.totalCountSearch(search);
+	       }
+	    
+	    int range = total%10  == 0 ? total/10 : total/10+1;
+
+	      page = page>range ? range:page;
+	      
+	      ArrayList<ArchiveDTO> list = null;
+	      
+	      params.put("offset", offset);
+			
+	      logger.info("user search:"+search);
+	      
+	      if(search.equals("default") ||search.equals("")) {
+
+	          list = dao.archivelist(offset);
+	       
+	     
+	      }else {
+
+	         list = dao.archivelistSearch(params);
+	      }
+	      		
+	      
+	      //logger.info("list size : "+ list.size());
+	      map.put("list", list);
+	      map.put("currPage", page);	      
+	      map.put("loginid",loginid);
+
+	
+		return map;
+
 	}
 
+
 	public String archiveWrite(MultipartFile[] attachment, HashMap<String, String> params, HttpSession session, Model model) {
-		 String loginId = (String) session.getAttribute("loginId");
+		 String id = (String) session.getAttribute("id");
 		 String page = "redirect:/archiveBoard.go";
 		    logger.info("params: " + params);
 		    logger.info("files: " + attachment);		 
 		 
 		        ArchiveDTO dto = new ArchiveDTO();
-		        dto.setMember_id(loginId);
+		        dto.setMember_id(id);
 		        dto.setCategory(params.get("category"));
 		        dto.setSubject(params.get("subject"));
 		        dto.setContent(params.get("content"));
@@ -107,21 +160,11 @@ public class ArchiveService {
 		return dao.archiveDetailFile(id);
 	}
 
-	public int archiveUpdate(MultipartFile[] attachment, HashMap<String, String> params, ArrayList<String> removeFile, HttpSession session) {
+	public int archiveUpdate(MultipartFile[] attachment, HashMap<String, String> params, ArrayList<String> deletedFiles) {
 			 
 			logger.info("params : "+params);
-/*
-			if(params.get("subject")!=null) {
-				String subject_id = params.get("subject");
-				params.put("subject", subject_id);
-			}
-			if(params.get("content")!=null) {
-				String content_id = params.get("content");
-				params.put("content", content_id);
-			}	
-*/
 		        
-			        int row = dao.archiveUpdate(params,session);
+			        int row = dao.archiveUpdate(params);
 			        logger.info("insert row: " + row);
 			        String id = "";
 
@@ -129,8 +172,8 @@ public class ArchiveService {
 
 					if(row>0) { // 업로드된 자료실 게시물이 1이라면
 						
-						if(removeFile.size()>1) {
-							attachmentRemove(removeFile);
+						if(deletedFiles.size()>1) {
+							attachmentRemove(deletedFiles);
 						}
 						
 						id = params.get("id");
@@ -191,7 +234,10 @@ public class ArchiveService {
 
 	public void archivedelete(String id) {
 		dao.archivedelete(id);
-	}	
+	}
+
+
+
 }
 
 

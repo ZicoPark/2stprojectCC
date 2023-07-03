@@ -188,6 +188,7 @@ public class ProjectController {
 		
 		String user_id = service.getMemberById(memberId);
 		model.addAttribute("user_id", user_id);
+
 		model.addAttribute("member_id", memberId);
 		logger.info("왜 안될까요?"+id);
 		model.addAttribute("project_id",id);
