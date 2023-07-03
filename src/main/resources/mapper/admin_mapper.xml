@@ -5,14 +5,17 @@
 <mapper namespace="kr.co.cc.admin.dao.AdminDAO">
 	
 	<select id="MemberList" resultType="kr.co.cc.admin.dto.AdminDTO">
-		SELECT name, id, dept_name, status, admin_chk
+		SELECT member.*, dept.name AS dept_name
 			FROM member
+		JOIN dept ON member.dept_id = dept.id
 	</select>
 	
 	<select id="AdminMemberDetail" parameterType="java.lang.String" resultType="kr.co.cc.admin.dto.AdminDTO">
-		SELECT id, name, birth_date, email, phone, hire_date, dept_name, job_name, status, admin_chk
+		SELECT member.*, dept.name AS dept_name, job_level.name AS job_name
 			FROM member
-		WHERE id = #{id}
+			JOIN dept ON member.dept_id = dept.id
+			JOIN job_level ON member.job_level_id = job_level.id
+		WHERE user_id = #{user_id}
 	</select>
 	
 	<update id="MemberUpdate" parameterType="kr.co.cc.admin.dto.AdminDTO">
@@ -20,18 +23,18 @@
 	    <set>
 	        <choose>
 	            <when test="dto.job_name != null">
-	                job_name = #{dto.job_name}
+	                job_level_id = (SELECT id FROM job_level WHERE name = #{dto.job_name})
 	            </when>
 	            <otherwise>
-	                job_name = job_name
+	                job_level_id = job_level_id
 	            </otherwise>
 	        </choose>,
 	        <choose>
 	            <when test="dto.dept_name != null">
-	                dept_name = #{dto.dept_name}
+	                dept_id = (SELECT id FROM dept WHERE name = #{dto.dept_name})
 	            </when>
 	            <otherwise>
-	                dept_name = dept_name
+	                dept_id = dept_id
 	            </otherwise>
 	        </choose>,
 	        <choose>
@@ -47,12 +50,27 @@
 	                admin_chk = #{dto.admin_chk}
 	            </when>
 	            <otherwise>
-	                admin_chk = admin_chk
+	                admin_chk = admin_chk		
 	            </otherwise>
 	        </choose>
 	    </set>
-	    WHERE id = #{id}
+	    WHERE user_id = #{user_id}
 	</update>
+	
+	<select id="MemberONOFFList" resultType="kr.co.cc.admin.dto.AdminDTO">
+		SELECT name, id, dept_name
+			FROM member
+	</select>
+	
+	<select id="MemberONOFFListDetail" parameterType="java.lang.String" resultType="kr.co.cc.admin.dto.AdminDTO">
+		SELECT name, id, birth_at, hire_ae, dept_name, job_name, email, phone
+			FROM member
+		WHERE id = #{id}
+	</select>
+	
+	<delete id="MemberONOFFDelete">
+		DELETE FROM member WHERE id = #{id}
+	</delete>
 
 	
 </mapper>
