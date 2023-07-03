@@ -32,7 +32,7 @@
 					<td>
 					<select name="approval_id">
 						<c:forEach items="${admin}" var="admin">
-						<option value="${admin.member_id}">${admin.name}</option>
+						<option value="${admin.id}">${admin.name} (${admin.user_id})</option>
 						</c:forEach>
 					</select>
 					</td>

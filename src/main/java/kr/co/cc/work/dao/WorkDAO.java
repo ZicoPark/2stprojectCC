@@ -35,14 +35,6 @@ public interface WorkDAO {
 	int workHistoryChange_go(String working_hour_id, Time update_time);
 
 	int workHistoryChange_end(String working_hour_id, Time update_time);
-	
-	
-	
-	
-	
-	
-	
-	
 
 	ArrayList<WorkDTO> workDailyList();
 
@@ -69,15 +61,37 @@ public interface WorkDAO {
 	ArrayList<WorkDTO> leave_recode_List(String id);
 	
 	WorkDTO annual_leave(String id);
+	
+	ArrayList<WorkDTO> workHolidayList_Ad();
+	
+	ArrayList<WorkDTO> holidayListFind(String holidayList);
+	
+	String findId(Object object);
 
-	void annualRegistration(String regist_id, String approval_id, String start_date, String end_date, String use_cnt,
+	void annualRegistration(String regist_id, String approval_id, String start_at, String end_at, String use_cnt,
 			String reason, String type);
 
 	ArrayList<WorkDTO> annualRegistrationGo();
 
-	ArrayList<WorkDTO> workHolidayList_Ad();
+	void giveAnnualLeave();
 
-	ArrayList<WorkDTO> holidayListFind(String holidayList);
+	int currentYearChk(int currentYear);
+
+	int findGalId(String galId);
+
+	void giveAnnualLeave_id(String galId, int i);
+
+	int idChk(String galId);
+
+	void annualLeaveApproval(String regist_id, int currentYear, int use_cnt);
+
+	void holidayApproval(String approval, String id);
+
+	String holidayApprovalChk(String id);
+
+	ArrayList<WorkDTO> approvalChange(String approval);
+
+
 
 
 
