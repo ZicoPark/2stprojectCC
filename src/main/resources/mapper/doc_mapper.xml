@@ -23,61 +23,80 @@
 	</select>
 
 	<select id="getMemberInfo" resultType="kr.co.cc.doc.dto.MemberDTO">
-		SELECT * FROM member WHERE id=#{param1}
+		SELECT * FROM member WHERE id = #{param1}
+	</select>
+	
+	<select id="getJobLevelMap" resultType="hashmap">
+		SELECT * FROM job_level WHERE id = #{job_level_id}
+	</select>
+	
+	<select id="getMemberSignFilePath" resultType="string">
+		SELECT id FROM attachment WHERE classification = '서명이미지' AND identify_value = #{param1}
+	</select>
+	
+	<select id="getApprovalName" resultType="string">
+		SELECT name FROM approval WHERE priority = #{param1}
 	</select>
 	
 	<insert 
 		id="docWrite"
-		useGeneratedKeys="true"
-		keyProperty="id"
-		keyColumn="id"
 		parameterType="kr.co.cc.doc.dto.DocDTO"
 	>
-		INSERT INTO doc(subject, content, status, doc_form_id, member_id, dept_name, job_name, public_range) 
-			VALUES(#{subject}, #{content}, #{status}, #{docFormId}, #{memberId}, #{deptName}, #{jobName}, #{publicRange})
+		INSERT INTO doc(id, subject, content, status, member_id, doc_form_id, dept_id, job_level_name, public_range) 
+			VALUES(#{id}
+			, #{subject}
+			, #{content}
+			, #{status}
+			, #{member_id}
+			, #{doc_form_id}
+			, #{dept_id}
+			, #{job_level_name}
+			, #{public_range})
 	</insert>
 
-	<insert id="attachmentSave">
-		INSERT INTO attachment(ori_file_name, new_file_name, classification, identify_value) 
-			VALUES(#{param1}, #{param2}, #{param3}, #{param4})
+	<insert id="attachmentSave" parameterType="string">
+		INSERT INTO attachment(id, ori_file_name, classification, identify_value) 
+			VALUES(#{attachmentId}, #{oriFileName}, #{classification}, #{identifyValue})
 	</insert>
 	
-	<insert id="approvalWrite" parameterType="hashmap">
-		INSERT INTO doc_status(id, member_id, job_name, dept_name, approval_code, order_rank, approval, read_chk) 
-			VALUES(#{id}, #{member_id}, #{job_name}, #{dept_name}, #{approval_code}, #{order_rank}, #{approval}, #{read_chk})
-	</insert>
-	
-	<insert id="docNotice">
-		INSERT INTO notice(send_id, receive_id, type, status, identify_value) 
-			VALUES(#{param1}, #{param2}, #{param3}, #{param4}, #{param5})
-	</insert>
-
-
-	<select id="getMemberSignFilePath" resultType="string">
-		SELECT new_file_name FROM attachment WHERE classification = '서명이미지' AND identify_value = #{param1}
-	</select>
-
-
-	<select id="getApprovalName" resultType="string">
-		SELECT name FROM approval WHERE id = #{param1}
-	</select>
-
-	
-	<select id="tempDocList" resultType="kr.co.cc.doc.dto.DocDTO">
-		SELECT * FROM doc WHERE member_id = #{param1} AND status = #{param2} ORDER BY id DESC
-	</select>
-	
-	<select id="attachmentListCall" resultType="kr.co.cc.doc.dto.AttachmentDTO">
-		SELECT * FROM attachment WHERE classification = '전자문서첨부파일' AND identify_value = #{id}
-	</select>	
-	
-	<select id="getWritedDOC" resultType="kr.co.cc.doc.dto.DocDTO">
+	<select id="getWritedDoc" resultType="kr.co.cc.doc.dto.DocDTO">
 		SELECT * FROM doc WHERE id = #{param1}
 	</select>
 	
-	<update id="docWriteETC">
-		UPDATE doc SET content = #{param2} WHERE id = #{param1}
+	<select id="getApprovalId" resultType="string">
+		SELECT id FROM approval WHERE priority = #{param1}
+	</select>
+	
+	<insert id="approvalWrite" parameterType="hashmap">
+		INSERT INTO doc_status(doc_id, job_name, dept_name, approval_id, order_rank, member_id) 
+			VALUES(#{doc_id}, #{job_name}, #{dept_name}, #{approval_id}, #{order_rank}, #{member_id})
+	</insert>
+	
+	<insert id="docNotice" parameterType="string">
+		INSERT INTO notice(send_id, receive_id, type, identify_value) 
+			VALUES(#{sendId}, #{receiveId}, #{type}, #{identifyValue})
+	</insert>
+
+	<update id="docWriteETC" parameterType="string">
+		UPDATE doc SET content = #{dateWritedContent} WHERE id = #{id}
 	</update>
+
+	<select id="getDocList" resultType="kr.co.cc.doc.dto.DocDTO">
+		SELECT * FROM doc WHERE member_id = #{param1} AND status = #{param2} ORDER BY create_at DESC
+	</select>
+
+	<select id="getAttachmentList" resultType="kr.co.cc.doc.dto.AttachmentDTO">
+		SELECT * FROM attachment WHERE classification = '전자문서첨부파일' AND identify_value = #{id}
+	</select>
+
+	
+
+	
+
+	
+
+	
+
 	
 	<delete id="attachmentDelete">
 		DELETE FROM attachment WHERE new_file_name = #{param1}

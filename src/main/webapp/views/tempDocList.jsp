@@ -18,7 +18,6 @@
 			<tr>
 				<th>문서번호</th>
 				<th>제목</th>
-				<th>작성자</th>
 				<th>삭제</th>
 			</tr>
 		</thead>
@@ -29,11 +28,10 @@
 				</tr>
 			</c:if>
 			<c:if test="${list.size() > 0 }">
-				<c:forEach items="${list }" var="i">
+				<c:forEach items="${list }" var="i" varStatus="varStatus">
 					<tr>
-						<td>${i.id }</td>
+						<td>${varStatus.count }</td>
 						<td><a href="tempDocUpdateForm.go?id=${i.id }">${i.subject }</a></td>
-						<td>${i.memberId }</td>
 						<td><a href="tempDocDelete.do?id=${i.id }">삭제</a></td>
 					</tr>
 				</c:forEach>
