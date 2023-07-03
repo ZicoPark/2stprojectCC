@@ -58,10 +58,10 @@ public class ArchiveController {
 
 	// 게시글 상세보기
 	@RequestMapping(value="/archivedetail.do")
-		public String archivedetail(Model model, @RequestParam String id) {
+		public String archivedetail(Model model, HttpSession session,@RequestParam String id) {
 			
 			logger.info("상세보기 자료실 번호 : "+id);
-			
+			String loginId = (String) session.getAttribute("id");
 			ArchiveDTO detailms = service.archivedetail(id, "detail");
 			String page = "redirect:/archiveBoard.go";
 			
@@ -75,7 +75,7 @@ public class ArchiveController {
 				page = "archiveDetail";
 				model.addAttribute("detailms", detailms);
 				model.addAttribute("detailFile", detailfile);
-				
+				model.addAttribute("loginId", loginId);
 			}	
 			return page;
 	}
@@ -87,8 +87,8 @@ public class ArchiveController {
 		String page = "archiveBoardList";
 		String loginId = null;
 		
-		if(session.getAttribute("loginId")!=null) {
-			loginId = (String) session.getAttribute("loginId");
+		if(session.getAttribute("id")!=null) {
+			loginId = (String) session.getAttribute("id");
 			if(loginId.equals(member_id)) {
 				
 				logger.info("작성자와 세션아이디 일치함");

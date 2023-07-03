@@ -60,7 +60,7 @@
            </th>
          </tr>	
 		</table>
-		<button onclick="location.href='archiveWrite.go'">글쓰기</button>
+		<button onclick="location.href='freeWrite.go'">글쓰기</button>
     </section>
   </div>
 </div>
@@ -139,9 +139,10 @@ function listPrint(list){
 	      // 배열 요소들 반복문 실행 -> 행 구성 + 데이터 추가 
 	      content +='<tr>';
 	      content +='<td>'+ count++ +'</td>'; // 생성 순서대로 번호 증가
-	      content +='<td>'+item.subject +'</td>';
+	      content +='<td><a href="freedetail.do?id=' + item.id + '">'+item.subject +'</a></td>';
 	      content +='<td>'+item.user_id +'</td>';
-	      content +='<td id="userstate"> ' + item.create_at + '</td>';
+	      content +='<td id="userstate">'+ item.create_at +'</td>';
+	      
 	      content +='<td id="hit"> ' + item.hit + '</td>';
 	      content +='</tr>';
 	      

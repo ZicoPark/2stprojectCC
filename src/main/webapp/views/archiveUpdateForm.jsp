@@ -45,25 +45,25 @@
                 </div>
                 
 
-<label for="fileInput" class="file-input-label">
-    <i class="fas fa-paperclip"></i> 파일 첨부
-</label>
-<!--  파일 선택 버튼 숨겼음 !! 왜냐면 file 요소 떄문에 원래 있던 애들 사라짐 -->
-<input type="file" name="attachment" multiple="multiple" onchange="displayFileNames(event)" id="fileInput" style="display: none;">
+
 
 <div id="fileNames">
     <c:if test="${detailfile.size() > 0 }">
         <c:forEach items="${detailfile}" var="i">
             <div>
-            	<input type="text" name="removeFile" value="${i.id}" hidden="true"/>${i.oriFileName}
+            	<input type="text" name="removeFile" value="${i.id}" hidden="true"/>${i.ori_file_name}
                 
-                <i class="fas fa-times cancel-icon" onclick="removeFileEvent(this)"></i>
+                <i class="fas fa-times cancel-icon" onclick="removeFileEvent(this.getAttribute('fileId'))"></i>
             </div>
         </c:forEach>
     </c:if>
 </div>
 				
-
+<label for="fileInput" class="file-input-label">
+    <i class="fas fa-paperclip"></i> 파일 첨부
+</label>
+<!--  파일 선택 버튼 숨겼음 !! 왜냐면 file 요소 떄문에 원래 있던 애들 사라짐 -->
+<input type="file" name="attachment" multiple="multiple">
 
               <!-- /.card-body -->
               <div class="card-footer">

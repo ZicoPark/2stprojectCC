@@ -56,7 +56,6 @@
             <div class="card-body p-0">
               <div class="mailbox-read-info">
                 문서번호 ${detailms.id} <br>
-				분류 ${detailms.category}
                 <h6>
                   <span class="mailbox-read-time float-right"> 
                   작성자 ${detailms.name} < ${detailms.dept_id} > <br>
@@ -94,14 +93,16 @@
               </ul>
             </div>
             <!-- /.card-footer -->
-            <div class="card-footer">
-              <div class="float-right">
-			    <c:if test="${loginId eq detailms.member_id}">
+			<div class="card-footer">
+			  <div class="float-right">
+			    <c:if test="${loginid.admin_chk eq 1 or loginId eq detailms.member_id}">
 			      <button type="button" onclick="location.href='/archivedelete.do?id=${detailms.id}&member_id=${detailms.member_id}'" class="btn btn-default"> 삭제</button>
 			      <button type="button" onclick="location.href='/archiveUpdate.go?id=${detailms.id}&member_id=${detailms.member_id}'" class="btn btn-default"> 수정</button>
 			    </c:if>
-                <button type="button" onclick="location.href='/archiveBoard.go'" class="btn btn-default"> 목록</button>
-              </div>
+			    <button type="button" onclick="location.href='/archiveBoard.go'" class="btn btn-default"> 목록</button>
+			  </div>
+			</div>
+
 
             </div>
             <!-- /.card-footer -->
