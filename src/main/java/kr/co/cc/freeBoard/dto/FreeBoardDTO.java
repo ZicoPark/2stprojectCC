@@ -12,7 +12,56 @@ public class FreeBoardDTO {
 	private boolean status;
 	private Date create_at;
 	private String user_id;
+	private String dept_id;
+	private String name;
+	private String category;
+	private String ori_file_name;
+	private String classification;
+	private String identify_value;
+	private String admin_chk;
 	
+	public String getAdmin_chk() {
+		return admin_chk;
+	}
+	public void setAdmin_chk(String admin_chk) {
+		this.admin_chk = admin_chk;
+	}
+	public String getCategory() {
+		return category;
+	}
+	public void setCategory(String category) {
+		this.category = category;
+	}
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	public String getOri_file_name() {
+		return ori_file_name;
+	}
+	public void setOri_file_name(String ori_file_name) {
+		this.ori_file_name = ori_file_name;
+	}
+	public String getClassification() {
+		return classification;
+	}
+	public void setClassification(String classification) {
+		this.classification = classification;
+	}
+	public String getIdentify_value() {
+		return identify_value;
+	}
+	public void setIdentify_value(String identify_value) {
+		this.identify_value = identify_value;
+	}
+	public String getDept_id() {
+		return dept_id;
+	}
+	public void setDept_id(String dept_id) {
+		this.dept_id = dept_id;
+	}
 	public String getUser_id() {
 		return user_id;
 	}

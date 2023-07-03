@@ -34,13 +34,13 @@
 		<br>
 		<div id="approvalList">
 		<input type="button" value="결재선 추가" onclick="addApproval()"/>
-		<select name="approvalVariable">
+		<select name="approvalPriority">
 			<option value="default">--</option>
 			<c:forEach items="${approvalKindList}" var="i">
 				<option value="${i.priority}">${i.name}</option>
 			</c:forEach>
 		</select>
-		<select name="approvalPerson">
+		<select name="approvalMemberId">
 			<option value="default">--</option>
 			<c:forEach items="${memberList}" var="i">
 				<option value="${i.id}">${i.dept_name} | ${i.name}</option>
@@ -78,14 +78,14 @@ function docFormListCall(elem){
 var content = '';
 
 content += '<input type="button" value="결재선 추가" onclick="addApproval()"/>';
-content += '<select name="approvalVariable">';
+content += '<select name="approvalPriority">';
 content += '<option value="default">--</option>';
 content += '<c:forEach items="${approvalKindList}" var="i">';
 content += '<option value="${i.priority}">${i.name}</option>';
 content += '</c:forEach>';
 content += '</select>';
 
-content += '<select name="approvalPerson">';
+content += '<select name="approvalMemberId">';
 content += '<option value="default">--</option>';
 content += '<c:forEach items="${memberList}" var="i">';
 content += '<option value="${i.id}">${i.dept_name} | ${i.name}</option>';

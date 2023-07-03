@@ -16,15 +16,64 @@
 		SELECT fb.id, m.user_id, fb.subject, fb.hit, fb.create_at
 		FROM free_board fb
 		JOIN member m ON fb.member_id = m.id
+		WHERE fb.status =1
 		LIMIT 10 OFFSET #{offset}
 	</select>	
 
 	<select id="freelistSearch" parameterType="hashmap" resultType="kr.co.cc.freeBoard.dto.FreeBoardDTO">
-	    SELECT id, member_id, subject, hit, create_at
-	    FROM free_board
-	    WHERE CONCAT(subject, member_id) LIKE CONCAT('%', #{search}, '%')
+	    SELECT fb.id, m.user_id, fb.subject, fb.hit, fb.create_at
+	    FROM free_board fb
+	    JOIN member m ON fb.member_id = m.id
+	    WHERE CONCAT(fb.subject, m.user_id) LIKE CONCAT('%', #{search}, '%') 
+	        AND fb.status = 1
 	    LIMIT 10 OFFSET #{offset}
 	</select>
+
+
+	<!-- 사내게시판 작성 -->
+	<insert 
+	    id="freeWrite" 
+	    parameterType="kr.co.cc.freeBoard.dto.FreeBoardDTO" 
+	    useGeneratedKeys="false">
+	    <selectKey keyProperty="id" resultType="java.lang.String" order="BEFORE">
+	        SELECT UUID()
+	    </selectKey>
+	    INSERT INTO free_board (id, member_id, subject, content, hit, status)	
+	    VALUES (#{id}, #{member_id}, #{subject}, #{content}, 0, 1)
+	</insert>
+
+
+
+	<!-- 파일 첨부 -->
+	<insert id="freefileWrite">
+		INSERT INTO attachment(ori_file_name, id, classification, identify_value)
+			VALUES(#{param1}, #{param2}, #{param3}, #{param4})
+	</insert>
+
+	<!-- 사내게시판 상세보기 -->
+	<select id="freedetail" resultType="kr.co.cc.freeBoard.dto.FreeBoardDTO">
+	    SELECT fb.id, fb.member_id, fb.subject, fb.content, fb.hit, fb.create_at, m.dept_id, m.name, m.admin_chk
+	    from free_board fb
+	    join member m on fb.member_id = m.id
+	    where fb.id = #{id}
+	</select>
+
+
+	<!-- 조회수 상승 -->
+	<update id="freeupHit">
+		UPDATE free_board SET hit = hit + 1 WHERE id = #{id}
+	</update>	
+	
+	<!-- 자료실 상세보기 (파일) -->
+	<select id="freeDetailFile" resultType="kr.co.cc.doc.dto.AttachmentDTO">
+		SELECT* FROM attachment WHERE identify_value = #{id}
+	</select>
+
+	<select id="logincheck" resultType="kr.co.cc.freeBoard.dto.FreeBoardDTO">
+		SELECT admin_chk FROM member WHERE id = #{param1}
+	</select>	
+
+
 
 
 </mapper>

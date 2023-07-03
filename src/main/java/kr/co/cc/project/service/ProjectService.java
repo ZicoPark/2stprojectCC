@@ -39,8 +39,8 @@ public class ProjectService {
     }
 
 
-    public void addContributor(String contributorId, String project_id) {
-       dao.addContributor(contributorId, project_id);	
+    public void addContributor(String project_id, String contributorId) {
+       dao.addContributor(project_id, contributorId);	
     }
     
 	public ArrayList<ProjectDTO> list() {
@@ -48,8 +48,8 @@ public class ProjectService {
 		return dao.ProjectList();
 	}
 
-	public ArrayList<ProjectDTO> detail(int id) {
-		logger.info("detail for id: {}"+ id);
+	public ArrayList<ProjectDTO> detail(String id) {
+		logger.info("detail for id: {}", id);
 		return dao.ProjectDetail(id);
 	}
 
@@ -61,13 +61,13 @@ public class ProjectService {
 		
 		ProjectDTO dto = new ProjectDTO();
 		dto.setMember_id(params.get("member_id"));
-		dto.setComment_content(params.get("comment_content"));
+		dto.setContent(params.get("content"));
 		dto.setStep(params.get("step"));
 		dto.setStatus(params.get("status"));
-		dto.setId(params.get("project_idx"));
+		dto.setProject_id(params.get("project_id"));
 		int row = dao.commentWrite(dto);
 		dao.stateChange(dto);
-		page = "redirect:/projectDetail.go?id="+params.get("project_idx");
+		page = "redirect:/projectDetail.go?id="+params.get("project_id");
 		
 
 		
@@ -86,10 +86,10 @@ public class ProjectService {
 
 	private void fileSave(HashMap<String, String> params, MultipartFile file) {
 		
-		String ori_file_name = file.getOriginalFilename();
-		String ext = ori_file_name.substring(ori_file_name.lastIndexOf("."));
-		String new_file_name = System.currentTimeMillis() + ext;
-		logger.info(ori_file_name + " => " + new_file_name);
+		String orifilename = file.getOriginalFilename();
+		String ext = orifilename.substring(orifilename.lastIndexOf("."));
+		String ori_file_name = orifilename + ext;
+		logger.info(orifilename + " => " + ori_file_name);
 		/*
 		try {
 			byte[] bytes = file.getBytes();// 1-4. 바이트 추출
@@ -106,9 +106,8 @@ public class ProjectService {
 		
 		AttachmentDTO dto = new AttachmentDTO();
 		dto.setOri_file_name(ori_file_name);
-		dto.setNew_file_name(new_file_name);
 		dto.setClassification("프로젝트첨부파일");
-		dto.setIdentify_value(params.get("project_idx"));
+		dto.setIdentify_value(params.get("project_id"));
 		
 		dao.AttachmentSave(dto);
 		
@@ -117,7 +116,7 @@ public class ProjectService {
 		logger.info("인서트한 첨부파일의 id : "+attachmentId);
 	}
 
-	public ProjectDTO projectDetailUp(int id) {
+	public ProjectDTO projectDetailUp(String id) {
 		return dao.projectDetailUp(id);
 	}
 
@@ -126,7 +125,7 @@ public class ProjectService {
 		
 	}
 
-	public void ContributorUpdate(int project_id, String contributorId) {
+	public void ContributorUpdate(String project_id, String contributorId) {
 		 dao.updateContributor(project_id, contributorId);	
 		
 	}
@@ -137,6 +136,17 @@ public class ProjectService {
 
 	public List<String> getUserIdsByProjectId(String id) {
 	    return dao.getUserIdsByProjectId(id);
+	}
+
+
+	public String getMemberById(String memberId) {
+		return dao.getUserId(memberId);
+	}
+
+
+	public int project_del(String id) {
+
+		return dao.projectDel(id);
 	}
 
 

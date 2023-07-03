@@ -4,7 +4,6 @@ public class AttachmentDTO {
 
 	private String id;
 	private String ori_file_name;
-	private String new_file_name;
 	private String classification;
 	private String identify_value;
 	
@@ -19,12 +18,6 @@ public class AttachmentDTO {
 	}
 	public void setOri_file_name(String ori_file_name) {
 		this.ori_file_name = ori_file_name;
-	}
-	public String getNew_file_name() {
-		return new_file_name;
-	}
-	public void setNew_file_name(String new_file_name) {
-		this.new_file_name = new_file_name;
 	}
 	public String getClassification() {
 		return classification;

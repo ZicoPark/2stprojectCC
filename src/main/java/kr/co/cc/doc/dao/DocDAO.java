@@ -45,19 +45,21 @@ public interface DocDAO {
 
 	ArrayList<AttachmentDTO> getAttachmentList(String id);
 	
+	DocFormDTO getDocForm(String doc_form_id);
+	
+	int attachmentDelete(String attachmentId);
+	
+	int docUpdate(HashMap<String, String> params);
 
 	
 
 	
-	
 
 	
 
 	
 
-	int attachmentDelete(String newFileName);
-
-	void docUpdate(HashMap<String, String> params);
+	
 
 	
 

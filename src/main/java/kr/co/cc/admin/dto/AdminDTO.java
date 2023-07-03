@@ -5,22 +5,25 @@ import java.sql.Date;
 public class AdminDTO {
 
 	private String id;
+	private String user_id;
 	private String name;
-	private Date birth_date;
+	private Date birth_at;
 	private String email;
 	private String phone;
-	private Date hire_date;
-	private String dept_name;
-	private String job_name;
+	private Date hire_at;
+	private String dept_id;
+	private String job_level_id;
 	private boolean status;
 	private boolean admin_chk;
-	private Date end_date;
+	private Date end_at;
+	private String job_name;
+	private String dept_name;
 	
-	public Date getEnd_date() {
-		return end_date;
+	public Date getEnd_at() {
+		return end_at;
 	}
-	public void setEnd_date(Date end_date) {
-		this.end_date = end_date;
+	public void setEnd_at(Date end_at) {
+		this.end_at = end_at;
 	}
 	public String getId() {
 		return id;
@@ -34,11 +37,11 @@ public class AdminDTO {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public Date getBirth_date() {
-		return birth_date;
+	public Date getBirth_at() {
+		return birth_at;
 	}
-	public void setBirth_date(Date birth_date) {
-		this.birth_date = birth_date;
+	public void setBirth_at(Date birth_at) {
+		this.birth_at = birth_at;
 	}
 	public String getEmail() {
 		return email;
@@ -52,23 +55,11 @@ public class AdminDTO {
 	public void setPhone(String phone) {
 		this.phone = phone;
 	}
-	public Date getHire_date() {
-		return hire_date;
+	public Date getHire_at() {
+		return hire_at;
 	}
-	public void setHire_date(Date hire_date) {
-		this.hire_date = hire_date;
-	}
-	public String getDept_name() {
-		return dept_name;
-	}
-	public void setDept_name(String dept_name) {
-		this.dept_name = dept_name;
-	}
-	public String getJob_name() {
-		return job_name;
-	}
-	public void setJob_name(String job_name) {
-		this.job_name = job_name;
+	public void setHire_at(Date hire_at) {
+		this.hire_at = hire_at;
 	}
 	public boolean getStatus() {
 		return status;
@@ -82,7 +73,36 @@ public class AdminDTO {
 	public void setAdmin_chk(boolean admin_chk) {
 		this.admin_chk = admin_chk;
 	}
-	
+	public String getUser_id() {
+		return user_id;
+	}
+	public void setUser_id(String user_id) {
+		this.user_id = user_id;
+	}
+	public String getDept_id() {
+		return dept_id;
+	}
+	public void setDept_id(String dept_id) {
+		this.dept_id = dept_id;
+	}
+	public String getJob_level_id() {
+		return job_level_id;
+	}
+	public void setJob_level_id(String job_level_id) {
+		this.job_level_id = job_level_id;
+	}
+	public String getDept_name() {
+		return dept_name;
+	}
+	public String getJob_name() {
+		return job_name;
+	}
+	public void setJob_name(String job_name) {
+		this.job_name = job_name;
+	}
+	public void setDept_name(String dept_name) {
+		this.dept_name = dept_name;
+	}
 	
 	
 }

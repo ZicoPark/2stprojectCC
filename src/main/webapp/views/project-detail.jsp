@@ -48,7 +48,9 @@
           <h3 class="card-title">Projects Detail</h3>
 
           <div class="card-tools">
-           <a href="projectInsert.go?idx=${project_id}" class="btn btn-sm btn-primary">추가</a>
+           <a href="projectInsert.go?id=${project_id}" class="btn btn-sm btn-primary">추가</a>
+           <a href="projectDel.do?id=${project_id}" class="btn btn-danger btn-sm">철회</a>
+                          				
             <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
               <i class="fas fa-minus"></i>
             </button>
@@ -90,9 +92,10 @@
 <script src="../../dist/js/demo.js"></script>
 <script>
 $(document).ready(function() {
+	console.log("함수 실행");
 
 
-  var projectId = ${project_id};
+  var projectId = "${project_id}";
   
   $.ajax({
     url: "projectDetail.ajax?id=" + projectId, // 서버에서 데이터를 가져올 URL
@@ -112,29 +115,13 @@ $(document).ready(function() {
         html += '<div class="user-block">';
         html += '<img class="img-circle img-bordered-sm" src="../../dist/img/user1-128x128.jpg" alt="user image">';
         html += '<span class="username">';
-        html += '<a href="#">' + detail.member_id + '</a>';
+        html += '<a href="#">' + detail.user_id + '</a>';
         html += '</span>';
-        html += '<span class="description">' + detail.comment_create_date + '</span>';
+        html += '<span class="description">' + detail.reate_at + '</span>';
         html += '</div>';
-        html += '<p>' + detail.comment_content + '</p>';
-        html += '<p><a href="/upload/' + detail.new_file_name + '">' + detail.new_file_namee + '</a></p>';
+        html += '<p>' + detail.content + '</p>';
+        html += '<p><a href="/upload/' + detail.new_file_name + '">' + detail.new_file_name + '</a></p>';
         html += '</div>';
-
-	        html += '<form method="post" action="replyWrite.do">';
-	        html += '<input type="hidden" name="project_id" value="${detail.project_id}">'
-	        html += '<input type="hidden" name="comment_id" value="${detail.comment_id}">'
-	        html += '<input type="hidden" name="user_id" value="${sessionScope.loginId}">'
-	        html += '<div class="input-group">';
-	        html += '<input type="text" class="form-control" placeholder="댓글 작성">';
-	        html += '<div class="input-group-append">';
-	        html += '<button type="button" class="btn btn-primary" onclick="replyWrite()">작성</button>';
-	        html += '</div>';
-	        html += '</div>';
-	        html += '</form>';
-		        html += '<ul class="comment-list">';
-		        html += '<li class="comment">댓글 내용</li>';
-		        html += '<li class="comment">댓글 내용</li>';
-		        html += '</ul>';
 
         container.prepend(html);
       });
@@ -144,29 +131,7 @@ $(document).ready(function() {
     }
   });
 });
-</script>
-<script>
-function replyWrite() {
-	$.ajax({
-		type:'get',
-		url:'reviewWrite.ajax',
-		data:{
-			id : '${sessionScope.loginId}',
-			project_id : $('input[name="id"]').val(),
-			comment_id : $('input[name="comment_id"]').val(),
-			content : $('textarea[name="content"]').val()
-		},
-		dataType:'text',
-		success:function(data){
-			console.log(data);
-			alert(data);
-			location.href='projectDetail.go?id='+$('input[name="project_id"]').val();
-		},
-		error:function(e){
-			console.log(e);
-		}
-	});	
-} 
+
 </script>
 </body>
 </html>

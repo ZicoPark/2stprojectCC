@@ -30,8 +30,8 @@ public class AdminController {
 	
 	// 관리사 사원 상세보기
 	@RequestMapping(value = "/AdminMemberDetail.go")
-	public ModelAndView AdminMemberDetail(@RequestParam ("id") String id) {
-		return service.AdminMemberDetail(id);
+	public ModelAndView AdminMemberDetail(@RequestParam ("id") String user_id) {
+		return service.AdminMemberDetail(user_id);
 	}
 	
 	// 사원리스트 검색
@@ -46,8 +46,10 @@ public class AdminController {
 	// 관리자 사원 상세보기 업데이트(권한, 직급변경)
 	@PostMapping("/MemberUpdate.go")
 	public String memberUpdate(HttpServletRequest request) {
-	    String id = request.getParameter("id");
+	    String user_id = request.getParameter("id");
+	    logger.info("id확인 : "+user_id);
 	    String jobName = request.getParameter("job");
+	    // logger.info("jobName 확인 : "+jobName);
 	    String deptName = request.getParameter("dept");
 	    String[] statusArray = request.getParameterValues("status");
 	    String[] adminArray = request.getParameterValues("admin");
@@ -71,23 +73,36 @@ public class AdminController {
 	            admin = true;
 	        }
 	    }
-	    // logger.info("jobName체크 : "+jobName);
-	    // logger.info("deptName체크 : "+deptName);
-	    // logger.info("status체크 : "+status);
-	    // logger.info("admin체크 : "+admin);
+	    logger.info("jobName체크 : "+jobName);
+	    logger.info("deptName체크 : "+deptName);
+	    logger.info("status체크 : "+status);
+	    logger.info("admin체크 : "+admin);
 	    AdminDTO dto = new AdminDTO();
-	    dto.setId(id);
-	    dto.setJob_name(jobName);
-	    dto.setDept_name(deptName);
+	    dto.setUser_id(user_id);
+	    dto.setJob_level_id(jobName);
+	    dto.setDept_id(deptName);
 	    dto.setStatus(status);
 	    dto.setAdmin_chk(admin);
 	    
-	    return service.MemberUpdate(dto, id);
+	    return service.MemberUpdate(dto, user_id);
 	}
 	
 	// 관리자 사원 요청/삭제 리스트
 	@RequestMapping(value = "/MemberONOFFList.go")
-	public String MemberONOFFList() {
-		return "MemberONOFFList";
+	public ModelAndView MemberONOFFList() {
+		return service.MemberONOFFList();
 	}
+	
+	// 관리자 사원 요청/삭제 상세보기
+	@RequestMapping(value = "/MemberONOFFListDetail.go")
+	public ModelAndView MemberONOFFListDetail(@RequestParam ("id") String id) {
+		return service.MemberONOFFListDetail(id);
+	}
+	
+	@RequestMapping(value = "/MemberONOFFDelete.go")
+	public ModelAndView MemberONOFFDelete(@RequestParam ("id") String id) {
+		logger.info("id확인 : "+id);
+		return service.MemberONOFFDelete(id);
+	}
+
 }

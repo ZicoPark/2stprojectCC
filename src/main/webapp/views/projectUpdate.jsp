@@ -41,7 +41,7 @@
     </section>
 
 <form action="projectUpdate.do" method="post">
-	<input type="hidden" name="project_id" value="${projectDetailUp.project_id}">
+	<input type="hidden" name="project_id" value="${projectDetailUp.id}">
     <section class="content">
       <div class="row">
         <div class="col-md-6">
@@ -69,7 +69,7 @@
               <div class="form-group">
                 <label for="inputPublic_range">공개범위</label>
                 <select id="inputPublic_range" class="form-control custom-select" name="public_range">
-                  <option selected disabled>${projectDetailUp.public_range}</option>
+                  <option>${projectDetailUp.public_range}</option>
                   <option value="1">전체</option>
                   <option value="0">참여자만</option>
                 </select>
@@ -77,12 +77,12 @@
               
               <div class="form-group">
                 <label for="inputPriod">시작일</label>
-                <input type="date" class="form-control" name="priod" placeholder="시작일" value="${projectDetailUp.priod.split(' ')[0]}">
+                <input type="date" class="form-control" name="start_at" placeholder="시작일" value="${projectDetailUp.start_at.split(' ')[0]}">
               </div>
 
               <div class="form-group">
                 <label for="inputDeadLinePriod">마감일</label>
-                <input type="date" class="form-control" name="deadlinepriod" placeholder="마감일" value="${projectDetailUp.deadlinepriod.split(' ')[0]}">
+                <input type="date" class="form-control" name="end_at" placeholder="마감일" value="${projectDetailUp.end_at.split(' ')[0]}">
               </div>
               
             </div>
