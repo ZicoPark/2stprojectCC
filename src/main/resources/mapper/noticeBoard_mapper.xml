@@ -62,6 +62,7 @@
    	<resultMap id="attachmentMap" type="kr.co.cc.doc.dto.AttachmentDTO" >
 		<id property="id" column="id"/>
 		<result property="oriFileName" column="ori_file_name"/>
+		<result property="newFileName" column="id"/>
 		<result property="classification" column="classification"/>
 		<result property="identifyValue" column="identify_value"/>		
 	</resultMap>

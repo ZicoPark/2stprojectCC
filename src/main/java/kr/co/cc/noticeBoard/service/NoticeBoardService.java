@@ -76,7 +76,7 @@ public class NoticeBoardService {
 
 	
 	public String nowrite(MultipartFile file, HashMap<String, String> params, HttpSession session) {
-	    String loginId = (String) session.getAttribute("loginId");
+	    String loginId = (String) session.getAttribute("id");
 	    String page = "noticeBoard.go";
 	    logger.info("params: " + params);
 	    logger.info("files: " + file);
