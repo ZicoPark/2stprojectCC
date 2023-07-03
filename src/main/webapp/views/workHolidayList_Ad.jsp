@@ -29,10 +29,20 @@
     <br/>
     	<div>
     	<form action="holidayListFind.do">
-			<input type="number" min=1 max=12 id="holidayList" name="holidayList" value=""/>월
+			<input type="number" min=1 max=12 id="holidayList" name="holidayList"/>월
 			<button>월 검색</button>
     	</form>
     	</div>
+    	<div style="text-align: right;">
+    		<form action="giveAnnualLeave_id.do">
+    			<input type="text" name="galId" placeholder="연차 등록할 아이디를 입력해주세요.">
+		        <button>연차 등록</button>
+		    </form>
+    		<br/>
+		    <form action="giveAnnualLeave.do">
+		        <button>모든 사원 연차 초기화</button>
+		    </form>
+		</div>
     	<table class="table table-bordered">
     		<thead>
     			<tr>
@@ -41,25 +51,37 @@
     				<th>연차 시작 날짜</th>
     				<th>연차 종료 날짜</th>
     				<th>연차 사용 일수</th>
-    				<th>연차 상태</th>
+    				<th>
+    					연차 상태
+    					<select id="approvalChange">
+    						<option value="0">대기</option>
+    						<option value="1">승인</option>
+    						<option value="2">반려</option>
+    					</select>
+    				</th>
+    				<th>연차 승인/반려</th>
     			</tr>    		
     		</thead>
-    		<tbody>
+    		<tbody id="holidayBody">
     			<c:if test="${dto eq null}">
 					<tr>
-						<th colspan="5">등록된 연차가 없습니다.</th>
+						<th colspan="7">등록된 연차가 없습니다.</th>
 					</tr>
 				</c:if>   		
 	    		<c:forEach items="${dto}" var="holiday">
 					<tr> 
-	    				<td>${holiday.regist_id}</td>
+	    				<td>${holiday.user_id}</td>
 	    				<td>${holiday.name}</td>
-	    				<td>${holiday.start_date}</td>
-	    				<td>${holiday.end_date}</td>
+	    				<td>${holiday.start_at}</td>
+	    				<td>${holiday.end_at}</td>
 	    				<td>${holiday.use_cnt}</td>
-	    				<c:if test="${leave_recode_List.approval.equals('0')}"><td>대기</td></c:if>
-	    				<c:if test="${leave_recode_List.approval.equals('1')}"><td>승인</td></c:if> 
-	    				<c:if test="${leave_recode_List.approval.equals('2')}"><td>반려</td></c:if>
+	    				<c:if test="${holiday.approval.equals('0')}"><td>대기</td></c:if>
+	    				<c:if test="${holiday.approval.equals('1')}"><td>승인</td></c:if> 
+	    				<c:if test="${holiday.approval.equals('2')}"><td>반려</td></c:if>
+	    				<td>
+	    					<button id="b1" type="button" class="btn btn-block btn-outline-success btn-lg" onclick="location.href='holidayApproval.do?approval=1&id=${holiday.id}&regist_id=${holiday.regist_id}&use_cnt=${holiday.use_cnt}'">승인</button>
+    						<button id="b2" type="button" class="btn btn-block btn-outline-danger btn-lg" onclick="location.href='holidayApproval.do?approval=2&id=${holiday.id}&regist_id=${holiday.regist_id}&use_cnt=${holiday.use_cnt}'">반려</button>
+	    				</td>
 	    			</tr>
 				</c:forEach>				
     		</tbody>    	
@@ -81,6 +103,63 @@
 	var msg = "${msg}";
 	if(msg != ""){
 		alert(msg);
-	}	
+	}
+	
+	$('#approvalChange').on('change', function(e){
+		   var approvalChange = $('#approvalChange').val();      
+		   console.log("approvalChange ? " + approvalChange);      
+		   $.ajax({
+		      type: 'get'
+		      ,url: 'approvalChange.ajax'
+		      ,data:{'approval':approvalChange}
+		      ,dataType:'json'
+		      ,success:function(data){		         
+		         if(data != ""){
+		        	 console.log("연차 상태 호출");
+		        	 holidayDraw(data.list);
+		         } else {
+		            alert('오류가 발생하였습니다.');
+		         }
+		      }
+		      ,error:function(e){
+		         console.log(e);
+		      }
+		   });
+	})
+	
+	function holidayDraw(list) {
+        console.log("list : " + list);
+        var content = '';
+        if (list.length > 0) {
+            console.log("list if : " + list);
+            list.forEach(function (item, index) {
+                content += '<tr>';
+                content += '<td>' + item.user_id + '</td>';
+                content += '<td>' + item.name + '</td>';
+                content += '<td>' + item.start_at + '</td>';
+                content += '<td>' + item.end_at + '</td>';
+                content += '<td>' + item.use_cnt + '</td>';
+                if (item.approval === '0') {
+                    content += '<td>대기</td>';
+                } else if (item.approval === '1') {
+                    content += '<td>승인</td>';
+                } else if (item.approval === '2') {
+                    content += '<td>반려</td>';
+                }
+                content += '<td>';
+                content += '<button id="b1" type="button" class="btn btn-block btn-outline-success btn-lg" onclick="location.href=\'holidayApproval.do?approval=1&id=' + item.id + '&regist_id=' + item.regist_id + '&use_cnt=' + item.use_cnt + '\'">승인</button>';
+                content += '<button id="b2" type="button" class="btn btn-block btn-outline-danger btn-lg" onclick="location.href=\'holidayApproval.do?approval=2&id=' + item.id + '&regist_id=' + item.regist_id + '&use_cnt=' + item.use_cnt + '\'">반려</button>';
+                content += '</td>';
+                content += '</tr>';
+            });
+            console.log("list forEach : " + content);
+        } else {
+			content = '<tr><th colspan="7">검색 조건에 맞는 결과가 없습니다.</th></tr>';			
+		}
+		$('#holidayBody').empty();
+		$('#holidayBody').append(content);
+	}
+	
+	
 </script>
 </html>

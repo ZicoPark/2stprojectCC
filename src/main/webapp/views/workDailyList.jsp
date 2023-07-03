@@ -53,7 +53,7 @@
 	    		<c:forEach items="${dto}" var="workList">
 					<tr> 
 	    				<td>${workList.dept_name}</td>
-	    				<td>${workList.member_id}</td>
+	    				<td>${workList.user_id}</td>
 	    				<td>${workList.name}</td>
 	    				<td>${workList.job_name}</td>
 	    				<td>${workList.date}</td>
@@ -111,7 +111,7 @@
 			list.forEach(function(item,index){
 				content += '<tr>';
 				content += '<td>'+item.dept_name+'</td>';
-				content += '<td>'+item.member_id+'</td>';
+				content += '<td>'+item.user_id+'</td>';
 				content += '<td>'+item.name+'</td>';
 				content += '<td>'+item.job_name+'</td>';
 				content += '<td>'+item.date+'</td>';

@@ -42,16 +42,9 @@
 		UPDATE archive_board SET hit = hit + 1 WHERE id = #{id}
 	</update>	
 	
-	<resultMap id="attachmentMap" type="kr.co.cc.doc.dto.AttachmentDTO" >
-		<id property="id" column="id"/>
-		<result property="oriFileName" column="ori_file_name"/>
-		<result property="newFileName" column="id"/>
-		<result property="classification" column="classification"/>
-		<result property="identifyValue" column="identify_value"/>		
-	</resultMap>
-	
-	<select id="archiveDetailFile" resultMap="attachmentMap">
-		SELECT* FROM attachment WHERE classification = '자료실' AND identify_value = #{id}
+	<!-- 자료실 상세보기 (파일) -->
+	<select id="archiveDetailFile" resultType="kr.co.cc.doc.dto.AttachmentDTO">
+		SELECT* FROM attachment WHERE identify_value = #{id}
 	</select>
 
 

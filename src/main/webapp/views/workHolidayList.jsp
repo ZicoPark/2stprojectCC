@@ -40,7 +40,7 @@
 	   		</thead>
 	   		<tbody>	  			
 				<tr>
-	   				<td>${annual_leave.member_id}</td>
+	   				<td>${annual_leave.user_id}</td>
 	   				<td>${annual_leave.annual_cnt}</td>
 	   				<td>${annual_leave.use_cnt}</td>
 	   				<td>${annual_leave.left_cnt}</td>
@@ -63,7 +63,7 @@
 	   				<th>승인 여부</th>
 	   			</tr>    		
 	   		</thead>
-	   		<tbody>
+	   		<tbody> 
 	   			<c:if test="${leave_recode_List eq null}">
 					<tr>
 						<th colspan="8">등록된 연차/휴가 내역이 없습니다.</th>
@@ -71,10 +71,10 @@
 				</c:if>   		
 	    		<c:forEach items="${leave_recode_List}" var="leave_recode_List">
 					<tr> 
-	    				<td>${leave_recode_List.regist_date}</td>
-	    				<td>${leave_recode_List.approval_id}</td>
-	    				<td>${leave_recode_List.start_date}</td>
-	    				<td>${leave_recode_List.end_date}</td>
+	    				<td>${leave_recode_List.regist_at}</td>
+	    				<td>${leave_recode_List.approval_name} (${leave_recode_List.approval_id_user})</td>
+	    				<td>${leave_recode_List.start_at}</td>
+	    				<td>${leave_recode_List.end_at}</td>
 	    				<td>${leave_recode_List.use_cnt}</td>
 	    				<td>${leave_recode_List.reason}</td> 
 	    				
