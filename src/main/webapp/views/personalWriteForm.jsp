@@ -27,7 +27,7 @@
     <section class="content-header">
       <div class="container-fluid">
           <div class="col-sm-6">
-            <h1>프로젝트 생성</h1>
+            <h1>개인 업무 관리</h1>
         </div>
       </div>
     </section>
@@ -37,7 +37,7 @@
     
           <div class="card card-primary">
             <div class="card-header">
-              <h3 class="card-title">입력란</h3>
+              <h3 class="card-title">프로젝트 생성</h3>
 
             </div>
             <div class="card-body">

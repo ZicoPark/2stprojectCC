@@ -59,20 +59,20 @@
          WHERE id=#{id}
    </update>   
    
-   	<resultMap id="attachmentMap" type="kr.co.cc.doc.dto.AttachmentDTO" >
+<!--    	<resultMap id="attachmentMap" type="kr.co.cc.doc.dto.AttachmentDTO" >
 		<id property="id" column="id"/>
 		<result property="oriFileName" column="ori_file_name"/>
 		<result property="newFileName" column="id"/>
 		<result property="classification" column="classification"/>
 		<result property="identifyValue" column="identify_value"/>		
-	</resultMap>
+	</resultMap> -->
 	
-   <select id="noDetailFile" resultMap="attachmentMap">
+   <select id="noDetailFile" resultType="kr.co.cc.doc.dto.AttachmentDTO">
       SELECT * FROM attachment 
-      WHERE classification = '공지사항' AND identify_value = #{id}
+      WHERE identify_value = #{id}
    </select>
    
-      <delete id="del">
+   <delete id="del">
       DELETE FROM notice_board WHERE id = #{param1}
    </delete>
 

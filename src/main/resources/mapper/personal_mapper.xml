@@ -6,7 +6,7 @@
 
 
 		<select id="personalList" resultType="kr.co.cc.personal.dto.PersonalDTO"> <!-- 메서드 가져옴 > resultType >결과 반환타입 -->
-			SELECT * FROM personal ORDER BY create_at DESC
+			SELECT * FROM personal ORDER BY start_at DESC
 		</select>
 	
 <!-- 		<insert id="pwrite" parameterType="hashmap">

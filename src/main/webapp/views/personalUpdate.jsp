@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>AdminLTE 3 | Projects</title>
+  <title>Creator Company</title>
 
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
@@ -14,47 +14,58 @@
   <!-- Theme style -->
   <link rel="stylesheet" href="../../dist/css/adminlte.min.css">
 </head>
-<body>
+<body class="hold-transition sidebar-mini">
 <jsp:include page = "index.jsp"></jsp:include>
 <!-- Site wrapper -->
 <div class="wrapper">
+  
+
+
+  <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
     <section class="content-header">
-            <h1>공지사항</h1>         
+      <div class="container-fluid">
+          <div class="col-sm-6">
+            <h1>개인 업무 관리</h1>
+        </div>
+      </div>
     </section>
-    <!-- Main content -->
-    <section class="content">   
-    	<table>
-			<tr>
-				<th>제목</th>
-				<td>${dto.subject}</td>
-			</tr>
-			<tr>
-				<th>작성자</th>
-				<td>${dto.member_id}</td>
-			</tr>
-			<tr>
-				<th>작성일</th>
-				<td>${dto.create_at}</td>
-			</tr>
-			<tr>
-				<th>내용</th>
-				<td>${dto.content}</td>
-			</tr>
-			<c:if test="${dto.newFileName ne null}">
-			<tr>
-				<th>사진</th>
-				<td><img width="500" src="/photo/${dto.newFileName}"/></td>
-			</tr>
-			</c:if>
-			<tr>
-				<th colspan="2">
-					<input type="button" onclick="location.href='./list.do'" value="리스트"/>
-					<input type="button" onclick="location.href='./update.go?id=${dto.id}'" value="수정"/>
-				</th>
-			</tr>
-		</table>	
-    </section>
+
+<form action="personalUpdate.do" method="post">
+    <section class="content">
+    
+          <div class="card card-primary">
+            <div class="card-header">
+              <h3 class="card-title">프로젝트 생성</h3>
+
+            </div>
+            <div class="card-body">
+              <div class="form-group">
+				 <label for="inputName">업무 사항</label>
+                <input type="text" name="form-control" value="${personal.title}"/>
+              </div>
+              
+              <div class="form-group">
+                <label for="inputPriod">시작일</label>
+                <input type="date" class="form-control" name="start_at" placeholder="시작일">
+              </div>
+
+              <div class="form-group">
+                <label for="inputDeadLinePriod">마감일</label>
+                <input type="date" class="form-control" name="end_at" placeholder="마감일">
+              </div>
+              
+            </div>
+            <!-- /.card-body -->
+          </div>
+          <!-- /.card -->
+
+          <a href="/personal.go" class="btn btn-secondary">돌아가기</a>
+          <input type="submit" value="작성하기" class="btn btn-success float-right">
+
+</section>
+    </form>
   </div>
 </div>
 <!-- ./wrapper -->
@@ -70,3 +81,4 @@
 <script>
 </script>
 </html>
+   
