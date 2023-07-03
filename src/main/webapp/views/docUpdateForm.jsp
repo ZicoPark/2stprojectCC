@@ -15,33 +15,32 @@
 	<br>
 	<br>
 	<form action="docUpdate.do" method="post" enctype="multipart/form-data">
-		문서번호 : <input type="text" name="id" value="${docDTO.id }" readonly="readonly"/>
-		<br>
+		<input type="text" name="id" value="${docDTO.id }" hidden="true"/>
 		제목 : <input type="text" name="subject" value="${docDTO.subject }"/>
 		<br>
-		기안자 : <input type="text" value="${docDTO.memberId }" readonly="readonly"/>
+		기안자 : <input type="text" value="${memberName }" readonly="readonly"/>
 		<br>
 		공개범위 : 
 		<select name="publicRange">
-			<option value="all" <c:if test="${docDTO.publicRange == 'all' }">selected</c:if>>전체</option>
-			<option value="dept" <c:if test="${docDTO.publicRange == 'dept' }">selected</c:if>>부서별</option>
+			<option value="all" <c:if test="${docDTO.public_range == 'all' }">selected</c:if>>전체</option>
+			<option value="dept" <c:if test="${docDTO.public_range == 'dept' }">selected</c:if>>부서별</option>
 		</select>
 		<br>
-		문서종류 : 공사중
+		문서종류 : ${docFormName }
 
 		<br>
 		<div id="approvalList">
 		<input type="button" value="결재선 추가" onclick="addApproval()"/>
-		<select name="approvalVariable">
+		<select name="approvalPriority">
 			<option value="default">--</option>
 			<c:forEach items="${approvalKindList}" var="i">
-				<option value="${i.id}">${i.name}</option>
+				<option value="${i.priority}">${i.name}</option>
 			</c:forEach>
 		</select>
-		<select name="approvalPerson">
+		<select name="approvalMemberId">
 			<option value="default">--</option>
 			<c:forEach items="${memberList}" var="i">
-				<option value="${i.id}">${i.deptName} | ${i.name}</option>
+				<option value="${i.id}">${i.dept_name} | ${i.name}</option>
 			</c:forEach>
 		</select>
 		<br>
@@ -59,12 +58,13 @@
 		<c:if test="${attachmentList.size() > 0 }">
 			<c:forEach items="${attachmentList }" var="i">
 				<div>
-					<a href="attachmentDownload.do?oriFileName=${i.oriFileName }&newFileName=${i.newFileName }">${i.oriFileName }</a>
-					<a href="attachmentDelete.do?id=${docDTO.id }&newFileName=${i.newFileName }">삭제</a>
+					<a href="attachmentDownload.do?oriFileName=${i.ori_file_name }&attachmentId=${i.id }">${i.ori_file_name }</a>
+					<a href="attachmentDelete.do?docId=${docDTO.id }&attachmentId=${i.id }">삭제</a>
 				</div>
 			</c:forEach>
 		</c:if>
 		<input type="button" onclick="pushDoc()" value="제출"/>
+		<input type="button" onclick="saveDoc()" value="임시저장"/>
 	</form>
 </body>
 <script type="text/javascript" src="/richtexteditor/rte.js"></script>  
@@ -82,17 +82,17 @@ editor.setHTMLCode(beforeContent); // editor에 내용 넣기, docForm은 기본
 var content = '';
 
 content += '<input type="button" value="결재선 추가" onclick="addApproval()"/>';
-content += '<select name="approvalVariable">';
+content += '<select name="approvalPriority">';
 content += '<option value="default">--</option>';
 content += '<c:forEach items="${approvalKindList}" var="i">';
-content += '<option value="${i.id}">${i.name}</option>';
+content += '<option value="${i.priority}">${i.name}</option>';
 content += '</c:forEach>';
 content += '</select>';
 
-content += '<select name="approvalPerson">';
+content += '<select name="approvalMemberId">';
 content += '<option value="default">--</option>';
 content += '<c:forEach items="${memberList}" var="i">';
-content += '<option value="${i.id}">${i.deptName} | ${i.name}</option>';
+content += '<option value="${i.id}">${i.dept_name} | ${i.name}</option>';
 content += '</c:forEach>';
 content += '</select>';
 content += '<br>';
@@ -108,6 +108,15 @@ function pushDoc(){
 	var submitContent = editor.getHTMLCode();
 	$('textarea[name="afterContent"]').val(submitContent);
 	$('input[name="status"]').val('1');
+	$('form').submit();
+	
+}
+
+function saveDoc(){
+	
+	var submitContent = editor.getHTMLCode();
+	$('textarea[name="afterContent"]').val(submitContent);
+	$('input[name="status"]').val('2');
 	$('form').submit();
 	
 }

@@ -89,22 +89,17 @@
 		SELECT * FROM attachment WHERE classification = '전자문서첨부파일' AND identify_value = #{id}
 	</select>
 
-	
+	<select id="getDocForm">
+		SELECT * FROM doc_form WHERE id = #{param1}
+	</select>
 
-	
-
-	
-
-	
-
-	
 	<delete id="attachmentDelete">
-		DELETE FROM attachment WHERE new_file_name = #{param1}
+		DELETE FROM attachment WHERE id = #{attachmentId}
 	</delete>
-	
+
 	<update id="docUpdate" parameterType="hashmap">
 		UPDATE doc SET subject = #{subject}
-			, content = #{dateWritedContent}
+			, content = #{afterContent}
 			, status = #{status}
 			, public_range = #{publicRange} 
 			, create_date = #{docUpdateTime} 

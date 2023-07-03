@@ -37,18 +37,18 @@ public class DocController {
 	
 	@RequestMapping(value="/docWrite.do")
 	public ModelAndView docWrite(MultipartFile[] attachment, HttpSession session,
-			@RequestParam String[] approvalVariable, @RequestParam String[] approvalPerson, 
+			@RequestParam String[] approvalPriority, @RequestParam String[] approvalMemberId, 
 			@RequestParam HashMap<String, String> params) {
 
 		ArrayList<String[]> approvalList = new ArrayList<String[]>();
 		// 결재선 정렬 로직 // HashMap을 쓰면 뒤죽박죽 되어서 List에 String 2개짜리 배열 이용함.
-		for(int i=0;i<approvalVariable.length;i++) {
+		for(int i=0;i<approvalPriority.length;i++) {
 			
-			String[] approvalStr = new String[2];
+			String[] approvalString = new String[2];
 			
-			approvalStr[0] = approvalVariable[i];
-			approvalStr[1] = approvalPerson[i];
-			approvalList.add(approvalStr);
+			approvalString[0] = approvalPriority[i];
+			approvalString[1] = approvalMemberId[i];
+			approvalList.add(approvalString);
 			logger.info("list0 :"+approvalList.get(i)[0]);
 			logger.info("list1 :"+approvalList.get(i)[1]);
 			
@@ -79,32 +79,32 @@ public class DocController {
 	}
 	
 	@RequestMapping(value="/attachmentDownload.do")
-	public ResponseEntity<Resource> attachmentDownload(@RequestParam String oriFileName, @RequestParam String newFileName) {
+	public ResponseEntity<Resource> attachmentDownload(@RequestParam String oriFileName, @RequestParam String attachmentId) {
 		
-		return service.attachmentDownload(oriFileName, newFileName);
+		return service.attachmentDownload(oriFileName, attachmentId);
 	}
 	
 	@RequestMapping(value="/attachmentDelete.do")
-	public ModelAndView attachmentDelete(@RequestParam String id, @RequestParam String newFileName) {
+	public ModelAndView attachmentDelete(@RequestParam String docId, @RequestParam String attachmentId) {
 		
-		return service.attachmentDelete(id, newFileName);
+		return service.attachmentDelete(docId, attachmentId);
 	}
 	
 	@RequestMapping(value="/docUpdate.do")
 	public ModelAndView docUpdate(MultipartFile[] attachment, HttpSession session,
-			@RequestParam String[] approvalVariable, @RequestParam String[] approvalPerson, 
+			@RequestParam String[] approvalPriority, @RequestParam String[] approvalMemberId, 
 			@RequestParam HashMap<String, String> params) {
 
 		ArrayList<String[]> approvalList = new ArrayList<String[]>();
 		
 		// 결재선 정렬 로직 // HashMap을 쓰면 뒤죽박죽 되어서 List에 String 2개짜리 배열 이용함.
-		for(int i=0;i<approvalVariable.length;i++) {
+		for(int i=0;i<approvalPriority.length;i++) {
 			
-			String[] approvalStr = new String[2];
+			String[] approvalString = new String[2];
 			
-			approvalStr[0] = approvalVariable[i];
-			approvalStr[1] = approvalPerson[i];
-			approvalList.add(approvalStr);
+			approvalString[0] = approvalPriority[i];
+			approvalString[1] = approvalMemberId[i];
+			approvalList.add(approvalString);
 			logger.info("list0 :"+approvalList.get(i)[0]);
 			logger.info("list1 :"+approvalList.get(i)[1]);
 			
