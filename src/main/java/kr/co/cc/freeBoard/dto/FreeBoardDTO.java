@@ -10,7 +10,15 @@ public class FreeBoardDTO {
 	private String content;
 	private int hit;
 	private boolean status;
-	private Date create_date;
+	private Date create_at;
+	private String user_id;
+	
+	public String getUser_id() {
+		return user_id;
+	}
+	public void setUser_id(String user_id) {
+		this.user_id = user_id;
+	}
 	public String getId() {
 		return id;
 	}
@@ -47,11 +55,11 @@ public class FreeBoardDTO {
 	public void setStatus(boolean status) {
 		this.status = status;
 	}
-	public Date getCreate_date() {
-		return create_date;
+	public Date getCreate_at() {
+		return create_at;
 	}
-	public void setCreate_date(Date create_date) {
-		this.create_date = create_date;
+	public void setCreate_at(Date create_at) {
+		this.create_at = create_at;
 	}
 	
 	

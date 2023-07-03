@@ -47,13 +47,13 @@ public class ArchiveService {
 	}
 
 	public String archiveWrite(MultipartFile[] attachment, HashMap<String, String> params, HttpSession session, Model model) {
-		 String loginId = (String) session.getAttribute("loginId");
+		 String id = (String) session.getAttribute("id");
 		 String page = "redirect:/archiveBoard.go";
 		    logger.info("params: " + params);
 		    logger.info("files: " + attachment);		 
 		 
 		        ArchiveDTO dto = new ArchiveDTO();
-		        dto.setMember_id(loginId);
+		        dto.setMember_id(id);
 		        dto.setCategory(params.get("category"));
 		        dto.setSubject(params.get("subject"));
 		        dto.setContent(params.get("content"));

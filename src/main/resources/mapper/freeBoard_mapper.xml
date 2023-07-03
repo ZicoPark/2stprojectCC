@@ -2,7 +2,29 @@
 <!DOCTYPE mapper PUBLIC	"-//mybatis.org//DTD Mapper 3.0//EN"
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 	
-<mapper namespace="kr.co.cc.dao.freeBoard.FreeBoardDAO">
+<mapper namespace="kr.co.cc.freeBoard.dao.FreeBoardDAO">
+
+	<select id="totalCount" parameterType="String" resultType ="int">
+		SELECT COUNT (id) FROM free_board WHERE status = 1
+	</select>
+
+	<select id="totalCountSearch" parameterType="String" resultType ="int">
+		SELECT COUNT (id) FROM free_board WHERE subject = #{search} OR member_id = #{search}
+	</select>	
+
+	<select id="freelist" resultType="kr.co.cc.freeBoard.dto.FreeBoardDTO">
+		SELECT fb.id, m.user_id, fb.subject, fb.hit, fb.create_at
+		FROM free_board fb
+		JOIN member m ON fb.member_id = m.id
+		LIMIT 10 OFFSET #{offset}
+	</select>	
+
+	<select id="freelistSearch" parameterType="hashmap" resultType="kr.co.cc.freeBoard.dto.FreeBoardDTO">
+	    SELECT id, member_id, subject, hit, create_at
+	    FROM free_board
+	    WHERE CONCAT(subject, member_id) LIKE CONCAT('%', #{search}, '%')
+	    LIMIT 10 OFFSET #{offset}
+	</select>
 
 
 </mapper>

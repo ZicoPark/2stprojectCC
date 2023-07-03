@@ -83,9 +83,9 @@
 				<c:if test="${detailFile.size() > 0 }">
 					<c:forEach items="${detailFile}" var="i">
                   <div class="mailbox-attachment-info">
-                    <a class="mailbox-attachment-name"><i class="fas fa-paperclip"></i> &nbsp ${i.oriFileName}</a>
+                    <a class="mailbox-attachment-name"><i class="fas fa-paperclip"></i> &nbsp ${i.ori_file_name}</a>
 					&nbsp &nbsp
-                    <a href="msdownload.do?path=${i.newFileName}" class="btn btn-default btn-sm float-right"><i class="fas fa-cloud-download-alt"></i></a>
+                    <a href="msdownload.do?path=${i.id}" class="btn btn-default btn-sm float-right"><i class="fas fa-cloud-download-alt"></i></a>
                     
                   </div>
 
