@@ -2,6 +2,7 @@ package kr.co.cc.project.controller;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
@@ -36,6 +37,11 @@ public class ProjectController {
 	    
 	    ArrayList<ProjectDTO> list = service.list();
 	    logger.info("list cnt : " + list.size());
+	    for (ProjectDTO project : list) {
+	        List<String> userIds = service.getUserIdsByProjectId(project.getId());
+	        project.setUserIds(userIds);
+	    }
+	    
 	    model.addAttribute("list", list);
 	    model.addAttribute("loginId", loginId);
 	    logger.info("loginid : " + loginId);
@@ -100,6 +106,7 @@ public class ProjectController {
 	        service.projectUpdate(params);
 
 	        String id = params.get("project_id");
+
 	        String memberIdsString = params.get("member_id");
 
 	        if (memberIdsString != null) {
@@ -125,25 +132,24 @@ public class ProjectController {
 	    String msg = "프로젝트 등록";
 	    model.addAttribute("msg", msg);
 
-	    String memberId = (String) session.getAttribute("loginId");
-	    logger.info("loginId" + memberId);
+	    String id = (String) session.getAttribute("id");
+	    logger.info("loginId"+id);
+
 	    ProjectDTO dto = new ProjectDTO();
 	    dto.setName(params.get("name"));
 	    dto.setPublic_range(Integer.valueOf(params.get("public_range")));
 	    dto.setStart_at(params.get("start_at"));
 	    dto.setEnd_at(params.get("end_at"));
 
-	    String projectId = service.write(dto, memberId);
-	    
+	    String projectId = service.write(dto, id);
 	    String project_id=dto.getId();
 	    logger.info("project_id"+project_id);
 
-	    String userIdsString = params.get("user_id");
-	    logger.info("user_id"+ userIdsString);
-	    String[] userIds = userIdsString.split(",");
-	    logger.info("user_id"+ userIds);
-	    for (String contributorId : userIds) {
-	        service.addContributor(project_id, contributorId);
+	    String memberIdsString = params.get("user_id");
+	    String[] memberIds = memberIdsString.split(",");
+	    for (String contributorId : memberIds) {
+	        service.addContributor(contributorId, project_id);
+
 	    }
 
 

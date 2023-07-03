@@ -5,36 +5,44 @@
 <mapper namespace="kr.co.cc.project.dao.ProjectDAO">
 
 	<insert
-	    id="ProjectWrite" 
-	    parameterType="kr.co.cc.project.dto.ProjectDTO"
-	    useGeneratedKeys="false">
-	  <selectKey keyProperty="id" resultType="java.lang.String" order="BEFORE">
-	        SELECT UUID()
-	    </selectKey>
+	   useGeneratedKeys="false"
+	    id="ProjectWrite" parameterType="kr.co.cc.project.dto.ProjectDTO">
+	    <selectKey keyProperty="id" resultType="java.lang.String" order="BEFORE">
+        SELECT UUID()
+    </selectKey>
 	    INSERT INTO project (name, member_id, public_range, start_at, end_at, step, status)
 	    VALUES (#{name}, #{member_id}, #{public_range}, #{start_at}, #{end_at}, '기획', '준비중')
 	</insert>
 
     
     <insert id="addContributor" parameterType="java.util.Map">
-	    INSERT INTO contributor (project_id, member_id)
-	    VALUES (#{param1},#{param2})
+	    INSERT INTO contributor (member_id, project_id)
+	    VALUES (
+	        (SELECT id FROM member WHERE user_id = #{param1}),
+	        #{param2}
+	    )
 	</insert>
 
 
+	<select id="getUserIdsByProjectId" resultType="java.lang.String">
+	        SELECT member.user_id
+	        FROM project
+	        INNER JOIN contributor ON project.id = contributor.project_id
+	        INNER JOIN member ON contributor.member_id = member.id
+	        WHERE project.id = #{id}
+    </select>
 
-
-	
-	<select id="ProjectList" resultType="kr.co.cc.project.dto.ProjectDTO">
-	  SELECT p.id, p.name, p.member_id, p.create_at, p.step, GROUP_CONCAT(c.member_id SEPARATOR ',') AS contributors
-	  FROM project p
-	  LEFT JOIN contributor c ON p.id = c.project_id
-	  GROUP BY p.id, p.name, p.create_at, p.step
-	</select>
+		<select id="ProjectList" resultType="kr.co.cc.project.dto.ProjectDTO">
+		    SELECT p.id, p.name, m.user_id AS member_id, p.create_at, p.step, GROUP_CONCAT(c.member_id SEPARATOR ',') AS contributors
+		    FROM project p
+		    LEFT JOIN contributor c ON p.id = c.project_id
+		    LEFT JOIN member m ON c.member_id = m.id
+		    GROUP BY p.id, p.name, p.create_at, p.step
+		</select>
 
 	
 		<select id="ProjectDetail" parameterType="int" resultType="kr.co.cc.project.dto.ProjectDTO">
-		    SELECT c.comment_id, c.project_id, c.member_id, c.comment_content, c.comment_status, c.comment_create_date, c.step, c.status, a.new_file_name
+		    SELECT c.id, c.project_id, c.member_id, c.content, c.comment_status, c.create_at, c.step, c.status, a.id
 			FROM comment c
 			JOIN attachment a ON c.project_id = a.identify_value
 			WHERE project_id = #{id} AND a.classification = '프로젝트첨부파일';
@@ -45,8 +53,8 @@
 		
 		<insert id="commentWrite" parameterType="kr.co.cc.project.dto.ProjectDTO">
 		INSERT INTO
-		comment(comment_content,member_id,project_id,step,status)
-		VALUES(#{comment_content},#{member_id},#{project_id},#{step},#{status})
+		comment(content,member_id,project_id,step,status)
+		VALUES(#{content},#{member_id},#{project_id},#{step},#{status})
 	</insert>
 		
 		<insert

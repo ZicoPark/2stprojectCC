@@ -31,7 +31,7 @@
 		    </tr>
 		    <tr>
 		       <th>작성자</th>
-		       <td>${detailno.create_id}</td>
+		       <td>${detailno.member_id}</td>
 		    </tr>
 		    <tr>
 		       <th>조회수</th>
@@ -39,7 +39,7 @@
 		    </tr>
 		    <tr>
 		       <th>작성일</th>
-		       <td>${detailno.notice_date}</td>
+		       <td>${detailno.create_at}</td>
 		    </tr>
 		    <tr>
 		       <th>내용</th>
@@ -56,7 +56,7 @@
                   <div class="mailbox-attachment-info">
                     <a class="mailbox-attachment-name"><i class="fas fa-paperclip"></i> &nbsp ${i.oriFileName}</a>
 					&nbsp &nbsp
-                    <a href="msdownload.do?path=${i.newFileName}" class="btn btn-default btn-sm float-right"><i class="fas fa-cloud-download-alt"></i></a>
+                    <a href="msdownload.do?path=${i.id}" class="btn btn-default btn-sm float-right"><i class="fas fa-cloud-download-alt"></i></a>
                     
                   </div>
 

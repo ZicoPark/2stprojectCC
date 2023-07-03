@@ -45,9 +45,9 @@
                <tr> 
                   <td>${noticeBoard.id}</td>
                   <td><a href="noticeBoardDetail.do?id=${noticeBoard.id}">${noticeBoard.subject}</a></td>
-                  <td>${noticeBoard.create_id}</td>
+                  <td>${noticeBoard.member_id}</td>
                   <td>${noticeBoard.hit } </td>
-                  <td>${noticeBoard.notice_date }</td>
+                  <td>${noticeBoard.create_at }</td>
                   <td><a href="noticeBoardDel.do?id=${noticeBoard.id}">삭제</a></td>
                </tr>
             </c:forEach>

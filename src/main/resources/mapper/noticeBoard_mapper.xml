@@ -4,7 +4,6 @@
    
 <mapper namespace="kr.co.cc.noticeBoard.dao.NoticeBoardDAO">
 
-
    <select id="nolist" resultType="kr.co.cc.noticeBoard.dto.NoticeBoardDTO">
          SELECT * FROM notice_board
    </select>
@@ -13,19 +12,34 @@
    		SELECT * FROM  notice_board
    </select> -->
    
-   <insert
+  
+<!-- 	<insert
 	useGeneratedKeys="true"
 	keyColumn="id"
 	keyProperty="id"	
 	id="noticeBoardWrite" parameterType="kr.co.cc.noticeBoard.dto.NoticeBoardDTO">
-      INSERT INTO notice_board(create_id, subject, content,hit, status)
-      VALUES(#{create_id}, #{subject}, #{content},0,1)
-   </insert> 
+      INSERT INTO notice_board(member_id, subject, content,hit, status)
+      VALUES(#{member_id}, #{subject}, #{content},0,1)
+   </insert>  -->
+
+
+ 	<insert 
+    id="noticeBoardWrite" 
+    parameterType="kr.co.cc.noticeBoard.dto.NoticeBoardDTO" 
+    useGeneratedKeys="false">
+	    <selectKey keyProperty="id" resultType="java.lang.String" order="BEFORE">
+	        SELECT UUID()
+	    </selectKey>
+	    INSERT INTO notice_board(id, member_id, subject, content,hit, status)
+	      VALUES(#{id}, #{member_id}, #{subject}, #{content},0,1)
+	</insert> 
+
 
 	<insert id="nofileWrite">
-		INSERT INTO attachment(ori_file_name, new_file_name, classification, identify_value)
+		INSERT INTO attachment(ori_file_name, id, classification, identify_value)
 			VALUES(#{param1}, #{param2}, #{param3}, #{param4})
 	</insert>
+
 	
 <!--     <select id="detail"  resultType="kr.co.cc.noticeBoard.dto.NoticeBoardDTO">
       SELECT * FROM notice_board 
@@ -34,9 +48,9 @@
    
    
    <select id="nodetail" resultType="kr.co.cc.noticeBoard.dto.NoticeBoardDTO">
-      select nb.id, nb.create_id, nb.subject, nb.content, nb.hit, nb.notice_date
+      select nb.id, nb.member_id, nb.subject, nb.content, nb.hit, nb.create_at
 		from notice_board nb
-		join member m on nb.create_id = m.id 
+		join member m on nb.member_id = m.id 
 		where nb.id = #{id} 
    </select>
    
@@ -48,7 +62,6 @@
    	<resultMap id="attachmentMap" type="kr.co.cc.doc.dto.AttachmentDTO" >
 		<id property="id" column="id"/>
 		<result property="oriFileName" column="ori_file_name"/>
-		<result property="newFileName" column="new_file_name"/>
 		<result property="classification" column="classification"/>
 		<result property="identifyValue" column="identify_value"/>		
 	</resultMap>

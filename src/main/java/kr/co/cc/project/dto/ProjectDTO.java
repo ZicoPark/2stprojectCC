@@ -1,6 +1,7 @@
 package kr.co.cc.project.dto;
 
 import java.util.Date;
+import java.util.List;
 
 public class ProjectDTO {
 
@@ -20,7 +21,7 @@ public class ProjectDTO {
 	private String subject;
 	private String user_name;
 	private String content;
-	private int project_idx;
+	private List<String> userIds;
 	private String comment_content;
 	private int comment_status;
 	private Date comment_create_date;
@@ -30,98 +31,23 @@ public class ProjectDTO {
 	   private String new_file_name;
 	   private String classification;
 	   private String identify_value;
-	
-	
-	
-	   
-	public String getUser_id() {
-		return user_id;
+	public String getId() {
+		return id;
 	}
-
-	public void setUser_id(String user_id) {
-		this.user_id = user_id;
+	public void setId(String id) {
+		this.id = id;
 	}
-
-	public String getProject_id() {
-		return project_id;
-	}
-
-	public void setProject_id(String project_id) {
-		this.project_id = project_id;
-	}
-
-	public Date getComment_create_date() {
-		return comment_create_date;
-	}
-
-	public void setComment_create_date(Date comment_create_date) {
-		this.comment_create_date = comment_create_date;
-	}
-
-	public int getComment_status() {
-		return comment_status;
-	}
-
-	public void setComment_status(int comment_status) {
-		this.comment_status = comment_status;
-	}
-
-	public String getComment_content() {
-		return comment_content;
-	}
-
-	public void setComment_content(String comment_content) {
-		this.comment_content = comment_content;
-	}
-
-	public String getSubject() {
-		return subject;
-	}
-
-	public void setSubject(String subject) {
-		this.subject = subject;
-	}
-
-	public String getUser_name() {
-		return user_name;
-	}
-
-	public void setUser_name(String user_name) {
-		this.user_name = user_name;
-	}
-
-	public String getContent() {
-		return content;
-	}
-
-	public void setContent(String content) {
-		this.content = content;
-	}
-
-
-
-	public int getProject_idx() {
-		return project_idx;
-	}
-
-	public void setProject_idx(int project_idx) {
-		this.project_idx = project_idx;
-	}
-
-	public String getContributors() {
-        return contributors;
-    }
-
-    public void setContributors(String contributors) {
-        this.contributors = contributors;
-    }
-
-
 	public int getPublic_range() {
 		return public_range;
 	}
 	public void setPublic_range(int public_range) {
 		this.public_range = public_range;
+	}
+	public String getProject_id() {
+		return project_id;
+	}
+	public void setProject_id(String project_id) {
+		this.project_id = project_id;
 	}
 	public String getName() {
 		return name;
@@ -129,21 +55,24 @@ public class ProjectDTO {
 	public void setName(String name) {
 		this.name = name;
 	}
+	public String getUser_id() {
+		return user_id;
+	}
+	public void setUser_id(String user_id) {
+		this.user_id = user_id;
+	}
 	public String getMember_id() {
 		return member_id;
 	}
 	public void setMember_id(String member_id) {
 		this.member_id = member_id;
 	}
-
 	public String getCreate_at() {
 		return create_at;
 	}
-
 	public void setCreate_at(String create_at) {
 		this.create_at = create_at;
 	}
-
 	public String getExplain() {
 		return explain;
 	}
@@ -162,62 +91,93 @@ public class ProjectDTO {
 	public void setStatus(String status) {
 		this.status = status;
 	}
-
-	public String getId() {
-		return id;
-	}
-
-	public void setId(String id) {
-		this.id = id;
-	}
-
 	public String getStart_at() {
 		return start_at;
 	}
-
 	public void setStart_at(String start_at) {
 		this.start_at = start_at;
 	}
-
 	public String getEnd_at() {
 		return end_at;
 	}
-
 	public void setEnd_at(String end_at) {
 		this.end_at = end_at;
 	}
-
+	public String getContributors() {
+		return contributors;
+	}
+	public void setContributors(String contributors) {
+		this.contributors = contributors;
+	}
+	public String getSubject() {
+		return subject;
+	}
+	public void setSubject(String subject) {
+		this.subject = subject;
+	}
+	public String getUser_name() {
+		return user_name;
+	}
+	public void setUser_name(String user_name) {
+		this.user_name = user_name;
+	}
+	public String getContent() {
+		return content;
+	}
+	public void setContent(String content) {
+		this.content = content;
+	}
+	public List<String> getUserIds() {
+		return userIds;
+	}
+	public void setUserIds(List<String> userIds) {
+		this.userIds = userIds;
+	}
+	public String getComment_content() {
+		return comment_content;
+	}
+	public void setComment_content(String comment_content) {
+		this.comment_content = comment_content;
+	}
+	public int getComment_status() {
+		return comment_status;
+	}
+	public void setComment_status(int comment_status) {
+		this.comment_status = comment_status;
+	}
+	public Date getComment_create_date() {
+		return comment_create_date;
+	}
+	public void setComment_create_date(Date comment_create_date) {
+		this.comment_create_date = comment_create_date;
+	}
 	public String getOri_file_name() {
 		return ori_file_name;
 	}
-
 	public void setOri_file_name(String ori_file_name) {
 		this.ori_file_name = ori_file_name;
 	}
-
 	public String getNew_file_name() {
 		return new_file_name;
 	}
-
 	public void setNew_file_name(String new_file_name) {
 		this.new_file_name = new_file_name;
 	}
-
 	public String getClassification() {
 		return classification;
 	}
-
 	public void setClassification(String classification) {
 		this.classification = classification;
 	}
-
 	public String getIdentify_value() {
 		return identify_value;
 	}
-
 	public void setIdentify_value(String identify_value) {
 		this.identify_value = identify_value;
 	}
+	
+	
+	
 
 	
 	

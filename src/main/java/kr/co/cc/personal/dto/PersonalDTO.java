@@ -5,11 +5,31 @@ public class PersonalDTO {
 	private String id;
 	private String member_id;
 	private String title;
-	private String start_date;
-	private String end_date;
+	private String start_at;
+	private String end_at;
 	private boolean status;
+	private String create_at;
 	
 	
+	
+	public String getCreate_at() {
+		return create_at;
+	}
+	public void setCreate_at(String create_at) {
+		this.create_at = create_at;
+	}
+	public String getStart_at() {
+		return start_at;
+	}
+	public void setStart_at(String start_at) {
+		this.start_at = start_at;
+	}
+	public String getEnd_at() {
+		return end_at;
+	}
+	public void setEnd_at(String end_at) {
+		this.end_at = end_at;
+	}
 	public String getId() {
 		return id;
 	}
@@ -27,18 +47,6 @@ public class PersonalDTO {
 	}
 	public void setTitle(String title) {
 		this.title = title;
-	}
-	public String getStart_date() {
-		return start_date;
-	}
-	public void setStart_date(String start_date) {
-		this.start_date = start_date;
-	}
-	public String getEnd_date() {
-		return end_date;
-	}
-	public void setEnd_date(String end_date) {
-		this.end_date = end_date;
 	}
 	public boolean isStatus() {
 		return status;
