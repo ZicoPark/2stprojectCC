@@ -20,9 +20,9 @@ public class PersonalService {
 	@Autowired PersonalDAO dao;
 	Logger logger = LoggerFactory.getLogger(getClass());
 	
-	public ArrayList<PersonalDTO> personalList(){
+	public ArrayList<PersonalDTO> personalList(String id){
 		logger.info("서비스도착완료");
-		return dao.personalList();	
+		return dao.personalList(id);	
 	}
 
 //	public String pwrite(HashMap<String, String> params) {
@@ -31,8 +31,8 @@ public class PersonalService {
 //		return "";
 //	}
 
-	public ArrayList<PersonalDTO> list() {
-		return dao.personalList();
+	public ArrayList<PersonalDTO> list(String id) {
+		return dao.personalList(id);
 	}
 
 	public int del(String id) {
@@ -44,6 +44,21 @@ public class PersonalService {
 	        logger.info("id"+id);
 	        int row = dao.pwrite(dto);
 		return "";
+	}
+
+	public String update(HashMap<String, String> params) {
+		
+		int idx = Integer.parseInt(params.get("id"));		
+		int row = dao.update(params);// 1. update 실행
+
+		String page = row>0 ? "redirect:/detail.do?idx="+idx : "redirect:/list.do";
+		logger.info("update => "+page);
+		
+		return page;
+	}
+
+	public PersonalDTO personalUpdate(String id) {
+		return dao.personalUpdate(id);
 	}
 
 

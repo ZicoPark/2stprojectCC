@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
+import kr.co.cc.archive.dto.ArchiveDTO;
 import kr.co.cc.personal.dto.PersonalDTO;
 import kr.co.cc.personal.service.PersonalService;
 import kr.co.cc.project.dto.ProjectDTO;
@@ -35,7 +36,7 @@ public class PersonalController {
     	// 현재 로그인한 사용자의 아이디 가져오기
   	    String loginId = (String) session.getAttribute("id");
   	    
-  	    ArrayList<PersonalDTO> list = service.list();
+  	    ArrayList<PersonalDTO> list = service.list(loginId);
   	    logger.info("list cnt : " + list.size());
   	    
   	    model.addAttribute("list", list);
@@ -73,6 +74,22 @@ public class PersonalController {
 
   		return "redirect:/personal.go";
   	}
+  	
+  	
+	@RequestMapping(value="/personalUpdate.go")
+	public String personalUpdate(@RequestParam String id, Model model) {
+        logger.info("update page 이동");
+        logger.info("id ? " + id);
+        PersonalDTO personal = service.personalUpdate(id);
+        model.addAttribute("personal", personal);
+        return "personalUpdate";
+	}
+  	
+	@RequestMapping(value="/personalUpdate.do", method = RequestMethod.POST)
+	public String update(	@RequestParam HashMap<String, String> params, @RequestParam String id) {
+		logger.info("params : "+params);
+		return service.update(params);
+	}
       
     @RequestMapping(value="/personalDel.do", method=RequestMethod.GET)
     public ModelAndView del(@RequestParam String id) {
