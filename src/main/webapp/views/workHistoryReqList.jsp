@@ -52,7 +52,7 @@
 				</c:forEach>				
     		</tbody>    	
     	</table>
-    	<button onclick="location.href='workHistoryList.go'">돌아가기</button>
+    	<button onclick="location.href='workHistoryList.go'" class="btn btn-secondary">돌아가기</button>
     </section>
   </div>
 </div>

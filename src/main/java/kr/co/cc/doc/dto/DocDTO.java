@@ -11,7 +11,7 @@ public class DocDTO {
 	private String member_id;
 	private String doc_form_id;
 	private String dept_id;
-	private String job_name;
+	private String job_level_name;
 	private String public_range;
 	private Date create_at;
 	
@@ -57,11 +57,11 @@ public class DocDTO {
 	public void setDept_id(String dept_id) {
 		this.dept_id = dept_id;
 	}
-	public String getJob_name() {
-		return job_name;
+	public String getJob_level_name() {
+		return job_level_name;
 	}
-	public void setJob_name(String job_name) {
-		this.job_name = job_name;
+	public void setJob_level_name(String job_level_name) {
+		this.job_level_name = job_level_name;
 	}
 	public String getPublic_range() {
 		return public_range;

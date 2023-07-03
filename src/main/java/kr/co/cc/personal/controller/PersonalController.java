@@ -32,8 +32,8 @@ public class PersonalController {
       @GetMapping(value="/personal.go")
       public String personalList(Model model, HttpSession session) {
     	
-    	  // 현재 로그인한 사용자의 아이디 가져오기
-  	    String loginId = (String) session.getAttribute("loginId");
+    	// 현재 로그인한 사용자의 아이디 가져오기
+  	    String loginId = (String) session.getAttribute("id");
   	    
   	    ArrayList<PersonalDTO> list = service.list();
   	    logger.info("list cnt : " + list.size());
@@ -63,7 +63,7 @@ public class PersonalController {
 
 	    PersonalDTO dto = new PersonalDTO();
 	    dto.setCreate_at("create_at");
-	    dto.setTitle("title");
+	    dto.setTitle(params.get("title"));
 	    dto.setStart_at(params.get("start_at"));
 	    dto.setEnd_at(params.get("end_at"));
 
@@ -74,9 +74,6 @@ public class PersonalController {
   		return "redirect:/personal.go";
   	}
       
-
-  	
-  	
     @RequestMapping(value="/personalDel.do", method=RequestMethod.GET)
     public ModelAndView del(@RequestParam String id) {
        

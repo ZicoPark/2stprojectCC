@@ -72,10 +72,10 @@
 				</tr>
 			</tbody>
 		</table>
-		<button>연차/휴가 신청</button>
+		<button type="submit" class="btn btn-primary">연차/휴가 신청</button>
 	</form>
 	<br/>
-	<button onclick="location.href='workHolidayList.go'">돌아가기</button>
+	<button onclick="location.href='workHolidayList.go'" class="btn btn-secondary">돌아가기</button>
     </section>
   </div>
 </div>

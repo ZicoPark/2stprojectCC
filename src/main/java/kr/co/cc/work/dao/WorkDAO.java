@@ -2,6 +2,7 @@ package kr.co.cc.work.dao;
 
 
 
+
 import java.sql.Time;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -90,6 +91,9 @@ public interface WorkDAO {
 	String holidayApprovalChk(String id);
 
 	ArrayList<WorkDTO> approvalChange(String approval);
+
+	void workHourChange(String regist_id, String name, String start_at, String end_at);
+
 
 
 

@@ -57,13 +57,13 @@
     	
 	    <br/>
 	    <b>근태 경고 내역</b>
-	    <div>
+	    <div class="input-group" style="width: 20%;">
 		    <select id="wornFind1">
 		    	<option value="name">이름</option>
 		    	<option value="member_id">아이디</option>
 		    </select>	    
-			<input type="text" id="wornFind2" value=""/>
-			<button onclick="wornListFind()">검색</button>	
+			<input type="text" id="wornFind2" value="" class="form-control"/>
+			<button class="btn btn-primary" onclick="wornListFind()">검색</button>	
     	</div>
 	   	<table class="table table-bordered">
 	   		<thead>
@@ -90,7 +90,7 @@
 	    				<td>${wornList.week}</td>
 	    				<td>${wornList.total_time}</td>  				
 	    				<td>
-	    					<button class="btn btn-link" onclick="wornDel('${wornList.member_id}', '${wornList.week}')">경고 해제</button>
+	    					<button class="btn btn-danger btn-sm" onclick="wornDel('${wornList.member_id}', '${wornList.week}')">경고 해제</button>
 	    				</td>
 	    			</tr>			
 				</c:forEach>				
@@ -150,7 +150,7 @@
 				content += '<td>'+item.dept_name+'</td>';
 				content += '<td>'+item.week+'</td>';
 				content += '<td>'+item.total_time+'</td>';
-				content += '<td><button class="btn btn-link" onclick="wornDel(\'' + item.member_id + '\', \'' + item.week + '\')">경고 해제</button></td>';
+				content += '<td><button class="btn btn-danger btn-sm" onclick="wornDel(\'' + item.member_id + '\', \'' + item.week + '\')">경고 해제</button></td>';
 				content += '</tr>';
 			})
 			console.log("list forEach : " + content);			
