@@ -23,15 +23,16 @@
     <section class="content-header">
             <h1>근무 히스토리</h1>         
     </section>
-    <br/>
     <!-- Main content -->
     <section class="content">
-    <br/>
-    	<div>
-    	<button type="button" id="b1" class="btn btn-block btn-outline-success btn-lg" onclick="location.href='timeGo.do'">출근</button>&nbsp;&nbsp;&nbsp;&nbsp;
-    	<button type="button" id="b2" class="btn btn-block btn-outline-danger btn-lg" onclick="location.href='timeEnd.do'">퇴근</button>
-    	<button type="button" id="b3" class="btn btn-block btn-outline-warning btn-lg" onclick="location.href='workHistoryReqList.go'">수정 요청 리스트</button>
-    	</div>
+    	<div class="btn-group" role="group">
+		    <button type="button" class="btn btn-success btn-sm" onclick="location.href='timeGo.do'">출근</button>&nbsp;&nbsp;
+		    <button type="button" class="btn btn-danger btn-sm" onclick="location.href='timeEnd.do'">퇴근</button>&nbsp;&nbsp;
+		    <button type="button" class="btn btn-info btn-sm" onclick="location.href='workHistoryReqList.go'">수정 요청 리스트</button>
+		</div>
+
+		<br/>
+		<br/>
     	<table class="table table-bordered">
     		<thead>
     			<tr>
@@ -57,7 +58,7 @@
 	    				<td>${workList.time_end}</td>    				
 	    				<td>${String.format('%.1f', (workList.time_end.time - workList.time_go.time) / (1000.0 * 60 * 60))}</td>
 	    				<td>	    			
-	    				<a href="WorkChangeRequest.go?date=${workList.date}&member_id=${workList.member_id}&name=${workList.name}&working_hour_id=${workList.id}&time_go=${workList.time_go}&time_end=${workList.time_end}">
+	    				<a class="btn btn-primary" href="WorkChangeRequest.go?date=${workList.date}&member_id=${workList.member_id}&name=${workList.name}&working_hour_id=${workList.id}&time_go=${workList.time_go}&time_end=${workList.time_end}">
 	    					수정
 	    				</a>
 	    				

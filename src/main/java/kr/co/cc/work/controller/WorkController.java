@@ -368,9 +368,10 @@ public class WorkController {
 	}
 	
 	@GetMapping(value="/holidayApproval.do")
-	public ModelAndView holidayApproval(@RequestParam String regist_id,@RequestParam String approval,@RequestParam String id,@RequestParam int use_cnt) {
+	public ModelAndView holidayApproval(@RequestParam String regist_id,@RequestParam String approval,
+			@RequestParam String id,@RequestParam int use_cnt, @RequestParam String type, @RequestParam String start_at, @RequestParam String end_at) {
 		
-		return service.holidayApproval(regist_id,approval,id,use_cnt);
+		return service.holidayApproval(regist_id,approval,id,use_cnt,type,start_at,end_at);
 	}
 	
 	@GetMapping(value="/approvalChange.ajax")

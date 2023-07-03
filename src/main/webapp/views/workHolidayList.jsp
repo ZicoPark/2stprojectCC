@@ -26,8 +26,7 @@
     <br/>
     <!-- Main content -->
     <section class="content">
-    	<br/>
-    	<button type="button" class="btn btn-block btn-outline-success btn-lg" onclick="location.href='workAnnualRegistration.go'">연차 등록</button>
+    	<br/>    	
     	<table class="table table-bordered">
 	   		<thead>
 	   			<tr>
@@ -47,7 +46,12 @@
 	   				<td>${annual_leave.year}</td>  				
 	   			</tr>
 	   		</tbody>    	
-	   	</table>    	
+	   	</table>
+	   	<br/>
+	   	<div class="btn-group" role="group">
+			<button type="button" class="btn btn-success btn-sm" style="width: 15%;" onclick="location.href='workAnnualRegistration.go'">연차 등록</button> 
+		</div>
+	    <br/>
 	    <br/>
 	    <b>연차 사용/등록 내역</b>
 	    <table class="table table-bordered">

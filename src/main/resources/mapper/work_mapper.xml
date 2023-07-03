@@ -185,14 +185,14 @@
 	</select>
 	
 	<select id="workHolidayList_Ad" resultType="kr.co.cc.work.dto.WorkDTO">
-		SELECT l.regist_id, m.user_id , m.name, l.start_at ,l.end_at ,l.use_cnt ,l.approval, l.id
+		SELECT l.regist_id, m.user_id , m.name, l.start_at ,l.end_at ,l.use_cnt ,l.approval, l.id, l.type
 		FROM leave_recode l inner join member m
 		on l.regist_id = m.id
 		order by start_at desc
 	</select>
 	
 	<select id="holidayListFind" resultType="kr.co.cc.work.dto.WorkDTO">		
-		SELECT l.regist_id, m.user_id , m.name, l.start_at ,l.end_at ,l.use_cnt ,l.approval, l.id 
+		SELECT l.regist_id, m.user_id , m.name, l.start_at ,l.end_at ,l.use_cnt ,l.approval, l.id, l.type
 		FROM leave_recode l inner join member m
 		on l.regist_id = m.id
 		WHERE l.start_at LIKE CONCAT(#{param1}, '%') or l.end_at LIKE CONCAT(#{param1}, '%')
@@ -242,11 +242,32 @@
 	</select>
 	
 	<select id="approvalChange" resultType="kr.co.cc.work.dto.WorkDTO">
-		SELECT l.regist_id, m.user_id , m.name, l.start_at ,l.end_at ,l.use_cnt ,l.approval, l.id
+		SELECT l.regist_id, m.user_id , m.name, l.start_at ,l.end_at ,l.use_cnt ,l.approval, l.id, l.type
 		FROM leave_recode l inner join member m
 		on l.regist_id = m.id
 		where approval = #{param1}
 		order by start_at desc
 	</select>
+	
+	<insert id="workHourChange">
+		INSERT INTO working_hour (id, member_id, name, date, time_go, time_end)
+		SELECT uuid(), #{regist_id}, #{name}, date_range.date, '09:00:00', '18:00:00'
+		FROM (
+		    SELECT CURDATE() + INTERVAL (a.a + (10 * b.a) + (100 * c.a)) DAY AS date
+		    FROM (
+		        SELECT 0 AS a UNION ALL SELECT 1 UNION ALL SELECT 2 UNION ALL SELECT 3 UNION ALL SELECT 4 UNION ALL
+		        SELECT 5 UNION ALL SELECT 6 UNION ALL SELECT 7 UNION ALL SELECT 8 UNION ALL SELECT 9
+		    ) AS a
+		    CROSS JOIN (
+		        SELECT 0 AS a UNION ALL SELECT 1 UNION ALL SELECT 2 UNION ALL SELECT 3 UNION ALL SELECT 4 UNION ALL
+		        SELECT 5 UNION ALL SELECT 6 UNION ALL SELECT 7 UNION ALL SELECT 8 UNION ALL SELECT 9
+		    ) AS b
+		    CROSS JOIN (
+		        SELECT 0 AS a UNION ALL SELECT 1 UNION ALL SELECT 2 UNION ALL SELECT 3 UNION ALL SELECT 4 UNION ALL
+		        SELECT 5 UNION ALL SELECT 6 UNION ALL SELECT 7 UNION ALL SELECT 8 UNION ALL SELECT 9
+		    ) AS c
+		) AS date_range
+		WHERE date_range.date BETWEEN #{start_at} AND #{end_at}
+	</insert>
 	
 </mapper>

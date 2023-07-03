@@ -2,6 +2,7 @@ package kr.co.cc.work.service;
 
 
 
+
 import java.sql.Time;
 import java.time.LocalDate;
 import java.time.Month;
@@ -258,17 +259,22 @@ public class WorkService {
 		return workHolidayList_Ad(msg);
 	}
 
-	public ModelAndView holidayApproval(String regist_id,String approval, String id, int use_cnt) {
+	public ModelAndView holidayApproval(String regist_id,String approval, String id, int use_cnt, String type, String start_at, String end_at) {
 		
 		String msg = "이미 처리한 항목입니다.";
 		String haChk = dao.holidayApprovalChk(id);
 		
 		if(haChk.equals("0")) {
-			if(approval.equals("1")) {
+			if(approval.equals("1")) {				
 				msg = "연차를 승인하였습니다.";
+				// 연차 날짜에 8시간 근무 처리
+				String name = dao.findName(regist_id);
+				dao.workHourChange(regist_id,name,start_at,end_at);
 				//연차 갯수 처리
-				int currentYear = LocalDate.now().getYear();
-				dao.annualLeaveApproval(regist_id,currentYear,use_cnt);
+				if(type.equals("A")) {
+					int currentYear = LocalDate.now().getYear();
+					dao.annualLeaveApproval(regist_id,currentYear,use_cnt);					
+				}
 			} else {
 				msg = "연차를 반려하였습니다.";
 			}
@@ -276,10 +282,11 @@ public class WorkService {
 			dao.holidayApproval(approval,id);
 		}
 		
-		
-		
 		return workHolidayList_Ad(msg);
 	}
+	
+	
+	
 
 	public ArrayList<WorkDTO> approvalChange(String approval) {
 		return dao.approvalChange(approval);

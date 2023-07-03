@@ -32,7 +32,7 @@
       </div>
     </section>
 
-<form action="personalWrite.do" method="post">
+<form action="personalUpdate.do" method="post">
     <section class="content">
     
           <div class="card card-primary">
@@ -41,10 +41,9 @@
 
             </div>
             <div class="card-body">
-              
               <div class="form-group">
 				 <label for="inputName">업무 사항</label>
-                <input type="text" class="form-control" name = "title">
+                <input type="text" name="form-control" value="${personal.title}"/>
               </div>
               
               <div class="form-group">

@@ -27,10 +27,12 @@
     <!-- Main content -->
     <section class="content">
     <br/>
-    	<div>
-			<input type="date" id="dailyList" name="dailyList" value=""/>
-			<button onclick="daliyListFind()">검색</button>	
-    	</div>
+    	<div class="input-group" style="width: 20%;">
+		    <input type="date" id="dailyList" name="dailyList" class="form-control" value=""/>
+		    <button class="btn btn-primary" onclick="daliyListFind()">검색</button>	
+		</div>
+		<br/>
+
     	<table class="table table-bordered">
     		<thead>
     			<tr>
