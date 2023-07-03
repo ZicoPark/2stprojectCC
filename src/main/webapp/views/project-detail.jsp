@@ -117,13 +117,24 @@ $(document).ready(function() {
         html += '<span class="description">' + detail.comment_create_date + '</span>';
         html += '</div>';
         html += '<p>' + detail.comment_content + '</p>';
-        html += '<p><video src="/upload/' + detail.new_file_name + '" controls></video></p>';
+        html += '<p><a href="/upload/' + detail.new_file_name + '">' + detail.new_file_namee + '</a></p>';
         html += '</div>';
-        html += '</div>';
-        html += '</div>';
-        html += '<div class="col-12 col-md-12 col-lg-4 order-1 order-md-2">';
-        html += '</div>';
-        html += '</div>';
+
+	        html += '<form method="post" action="replyWrite.do">';
+	        html += '<input type="hidden" name="project_id" value="${detail.project_id}">'
+	        html += '<input type="hidden" name="comment_id" value="${detail.comment_id}">'
+	        html += '<input type="hidden" name="user_id" value="${sessionScope.loginId}">'
+	        html += '<div class="input-group">';
+	        html += '<input type="text" class="form-control" placeholder="댓글 작성">';
+	        html += '<div class="input-group-append">';
+	        html += '<button type="button" class="btn btn-primary" onclick="replyWrite()">작성</button>';
+	        html += '</div>';
+	        html += '</div>';
+	        html += '</form>';
+		        html += '<ul class="comment-list">';
+		        html += '<li class="comment">댓글 내용</li>';
+		        html += '<li class="comment">댓글 내용</li>';
+		        html += '</ul>';
 
         container.prepend(html);
       });
@@ -133,6 +144,29 @@ $(document).ready(function() {
     }
   });
 });
+</script>
+<script>
+function replyWrite() {
+	$.ajax({
+		type:'get',
+		url:'reviewWrite.ajax',
+		data:{
+			id : '${sessionScope.loginId}',
+			project_id : $('input[name="id"]').val(),
+			comment_id : $('input[name="comment_id"]').val(),
+			content : $('textarea[name="content"]').val()
+		},
+		dataType:'text',
+		success:function(data){
+			console.log(data);
+			alert(data);
+			location.href='projectDetail.go?id='+$('input[name="project_id"]').val();
+		},
+		error:function(e){
+			console.log(e);
+		}
+	});	
+} 
 </script>
 </body>
 </html>

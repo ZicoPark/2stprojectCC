@@ -262,7 +262,7 @@
           </li>
           
                     <li class="nav-item">
-            <a href="/presonal.go" class="nav-link">
+            <a href="/personal.go" class="nav-link">
               <img src="../../dist/img/개인 업무.png" class="nav-icon fas fa-tachometer-alt"/>
               <p>
                 개인업무관리

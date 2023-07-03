@@ -9,7 +9,11 @@ public interface PersonalDAO {
 
 	ArrayList<PersonalDTO> personalList();
 
-	int pwrite(HashMap<String, String> params);
+//	int pwrite(HashMap<String, String> params);
+
+	int del(String id);
+
+	int pwrite(PersonalDTO dto);
 
 
 
