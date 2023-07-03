@@ -33,7 +33,7 @@ public class ProjectController {
 		
 		
 		// 현재 로그인한 사용자의 아이디 가져오기
-	    String loginId = (String) session.getAttribute("loginId");
+	    String loginId = (String) session.getAttribute("id");
 	    
 	    ArrayList<ProjectDTO> list = service.list();
 	    logger.info("list cnt : " + list.size());
@@ -54,7 +54,7 @@ public class ProjectController {
 	public String projectList(HttpSession session, Model model, @RequestParam int id) {
 		String page = "redirect:/";
 		
-		if(session.getAttribute("loginId") != null) {
+		if(session.getAttribute("id") != null) {
 			   page = "project-detail";
 			   model.addAttribute("project_id",id);
 		   }
@@ -101,7 +101,7 @@ public class ProjectController {
 	@RequestMapping(value = "/projectUpdate.do")
 	public String update(Model model, @RequestParam HashMap<String, String> params, HttpSession session) {
 	    logger.info("update param:" + params);
-	    if (session.getAttribute("loginId") != null) {
+	    if (session.getAttribute("id") != null) {
 	        // 프로젝트 정보 업데이트
 	        service.projectUpdate(params);
 
@@ -158,7 +158,7 @@ public class ProjectController {
 	
 	@GetMapping(value="/projectInsert.go")
 	public String projectInsertGo(HttpSession session, Model model,@RequestParam String idx) {
-		String memberId = (String) session.getAttribute("loginId");
+		String memberId = (String) session.getAttribute("id");
 		model.addAttribute("member_id", memberId);
 		logger.info("왜 안될까요?"+idx);
 		model.addAttribute("project_idx",idx);
