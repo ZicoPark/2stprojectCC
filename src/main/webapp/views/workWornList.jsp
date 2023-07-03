@@ -186,22 +186,6 @@
 		$('#wornListIdAll').append(allContent);
 	}
 	
-
-	
-		
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	
     function wornDel(memberID, week) {
     	console.log("wornDel");

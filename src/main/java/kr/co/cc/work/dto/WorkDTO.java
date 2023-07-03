@@ -15,6 +15,11 @@ public class WorkDTO {
     private int use_cnt;
     private int left_cnt;
     private String year;
+    private String regist_name;
+    private String approval_name;
+    
+    private String regist_id_user;
+    private String approval_id_user;
     
     private String regist_id;
     private Date regist_at;
@@ -46,6 +51,30 @@ public class WorkDTO {
     
     
     
+	public String getRegist_id_user() {
+		return regist_id_user;
+	}
+	public void setRegist_id_user(String regist_id_user) {
+		this.regist_id_user = regist_id_user;
+	}
+	public String getApproval_id_user() {
+		return approval_id_user;
+	}
+	public void setApproval_id_user(String approval_id_user) {
+		this.approval_id_user = approval_id_user;
+	}
+	public String getRegist_name() {
+		return regist_name;
+	}
+	public void setRegist_name(String regist_name) {
+		this.regist_name = regist_name;
+	}
+	public String getApproval_name() {
+		return approval_name;
+	}
+	public void setApproval_name(String approval_name) {
+		this.approval_name = approval_name;
+	}
 	public int getTotal_worn() {
 		return total_worn;
 	}

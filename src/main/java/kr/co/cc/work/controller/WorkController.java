@@ -3,6 +3,7 @@ package kr.co.cc.work.controller;
 import java.sql.Date;
 import java.sql.Time;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -42,7 +43,7 @@ public class WorkController {
 	@GetMapping(value="/timeGo.do")
 	public ModelAndView timeGo(HttpSession session, Model model) {
 		formattedDateTime();
-		String id = (String) session.getAttribute("loginId");
+		String id = (String) session.getAttribute("id");
 		String msg = "이미 출근을 등록하였습니다.";
 		
 		int row = service.timeGoBefore(id,date);
@@ -60,7 +61,7 @@ public class WorkController {
 	public ModelAndView timeEnd(HttpSession session, Model model) {
 		
 		formattedDateTime();
-		String id = (String) session.getAttribute("loginId");
+		String id = (String) session.getAttribute("id");
 		String msg = "출근이 등록되지 않았습니다.";
 		
 		int row = service.timeGoBefore(id,date);
@@ -204,8 +205,8 @@ public class WorkController {
 	public ModelAndView workWorn(@RequestParam HashMap<String, Object> params,@RequestParam Date week, HttpSession session) {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		String weekRe = sdf.format(week);		
-		
-		String member_id = (String) session.getAttribute("loginId");
+
+		String member_id = service.findId(params.get("member_id"));
 		
 		params.put("member_id", member_id);
 		
@@ -213,19 +214,13 @@ public class WorkController {
 		
 		int row = service.workWornChk(member_id,weekRe);
 		if(row>0) {
-			msg = "이미 경고 처리한 내역이 있습니다.";		
+			msg = "이미 경고 처리한 내역이 있습니다.";	
 		} else {
 			service.workWorn(params);
 			msg = "경고 처리가 완료되었습니다.";
 		}		
 		return service.weekListFind(weekRe,msg);
 	}
-	
-	
-	
-	
-	
-	
 	
 	@GetMapping(value="/wornListFind.ajax")
 	@ResponseBody
@@ -294,23 +289,22 @@ public class WorkController {
 	// 연차 관리 workHolidayList > 
 	@GetMapping(value="/workHolidayList.go")
 	public ModelAndView workHolidayList(HttpSession session) {
-		String id = (String) session.getAttribute("loginId");		
+		String id = (String) session.getAttribute("id");		
 		return service.workHolidayList(id);
 	}
 	
 	
 	@GetMapping(value="/workHolidayList_Ad.go")
 	public ModelAndView workHolidayList_Ad() {
-		return service.workHolidayList_Ad();
+		return service.workHolidayList_Ad("");
 	}
 	
 	@GetMapping(value="/holidayListFind.do")
-	public ModelAndView holidayListFind(@RequestParam int holidayList) {
-		String value = holidayList < 10 ? "2023-"+"0"+"holidayList" : "2023-"+"holidayList";
-
+	public ModelAndView holidayListFind(@RequestParam(required = false, defaultValue = "7") int holidayList) {
+		int currentYear = LocalDate.now().getYear();
+		String value = holidayList < 10 ? currentYear +"-0"+holidayList : currentYear+"-"+holidayList;
 		return service.holidayListFind(value);
 	}
-	
 	
 	@GetMapping(value="/workAnnualRegistration.go")
 	public ModelAndView annualRegistrationGo() {
@@ -354,18 +348,45 @@ public class WorkController {
 		} else {
 			service.annualRegistration(params, session);
 			msg = "연차 사용 요청을 완료 하였습니다.";
-			String id = (String) session.getAttribute("loginId");	
-			mav = service.workHolidayList(id);			
+			String id = (String) session.getAttribute("id");	
+			mav = service.workHolidayList(id);
+			
 		}		
 		mav.addObject("msg",msg);
 		
 		return mav;
 	}
+	@GetMapping(value="/giveAnnualLeave.do")
+	public ModelAndView giveAnnualLeave() {
+		return service.giveAnnualLeave();
+	}
 	
 	
+	@GetMapping(value="/giveAnnualLeave_id.do")
+	public ModelAndView giveAnnualLeave_id(@RequestParam String galId) {
+		return service.giveAnnualLeave_id(galId);
+	}
 	
+	@GetMapping(value="/holidayApproval.do")
+	public ModelAndView holidayApproval(@RequestParam String regist_id,@RequestParam String approval,@RequestParam String id,@RequestParam int use_cnt) {
+		
+		return service.holidayApproval(regist_id,approval,id,use_cnt);
+	}
 	
-
+	@GetMapping(value="/approvalChange.ajax")
+	@ResponseBody
+	public HashMap<String, Object> approvalChange(@RequestParam String approval){
+		HashMap<String, Object> map = new HashMap<String, Object>();		
+		ArrayList<WorkDTO> dto = service.approvalChange(approval);	
+		
+		if(dto!=null) {
+			map.put("list", dto);
+			logger.info("wornListFind dto : " + dto);
+		}
+		return map;
+		
+	}
+	
 	
 	
 	public void formattedDateTime() {
