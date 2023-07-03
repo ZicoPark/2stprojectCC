@@ -10,12 +10,12 @@
 	    <selectKey keyProperty="id" resultType="java.lang.String" order="BEFORE">
         SELECT UUID()
     </selectKey>
-	    INSERT INTO project (name, member_id, public_range, start_at, end_at, step, status)
-	    VALUES (#{name}, #{member_id}, #{public_range}, #{start_at}, #{end_at}, '기획', '준비중')
+	    INSERT INTO project (id, name, member_id, public_range, start_at, end_at, step, status)
+	    VALUES (#{id},#{name}, #{member_id}, #{public_range}, #{start_at}, #{end_at}, '기획', '준비중')
 	</insert>
 
     
-    <insert id="addContributor" parameterType="java.util.Map">
+    <insert id="addContributor" parameterType="string">
 	    INSERT INTO contributor (member_id, project_id)
 	    VALUES (
 	        (SELECT id FROM member WHERE user_id = #{param1}),
@@ -31,9 +31,17 @@
 	        INNER JOIN member ON contributor.member_id = member.id
 	        WHERE project.id = #{id}
     </select>
+    
+    <select id="getUserId" resultType="java.lang.String">
+        SELECT user_id
+        FROM member
+        WHERE id = #{memberId}
+    </select>
+    
+    
 
 		<select id="ProjectList" resultType="kr.co.cc.project.dto.ProjectDTO">
-		    SELECT p.id, p.name, m.user_id AS member_id, p.create_at, p.step, GROUP_CONCAT(c.member_id SEPARATOR ',') AS contributors
+		    SELECT p.id, p.name,p.member_id, m.user_id AS member_id, p.create_at, p.step, p.del_chk, GROUP_CONCAT(c.member_id SEPARATOR ',') AS contributors
 		    FROM project p
 		    LEFT JOIN contributor c ON p.id = c.project_id
 		    LEFT JOIN member m ON c.member_id = m.id
@@ -41,12 +49,14 @@
 		</select>
 
 	
-		<select id="ProjectDetail" parameterType="int" resultType="kr.co.cc.project.dto.ProjectDTO">
-		    SELECT c.id, c.project_id, c.member_id, c.content, c.comment_status, c.create_at, c.step, c.status, a.id
-			FROM comment c
-			JOIN attachment a ON c.project_id = a.identify_value
-			WHERE project_id = #{id} AND a.classification = '프로젝트첨부파일';
+		<select id="ProjectDetail" parameterType="String" resultType="kr.co.cc.project.dto.ProjectDTO">
+		    SELECT c.id, c.project_id, m.user_id, c.content, c.status, c.create_at, c.step, c.status, a.id
+		    FROM comment c
+		    JOIN attachment a ON c.project_id = a.identify_value
+		    JOIN member m ON c.member_id = m.id
+		    WHERE c.project_id = #{id} AND a.classification = '프로젝트첨부파일';
 		</select>
+
 		
 		
 		
@@ -57,42 +67,35 @@
 		VALUES(#{content},#{member_id},#{project_id},#{step},#{status})
 	</insert>
 		
-		<insert
-		useGeneratedKeys="true"
-		keyColumn="id"
-		keyProperty="id" 
-		id="ProjectFileWrite" parameterType="kr.co.cc.project.dto.ProjectDTO">
-		INSERT INTO attachment(identify_value, ori_file_name, new_file_name,classification)
-		VALUES(#{idx},#{ori_file_name},#{new_file_name},'프로젝트첨부파일')
-	</insert>
 	
 	<update id="stateChange" parameterType="kr.co.cc.project.dto.ProjectDTO">
-		UPDATE  project SET  step=#{step} where project_id=#{project_id}
+		UPDATE  project SET  step=#{step} where id=#{project_id}
 	</update>
 
 	<insert 
-		useGeneratedKeys="true" 
-		keyColumn="id" 
-		keyProperty="id" 
+		useGeneratedKeys="false"
 		id="AttachmentSave" parameterType="kr.co.cc.project.dto.AttachmentDTO">
-	INSERT INTO attachment(identify_value, ori_file_name, new_file_name,classification)
-	VALUES(#{identify_value},#{ori_file_name},#{new_file_name},'프로젝트첨부파일')
+		<selectKey keyProperty="id" resultType="java.lang.String" order="BEFORE">
+        SELECT UUID()
+    </selectKey>
+	INSERT INTO attachment(id, identify_value, ori_file_name,classification)
+	VALUES(#{id}, #{identify_value},#{ori_file_name},'프로젝트첨부파일')
 	</insert>
 	
 	<select id="projectDetailUp" resultType="kr.co.cc.project.dto.ProjectDTO">
-    SELECT p.project_id, p.name, p.member_id, p.public_range, p.priod, p.deadlinepriod, p.step, p.status, GROUP_CONCAT(c.member_id SEPARATOR ',') AS contributors
+    SELECT p.id, p.name, p.member_id, p.public_range, p.start_at, p.end_at, p.step, p.status, GROUP_CONCAT(c.member_id SEPARATOR ',') AS contributors
     FROM project p
-    INNER JOIN contributor c ON p.project_id = c.project_id
-    WHERE p.project_id = #{param1}
+    INNER JOIN contributor c ON p.id = c.project_id
+    WHERE p.id = #{param1}
 </select>
 
 	<update id="projectUpdate" parameterType="hashmap">
 	  UPDATE project
 	  SET name = #{name},
 	      public_range = #{public_range},
-	      priod = #{priod},
-	      deadlinepriod = #{deadlinepriod}
-	  WHERE project_id = #{project_id}
+	      start_at = #{start_at},
+	      end_at = #{end_at}
+	  WHERE id = #{project_id}
 	</update>
 	
 	<delete id="clearContributors" parameterType="java.util.Map">
@@ -102,7 +105,11 @@
 	</delete>
 	
 	
-	
+	<update id="projectDel" parameterType="kr.co.cc.project.dto.ProjectDTO">
+	  UPDATE project
+	  SET del_chk = 1
+	  WHERE id = #{project_id}
+	</update>
 	
 
 

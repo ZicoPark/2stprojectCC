@@ -5,6 +5,7 @@ import java.util.List;
 
 public class ProjectDTO {
 
+	private int del_chk;
 	private String id;
 	private int public_range;
 	private String project_id;
@@ -31,6 +32,16 @@ public class ProjectDTO {
 	   private String new_file_name;
 	   private String classification;
 	   private String identify_value;
+	   
+	   
+	   
+	  
+	public int getDel_chk() {
+		return del_chk;
+	}
+	public void setDel_chk(int del_chk) {
+		this.del_chk = del_chk;
+	}
 	public String getId() {
 		return id;
 	}
