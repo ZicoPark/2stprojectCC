@@ -58,9 +58,11 @@
 	    				<c:if test="${dto.approval eq 1}"><td>승인</td></c:if>
 	    				<c:if test="${dto.approval eq 2}"><td>반려</td></c:if>
 	    				<td>
-	    					<button id="b1" type="button" class="btn btn-block btn-outline-success btn-lg" onclick="location.href='WorkChangeAdmin.do?approval=1&working_hour_id=${dto.working_hour_id}&type=${dto.type}&update_at=${dto.update_at}'">승인</button>
-    						<button id="b2" type="button" class="btn btn-block btn-outline-danger btn-lg" onclick="location.href='WorkChangeAdmin.do?approval=2&working_hour_id=${dto.working_hour_id}&type=${dto.type}&update_at=${dto.update_at}'">반려</button>
-	    				</td>
+						<div class="btn-group" role="group">
+							<button type="button" class="btn btn-success btn-sm" onclick="location.href='WorkChangeAdmin.do?approval=1&working_hour_id=${dto.working_hour_id}&type=${dto.type}&update_at=${dto.update_at}'">승인</button>
+							<button type="button" class="btn btn-danger btn-sm" onclick="location.href='WorkChangeAdmin.do?approval=2&working_hour_id=${dto.working_hour_id}&type=${dto.type}&update_at=${dto.update_at}'">반려</button>
+        				</div>
+        				</td>
 	    			</tr>			
 				</c:forEach>				
     		</tbody>    	

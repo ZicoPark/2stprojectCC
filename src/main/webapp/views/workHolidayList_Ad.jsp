@@ -59,6 +59,7 @@
     						<option value="2">반려</option>
     					</select>
     				</th>
+    				<th>연차 타입</th>
     				<th>연차 승인/반려</th>
     			</tr>    		
     		</thead>
@@ -78,10 +79,16 @@
 	    				<c:if test="${holiday.approval.equals('0')}"><td>대기</td></c:if>
 	    				<c:if test="${holiday.approval.equals('1')}"><td>승인</td></c:if> 
 	    				<c:if test="${holiday.approval.equals('2')}"><td>반려</td></c:if>
+	    				
+	    				<c:if test="${holiday.type.equals('A')}"><td>일반(연차 소진 O)</td></c:if>
+	    				<c:if test="${holiday.type.equals('B')}"><td>특별(연차 소진 X)</td></c:if>
+	    				
 	    				<td>
-	    					<button id="b1" type="button" class="btn btn-block btn-outline-success btn-lg" onclick="location.href='holidayApproval.do?approval=1&id=${holiday.id}&regist_id=${holiday.regist_id}&use_cnt=${holiday.use_cnt}'">승인</button>
-    						<button id="b2" type="button" class="btn btn-block btn-outline-danger btn-lg" onclick="location.href='holidayApproval.do?approval=2&id=${holiday.id}&regist_id=${holiday.regist_id}&use_cnt=${holiday.use_cnt}'">반려</button>
-	    				</td>
+	    					<div class="btn-group" role="group">
+			              		<button id="b1" type="button" class="btn btn-success btn-sm" onclick="location.href='holidayApproval.do?approval=1&id=${holiday.id}&regist_id=${holiday.regist_id}&use_cnt=${holiday.use_cnt}&type=${holiday.type}&start_at=${holiday.start_at}&end_at=${holiday.end_at}'">승인</button>
+			              		<button id="b2" type="button" class="btn btn-danger btn-sm" onclick="location.href='holidayApproval.do?approval=2&id=${holiday.id}&regist_id=${holiday.regist_id}&use_cnt=${holiday.use_cnt}&type=${holiday.type}&start_at=${holiday.start_at}&end_at=${holiday.end_at}'">반려</button>
+			            	</div>
+			            </td>
 	    			</tr>
 				</c:forEach>				
     		</tbody>    	
@@ -138,18 +145,30 @@
                 content += '<td>' + item.name + '</td>';
                 content += '<td>' + item.start_at + '</td>';
                 content += '<td>' + item.end_at + '</td>';
-                content += '<td>' + item.use_cnt + '</td>';
-                if (item.approval === '0') {
+                content += '<td>' + item.use_cnt + '</td>';                
+                
+                if (item.approval == '0') {
                     content += '<td>대기</td>';
-                } else if (item.approval === '1') {
+                } else if (item.approval == '1') {
                     content += '<td>승인</td>';
-                } else if (item.approval === '2') {
+                } else if (item.approval == '2') {
                     content += '<td>반려</td>';
                 }
+                
+                if (item.type == "A") {
+                    content += '<td>일반(연차 소진 O)</td>';
+                } else if (item.type == "B") {
+                    content += '<td>특별(연차 소진 X)</td>';
+                }
+                
+                
                 content += '<td>';
-                content += '<button id="b1" type="button" class="btn btn-block btn-outline-success btn-lg" onclick="location.href=\'holidayApproval.do?approval=1&id=' + item.id + '&regist_id=' + item.regist_id + '&use_cnt=' + item.use_cnt + '\'">승인</button>';
-                content += '<button id="b2" type="button" class="btn btn-block btn-outline-danger btn-lg" onclick="location.href=\'holidayApproval.do?approval=2&id=' + item.id + '&regist_id=' + item.regist_id + '&use_cnt=' + item.use_cnt + '\'">반려</button>';
+                content += '<div class="btn-group" role="group">';
+                content += '<button id="b1" type="button" class="btn btn-success btn-sm" onclick="location.href=\'holidayApproval.do?approval=1&id=' + item.id + '&regist_id=' + item.regist_id + '&use_cnt=' + item.use_cnt + '&type=' + item.type + '&start_at=' + item.start_at + '&end_at=' + item.end_at + '\'">승인</button>';
+                content += '<button id="b2" type="button" class="btn btn-danger btn-sm" onclick="location.href=\'holidayApproval.do?approval=2&id=' + item.id + '&regist_id=' + item.regist_id + '&use_cnt=' + item.use_cnt + '&type=' + item.type + '&start_at=' + item.start_at + '&end_at=' + item.end_at + '\'">반려</button>';
+                content += '</div>';
                 content += '</td>';
+
                 content += '</tr>';
             });
             console.log("list forEach : " + content);
