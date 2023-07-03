@@ -45,7 +45,7 @@
 			</section>
 
 			<form action="projectInsert.do" method="post" enctype="multipart/form-data">
-			<input type="hidden" name="project_idx" value="${project_idx}" />
+			<input type="hidden" name="project_id" value="${project_id}" />
 			<input type="hidden" name="member_id" value="${member_id}" />
 				<section class="content">
 					<div class="row">
@@ -69,7 +69,7 @@
 									<div class="form-group">
 										<label for="inputContent">내용</label>
 										<textarea id="inputContent" class="form-control"
-											name="comment_content" rows="3"></textarea>
+											name="content" rows="3"></textarea>
 									</div>
 									<div class="form-group">
 										<label for="inputVideo">동영상 첨부</label> <input type="file"

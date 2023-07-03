@@ -62,8 +62,8 @@ public class ArchiveController {
 			
 			logger.info("상세보기 자료실 번호 : "+id);
 			
-			ArchiveDTO detailms = service.archivedetail(Integer.parseInt(id), "detail");
-			String page = "redirect://archiveBoard.go";
+			ArchiveDTO detailms = service.archivedetail(id, "detail");
+			String page = "redirect:/archiveBoard.go";
 			
 			if(detailms != null) {
 				
@@ -92,7 +92,7 @@ public class ArchiveController {
 			if(loginId.equals(member_id)) {
 				
 				logger.info("작성자와 세션아이디 일치함");
-				ArchiveDTO detailms = service.archivedetail(Integer.parseInt(id), "detail");
+				ArchiveDTO detailms = service.archivedetail(id, "detail");
 				
 				if(detailms != null) {
 					ArrayList<String> detailfile = service.archiveDetailFile(id);
@@ -109,21 +109,22 @@ public class ArchiveController {
 
 	@RequestMapping(value = "/archiveUpdate.do")
 	public String archiveUpdate(MultipartFile[] attachment, @RequestParam HashMap<String, String> params, 
-								@RequestParam(value="removeFile",required=true) ArrayList<String> removeFile,
+								@RequestParam ArrayList<String> removeFile,
 								HttpSession session, Model model) {
 		
+		logger.info("게시글 수정 하겠습니다");
 		String page = "redirect:/archiveBoard.go";
 		String loginId = null;
-		String idx;
-		
+		int id;
+		logger.info("remove File : "+removeFile);
 		if(session.getAttribute("loginId")!=null) {//로그인 상태이고 글 작성자와 동일하면
 			loginId = (String) session.getAttribute("loginId");
 			if(loginId.equals(params.get("member_id"))) {
 				logger.info("params : "+params);
 				logger.info("attachment : "+attachment);
 				logger.info("removeFile : "+removeFile);
-				idx = service.archiveUpdate(attachment, params,removeFile, session);
-				page = "redirect:/archivedetail.do?id="+idx;
+				id = service.archiveUpdate(attachment, params,removeFile, session);
+				page = "redirect:/archivedetail.do?id="+id;
 			}
 		}		
 		
@@ -131,7 +132,25 @@ public class ArchiveController {
 	    return page;
 	}	
 
-	
+	@RequestMapping(value = "/archivedelete.do", method = RequestMethod.GET)
+	public String archivedelete(Model model, HttpSession session, @RequestParam HashMap<String, String> params) {
+		
+		String page = "redirect:/archiveBoard.go";
+		
+		String member_id = params.get("member_id");
+		
+		if(session.getAttribute("loginId")!=null) {//로그인 상태에서
+			if(session.getAttribute("loginId").equals(member_id)) {// 작성자와 세션 아이디가 일치할 때
+				
+				String id = params.get("id");
+				service.archivedelete(id);
+				page = "redirect:/archiveBoard.go";
+			}else {
+				logger.info("세션 아이디 아님");
+			}
+		}
+		return page;
+	}	
 	
 	
 }

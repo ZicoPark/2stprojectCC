@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import kr.co.cc.personal.dao.PersonalDAO;
 import kr.co.cc.personal.dto.PersonalDTO;
+import kr.co.cc.project.dto.ProjectDTO;
 
 @Service
 @MapperScan(value= {"kr.co.cc.personal.dao"})
@@ -24,12 +25,27 @@ public class PersonalService {
 		return dao.personalList();	
 	}
 
-	public String pwrite(HashMap<String, String> params) {
-		logger.info("서비스 도착");
-		int row = dao.pwrite(params);
+//	public String pwrite(HashMap<String, String> params) {
+//		logger.info("서비스 도착");
+//		int row = dao.pwrite(params);
+//		return "";
+//	}
+
+	public ArrayList<PersonalDTO> list() {
+		return dao.personalList();
+	}
+
+	public int del(String id) {
+		 return dao.del(id);
+	}
+
+	public String pwrite(PersonalDTO dto, String id) {
+		 dto.setMember_id(id);
+	        logger.info("id"+id);
+	        int row = dao.pwrite(dto);
 		return "";
 	}
-	
+
 
 
 

@@ -27,29 +27,123 @@
           
 
       <div class="card">
-      <div class="card-header ui-sortable-handle">
-      <h3 class="card-title">
-      <i class="ion ion-clipboard mr-1"></i>
-      To Do List
-      </h3>
-      <div class="card-tools">
-      <ul class="pagination pagination-sm">
-      <li class="page-item"><a href="#" class="page-link">«</a></li>
-      <li class="page-item"><a href="#" class="page-link">1</a></li>
-      <li class="page-item"><a href="#" class="page-link">2</a></li>
-      <li class="page-item"><a href="#" class="page-link">3</a></li>
-      <li class="page-item"><a href="#" class="page-link">»</a></li>
-      </ul>
-      </div>
+	      <div class="card-header ui-sortable-handle">
+		      <h3 class="card-title">
+			      <i class="ion ion-clipboard mr-1"></i>
+			<!--       To Do List -->
+		      </h3>
+		   		   <button onclick="location.href='personalWrite.go'" class="btn btn-primary float-right"><i class="fas fa-plus"></i> Add item</button>
       </div>
       
+      						<table class="table table-striped projects">
+							<thead>
+								<tr>
+									<th style="width: 1%"></th>
+									<th style="width: 20%">생성일</th>
+									<th style="width: 30%">업무 사항</th>
+									<th>시작일</th>
+									<th>마감일</th>
+									<th style="width: 20%" class="text-center"></th>
+								</tr>
+							</thead>
+							<tbody>
+								<c:forEach items="${list}" var="personal">
+									<tr>
+										<td>
+											<div class="icheck-primary d-inline ml-2">
+										      <input type="checkbox" value="" name="todo1" id="todoCheck1">
+										      <label for="todoCheck1"></label>
+											</div>
+										</td>
+										<td><a>${personal.create_at}</a></td>
+										<td>${personal.title}</td>
+										<td>${personal.start_at}</td>
+										<td>${personal.end_at}</td>
+										<td class="project-actions text-right"><a
+											href="projectDetail.go?id=${project.project_id}"
+											class="btn btn-primary btn-sm view-btn"> <i
+												class="fas fa-folder"> </i> 상세보기
+										</a>                            
+										<c:if test="${sessionScope.loginId eq personal.member_id}">
+										    <a class="btn btn-info btn-sm" href="projectUpdate.go?id=${project.project_id}">
+										        <i class="fas fa-pencil-alt"></i>
+										        Edit
+										    </a>
+										</c:if>
+                          				<a class="btn btn-danger btn-sm" href="personalDel.do?id=${personal.id}">
+                              				<i class="fas fa-trash">
+                              			</i>
+                              					Delete
+                          				</a> 
+                          				</td>
+									</tr>
+								</c:forEach>
+							</tbody>
+						</table>
       
-      <div class="card-body">
+      
+<%--       <div class="card-body">
        <ul class="todo-list ui-sortable" data-widget="todo-list">
       <li>
-      
-      
-      <!-- <div class="icheck-primary d-inline ml-2">
+			<div class="card-body p-0">
+						<table class="table table-striped projects">
+							<thead>
+								<tr>
+									<th ></th>
+									<th>생성일</th>
+									<th>업무 사항</th>
+									<th>시작일</th>
+									<th>마감일</th>
+									<th>수정</th>
+									<th>삭제</th>
+<!-- 									<th style="width: 20%"></th> -->
+								</tr>
+							</thead>
+							<tbody>
+							<tr>
+										<td>#</td>
+										<td>${personal.create_at}</td>
+										<td>${personal.title}</td>
+										<td>${personal.start_at}</td>
+										<td>${personal.end_at}</td>
+										<td ><a
+											href="projectDetail.go?id=${project.project_id}"
+											class="btn btn-primary btn-sm view-btn"> 수정 </a>
+										</td>
+										<td ><a
+											href="projectDetail.go?id=${project.project_id}"
+											class="btn btn-primary btn-sm view-btn"> 삭제 </a> 뭐 쓸지 고민
+											<button type="button" class="btn btn-default"><i class="far fa-trash-alt"></i></button>
+										</td>
+							</tr>
+							
+							<tr>
+								<td>      
+									<div class="icheck-primary d-inline ml-2">
+									      <input type="checkbox" value="" name="todo1" id="todoCheck1">
+									      <label for="todoCheck1"></label>
+									</div>
+								</td>
+										<td>${personal.create_at}</td>
+										<td><span class="text">Design a nice theme</span></td>
+										<td>${personal.start_at}</td>
+										<td>${personal.end_at}</td>
+										<td ><a
+											href="projectDetail.go?id=${project.project_id}"
+											class="btn btn-primary btn-sm view-btn"> 수정 </a>
+										</td>
+										<td ><a
+											href="projectDetail.go?id=${project.project_id}"
+											class="btn btn-primary btn-sm view-btn"> 삭제 </a> 뭐 쓸지 고민
+											<button type="button" class="btn btn-default"><i class="far fa-trash-alt"></i></button>
+										</td>
+							</tr>
+							</tbody>
+						</table>
+					</div>
+      </li>
+     <li>
+      <div class="icheck-primary d-inline ml-2">
       <input type="checkbox" value="" name="todo1" id="todoCheck1">
       <label for="todoCheck1"></label>
       </div>
@@ -109,45 +203,24 @@
       <i class="fas fa-trash-o"></i>
       </div>
       </li>
-      <li> -->
-
-      <!-- <div class="icheck-primary d-inline ml-2">
-      <input type="checkbox" value="" name="todo6" id="todoCheck6">
-      <label for="todoCheck6"></label>
-      </div> -->
-      <span class="text">
-
-
-
-         <c:if test="${list.size()==0}" >
-         <tr><th colspan="2">게시물이 없습니다.</th></tr>
-         	</c:if>
-	         <c:forEach items="${list}" var="personal">
-	         <tr>
-	            <td>${personal.member_id}</td>
-	            <td>${personal.title}</td>
-	            <td>${personal.start_date}</td>
-	            <td>${personal.end_date}</td>
-	            <td><a href="del.do?id=${personal.id}">삭제</a></td>
-	         </tr>
-         </c:forEach>
-
-
-
-		</span>
-<!--       <div class="tools">
-       <i class="fas fa-edit"></i>
-      <i class="fas fa-trash-o"></i>
-      </div> -->
-      </li>
       </ul>
-      </div>
+      </div> --%>
       
       
+      	<div class="card-footer clearfix"> 
+	      <div class="card-tools">
+		      <ul class="pagination pagination-sm">
+			      <li class="page-item"><a href="#" class="page-link">«</a></li>
+			      <li class="page-item"><a href="#" class="page-link">1</a></li>
+			      <li class="page-item"><a href="#" class="page-link">2</a></li>
+			      <li class="page-item"><a href="#" class="page-link">3</a></li>
+			      <li class="page-item"><a href="#" class="page-link">»</a></li>
+		      </ul>
+	      </div>
+   </div>
       
-      <div class="card-footer clearfix">
-      <button onclick="location.href='personalWrite.go'" class="btn btn-primary float-right"><i class="fas fa-plus"></i> Add item</button>
-      </div>
+      
+
       </div>
 
 
@@ -174,3 +247,21 @@
 	}
 </script>
 </html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

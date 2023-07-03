@@ -6,6 +6,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
@@ -29,14 +30,17 @@ public class ProjectService {
 	Logger logger = LoggerFactory.getLogger(getClass());
 	
 	
-    public String write(ProjectDTO dto, String memberId) {
-        dto.setMember_id(memberId);
+    public String write(ProjectDTO dto, String id) {
+        dto.setMember_id(id);
+        logger.info("id"+id);
         int row = dao.ProjectWrite(dto);
-        return String.valueOf(dto.getProject_id()); // 새로 생성된 프로젝트의 ID 반환
+
+        return dto.getId(); // 새로 생성된 프로젝트의 ID 반환
     }
 
-    public void addContributor(int project_id, String memberId) {
-        dao.addContributor(project_id, memberId);	
+
+    public void addContributor(String contributorId, String project_id) {
+       dao.addContributor(contributorId, project_id);	
     }
     
 	public ArrayList<ProjectDTO> list() {
@@ -60,7 +64,7 @@ public class ProjectService {
 		dto.setComment_content(params.get("comment_content"));
 		dto.setStep(params.get("step"));
 		dto.setStatus(params.get("status"));
-		dto.setProject_id(Integer.valueOf(params.get("project_idx")));
+		dto.setId(params.get("project_idx"));
 		int row = dao.commentWrite(dto);
 		dao.stateChange(dto);
 		page = "redirect:/projectDetail.go?id="+params.get("project_idx");
@@ -130,6 +134,11 @@ public class ProjectService {
 	public void clearContributors(int project_id) {
 	    dao.clearContributors(project_id);
 	}
+
+	public List<String> getUserIdsByProjectId(String id) {
+	    return dao.getUserIdsByProjectId(id);
+	}
+
 
 
 
