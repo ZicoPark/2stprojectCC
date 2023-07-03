@@ -35,8 +35,54 @@
 		   		   <button onclick="location.href='personalWrite.go'" class="btn btn-primary float-right"><i class="fas fa-plus"></i> Add item</button>
       </div>
       
+      						<table class="table table-striped projects">
+							<thead>
+								<tr>
+									<th style="width: 1%"></th>
+									<th style="width: 20%">생성일</th>
+									<th style="width: 30%">업무 사항</th>
+									<th>시작일</th>
+									<th>마감일</th>
+									<th style="width: 20%" class="text-center"></th>
+								</tr>
+							</thead>
+							<tbody>
+								<c:forEach items="${list}" var="personal">
+									<tr>
+										<td>
+											<div class="icheck-primary d-inline ml-2">
+										      <input type="checkbox" value="" name="todo1" id="todoCheck1">
+										      <label for="todoCheck1"></label>
+											</div>
+										</td>
+										<td><a>${personal.create_at}</a></td>
+										<td>${personal.title}</td>
+										<td>${personal.start_at}</td>
+										<td>${personal.end_at}</td>
+										<td class="project-actions text-right"><a
+											href="projectDetail.go?id=${project.project_id}"
+											class="btn btn-primary btn-sm view-btn"> <i
+												class="fas fa-folder"> </i> 상세보기
+										</a>                            
+										<c:if test="${sessionScope.loginId eq personal.member_id}">
+										    <a class="btn btn-info btn-sm" href="projectUpdate.go?id=${project.project_id}">
+										        <i class="fas fa-pencil-alt"></i>
+										        Edit
+										    </a>
+										</c:if>
+                          				<a class="btn btn-danger btn-sm" href="personalDel.do?id=${personal.id}">
+                              				<i class="fas fa-trash">
+                              			</i>
+                              					Delete
+                          				</a> 
+                          				</td>
+									</tr>
+								</c:forEach>
+							</tbody>
+						</table>
       
-      <div class="card-body">
+      
+<%--       <div class="card-body">
        <ul class="todo-list ui-sortable" data-widget="todo-list">
       <li>
 			<div class="card-body p-0">
@@ -64,9 +110,9 @@
 											href="projectDetail.go?id=${project.project_id}"
 											class="btn btn-primary btn-sm view-btn"> 수정 </a>
 										</td>
-										<td ><%-- <a
+										<td ><a
 											href="projectDetail.go?id=${project.project_id}"
-											class="btn btn-primary btn-sm view-btn"> 삭제 </a> 뭐 쓸지 고민--%>
+											class="btn btn-primary btn-sm view-btn"> 삭제 </a> 뭐 쓸지 고민
 											<button type="button" class="btn btn-default"><i class="far fa-trash-alt"></i></button>
 										</td>
 							</tr>
@@ -86,9 +132,9 @@
 											href="projectDetail.go?id=${project.project_id}"
 											class="btn btn-primary btn-sm view-btn"> 수정 </a>
 										</td>
-										<td ><%-- <a
+										<td ><a
 											href="projectDetail.go?id=${project.project_id}"
-											class="btn btn-primary btn-sm view-btn"> 삭제 </a> 뭐 쓸지 고민--%>
+											class="btn btn-primary btn-sm view-btn"> 삭제 </a> 뭐 쓸지 고민
 											<button type="button" class="btn btn-default"><i class="far fa-trash-alt"></i></button>
 										</td>
 							</tr>
@@ -158,7 +204,9 @@
       </div>
       </li>
       </ul>
-      </div>
+      </div> --%>
+      
+      
       	<div class="card-footer clearfix"> 
 	      <div class="card-tools">
 		      <ul class="pagination pagination-sm">

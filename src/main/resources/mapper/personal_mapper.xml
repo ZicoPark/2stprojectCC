@@ -6,12 +6,27 @@
 
 
 		<select id="personalList" resultType="kr.co.cc.personal.dto.PersonalDTO"> <!-- 메서드 가져옴 > resultType >결과 반환타입 -->
-			SELECT * FROM personal ORDER BY id DESC
+			SELECT * FROM personal ORDER BY create_at DESC
 		</select>
 	
-		<insert id="pwrite" parameterType="hashmap">
+<!-- 		<insert id="pwrite" parameterType="hashmap">
 			INSERT INTO personal(create_at, member_id, title, start_at, end_at, status)
 			VALUES(#{create_at}, #{member_id},#{title},#{start_at},#{end_at}, #{status})
-		</insert>
+		</insert> -->
+		
+		<delete id="del">
+   		   DELETE FROM personal WHERE id = #{param1}
+   		</delete>
+   		
+   		<insert 
+	    id="pwrite" 
+	    parameterType="kr.co.cc.personal.dto.PersonalDTO" 
+	    useGeneratedKeys="false">
+	    <selectKey keyProperty="id" resultType="java.lang.String" order="BEFORE">
+	        SELECT UUID()
+	    </selectKey>
+	    INSERT INTO personal(id, member_id, title, start_at,end_at, status)
+	      VALUES(#{id}, #{member_id}, #{title}, #{start_at},#{end_at},1)
+	</insert> 
 		
 </mapper>
