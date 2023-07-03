@@ -12,14 +12,35 @@ public class ArchiveDTO {
 	private int hit;
 	private boolean status;
 	private Date create_at;
-
+	private String user_id;
 	private String name;
 	private String dept_id;
 	private String ori_file_name;
 	private String classification;
 	private String identify_value;
+	private String admin_chk;
 	
 	
+	
+	
+	public String getAdmin_chk() {
+		return admin_chk;
+	}
+	public void setAdmin_chk(String admin_chk) {
+		this.admin_chk = admin_chk;
+	}
+	public String getUser_id() {
+		return user_id;
+	}
+	public void setUser_id(String user_id) {
+		this.user_id = user_id;
+	}
+	public String getDept_id() {
+		return dept_id;
+	}
+	public void setDept_id(String dept_id) {
+		this.dept_id = dept_id;
+	}
 	public String getId() {
 		return id;
 	}
@@ -51,12 +72,7 @@ public class ArchiveDTO {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public String getdept_id() {
-		return dept_id;
-	}
-	public void setdept_id(String dept_id) {
-		this.dept_id = dept_id;
-	}
+
 
 	public String getMember_id() {
 		return member_id;

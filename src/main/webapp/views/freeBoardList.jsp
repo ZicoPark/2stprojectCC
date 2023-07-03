@@ -74,7 +74,7 @@
 <!-- AdminLTE for demo purposes -->
 <script src="../../dist/js/demo.js"></script>
 
-  <script type="text/javascript" src="../../dist/js/jquery.twbsPagination.min.js"></script>
+<script type="text/javascript" src="../../dist/js/jquery.twbsPagination.min.js"></script>
 </body>
 <script>
 
@@ -133,12 +133,13 @@ function listCall(page){
 // list 받아와서 보여줌
 function listPrint(list){
 	   var content ='';
-	   var count = (showPage - 1) * 10 + 1; // 각 페이지별로 시작 번호 계산
+	   var count = (showPage - 1) * 10 + list.length;
+	   var totalItems = list.length;
 	   list.forEach(function(item){
 	      
 	      // 배열 요소들 반복문 실행 -> 행 구성 + 데이터 추가 
 	      content +='<tr>';
-	      content +='<td>'+ count++ +'</td>'; // 생성 순서대로 번호 증가
+	      content += '<td>' + count-- + '</td>'; // 번호를 반대로 표시
 	      content +='<td><a href="freedetail.do?id=' + item.id + '">'+item.subject +'</a></td>';
 	      content +='<td>'+item.user_id +'</td>';
 	      content +='<td id="userstate">'+ item.create_at +'</td>';

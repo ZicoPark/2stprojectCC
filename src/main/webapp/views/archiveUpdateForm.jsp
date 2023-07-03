@@ -30,8 +30,9 @@
     <!-- Main content -->
 
 
-                <input type="text" name="member_id" value="${loginId}" readonly="readonly" hidden="true" required/>
-					
+                <input type="text" name="member_id" value="${sessionScope.id}" readonly="readonly" hidden="true" required/>
+				<input type="text" name="id" value="${detailms.id}" readonly="readonly" hidden="true" required/>
+				문서번호 ${detailms.id}
 				${detailms.category}
 			
                 <div>
@@ -45,25 +46,25 @@
                 </div>
                 
 
-
-
-<div id="fileNames">
-    <c:if test="${detailfile.size() > 0 }">
-        <c:forEach items="${detailfile}" var="i">
-            <div>
-            	<input type="text" name="removeFile" value="${i.id}" hidden="true"/>${i.ori_file_name}
-                
-                <i class="fas fa-times cancel-icon" onclick="removeFileEvent(this.getAttribute('fileId'))"></i>
-            </div>
-        </c:forEach>
-    </c:if>
-</div>
+				<label for="fileInput" class="file-input-label">
+				    <i class="fas fa-paperclip"></i> 파일 첨부
+				</label>
+				<!--  파일 선택 버튼 숨겼음 !! 왜냐면 file 요소 떄문에 원래 있던 애들 사라짐 -->
+				<input type="file" name="attachment" multiple="multiple" onchange="displayFileNames(event)" id="fileInput" style="display: none;">
 				
-<label for="fileInput" class="file-input-label">
-    <i class="fas fa-paperclip"></i> 파일 첨부
-</label>
-<!--  파일 선택 버튼 숨겼음 !! 왜냐면 file 요소 떄문에 원래 있던 애들 사라짐 -->
-<input type="file" name="attachment" multiple="multiple">
+				<div id="fileNames">
+				    <c:if test="${detailfile.size() > 0 }">
+				        <c:forEach items="${detailfile}" var="i">
+				            <div>
+				            	<input type="text" name="removeFile" value="${i.id}" hidden="true"/>${i.ori_file_name}
+				                
+				                <i class="fas fa-times cancel-icon" onclick="removeFileEvent(this)"></i>
+				            </div>
+				        </c:forEach>
+				    </c:if>
+				</div>
+								
+				<input type="hidden" name="deletedFiles" id="deletedFiles">
 
               <!-- /.card-body -->
               <div class="card-footer">
@@ -100,7 +101,6 @@
     $('#compose-textarea').summernote()
   })
   
-	$(".modal-content").load("/msMemberList.go");
   
   function counter(event, limit){
 	    var val = event.target.value.length;
@@ -157,14 +157,22 @@
 
 
 	    function removeFileEvent(icon) {
-	        var fileNameDiv = $(icon).parent(); 
-	        var fileNameInput = fileNameDiv.find('input[type="text"]'); 
-	        var newFileName = fileNameInput.attr('value'); 
+	        var fileNameDiv = $(icon).parent();
+	        var fileNameInput = fileNameDiv.find('input[type="text"]');
+	        var newFileName = fileNameInput.attr('value');
 
+	        console.log(newFileName);
 	        fileNameDiv.remove();
 
-			console.log(newFileName);
-	    }
+	        var deletedFilesInput = document.getElementById('deletedFiles');
+	        var deletedFiles = deletedFilesInput.value;
+	        if (deletedFiles) {
+	          deletedFiles += ',' + newFileName;
+	        } else {
+	          deletedFiles = newFileName;
+	        }
+	        deletedFilesInput.value = deletedFiles;
+	      }
 
 </script>
 
