@@ -116,7 +116,7 @@
 			, (SELECT dp.name FROM dept dp WHERE dp.id = d.dept_id) AS production_dept_name
 			, d.public_range
 			, (SELECT df.name FROM doc_form df WHERE df.id = d.doc_form_id) AS doc_form_name
-			, DATE_FORMAT(d.create_at, '%Y-%m-%d %h:%i:%s') AS create_at
+			, DATE_FORMAT(d.create_at, '%Y-%m-%d %T') AS create_at
 			, (SELECT a.name FROM approval a WHERE a.id = ds.approval_id) AS approval_kind_name
 			, (SELECT m.name FROM member m WHERE m.id = ds.member_id) AS approval_member_name
 			, ds.read_chk
@@ -138,11 +138,12 @@
 			, d.job_level_name
 			, (SELECT m.name FROM member m WHERE m.id = d.member_id) AS create_member_name
 			, (SELECT df.name FROM doc_form df WHERE df.id = d.doc_form_id) AS doc_form_name
-			, DATE_FORMAT(d.create_at, '%Y-%m-%d %h:%i:%s') AS create_at
+			, DATE_FORMAT(d.create_at, '%Y-%m-%d %T') AS create_at
 			, (SELECT a.name FROM approval a WHERE a.id = ds.approval_id) AS approval_kind_name
 			, ds.job_name AS approval_member_job_name
 			, (SELECT m.name FROM member m WHERE m.id = ds.member_id) AS approval_member_name
 			, ds.read_chk 
+			, ds.approval
 			, MIN(ds.order_rank) AS order_rank
 			FROM doc d 
 			INNER JOIN doc_status ds ON d.id = ds.doc_id 
@@ -158,7 +159,7 @@
 			, (SELECT dp.name FROM dept dp WHERE dp.id = d.dept_id) AS production_dept_name
 			, (SELECT a.name FROM approval a WHERE a.id = ds.approval_id) AS approval_kind_name
 			, ds.read_chk 
-			, DATE_FORMAT(d.create_at, '%Y-%m-%d %h:%i:%s') AS create_at
+			, DATE_FORMAT(d.create_at, '%Y-%m-%d %T') AS create_at
 			, MIN(ds.order_rank) AS order_rank
 			FROM doc d 
 			INNER JOIN doc_status ds ON d.id = ds.doc_id 
@@ -166,5 +167,12 @@
 			GROUP BY d.id
 		ORDER BY d.create_at DESC
 	</select>
+	
+	<update id="readCheckUpdate" parameterType="string">
+		UPDATE doc_status ds SET ds.read_chk = TRUE, ds.read_at = #{docUpdateTime}
+			WHERE doc_id = #{docId}
+			AND member_id = #{loginId} 
+		AND ds.order_rank = (SELECT MIN(ds2.order_rank) FROM doc_status ds2 WHERE doc_id = #{docId} AND member_id = #{loginId})
+	</update>
 	
 </mapper>

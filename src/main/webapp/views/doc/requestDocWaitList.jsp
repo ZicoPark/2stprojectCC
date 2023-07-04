@@ -37,7 +37,7 @@
 					<tr>
 						<td>${varStatus.count }</td>
 						<td>${i.doc_form_name }</td>
-						<td><a href="requestDocDetail.go?id=${i.id }">${i.subject }</a></td>
+						<td><a href="requestDocWaitDetail.go?id=${i.id }">${i.subject }</a></td>
 						<td>${i.approval_kind_name }대기</td>
 						<td>${i.production_dept_name }</td>
 						<td>${i.create_member_name }</td>

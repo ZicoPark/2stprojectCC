@@ -136,7 +136,11 @@ public class DocController {
 		return service.requestDocWaitList(session);
 	}
 	
-	
+	@RequestMapping(value="/requestDocWaitDetail.go")
+	public ModelAndView requestDocWaitDetail(@RequestParam String id, HttpSession session) {
+		
+		return service.requestDocWaitDetail(id, session);
+	}
 	
 	
 	

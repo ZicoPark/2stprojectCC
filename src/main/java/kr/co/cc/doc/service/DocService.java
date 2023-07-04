@@ -640,7 +640,7 @@ public class DocService {
 		
 		ModelAndView mav = new ModelAndView("/doc/requestDocDetail");
 		
-		// 문서의 첨부파일 불러오기
+		// 문서의 정보 불러오기
 		HashMap<String, String> doc = dao.requestDocDetail(docId);
 		mav.addObject("doc", doc);
 		
@@ -661,6 +661,33 @@ public class DocService {
 		
 		ArrayList<HashMap<String, String>> requestDocWaitList = dao.requestDocWaitList(loginId);
 		mav.addObject("list", requestDocWaitList);
+		
+		return mav;
+	}
+
+	public ModelAndView requestDocWaitDetail(String docId, HttpSession session) {
+		
+		ModelAndView mav = new ModelAndView("/doc/requestDocWaitDetail");
+		
+		String loginId = (String) session.getAttribute("id");
+		
+		// 진입했을 때 읽음표시 업데이트
+		// 진입했을 때 읽은날짜 업데이트
+		long currentTime = System.currentTimeMillis();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
+		String docUpdateTime = sdf.format(new Date(currentTime));
+		
+		dao.readCheckUpdate(docId, loginId, docUpdateTime);
+		
+		// 문서의 정보 불러오기
+		HashMap<String, String> doc = dao.requestDocDetail(docId);
+		mav.addObject("doc", doc);
+		
+		// 문서의 첨부파일 불러오기
+		ArrayList<AttachmentDTO> attachmentList = dao.getAttachmentList(docId);
+		mav.addObject("attachmentList", attachmentList);		
+		
+		
 		
 		return mav;
 	}
