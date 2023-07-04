@@ -106,6 +106,23 @@
 		WHERE id = #{id}
 	</update>
 	
-	
+	<select id="getRequestDocList" parameterType="string" resultType="hashmap">
+		SELECT d.id
+			, d.subject
+			, (SELECT dp.name FROM dept dp WHERE dp.id = d.dept_id) AS production_dept_name
+			, d.public_range
+			, (SELECT df.name FROM doc_form df WHERE df.id = d.doc_form_id) AS doc_form_name
+			, DATE_FORMAT(d.create_at, '%Y-%m-%d %h:%i:%s') AS create_at
+			, (SELECT a.name FROM approval a WHERE a.id = ds.approval_id) AS approval_kind_name
+			, (SELECT m.name FROM member m WHERE m.id = ds.member_id) AS approval_member_name
+			, ds.read_chk
+			, ds.approval
+			, min(ds.order_rank) AS order_rank
+			FROM doc d 
+			INNER JOIN doc_status ds ON d.id = ds.doc_id 
+			WHERE d.member_id = #{loginId} AND d.status = 1 AND ds.approval = 0
+			GROUP BY d.id
+		ORDER BY d.create_at DESC
+	</select>
 	
 </mapper>

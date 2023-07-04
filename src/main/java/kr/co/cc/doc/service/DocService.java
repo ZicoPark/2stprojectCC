@@ -180,17 +180,10 @@ public class DocService {
 			
 		}else {
 			
-			// 기안일자에 등록날짜를 넣는다.
-			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
-			String createDate = sdf.format(docDTO.getCreate_at());
-			String dateWritedContent = docFormUpdate(idWritedContent, "<span id=\"docFormCreateDate\" style=\"font-size: 16px; text-align: left; font-style: italic; color: rgb(255, 0, 0)\">(기안일자 자동 입력)</span>", "<span id=\"docFormCreateDate\" style=\"font-size: 16px; text-align: left;\">"+createDate+"</span>");
-			
-			String simpleCreateDate = createDate.substring(0, 10);
-			String lineDateWritedContent = docFormUpdate(dateWritedContent, "<div class=\"approvalDate \" style=\"width:100px; height:25px; border:1px solid black; font-size: 16px; color: rgb(255, 0, 0); font-style: italic; text-align : center;\">(결재일)</div>", "<div class=\"approvalDate \" style=\"width:100px; height:25px; border:1px solid black; font-size: 16px; text-align : center;\">"+simpleCreateDate+"</div>");
 			
 			// 결재선을 확인하여 도장찍는 위치에 칸을 렌더링한다.
-			String lineDocForm;
-			String kianSignDocForm;
+			String lineWritedContent;
+			String kianSignWritedContent;
 			String approvalLinePriority;
 			String approvalLineName;
 			String approvalLineMemberId;
@@ -219,7 +212,16 @@ public class DocService {
 
 				}
 			
-				lineDocForm = docFormUpdate(lineDateWritedContent, oriLine, newLine);
+				lineWritedContent = docFormUpdate(idWritedContent, oriLine, newLine);
+				
+				// 기안일자에 등록날짜를 넣는다.
+				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+				String createDate = sdf.format(docDTO.getCreate_at());
+				String dateWritedContent = docFormUpdate(lineWritedContent, "<span id=\"docFormCreateDate\" style=\"font-size: 16px; text-align: left; font-style: italic; color: rgb(255, 0, 0)\">(기안일자 자동 입력)</span>", "<span id=\"docFormCreateDate\" style=\"font-size: 16px; text-align: left;\">"+createDate+"</span>");
+				
+				String simpleCreateDate = createDate.substring(0, 10);
+				String lineDateWritedContent = docFormUpdate(dateWritedContent, "<div class=\"approvalDate \" style=\"width:100px; height:25px; border:1px solid black; font-size: 16px; color: rgb(255, 0, 0); font-style: italic; text-align : center;\">(결재일)</div>", "<div class=\"approvalDate \" style=\"width:100px; height:25px; border:1px solid black; font-size: 16px; text-align : center;\">"+simpleCreateDate+"</div>");
+				
 				
 				// 결재선 라인을 렌더링 한 후, 우선 기안자의 도장 이미지를 가져온다.
 				String memberStampBase64;
@@ -239,9 +241,9 @@ public class DocService {
 					
 				}
 				
-			kianSignDocForm = docFormUpdate(lineDocForm, "<div class=\"approvalSign \" style=\"width:100px; height:75px; border:1px solid black; font-size: 16px; color: rgb(255, 0, 0); font-style: italic; text-align : center;\">(기안 서명)", kianSign);
+				kianSignWritedContent = docFormUpdate(lineDateWritedContent, "<div class=\"approvalSign \" style=\"width:100px; height:75px; border:1px solid black; font-size: 16px; color: rgb(255, 0, 0); font-style: italic; text-align : center;\">(기안 서명)", kianSign);
 	
-			dao.docWriteETC(docId, kianSignDocForm);
+			dao.docWriteETC(docId, kianSignWritedContent);
 			
 			// status가 1일때는 결재요청함으로 보낸다.
 			mav.setViewName("redirect:/docApprovalWaitList.go");
@@ -517,7 +519,7 @@ public class DocService {
 			row = dao.docUpdate(params);
 			
 			// status가 1일때는 결재요청함으로 보낸다.
-			mav.setViewName("redirect:/docApprovalWaitList.go");
+			mav.setViewName("redirect:/requestDocList.go");
 			
 			// 정상결재요청 시에는 결재선을 저장한다.
 			HashMap<String, Object> docStatusMap = new HashMap<String, Object>();
@@ -587,9 +589,19 @@ public class DocService {
 	}
 
 
-	public ModelAndView docRequestList(HttpSession session) {
-		// TODO Auto-generated method stub
-		return null;
+	public ModelAndView requestDocList(HttpSession session) {
+		
+		ModelAndView mav = new ModelAndView("requestDocList");
+		
+		String loginId = (String) session.getAttribute("id");
+		
+		ArrayList<HashMap<String, String>> requestDocList = dao.getRequestDocList(loginId);
+		
+		logger.info("requestDocList : "+requestDocList);
+		
+		mav.addObject("list", requestDocList);
+		
+		return mav;
 	}
 
 

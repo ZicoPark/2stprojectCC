@@ -253,9 +253,9 @@
                 </a>
               </li>
               <li class="nav-item">
-                <a href="../../index3.jsp" class="nav-link">
+                <a href="/requestDocList.go" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
-                  <p>부제목3</p>
+                  <p>결재요청함</p>
                 </a>
               </li>
             </ul>

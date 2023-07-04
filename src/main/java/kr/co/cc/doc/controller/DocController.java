@@ -113,9 +113,9 @@ public class DocController {
 		return service.docUpdate(params, approvalList, attachment, session);
 	}
 	
-	@RequestMapping(value="/docRequestList.go")
-	public ModelAndView docRequestList(HttpSession session) {
+	@RequestMapping(value="/requestDocList.go")
+	public ModelAndView requestDocList(HttpSession session) {
 		
-		return service.docRequestList(session);
+		return service.requestDocList(session);
 	}
 }

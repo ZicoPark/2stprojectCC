@@ -51,6 +51,8 @@ public interface DocDAO {
 	
 	int docUpdate(HashMap<String, String> params);
 
+	ArrayList<HashMap<String, String>> getRequestDocList(String loginId);
+
 	
 
 	
