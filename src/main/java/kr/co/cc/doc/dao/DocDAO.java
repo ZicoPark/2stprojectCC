@@ -53,6 +53,8 @@ public interface DocDAO {
 
 	ArrayList<HashMap<String, String>> getRequestDocList(String loginId);
 
+	HashMap<String, String> requestDocDetail(String docId);
+
 	
 
 	

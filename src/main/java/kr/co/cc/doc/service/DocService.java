@@ -180,7 +180,6 @@ public class DocService {
 			
 		}else {
 			
-			
 			// 결재선을 확인하여 도장찍는 위치에 칸을 렌더링한다.
 			String lineWritedContent;
 			String kianSignWritedContent;
@@ -588,7 +587,6 @@ public class DocService {
 		return mav;
 	}
 
-
 	public ModelAndView requestDocList(HttpSession session) {
 		
 		ModelAndView mav = new ModelAndView("requestDocList");
@@ -597,9 +595,26 @@ public class DocService {
 		
 		ArrayList<HashMap<String, String>> requestDocList = dao.getRequestDocList(loginId);
 		
-		logger.info("requestDocList : "+requestDocList);
+//		logger.info("requestDocList : "+requestDocList);
 		
 		mav.addObject("list", requestDocList);
+		
+		return mav;
+	}
+
+	public ModelAndView requestDocDetail(String docId) {
+		
+		ModelAndView mav = new ModelAndView("requestDocDetail");
+		
+		// 문서의 첨부파일 불러오기
+		HashMap<String, String> doc = dao.requestDocDetail(docId);
+		mav.addObject("doc", doc);
+		
+		// 문서의 첨부파일 불러오기
+		ArrayList<AttachmentDTO> attachmentList = dao.getAttachmentList(docId);
+		mav.addObject("attachmentList", attachmentList);
+		
+		logger.info("doc : "+doc);
 		
 		return mav;
 	}

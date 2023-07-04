@@ -118,4 +118,10 @@ public class DocController {
 		
 		return service.requestDocList(session);
 	}
+	
+	@RequestMapping(value="/requestDocDetail.go")
+	public ModelAndView requestDocDetail(@RequestParam String id) {
+		
+		return service.requestDocDetail(id);
+	}
 }
