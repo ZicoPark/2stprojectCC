@@ -1,5 +1,6 @@
 package kr.co.cc.member.controller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -49,10 +50,46 @@ public class MemberController {
 		return memberservice.join(dto);
 	}
 	
+	// 로그인 성공시 가는 메인페이지
 	@RequestMapping(value="/main.go")
 	public String main(Model model) {
 		return "workHistoryList";
 	}
+	
+	// 아이디 중복 체크
+	@RequestMapping(value = "/idChk.ajax", method = RequestMethod.POST)
+	@ResponseBody
+	public HashMap<String, Object> idChk(@RequestParam String user_id) {
+		logger.info("idChk-controller");
+		return memberservice.idChk(user_id);
+	}
+	
+	// 아이디 찾기 + 아이디 메일 전송
+	@RequestMapping(value = "/findID.go", method = RequestMethod.GET)
+	public String findID(Model model) {
+		return "findID";
+	}
+	
+	@RequestMapping(value="/sendMail.ajax", method = RequestMethod.POST)
+	@ResponseBody
+	public HashMap<String, Object> sendMail(@RequestParam HashMap<String, String> params) {
+		logger.info("params : " + params);
+		return memberservice.sendMail(params);
+	}
+	
+	// 비밀번호 재발급 + 비밀번호 재발급 메일 전송
+	@RequestMapping(value = "/findPW.go")
+	public String findPW(Model model) {
+		return "findPw";
+	}
+	
+	@RequestMapping(value="/sendPWMail.ajax", method = RequestMethod.POST)
+	@ResponseBody
+	public HashMap<String, Object> sendPWMail(@RequestParam HashMap<String, String> params) {
+		logger.info("params : " + params);
+		return memberservice.sendPWMail(params);
+	}
+	
 	
 	@RequestMapping(value="/login.do", method = RequestMethod.POST)
 	public String login(String user_id, String password, Model model, HttpSession session, String id) {
@@ -62,6 +99,7 @@ public class MemberController {
 			page = "redirect:/main.go";
 			id = memberservice.loginid(user_id);
 			session.setAttribute("id", id);
+			session.setAttribute("user_id", user_id);
 			logger.info("id : " + id + "/ " + "user_id : " + user_id + "/ " + "password  : " + password);
 		}else {
 			model.addAttribute("msg", "아이디 또는 비밀번호를 확인해주세요");
@@ -77,80 +115,28 @@ public class MemberController {
 		return "redirect:/";
 	}
 	
-	@RequestMapping(value = "/idChk.ajax", method = RequestMethod.POST)
-	@ResponseBody
-	public HashMap<String, Object> idChk(@RequestParam String user_id) {
-		logger.info("idChk-controller");
-	    return memberservice.idChk(user_id);
-	}
-	
-	
-	
-	
-	
-	@RequestMapping(value = "/findID.go", method = RequestMethod.GET)
-	public String findID(Model model) {
-			return "findID";
-	}
-
-	@RequestMapping(value="/sendMail.ajax", method = RequestMethod.POST)
-	@ResponseBody
-	public HashMap<String, Object> sendMail(@RequestParam HashMap<String, String> params) {
-		logger.info("params : " + params);
-		return memberservice.sendMail(params);
-	}
-
-	
-	
-	
-	
-	@RequestMapping(value = "/findPW.go")
-	public String findPW(Model model) {
-			return "findPw";
-	}
-	
-	@RequestMapping(value="/sendPWMail.ajax", method = RequestMethod.POST)
-	@ResponseBody
-	public HashMap<String, Object> sendPWMail(@RequestParam HashMap<String, String> params) {
-		logger.info("params : " + params);
-		return memberservice.sendPWMail(params);
-	}
-	
-	
-	
-//	// 비밀번호 찾기 페이지 요청
-//	@GetMapping("/pw-find")
-//	public ModelAndView find() {
-//		return new ModelAndView("user/pw-find");
-//	}
-//	
-//	// 비밀번호 찾기 요청
-//	@PostMapping("pw-find")
-//	public String findPw(@RequestBody MemberDAO login) {
-//		return memberservice.findPw(login);
-//	}
-	
-
-
-	
-	
-	
-	
-	
-	
+	// 마이페이지
 	@RequestMapping(value="/userinfo.go")
     public String userInfo(HttpSession session, Model model) {  
        
        String page = "login";      
        
-       logger.info("로그인 세션 : "+session.getAttribute("loginId"));
+       logger.info("로그인 세션 : "+session.getAttribute("id"));
        
-        if(session.getAttribute("loginId") != null) {
-        	MemberDTO dto = memberservice.userInfo(session.getAttribute("loginId"));             
-        	model.addAttribute("user",dto);
+       if(session.getAttribute("id") != null) {
+        	MemberDTO dto = memberservice.userInfo(session.getAttribute("id"));             
+        	model.addAttribute("member",dto);
             page = "userInfo";
-        }
-       
+       } 
        return page;
     }
+	
+	// 부서 리스트
+	@RequestMapping(value="/departmentlist.go")
+	public ModelAndView departmentlist(@RequestParam HashMap<String, String> params) {
+		
+		logger.info("departmentlist params : " + params);
+		return memberservice.departmentlist(params);
+	}
+	
 }
