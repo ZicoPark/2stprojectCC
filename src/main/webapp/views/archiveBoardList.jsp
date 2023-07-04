@@ -23,33 +23,45 @@
             <h1>자료실</h1>         
     </section>
     <!-- Main content -->
+    
+    
+		<div class="search-container">
+	    <input type="text" id="searchInput" placeholder="제목 또는 작성자를 입력">
+	    <button id="searchButton"><alt="Search">검색</button>
+		</div>
+		<input type ="text" id="adminchk" value= "${loginid}" />${loginid}
+		
     <section class="content">
 		<table>
 			<thead> 
 				<tr> 
+					<c:if test="${loginid eq 1}">
+					<th><input type="checkbox" name="allCheck"/></th>
+					</c:if>
 					<th>번호</th>
 					<th>제목</th>
 					<th>작성자</th>
+					<th></th>
 					<th>작성일</th>
 					<th>조회수</th>
 				</tr>
 			</thead>
 			<tbody>
-				<c:if test="${list eq null}">
-					<tr>
-						<th colspan="6">등록된 글이 없습니다.</th>
-					</tr>
-				</c:if>
-				<c:forEach items="${list}" var="archive">
-					<tr> 
-						<td>${archive.id}</td>
-						<td>${archive.category}<a href="archivedetail.do?id=${archive.id}">${archive.subject}</a></td>
-						<td>${archive.member_id}</td>
-						<td>${archive.create_date}</td>
-						<td>${archive.hit} </td>
-					</tr>
-				</c:forEach>
+				
+				<tbody id="list">
+
 			</tbody>
+			
+		<tr>
+           <th colspan="6" id="paging">  
+             <div class="container">                  
+               <nav aria-label="Page navigation">
+                 <ul class="pagination justify-content-center" id="pagination"></ul>
+               </nav>
+             </div>
+           </th>
+         </tr>	
+         
 		</table>
 		<button onclick="location.href='archiveWrite.go'">글쓰기</button>
     </section>
@@ -64,7 +76,116 @@
 <script src="../../dist/js/adminlte.min.js"></script>
 <!-- AdminLTE for demo purposes -->
 <script src="../../dist/js/demo.js"></script>
+
+<script type="text/javascript" src="../../dist/js/jquery.twbsPagination.min.js"></script>
+
 </body>
 <script>
+var showPage = 1;
+var searchText = 'default';
+
+listCall(showPage);
+$('#searchButton').click(function(){
+	   //검색어 확인 
+	   searchText = $('#searchInput').val();
+	   listCall(showPage);
+	   searchText = 'default';
+	   $('#pagination').twbsPagination('destroy');
+	});
+	
+function listCall(page){
+	   $.ajax({
+	      type:'post',
+	      url:'archivelist.ajax',
+	      data:{
+	         'page':page,
+	         'search':searchText
+	      },
+	      dataType:'json',           
+	      success:function(data){
+	         console.log(data);
+	         listPrint(data.list);
+	         
+	         // 페이징 처리를 위해 필요한 데이터
+	         // 1. 총 페이지의 수
+	         // 2. 현재 페이지
+	         console.log(data.list); // arraylist 로 값 들어옴
+	         
+	         // Paging Plugin (j-query의 기본기능을 가지고 만들었기 때문에  plugin)
+	         $('#pagination').twbsPagination({
+	         startPage:1, // 시작 페이지
+	         totalPages:data.pages,// 총 페이지 수 
+	         visiblePages:5,// 보여줄 페이지
+	         onPageClick:function(event,page){ // 페이지 클릭시 동작되는 (콜백)함수
+	            console.log(page,showPage);
+	            if(page != showPage){
+	               showPage=page;
+	               listCall(page);
+	          
+	            }
+	         }
+	         });
+	      }
+	   });
+	}
+
+//list 받아와서 보여줌
+function listPrint(list){
+	   	var content ='';
+	  	var count = (showPage - 1) * 10 + list.length;
+	   	var totalItems = list.length;
+		var isAdmin = document.getElementById('adminchk')    // 서버에서 가져온 관리자 여부 값
+		
+	   	list.forEach(function(item){
+	      // 배열 요소들 반복문 실행 -> 행 구성 + 데이터 추가 
+	      content +='<tr>';
+	      if (isAdmin == 1) {
+	          content += '<td class="checkbox"><input type="checkbox" name="Rowcheck" value="' + item.id + '"></td>';
+	       } else {
+	          content += '<td></td>'; // 관리자가 아닐 경우 빈 칸으로 대체
+	       }
+
+	      content += '<td>' + count-- + '</td>'; // 번호를 반대로 표시
+	      content +='<td>'+item.category +'</td>';
+	      content +='<td><a href="archivedetail.do?id=' + item.id + '">'+item.subject +'</a></td>';
+	      content += '<td>' + item.name + ' ( ' + item.user_id + ' ) ' + '</td>';
+	      content +='<td id="userstate">'+ item.create_at +'</td>';
+	      
+	      content +='<td id="hit"> ' + item.hit + '</td>';
+	      content +='</tr>';
+	      
+	   });
+	   
+	   // list 요소의 내용 지우고 추가 - 페이징 처리 
+	   $('#list').empty();
+	   $('#list').append(content);
+	}	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 </script>
 </html>

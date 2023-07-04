@@ -34,18 +34,20 @@
 	</insert>	
 	
 	<select id="workHistoryReqListGo" resultType="kr.co.cc.work.dto.WorkDTO">
-		SELECT * FROM working_hour_update 
-		WHERE working_hour_id =  
-		(select wh.id from member m inner join working_hour wh on m.id = wh.member_id where m.id = #{param1})
-		ORDER BY date DESC
+		SELECT whu.*
+		FROM member m
+		JOIN working_hour wh ON m.id = wh.member_id
+		JOIN working_hour_update whu ON wh.id = whu.working_hour_id
+		WHERE m.id = #{param1}
+		ORDER BY whu.date DESC
 	</select>	
 	
 	<select id="workHistoryList_Ad" resultType="kr.co.cc.work.dto.WorkDTO">
-		SELECT whu.date,whu.name,whu.working_hour_id , m.user_id,whu.`type` ,whu.update_at ,whu.approval ,whu.reason
+		SELECT whu.date, whu.name, whu.working_hour_id, m.user_id, whu.type, whu.update_at, whu.approval, whu.reason
 		FROM working_hour_update whu
 		INNER JOIN working_hour wh ON whu.working_hour_id = wh.id
 		INNER JOIN member m ON wh.member_id = m.id
-		WHERE whu.working_hour_id = (
+		WHERE whu.working_hour_id IN (
 		    SELECT wh.id
 		    FROM member m
 		    INNER JOIN working_hour wh ON m.id = wh.member_id
@@ -76,111 +78,196 @@
 	 -->
 	
 	<select id="workDailyList" resultType="kr.co.cc.work.dto.WorkDTO">
-	SELECT m.dept_name ,m.name ,m.job_name, w.date ,w.time_go ,w.time_end, w.member_id
-		FROM working_hour w inner join member m 
-		on w.member_id = m.id
-	where w.date = (select MAX(date) from working_hour)
+		SELECT m.name, j.name AS job_name, w.date, w.time_go, w.time_end, m.user_id , d.name AS dept_name
+			FROM working_hour w
+			INNER JOIN member m ON w.member_id = m.id
+			INNER JOIN job_level j ON m.job_level_id = j.id
+			INNER JOIN dept d ON m.dept_id = d.id
+		WHERE w.date = (SELECT MAX(date) FROM working_hour)
 	</select>	
 	
 	
 	<select id="dailyListFind" resultType="kr.co.cc.work.dto.WorkDTO">
-	SELECT m.dept_name ,m.name ,m.job_name, w.date ,w.time_go ,w.time_end ,w.member_id
-		FROM working_hour w inner join member m 
-		on w.member_id = m.id
-	where w.date = (select max(date) from working_hour where date = #{param1})	
+		SELECT m.name, j.name AS job_name, w.date, w.time_go, w.time_end, m.user_id , d.name AS dept_name
+			FROM working_hour w
+			INNER JOIN member m ON w.member_id = m.id
+			INNER JOIN job_level j ON m.job_level_id = j.id
+			INNER JOIN dept d ON m.dept_id = d.id
+		WHERE w.date = (SELECT MAX(date) FROM working_hour where date = #{param1})
 	</select>
-	
-	
-	
-	
-	
-	
-	
 	
 	<select id="dayChk">
 		SELECT DATE_FORMAT(#{param1}, '%W')
 	</select>
 	
-	
 	<select id="weekListFind" resultType="kr.co.cc.work.dto.WorkDTO">
-	    SELECT
-	        m.id as member_id,
-	        m.dept_name,
-	        m.name,
-	        m.job_name,
-	        IFNULL(SEC_TO_TIME(SUM(TIME_TO_SEC(wh.time_end) - TIME_TO_SEC(wh.time_go))), '00:00:00') AS total_time,
-	        wl.worn
-	    FROM member m
-	    LEFT JOIN working_hour wh ON m.id = wh.member_id
-	        AND wh.date BETWEEN #{param1} AND DATE_ADD(#{param1}, INTERVAL 4 DAY)
-	    LEFT JOIN worn_list wl ON m.id = wl.member_id
-	        AND wl.week = #{param1}
-	    GROUP BY m.id
-	    ORDER BY total_time asc, member_id
+		SELECT
+		    m.user_id,
+		    m.name,
+		    j.name AS job_name,
+		    IFNULL(SEC_TO_TIME(SUM(TIME_TO_SEC(wh.time_end) - TIME_TO_SEC(wh.time_go))), '00:00:00') AS total_time,
+		    wl.worn,
+		    d.name AS dept_name
+			FROM member m
+			LEFT JOIN working_hour wh ON m.id = wh.member_id
+		    AND wh.date BETWEEN #{param1} AND DATE_ADD(#{param1}, INTERVAL 4 DAY)
+			LEFT JOIN worn_list wl ON m.id = wl.member_id
+		    AND wl.week = #{param1}
+			LEFT JOIN job_level j ON m.job_level_id = j.id
+			LEFT JOIN dept d ON m.dept_id = d.id
+			GROUP BY m.id
+		ORDER BY total_time ASC, user_id
 	</select>
 	
 	<select id="workWornChk">
 		select count(id) from worn_list where member_id=#{param1} and week=#{param2}
 	</select>
+	
+	<select id="findId">
+		select id from member where user_id=#{param1}
+	</select>
 
 	
 	<insert id="workWorn" parameterType="hashmap">
-		INSERT INTO worn_list (member_id,dept_name,name,job_name,week,total_time) 
-		VALUES (#{member_id},#{dept_name},#{name},#{job_name},#{week},#{total_time})
+		INSERT INTO worn_list (member_id,dept_name,job_name,week,total_time) 
+		VALUES (#{member_id},#{dept_name},#{job_name},#{week},#{total_time})
 	</insert>
 	
 	<select id="workWornList" resultType="kr.co.cc.work.dto.WorkDTO">
-		select * from worn_list 
+		SELECT m.user_id ,m.name ,w.dept_name  ,w.week ,w.total_time, w.member_id  
+		from worn_list w inner join member m 
+		on w.member_id = m.id 
 	</select>
 	
 	<select id="wornAllList">
-		SELECT member_id ,name ,dept_name ,week ,COUNT(worn) as total_worn from worn_list wl group by member_id order by count(worn) desc, member_id
+		SELECT wl.member_id ,m.user_id , m.name ,wl.dept_name ,wl.week ,COUNT(wl.worn) as total_worn 
+		from worn_list wl inner join member m
+		on wl.member_id = m.id
+		group by wl.member_id 
+		order by count(worn) desc, wl.member_id
 	</select>
-	
 	 
 	<select id="wornListFindName" resultType="kr.co.cc.work.dto.WorkDTO">
-		SELECT * FROM worn_list WHERE name LIKE CONCAT('%', #{param2}, '%') order by worn desc, member_id
+		SELECT w.member_id, m.user_id ,m.name ,w.dept_name  ,w.week ,w.total_time, m.id  
+		FROM worn_list w
+		INNER JOIN member m ON w.member_id = m.id
+		WHERE m.name LIKE CONCAT('%', #{param2}, '%')
+		ORDER BY w.worn DESC, w.member_id ASC
+
 	</select>
 	
 	<select id="wornListFindId" resultType="kr.co.cc.work.dto.WorkDTO">
-		SELECT * FROM worn_list WHERE member_id LIKE CONCAT('%', #{param2}, '%') order by worn desc, member_id
+		SELECT w.member_id, m.user_id ,m.name ,w.dept_name  ,w.week ,w.total_time, m.id  
+		FROM worn_list w
+		INNER JOIN member m ON w.member_id = m.id
+		WHERE m.user_id LIKE CONCAT('%', #{param2}, '%')
+		ORDER BY w.worn DESC, w.member_id ASC
 	</select>
 	
 	<delete id="wornDel">
 		delete from worn_list where member_id=#{param1} and week=#{param2}
 	</delete>
+	
 		
 	<select id="annual_leave" resultType="kr.co.cc.work.dto.WorkDTO">
-		select * from annual_leave where member_id = #{param1}
+		SELECT al.*, m.user_id
+		FROM annual_leave al
+		JOIN member m ON m.id = al.member_id
+		WHERE al.member_id = #{param1}
 	</select>
-	 
-	<select id="leave_recode_List" resultType="kr.co.cc.work.dto.WorkDTO">
-		select * from leave_recode where regist_id = #{param1}
-	</select>
-	
-	<insert id="annualRegistration">
-		INSERT INTO leave_recode (regist_id,approval_id,start_date,end_date,use_cnt,reason,type) 
-		VALUES (#{regist_id},#{approval_id},#{start_date},#{end_date},#{use_cnt},#{reason},#{type})	
-	</insert>
-	
-	<select id="annualRegistrationGo" resultType="kr.co.cc.work.dto.WorkDTO">
-		select id as member_id,name from member where admin_chk = 1
+		 
+	<select id="leave_recode_List" resultType="kr.co.cc.work.dto.WorkDTO">		
+		SELECT lr.*, m1.user_id AS regist_id_user, m1.name AS regist_name , m2.user_id AS approval_id_user, m2.name  AS approval_name
+		FROM leave_recode lr
+		JOIN member m1 ON m1.id = lr.regist_id
+		JOIN member m2 ON m2.id = lr.approval_id
+		WHERE regist_id = #{param1}
 	</select>
 	
 	<select id="workHolidayList_Ad" resultType="kr.co.cc.work.dto.WorkDTO">
-		SELECT l.regist_id , m.name, l.start_date ,l.end_date ,l.use_cnt ,l.approval 
+		SELECT l.regist_id, m.user_id , m.name, l.start_at ,l.end_at ,l.use_cnt ,l.approval, l.id, l.type
 		FROM leave_recode l inner join member m
 		on l.regist_id = m.id
+		order by start_at desc
 	</select>
 	
 	<select id="holidayListFind" resultType="kr.co.cc.work.dto.WorkDTO">		
-		SELECT l.regist_id , m.name, l.start_date ,l.end_date ,l.use_cnt ,l.approval 
+		SELECT l.regist_id, m.user_id , m.name, l.start_at ,l.end_at ,l.use_cnt ,l.approval, l.id, l.type
 		FROM leave_recode l inner join member m
-		on l.regist_id = m.id 
-		WHERE l.start_date LIKE CONCAT(#{param1}, '%') or l.end_date LIKE CONCAT(#{param1}, '%')
-		order by regist_date desc, regist_id
+		on l.regist_id = m.id
+		WHERE l.start_at LIKE CONCAT(#{param1}, '%') or l.end_at LIKE CONCAT(#{param1}, '%')
+		order by l.start_at desc, l.regist_id
 	</select>
-
 	
+	
+	<insert id="annualRegistration">
+		INSERT INTO leave_recode (regist_id,approval_id,start_at,end_at,use_cnt,reason,type) 
+		VALUES (#{regist_id},#{approval_id},#{start_at},#{end_at},#{use_cnt},#{reason},#{type})	
+	</insert>
+	
+	<select id="annualRegistrationGo" resultType="kr.co.cc.work.dto.WorkDTO">
+		select id, user_id, name from member where admin_chk = 1
+	</select>
+	
+	<insert id="giveAnnualLeave">
+		INSERT INTO annual_leave (id, member_id, annual_cnt, use_cnt, left_cnt, year)
+		SELECT UUID(), m.id, 12, 0, 12, YEAR(CURRENT_DATE())
+		FROM member m
+	</insert>
+	
+	<select id="currentYearChk">
+		SELECT count(id) from annual_leave where year = #{param1}
+	</select>
+	
+	<select id="findGalId">
+		select count(m.id) from annual_leave a inner join member m
+		on a.member_id = m.id where m.user_id =#{param1}
+	</select>
+	
+	<select id="idChk">
+		select count(id) from member where user_id = #{param1}
+	</select>
+	
+	<update id="annualLeaveApproval">
+		UPDATE annual_leave SET use_cnt=use_cnt+#{param3}, left_cnt=left_cnt-#{param3} 
+		WHERE member_id=#{param1} and year=#{param2}
+	</update>
+
+	<update id="holidayApproval">
+		UPDATE leave_recode SET approval=#{param1} WHERE id=#{param2}
+	</update>
+	
+	<select id="holidayApprovalChk">
+		SELECT approval from leave_recode where id = #{param1} 
+	</select>
+	
+	<select id="approvalChange" resultType="kr.co.cc.work.dto.WorkDTO">
+		SELECT l.regist_id, m.user_id , m.name, l.start_at ,l.end_at ,l.use_cnt ,l.approval, l.id, l.type
+		FROM leave_recode l inner join member m
+		on l.regist_id = m.id
+		where approval = #{param1}
+		order by start_at desc
+	</select>
+	
+	<insert id="workHourChange">
+		INSERT INTO working_hour (id, member_id, name, date, time_go, time_end)
+		SELECT uuid(), #{regist_id}, #{name}, date_range.date, '09:00:00', '18:00:00'
+		FROM (
+		    SELECT CURDATE() + INTERVAL (a.a + (10 * b.a) + (100 * c.a)) DAY AS date
+		    FROM (
+		        SELECT 0 AS a UNION ALL SELECT 1 UNION ALL SELECT 2 UNION ALL SELECT 3 UNION ALL SELECT 4 UNION ALL
+		        SELECT 5 UNION ALL SELECT 6 UNION ALL SELECT 7 UNION ALL SELECT 8 UNION ALL SELECT 9
+		    ) AS a
+		    CROSS JOIN (
+		        SELECT 0 AS a UNION ALL SELECT 1 UNION ALL SELECT 2 UNION ALL SELECT 3 UNION ALL SELECT 4 UNION ALL
+		        SELECT 5 UNION ALL SELECT 6 UNION ALL SELECT 7 UNION ALL SELECT 8 UNION ALL SELECT 9
+		    ) AS b
+		    CROSS JOIN (
+		        SELECT 0 AS a UNION ALL SELECT 1 UNION ALL SELECT 2 UNION ALL SELECT 3 UNION ALL SELECT 4 UNION ALL
+		        SELECT 5 UNION ALL SELECT 6 UNION ALL SELECT 7 UNION ALL SELECT 8 UNION ALL SELECT 9
+		    ) AS c
+		) AS date_range
+		WHERE date_range.date BETWEEN #{start_at} AND #{end_at}
+	</insert>
 	
 </mapper>

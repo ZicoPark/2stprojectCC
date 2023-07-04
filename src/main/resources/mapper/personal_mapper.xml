@@ -6,12 +6,37 @@
 
 
 		<select id="personalList" resultType="kr.co.cc.personal.dto.PersonalDTO"> <!-- 메서드 가져옴 > resultType >결과 반환타입 -->
-			SELECT * FROM personal ORDER BY id DESC
+			SELECT * FROM personal ORDER BY start_at DESC
+		</select>
+		
+		<select id="personalUpdate">
+			SELECT * FROM personal where id =#{param1}
 		</select>
 	
-		<insert id="pwrite" parameterType="hashmap">
-			INSERT INTO personal(member_id,title,start_date, end_date)
-			VALUES(#{member_id},#{title},#{start_date},#{end_date})
-		</insert>
+<!-- 		<insert id="pwrite" parameterType="hashmap">
+			INSERT INTO personal(create_at, member_id, title, start_at, end_at, status)
+			VALUES(#{create_at}, #{member_id},#{title},#{start_at},#{end_at}, #{status})
+		</insert> -->
+		
+		<delete id="del">
+   		   DELETE FROM personal WHERE id = #{param1}
+   		</delete>
+   		
+   		<insert 
+	    id="pwrite" 
+	    parameterType="kr.co.cc.personal.dto.PersonalDTO" 
+	    useGeneratedKeys="false">
+	    <selectKey keyProperty="id" resultType="java.lang.String" order="BEFORE">
+	        SELECT UUID()
+	    </selectKey>
+	    INSERT INTO personal(id, member_id, title, start_at,end_at, status)
+	      VALUES(#{id}, #{member_id}, #{title}, #{start_at},#{end_at},1)
+	</insert> 
+	
+	<update id="pupdate" parameterType="hashmap">
+		UPDATE personal SET title = #{title}, start_at = #{start_at}, end_at = #{end_at} WHERE id = #{id}
+	</update>
+	
+	
 		
 </mapper>

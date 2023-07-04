@@ -7,13 +7,14 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.UUID;
 
 import javax.servlet.http.HttpSession;
 
 import org.mybatis.spring.annotation.MapperScan;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
@@ -22,7 +23,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import kr.co.cc.archive.dao.ArchiveDAO;
 import kr.co.cc.archive.dto.ArchiveDTO;
-import kr.co.cc.message.dto.MessageDTO;
+import kr.co.cc.freeBoard.dto.FreeBoardDTO;
+
 
 
 @Service
@@ -40,26 +42,79 @@ public class ArchiveService {
 	@Value("${spring.servlet.multipart.location}") private String root;
 	
 	
-	public ArrayList<ArchiveDTO> archivelist() {
-		logger.info("자료실 dao 이동 슝슝");
-		return dao.archivelist();
+	public HashMap<String, Object> archivelist(HttpSession session, HashMap<String, Object> params) {
+		int page = Integer.parseInt(String.valueOf(params.get("page")));
+	    String search = String.valueOf(params.get("search"));
+	    String loginId = (String) session.getAttribute("id");
+	    ArchiveDTO loginid = dao.logincheck(loginId);
+	    
+	    HashMap<String, Object> map = new HashMap<String, Object>();
+
+	    int offset = 10*(page-1);	    
+		
+	    logger.info("offset : " + offset);
+	    
+	    logger.info("params : " + params);
+	    
+	    int total = 0;	    
+		
+	    if(search.equals("default") || search.equals("")) {
+	      
+	    	  total = dao.totalCount();
+
+	      	}else {	      
+	    	   	   
+	    	  total = dao.totalCountSearch(search);
+	       }
+	    
+	    int range = total%10  == 0 ? total/10 : total/10+1;
+
+	      page = page>range ? range:page;
+	      
+	      ArrayList<ArchiveDTO> list = null;
+	      
+	      params.put("offset", offset);
+			
+	      logger.info("user search:"+search);
+	      
+	      if(search.equals("default") ||search.equals("")) {
+
+	          list = dao.archivelist(offset);
+	       
+	     
+	      }else {
+
+	         list = dao.archivelistSearch(params);
+	      }
+	      		
+	      
+	      //logger.info("list size : "+ list.size());
+	      map.put("list", list);
+	      map.put("currPage", page);	      
+	      map.put("loginid",loginid);
+
+	
+		return map;
+
 	}
 
+
 	public String archiveWrite(MultipartFile[] attachment, HashMap<String, String> params, HttpSession session, Model model) {
-		 String loginId = (String) session.getAttribute("loginId");
+		 String id = (String) session.getAttribute("id");
 		 String page = "redirect:/archiveBoard.go";
 		    logger.info("params: " + params);
 		    logger.info("files: " + attachment);		 
 		 
 		        ArchiveDTO dto = new ArchiveDTO();
-		        dto.setMember_id(loginId);
+		        dto.setMember_id(id);
 		        dto.setCategory(params.get("category"));
 		        dto.setSubject(params.get("subject"));
 		        dto.setContent(params.get("content"));
 
 		        int row = dao.archiveWrite(dto);
 		        logger.info("insert row: " + row);
-		        int idx = dto.getId();
+		        String idx = dto.getId();
+
 
 		        logger.info("idx: " + idx);
 
@@ -91,7 +146,7 @@ public class ArchiveService {
 
 	
 	
-	public ArchiveDTO archivedetail(int id, String flag) {
+	public ArchiveDTO archivedetail(String id, String flag) {
 		if(flag.equals("detail")) {
 			logger.info("if문 진입");
 			dao.upHit(id); // 읽음 처리
@@ -105,44 +160,30 @@ public class ArchiveService {
 		return dao.archiveDetailFile(id);
 	}
 
-	public String archiveUpdate(MultipartFile[] attachment, HashMap<String, String> params, ArrayList<String> removeFile, HttpSession session) {
+	public int archiveUpdate(MultipartFile[] attachment, HashMap<String, String> params, ArrayList<String> deletedFiles) {
 			 
 			logger.info("params : "+params);
-
-			if(params.get("category")!=null) {
-				String category_id = params.get("category");
-				params.put("category_id", category_id);
-			}
-			if(params.get("subject")!=null) {
-				String subject_id = params.get("subject");
-				params.put("subject_id", subject_id);
-			}
-			if(params.get("content")!=null) {
-				String content_id = params.get("content");
-				params.put("content_id", content_id);
-			}	
-
 		        
 			        int row = dao.archiveUpdate(params);
 			        logger.info("insert row: " + row);
-			        int idx = 0;
+			        String id = "";
 
-			        logger.info("idx: " + idx);
+			        logger.info("update idx: " + id);
 
-					if(row==1) { // 업로드된 자료실 게시물이 1이라면
+					if(row>0) { // 업로드된 자료실 게시물이 1이라면
 						
-						if(removeFile.size()>1) {
-							attachmentRemove(removeFile);
+						if(deletedFiles.size()>1) {
+							attachmentRemove(deletedFiles);
 						}
 						
-						idx = Integer.parseInt(params.get("id"));
+						id = params.get("id");
 						
 						for (MultipartFile file : attachment) {
 							
 							logger.info("업로드할 file 있나요? :"+!file.isEmpty());
 							
 							if(!file.isEmpty()) {
-								attachmentSave(idx, file, "자료실");
+								attachmentSave(id, file, "자료실");
 							}
 							
 							try { // 쓰레드 0.001초 지연으로 중복파일명 막자
@@ -153,9 +194,9 @@ public class ArchiveService {
 							
 						}
 					}
+	
 					
-					
-			    return "";
+			    return 0;
 			}
 	private void attachmentRemove(ArrayList<String> newFileName) {
 		
@@ -170,11 +211,12 @@ public class ArchiveService {
 		
 	}
 
-	private void attachmentSave(int id, MultipartFile file, String cls) {
+	private void attachmentSave(String id, MultipartFile file, String cls) {
 		
 		String oriFileName = file.getOriginalFilename();
 		String ext = oriFileName.substring(oriFileName.lastIndexOf("."));
-		String newFileName = System.currentTimeMillis() + ext;
+		UUID uuid = UUID.randomUUID();
+		String newFileName = uuid.toString() + ext;
 		logger.info("파일 업로드 : "+oriFileName+"=>"+newFileName+"으로 변경될 예정");
 		
 		try {
@@ -188,7 +230,14 @@ public class ArchiveService {
 			e.printStackTrace();
 		}
 		
-	}	
+	}
+
+	public void archivedelete(String id) {
+		dao.archivedelete(id);
+	}
+
+
+
 }
 
 

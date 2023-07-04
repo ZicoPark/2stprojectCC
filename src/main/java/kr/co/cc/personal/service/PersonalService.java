@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import kr.co.cc.personal.dao.PersonalDAO;
 import kr.co.cc.personal.dto.PersonalDTO;
+import kr.co.cc.project.dto.ProjectDTO;
 
 @Service
 @MapperScan(value= {"kr.co.cc.personal.dao"})
@@ -19,17 +20,47 @@ public class PersonalService {
 	@Autowired PersonalDAO dao;
 	Logger logger = LoggerFactory.getLogger(getClass());
 	
-	public ArrayList<PersonalDTO> personalList(){
+	public ArrayList<PersonalDTO> personalList(String id){
 		logger.info("서비스도착완료");
-		return dao.personalList();	
+		return dao.personalList(id);	
 	}
 
-	public String pwrite(HashMap<String, String> params) {
-		logger.info("서비스 도착");
-		int row = dao.pwrite(params);
+//	public String pwrite(HashMap<String, String> params) {
+//		logger.info("서비스 도착");
+//		int row = dao.pwrite(params);
+//		return "";
+//	}
+
+	public ArrayList<PersonalDTO> list(String id) {
+		return dao.personalList(id);
+	}
+
+	public int del(String id) {
+		 return dao.del(id);
+	}
+
+	public String pwrite(PersonalDTO dto, String id) {
+		 dto.setMember_id(id);
+	        logger.info("id"+id);
+	        int row = dao.pwrite(dto);
 		return "";
 	}
-	
+
+	public String update(HashMap<String, String> params) {
+		
+		int idx = Integer.parseInt(params.get("id"));		
+		int row = dao.update(params);// 1. update 실행
+
+		String page = row>0 ? "redirect:/detail.do?idx="+idx : "redirect:/list.do";
+		logger.info("update => "+page);
+		
+		return page;
+	}
+
+	public PersonalDTO personalUpdate(String id) {
+		return dao.personalUpdate(id);
+	}
+
 
 
 

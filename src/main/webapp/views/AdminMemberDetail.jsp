@@ -4,7 +4,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <style>
-	#btn{
+	#btn, #list{
 		width: 70px;
 		height: 35px;
 		border-top-left-radius: 5px;
@@ -53,7 +53,7 @@
     	<!-- Main content -->
 	    <section class="content">
 	    	<form action="MemberUpdate.go" method="post">
-	    		<input type="hidden" name="id" value="${detail.id}">
+	    		<input type="hidden" name="id" value="${detail.user_id}">
 				<table class="table table-bordered">
 					<tr>
 						<th>사진</th>
@@ -68,8 +68,8 @@
 					</tr>
 					<tr>
 						<td>이름 : &nbsp;&nbsp;&nbsp;&nbsp; ${detail.name}</td>
-						<td>아이디 : &nbsp;&nbsp;&nbsp;&nbsp; ${detail.id}</td>
-						<td>생년월일 : &nbsp;&nbsp;&nbsp;&nbsp; ${detail.birth_date}</td>
+						<td>아이디 : &nbsp;&nbsp;&nbsp;&nbsp; ${detail.user_id}</td>
+						<td>생년월일 : &nbsp;&nbsp;&nbsp;&nbsp; ${detail.birth_at}</td>
 						<td>이메일 :&nbsp;&nbsp;&nbsp;&nbsp; ${detail.email}</td>
 						<td>연락처 :&nbsp;&nbsp;&nbsp;&nbsp; ${detail.phone}</td>
 					</tr>
@@ -96,7 +96,7 @@
 						<th colspan="5">인사 정보</th>
 					</tr>
 					<tr>
-						<td>입사일 : &nbsp;&nbsp;&nbsp;&nbsp; ${detail.hire_date}</td>
+						<td>입사일 : &nbsp;&nbsp;&nbsp;&nbsp; ${detail.hire_at}</td>
 						<td>
 							부서 : &nbsp;&nbsp;&nbsp;&nbsp; ${detail.dept_name}
 							<select name="dept" class="dept">
@@ -123,13 +123,16 @@
 								<option value="퇴사">퇴사</option>
 							</select>
 						</td>
-						<td>퇴사일 : &nbsp;&nbsp;&nbsp;&nbsp; ${detail.end_date}</td>
+						<td>퇴사일 : &nbsp;&nbsp;&nbsp;&nbsp; ${detail.end_at}</td>
 					</tr>
 				</table>
-				<div id="but">
+				<div id="but" style="display: inline-block;">
 					<button id="btn" type="submit">완료</button>
 				</div>
-			</form>	
+			</form>
+			<div id="but" style="display: inline-block;">
+				<button id="list" onclick="location.href='MemberList.go'">목록</button>	
+			</div>	
 		</section>
 	</div>
 </div>
@@ -144,49 +147,50 @@
 <script src="../../dist/js/demo.js"></script>
 </body>
 <script>
-	// 부서 값 가져오기
-	var deptValue = '${detail.dept_name}'; // 부서 값 가져오기
-	var deptSelect = document.querySelector('.dept'); // 부서 셀렉트 요소 가져오기
-	
-	// 부서 값에 따라 기본값 설정
-	for (var i = 0; i < deptSelect.options.length; i++) {
-	    if (deptSelect.options[i].value === deptValue) {
-	        deptSelect.options[i].selected = true;
-	        break;
-	    }
-	}
-	var jobValue = '${detail.job_name}'; // 직급 값 가져오기
-	console.log('jobValue:', jobValue); // 로그 출력
+    // 부서 값 가져오기
+    var deptValue = '${detail.dept_name}'; // 부서 값 가져오기
+    var deptSelect = document.querySelector('.dept'); // 부서 셀렉트 요소 가져오기
 
-	var jobSelect = document.querySelector('.job'); // 직급 셀렉트 요소 가져오기
+    // 부서 값에 따라 기본값 설정
+    for (var i = 0; i < deptSelect.options.length; i++) {
+        if (deptSelect.options[i].value === deptValue) {
+            deptSelect.selectedIndex = i; // 옵션 인덱스를 선택한 인덱스로 변경
+            break;
+        }
+    }
 
-	// 직급 값에 따라 기본값 설정
-	for (var j = 0; j < jobSelect.options.length; j++) {
-	    if (jobSelect.options[j].value === jobValue) {
-	        jobSelect.options[j].selected = true;
-	        break;
-	    }
-	}
-	// 계정 상태 값 가져오기
-	var statusValue = '${detail.status}';
-	var statusSelect = document.querySelector('.status'); // 계정 상태 셀렉트 요소 가져오기
+    var jobValue = '${detail.job_name}'; // 직급 값 가져오기
+    var jobSelect = document.querySelector('.job'); // 직급 셀렉트 요소 가져오기
 
-	// 계정 상태 값에 따라 기본값 설정
-	for (var k = 0; k < statusSelect.options.length; k++) {
-	    if (statusSelect.options[k].value === statusValue) {
-	        statusSelect.options[k].selected = true;
-	        break;
-	    }
-	}
-	// 관리자 설정 값 가져오기
-	var adminValue = '${detail.admin_chk}';
-	var adminSelect = document.querySelector('.admin'); // 관리자 설정 셀렉트 요소 가져오기
+    // 직급 값에 따라 기본값 설정
+    for (var j = 0; j < jobSelect.options.length; j++) {
+        if (jobSelect.options[j].value === jobValue) {
+            jobSelect.selectedIndex = j; // 옵션 인덱스를 선택한 인덱스로 변경
+            break;
+        }
+    }
 
-	// 관리자 설정 값에 따라 기본값 설정
-	if (adminChkValue === true) {
-	    adminSelect.options[1].selected = true; // "관리자" 옵션 선택
-	} else {
-	    adminSelect.options[0].selected = true; // "사원" 옵션 선택
-	}
+    // 계정 상태 값 가져오기
+    var statusValue = '${detail.status}';
+    var statusSelect = document.querySelector('.status'); // 계정 상태 셀렉트 요소 가져오기
+
+    // 계정 상태 값에 따라 기본값 설정
+    for (var k = 0; k < statusSelect.options.length; k++) {
+        if (statusSelect.options[k].value === statusValue) {
+            statusSelect.selectedIndex = k; // 옵션 인덱스를 선택한 인덱스로 변경
+            break;
+        }
+    }
+
+    // 관리자 설정 값 가져오기
+    var adminValue = '${detail.admin_chk}';
+    var adminSelect = document.querySelector('.admin'); // 관리자 설정 셀렉트 요소 가져오기
+
+    // 관리자 설정 값에 따라 기본값 설정
+    if (adminValue === 'true') { // 문자열로 비교
+        adminSelect.selectedIndex = 1; // "관리자" 옵션 선택
+    } else {
+        adminSelect.selectedIndex = 0; // "사원" 옵션 선택
+    }
 </script>
 </html>

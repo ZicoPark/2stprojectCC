@@ -48,7 +48,9 @@
           <h3 class="card-title">Projects Detail</h3>
 
           <div class="card-tools">
-           <a href="projectInsert.go?idx=${project_id}" class="btn btn-sm btn-primary">추가</a>
+           <a href="projectInsert.go?id=${project_id}" class="btn btn-sm btn-primary">추가</a>
+           <a href="projectDel.do?id=${project_id}" class="btn btn-danger btn-sm">철회</a>
+                          				
             <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
               <i class="fas fa-minus"></i>
             </button>
@@ -90,9 +92,10 @@
 <script src="../../dist/js/demo.js"></script>
 <script>
 $(document).ready(function() {
+	console.log("함수 실행");
 
 
-  var projectId = ${project_id};
+  var projectId = "${project_id}";
   
   $.ajax({
     url: "projectDetail.ajax?id=" + projectId, // 서버에서 데이터를 가져올 URL
@@ -112,17 +115,12 @@ $(document).ready(function() {
         html += '<div class="user-block">';
         html += '<img class="img-circle img-bordered-sm" src="../../dist/img/user1-128x128.jpg" alt="user image">';
         html += '<span class="username">';
-        html += '<a href="#">' + detail.member_id + '</a>';
+        html += '<a href="#">' + detail.user_id + '</a>';
         html += '</span>';
-        html += '<span class="description">' + detail.comment_create_date + '</span>';
+        html += '<span class="description">' + detail.reate_at + '</span>';
         html += '</div>';
-        html += '<p>' + detail.comment_content + '</p>';
-        html += '<p><video src="/upload/' + detail.new_file_name + '" controls></video></p>';
-        html += '</div>';
-        html += '</div>';
-        html += '</div>';
-        html += '<div class="col-12 col-md-12 col-lg-4 order-1 order-md-2">';
-        html += '</div>';
+        html += '<p>' + detail.content + '</p>';
+        html += '<p><a href="/upload/' + detail.new_file_name + '">' + detail.new_file_name + '</a></p>';
         html += '</div>';
 
         container.prepend(html);
@@ -133,6 +131,7 @@ $(document).ready(function() {
     }
   });
 });
+
 </script>
 </body>
 </html>

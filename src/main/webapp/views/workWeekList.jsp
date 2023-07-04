@@ -27,13 +27,13 @@
     <!-- Main content -->
     <section class="content">
     <br/>
-    
-    <form action="weekListFind.do">
-    	<input type="date" id="date" name="date"/>
-    	<button>검색</button><br/>
-		검색을 원하시는 주의 <b>월요일</b>을 선택해주세요. (해당 주의 월요일 ~ 금요일이 검색됩니다.)		
-    </form>
-    	
+	    <form action="weekListFind.do">
+		    <div class="input-group" style="width: 20%;">
+		    	<input type="date" id="date" name="date" class="form-control"/>
+		    	<button class="btn btn-primary">검색</button><br/>
+		    </div>
+				검색을 원하시는 주의 <b>월요일</b>을 선택해주세요. (해당 주의 월요일 ~ 금요일이 검색됩니다.)		
+	    </form>
 	<table class="table table-bordered">    	
    		<thead>
    			<tr>
@@ -48,7 +48,7 @@
    			</tr>    		
    		</thead>
    		<tbody id="weekListId">
-   			<c:if test="${dto.size()==0}">
+   			<c:if test="${dto.size()<1}">
 				<tr>
 					<th colspan="6">검색을 원하시는 주의 <b>월요일</b>을 선택해주세요. (해당 주의 월요일 ~ 금요일이 검색됩니다.)</th>
 				</tr>
@@ -56,16 +56,17 @@
     		<c:forEach items="${dto}" var="work">
 				<tr> 
     				<td>${work.dept_name}</td>
-    				<td>${work.member_id}</td>
+    				<td>${work.user_id}</td>
     				<td>${work.name}</td>
     				<td>${work.job_name}</td>
     				<td>${week}</td>
     				<td>${work.total_time}</td>
     				<td>${work.worn == true ? 'O' : 'X'}</td>
     				<td>
-    				<a href="workWorn.do?member_id=${work.member_id}&dept_name=${work.dept_name}&name=${work.name}&job_name=${work.job_name}&week=${week}&total_time=${work.total_time}">
-    					경고
-    				</a></td>				
+	    				<a class="btn btn-danger btn-sm" href="workWorn.do?member_id=${work.user_id}&dept_name=${work.dept_name}&name=${work.name}&job_name=${work.job_name}&week=${week}&total_time=${work.total_time}">
+	    					경고
+	    				</a>
+    				</td>				
     			</tr>
 			</c:forEach>				
    		</tbody>    	

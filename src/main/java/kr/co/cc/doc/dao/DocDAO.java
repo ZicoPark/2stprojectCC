@@ -19,35 +19,55 @@ public interface DocDAO {
 
 	HashMap<String, String> getDeptMap(String deptId);
 
-
-
 	MemberDTO getMemberInfo(String loginId);
 
-	int docWrite(HashMap<String, String> params);
+	HashMap<String, String> getJobLevelMap(String job_level_id);
+	
+	String getMemberSignFilePath(String memberId);
+	
+	String getApprovalName(String approvalPriority);
+	
+	void attachmentSave(String attachmentId, String oriFileName, String classification, String identifyValue);
 
 	int docWrite(DocDTO dto);
 
-	void attachmentSave(String oriFileName, String newFileName, String cls, int id);
-
+	DocDTO getWritedDoc(String uuid);
+	
+	String getApprovalId(String approvalPriority);
+	
 	void approvalWrite(HashMap<String, Object> docStatusMap);
+	
+	void docNotice(String sendId, String receiveId, String type, String identifyValue);
 
-	void docNotice(String sendId, String receiveId, String type, int status, int identifyValue);
+	void docWriteETC(String id, String dateWritedContent);
 
-	String getMemberSignFilePath(String memberId);
+	ArrayList<DocDTO> getDocList(String loginId, int status);
 
-	String getApprovalName(String approvalCode);
+	ArrayList<AttachmentDTO> getAttachmentList(String id);
+	
+	DocFormDTO getDocForm(String doc_form_id);
+	
+	int attachmentDelete(String attachmentId);
+	
+	int docUpdate(HashMap<String, String> params);
 
-	ArrayList<DocDTO> tempDocList(String loginId, int status);
+	ArrayList<HashMap<String, String>> getRequestDocList(String loginId);
 
-	DocDTO getWritedDOC(String id);
+	
 
-	void docWriteETC(int id, String dateWritedContent);
+	
 
-	ArrayList<AttachmentDTO> attachmentListCall(String id);
+	
 
-	int attachmentDelete(String newFileName);
+	
 
-	void docUpdate(HashMap<String, String> params);
+	
+
+	
+
+	
+
+	
 
 
 

@@ -253,16 +253,16 @@
                 </a>
               </li>
               <li class="nav-item">
-                <a href="../../index3.jsp" class="nav-link">
+                <a href="/requestDocList.go" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
-                  <p>부제목3</p>
+                  <p>결재요청함</p>
                 </a>
               </li>
             </ul>
           </li>
           
                     <li class="nav-item">
-            <a href="/presonal.go" class="nav-link">
+            <a href="/personal.go" class="nav-link">
               <img src="../../dist/img/개인 업무.png" class="nav-icon fas fa-tachometer-alt"/>
               <p>
                 개인업무관리

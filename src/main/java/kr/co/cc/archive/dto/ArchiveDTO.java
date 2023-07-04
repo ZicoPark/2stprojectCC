@@ -4,34 +4,56 @@ import java.sql.Date;
 
 public class ArchiveDTO {
 
-	private int id;
+	private String id;
 	private String member_id;
 	private String category;
 	private String subject;
 	private String content;
 	private int hit;
 	private boolean status;
-	private Date create_date;
+	private Date create_at;
+	private String user_id;
 	private String name;
-	private String dept_name;
+	private String dept_id;
 	private String ori_file_name;
-	private String new_file_name;
 	private String classification;
 	private String identify_value;
+	private String admin_chk;
 	
 	
+	
+	
+	public String getAdmin_chk() {
+		return admin_chk;
+	}
+	public void setAdmin_chk(String admin_chk) {
+		this.admin_chk = admin_chk;
+	}
+	public String getUser_id() {
+		return user_id;
+	}
+	public void setUser_id(String user_id) {
+		this.user_id = user_id;
+	}
+	public String getDept_id() {
+		return dept_id;
+	}
+	public void setDept_id(String dept_id) {
+		this.dept_id = dept_id;
+	}
+	public String getId() {
+		return id;
+	}
+	public void setId(String id) {
+		this.id = id;
+	}
 	public String getOri_file_name() {
 		return ori_file_name;
 	}
 	public void setOri_file_name(String ori_file_name) {
 		this.ori_file_name = ori_file_name;
 	}
-	public String getNew_file_name() {
-		return new_file_name;
-	}
-	public void setNew_file_name(String new_file_name) {
-		this.new_file_name = new_file_name;
-	}
+
 	public String getClassification() {
 		return classification;
 	}
@@ -50,18 +72,8 @@ public class ArchiveDTO {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public String getDept_name() {
-		return dept_name;
-	}
-	public void setDept_name(String dept_name) {
-		this.dept_name = dept_name;
-	}
-	public int getId() {
-		return id;
-	}
-	public void setId(int id) {
-		this.id = id;
-	}
+
+
 	public String getMember_id() {
 		return member_id;
 	}
@@ -98,12 +110,12 @@ public class ArchiveDTO {
 	public void setStatus(boolean status) {
 		this.status = status;
 	}
-	public Date getCreate_date() {
-		return create_date;
+
+	public Date getCreate_at() {
+		return create_at;
 	}
-	public void setCreate_date(Date create_date) {
-		this.create_date = create_date;
-	}
-	
+	public void setCreate_at(Date create_at) {
+		this.create_at = create_at;
+	}	
 	
 }

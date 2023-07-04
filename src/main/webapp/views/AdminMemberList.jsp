@@ -95,12 +95,12 @@
 						<tr>
 				    		<td>${fn:length(list) - loop.index}</td>
 							<td>${member.name}</td>
-							<td>${member.id}</td>
+							<td>${member.user_id}</td>
 							<td>${member.dept_name}</td>
 							<td><span style="color: ${member.status ? 'blue' : 'red'}; display: inline-block; text-align: center; width: 100%;">${member.status ? 'Y' : 'N'}</span></td>
 							<td><span style="color: ${member.admin_chk ? 'blue' : 'red'}; display: inline-block; text-align: center; width: 100%;">${member.admin_chk ? 'Y' : 'N'}</span></td>
 							<td id="but">
-						    	<button id="btn" onclick="location.href='AdminMemberDetail.go?id=${member.id}'">상세보기</button>
+						    	<button id="btn" onclick="location.href='AdminMemberDetail.go?id=${member.user_id}'">상세보기</button>
 						    </td>
 						</tr>
 					</c:forEach>
@@ -123,12 +123,12 @@
 				    		<tr>
 						    	<td><%=list.size() - i %></td>
 						        <td><%=list.get(i).getName()%></td>
-						        <td><%=list.get(i).getId()%></td>
+						        <td><%=list.get(i).getUser_id()%></td>
 						        <td><%=list.get(i).getDept_name()%></td>
 						        <td><span style="color: <%=list.get(i).getStatus() ? "blue" : "red"%>; display: inline-block; text-align: center; width: 100%;"><%=list.get(i).getStatus() ? 'Y' : 'N'%></span></td>
 						        <td><span style="color: <%=list.get(i).getAdmin_chk() ? "blue" : "red"%>; display: inline-block; text-align: center; width: 100%;"><%=list.get(i).getAdmin_chk() ? 'Y' : 'N'%></span></td>
 						        <td id="but">
-						            <button id="btn" onclick="location.href='AdminMemberDetail.go?id=<%=list.get(i).getId()%>'">상세보기</button>
+						            <button id="btn" onclick="location.href='AdminMemberDetail.go?id=<%=list.get(i).getUser_id()%>'">상세보기</button>
 						        </td>
 				    		</tr>
 				    <%

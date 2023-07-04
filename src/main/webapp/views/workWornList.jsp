@@ -45,7 +45,7 @@
 				</c:if>   		
 	    		<c:forEach items="${wornAllList}" var="wornAllList">
 					<tr>
-	    				<td>${wornAllList.member_id}</td>
+	    				<td>${wornAllList.user_id}</td>
 	    				<td>${wornAllList.name}</td>
 	    				<td>${wornAllList.dept_name}</td>
 	    				<td>${wornAllList.week}</td>
@@ -57,13 +57,13 @@
     	
 	    <br/>
 	    <b>근태 경고 내역</b>
-	    <div>
+	    <div class="input-group" style="width: 20%;">
 		    <select id="wornFind1">
 		    	<option value="name">이름</option>
 		    	<option value="member_id">아이디</option>
 		    </select>	    
-			<input type="text" id="wornFind2" value=""/>
-			<button onclick="wornListFind()">검색</button>	
+			<input type="text" id="wornFind2" value="" class="form-control"/>
+			<button class="btn btn-primary" onclick="wornListFind()">검색</button>	
     	</div>
 	   	<table class="table table-bordered">
 	   		<thead>
@@ -84,13 +84,13 @@
 				</c:if>   		
 	    		<c:forEach items="${wornList}" var="wornList">
 					<tr> 
-	    				<td>${wornList.member_id}</td>
+	    				<td>${wornList.user_id}</td>
 	    				<td>${wornList.name}</td>
 	    				<td>${wornList.dept_name}</td>
 	    				<td>${wornList.week}</td>
 	    				<td>${wornList.total_time}</td>  				
 	    				<td>
-	    					<button class="btn btn-link" onclick="wornDel('${wornList.member_id}', '${wornList.week}')">경고 해제</button>
+	    					<button class="btn btn-danger btn-sm" onclick="wornDel('${wornList.member_id}', '${wornList.week}')">경고 해제</button>
 	    				</td>
 	    			</tr>			
 				</c:forEach>				
@@ -145,12 +145,12 @@
 			console.log("list if : " + list);
 			list.forEach(function(item,index){
 				content += '<tr>';
-				content += '<td>'+item.member_id+'</td>';
+				content += '<td>'+item.user_id+'</td>';
 				content += '<td>'+item.name+'</td>';
 				content += '<td>'+item.dept_name+'</td>';
 				content += '<td>'+item.week+'</td>';
 				content += '<td>'+item.total_time+'</td>';
-				content += '<td><button class="btn btn-link" onclick="wornDel(\'' + item.member_id + '\', \'' + item.week + '\')">경고 해제</button></td>';
+				content += '<td><button class="btn btn-danger btn-sm" onclick="wornDel(\'' + item.member_id + '\', \'' + item.week + '\')">경고 해제</button></td>';
 				content += '</tr>';
 			})
 			console.log("list forEach : " + content);			
@@ -170,7 +170,7 @@
 			console.log("list if : " + list);
 			list.forEach(function(item,index){
 				allContent += '<tr>';
-				allContent += '<td>' + item.member_id + '</td>';
+				allContent += '<td>' + item.user_id + '</td>';
 				allContent += '<td>' + item.name + '</td>';
 				allContent += '<td>' + item.dept_name + '</td>';
 				allContent += '<td>' + item.week + '</td>';
@@ -185,22 +185,6 @@
 		$('#wornListIdAll').empty();
 		$('#wornListIdAll').append(allContent);
 	}
-	
-
-	
-		
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	
 	
     function wornDel(memberID, week) {

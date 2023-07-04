@@ -2,7 +2,10 @@ package kr.co.cc.work.service;
 
 
 
+
 import java.sql.Time;
+import java.time.LocalDate;
+import java.time.Month;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -17,7 +20,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import kr.co.cc.work.dao.WorkDAO;
 import kr.co.cc.work.dto.WorkDTO;
-
 @Service
 @MapperScan(value= {"kr.co.cc.work.dao"})
 public class WorkService {
@@ -27,7 +29,7 @@ public class WorkService {
 
 	public ModelAndView workHistoryList(HttpSession session) {
 		ModelAndView mav = new ModelAndView("workHistoryList");
-		String id = (String) session.getAttribute("loginId");
+		String id = (String) session.getAttribute("id");
 		ArrayList<WorkDTO> workList = dao.workHistoryList(id);
 		if(workList != null) {
 			mav.addObject("workList",workList);			
@@ -41,6 +43,7 @@ public class WorkService {
 
 	public void timeGo(String id) {
 		String name = dao.findName(id);
+		logger.info("find name : " + name);
 		dao.timeGo(id, name);
 		
 	}
@@ -60,7 +63,7 @@ public class WorkService {
 	}
 
 	public ModelAndView workHistoryReqListGo(HttpSession session) {
-		String id = (String) session.getAttribute("loginId");
+		String id = (String) session.getAttribute("id");
 		ArrayList<WorkDTO> dto = dao.workHistoryReqListGo(id);		
 		ModelAndView mav = new ModelAndView("workHistoryReqList");
 		mav.addObject("dto",dto);
@@ -107,18 +110,6 @@ public class WorkService {
 		return dao.dailyListFind(formattedDate);
 	}
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 
 	public ModelAndView weekListFind(String week, String msg) {
 		ModelAndView mav = new ModelAndView("workWeekList");		
@@ -147,6 +138,8 @@ public class WorkService {
 	public int workWornChk(String member_id, String weekRe) {
 		return dao.workWornChk(member_id,weekRe);
 	}
+	
+	
 
 	public ModelAndView workWornList() {
 		ModelAndView mav = new ModelAndView("workWornList");
@@ -179,6 +172,12 @@ public class WorkService {
 	public ArrayList<WorkDTO> wornAllList2() {
 		return dao.wornAllList();
 	}
+	
+	public String findId(Object object) {
+		logger.info("object ? " + object);
+		return dao.findId(object);
+	}
+	
 
 	public ModelAndView workHolidayList(String id) {
 		ModelAndView mav = new ModelAndView("workHolidayList");
@@ -190,30 +189,14 @@ public class WorkService {
 		mav.addObject("annual_leave",annual_leave);
 		return mav;
 	}
-
-	public void annualRegistration(HashMap<String, String> params, HttpSession session) {
-		
-		String regist_id =  (String) session.getAttribute("loginId");
-		String approval_id = params.get("approval_id");
-		String start_date = params.get("year_go")+"-"+params.get("month_go")+"-"+params.get("day_go");
-		String end_date = params.get("year_end")+"-"+params.get("month_end")+"-"+params.get("day_end");
-		String use_cnt = params.get("use_cnt"); 
-		String reason = params.get("reason");
-		String type = params.get("type");
-		
-		dao.annualRegistration(regist_id,approval_id,start_date,end_date,use_cnt,reason,type);		
-	}
-
-	public ArrayList<WorkDTO> annualRegistrationGo() {
-		return dao.annualRegistrationGo();
-	}
-
-	public ModelAndView workHolidayList_Ad() {
+	
+	public ModelAndView workHolidayList_Ad(String msg) {
 		ModelAndView mav = new ModelAndView("workHolidayList_Ad");
-		ArrayList<WorkDTO> dto = dao.workHolidayList_Ad();
-		
-		mav.addObject("dto", dto);		
-		
+		ArrayList<WorkDTO> dto = dao.workHolidayList_Ad();		
+		mav.addObject("dto", dto);
+		if(msg != "") {
+			mav.addObject("msg",msg);
+		}
 		return mav;
 	}
 
@@ -221,16 +204,93 @@ public class WorkService {
 		ModelAndView mav = new ModelAndView("workHolidayList_Ad");
 		ArrayList<WorkDTO> dto = dao.holidayListFind(holidayList);
 		mav.addObject("dto",dto);
-		
 		return mav;
 	}
-
-
-
-
-
-
-
 	
+
+	public void annualRegistration(HashMap<String, String> params, HttpSession session) {
+		
+		String regist_id =  (String) session.getAttribute("id");
+		String approval_id = params.get("approval_id");
+		String start_at = params.get("year_go")+"-"+params.get("month_go")+"-"+params.get("day_go");
+		String end_at = params.get("year_end")+"-"+params.get("month_end")+"-"+params.get("day_end");
+		String use_cnt = params.get("use_cnt"); 
+		String reason = params.get("reason");
+		String type = params.get("type");
+		
+		dao.annualRegistration(regist_id,approval_id,start_at,end_at,use_cnt,reason,type);		
+	}
+
+	public ArrayList<WorkDTO> annualRegistrationGo() {
+		return dao.annualRegistrationGo();
+	}
+	
+	public ModelAndView giveAnnualLeave() {
+		int currentYear = LocalDate.now().getYear();
+		logger.info("currentYear : " + currentYear);
+		int currentYearChk = dao.currentYearChk(currentYear);
+		String msg = "올해 연차가 갱신되었습니다 ! (" + currentYear + "년)";
+		if(currentYearChk>0) {
+			msg = "올해 연차를 갱신할 수 없습니다. 새해 1월1일 이후에 클릭해주세요 ! (현재 : " + currentYear + "년)";
+		} else {
+			dao.giveAnnualLeave();
+		}		
+		
+		return workHolidayList_Ad(msg);
+	}
+
+	public ModelAndView giveAnnualLeave_id(String galId) {
+		
+		String msg = "아이디를 다시 확인해주세요.";
+		int idChk = dao.idChk(galId);
+		if(idChk > 0) {
+			msg = galId + " 님에게 연차를 부여하였습니다."; 
+			int row = dao.findGalId(galId);
+			if(row>0) {
+				msg = "이미 연차를 가지고 있는 사원입니다. 다시 확인해주세요.";
+			} else {
+				LocalDate currentDate = LocalDate.now();
+				Month currentMonth = currentDate.getMonth();
+				int monthValue = currentMonth.getValue();
+				dao.giveAnnualLeave_id(galId,12-monthValue);
+				msg = galId + " 님에게 연차를 부여하였습니다. (연차 갯수 : 12-"+monthValue+"="+(12-monthValue)+")";
+			}
+		}
+		return workHolidayList_Ad(msg);
+	}
+
+	public ModelAndView holidayApproval(String regist_id,String approval, String id, int use_cnt, String type, String start_at, String end_at) {
+		
+		String msg = "이미 처리한 항목입니다.";
+		String haChk = dao.holidayApprovalChk(id);
+		
+		if(haChk.equals("0")) {
+			if(approval.equals("1")) {				
+				msg = "연차를 승인하였습니다.";
+				// 연차 날짜에 8시간 근무 처리
+				String name = dao.findName(regist_id);
+				dao.workHourChange(regist_id,name,start_at,end_at);
+				//연차 갯수 처리
+				if(type.equals("A")) {
+					int currentYear = LocalDate.now().getYear();
+					dao.annualLeaveApproval(regist_id,currentYear,use_cnt);					
+				}
+			} else {
+				msg = "연차를 반려하였습니다.";
+			}
+			// 연차 승인/반려 처리
+			dao.holidayApproval(approval,id);
+		}
+		
+		return workHolidayList_Ad(msg);
+	}
+	
+	
+	
+
+	public ArrayList<WorkDTO> approvalChange(String approval) {
+		return dao.approvalChange(approval);
+	}
+
 
 }

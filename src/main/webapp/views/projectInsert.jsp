@@ -45,7 +45,8 @@
 			</section>
 
 			<form action="projectInsert.do" method="post" enctype="multipart/form-data">
-			<input type="hidden" name="project_idx" value="${project_idx}" />
+			<input type="hidden" name="project_id" value="${project_id}" />
+			<input type="hidden" name="user_id" value="${user_id}" />
 			<input type="hidden" name="member_id" value="${member_id}" />
 				<section class="content">
 					<div class="row">
@@ -64,15 +65,15 @@
 								<div class="card-body">
 									<div class="form-group">
 										<label for="inputName">작성자</label> <input type="text"
-											id="inputName" class="form-control" name="member_id" value="${member_id}">
+											id="inputName" class="form-control" name="member_id" value="${user_id}">
 									</div>
 									<div class="form-group">
 										<label for="inputContent">내용</label>
 										<textarea id="inputContent" class="form-control"
-											name="comment_content" rows="3"></textarea>
+											name="content" rows="3"></textarea>
 									</div>
 									<div class="form-group">
-										<label for="inputVideo">동영상 첨부</label> <input type="file"
+										<label for="inputVideo">파일 첨부</label> <input type="file"
 											id="inputVideo" name="video_file">
 									</div>
 
