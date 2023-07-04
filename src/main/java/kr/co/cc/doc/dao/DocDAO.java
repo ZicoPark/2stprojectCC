@@ -45,6 +45,8 @@ public interface DocDAO {
 
 	ArrayList<AttachmentDTO> getAttachmentList(String id);
 	
+	int docDelete(String docId);
+	
 	DocFormDTO getDocForm(String doc_form_id);
 	
 	int attachmentDelete(String attachmentId);
@@ -54,6 +56,10 @@ public interface DocDAO {
 	ArrayList<HashMap<String, String>> getRequestDocList(String loginId);
 
 	HashMap<String, String> requestDocDetail(String docId);
+
+	ArrayList<HashMap<String, String>> requestDocWaitList(String loginId);
+
+	
 
 	
 

@@ -258,6 +258,12 @@
                   <p>결재요청함</p>
                 </a>
               </li>
+              <li class="nav-item">
+                <a href="/requestDocWaitList.go" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>결재대기함</p>
+                </a>
+              </li>
             </ul>
           </li>
           

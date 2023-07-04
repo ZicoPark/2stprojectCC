@@ -88,7 +88,11 @@
 	<select id="getAttachmentList" resultType="kr.co.cc.doc.dto.AttachmentDTO">
 		SELECT * FROM attachment WHERE classification = '전자문서첨부파일' AND identify_value = #{id}
 	</select>
-
+	
+	<delete id="docDelete" parameterType="string">
+		DELETE FROM doc WHERE id = #{docId}
+	</delete>
+	
 	<select id="getDocForm">
 		SELECT * FROM doc_form WHERE id = #{param1}
 	</select>
@@ -143,6 +147,24 @@
 			FROM doc d 
 			INNER JOIN doc_status ds ON d.id = ds.doc_id 
 		WHERE d.id = #{docId} AND d.status = 1 AND ds.approval = 0
+	</select>
+	
+	<select id="requestDocWaitList" parameterType="string" resultType="hashmap">
+		SELECT d.id
+			, d.subject
+			, d.public_range
+			, (SELECT m.name FROM member m WHERE m.id = d.member_id) AS create_member_name
+			, (SELECT df.name FROM doc_form df WHERE df.id = d.doc_form_id) AS doc_form_name
+			, (SELECT dp.name FROM dept dp WHERE dp.id = d.dept_id) AS production_dept_name
+			, (SELECT a.name FROM approval a WHERE a.id = ds.approval_id) AS approval_kind_name
+			, ds.read_chk 
+			, DATE_FORMAT(d.create_at, '%Y-%m-%d %h:%i:%s') AS create_at
+			, MIN(ds.order_rank) AS order_rank
+			FROM doc d 
+			INNER JOIN doc_status ds ON d.id = ds.doc_id 
+			WHERE ds.member_id = #{loginId} AND d.status = 1 AND ds.approval = 0
+			GROUP BY d.id
+		ORDER BY d.create_at DESC
 	</select>
 	
 </mapper>

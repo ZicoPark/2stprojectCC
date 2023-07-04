@@ -52,7 +52,7 @@ public class DocService {
 
 	public ModelAndView docWriteForm(HttpSession session) {
 		
-		ModelAndView mav = new ModelAndView("docWriteForm");
+		ModelAndView mav = new ModelAndView("/doc/docWriteForm");
 		
 		// 결재 종류 불러오기
 		ArrayList<ApprovalDTO> approvalKindList = dao.getApprovalList();
@@ -325,7 +325,7 @@ public class DocService {
 
 	public ModelAndView tempDocList(HttpSession session) {
 		
-		ModelAndView mav = new ModelAndView("tempDocList");
+		ModelAndView mav = new ModelAndView("/doc/tempDocList");
 		
 		int status = 2; // 1: 정상결재요청 2: 임시저장
 		String loginId = (String) session.getAttribute("id");
@@ -339,7 +339,7 @@ public class DocService {
 
 	public ModelAndView tempDocUpdateForm(String id) {
 
-		ModelAndView mav = new ModelAndView("docUpdateForm");
+		ModelAndView mav = new ModelAndView("/doc/tempDocUpdateForm");
 			
 		// 결재 종류 불러오기
 		ArrayList<ApprovalDTO> approvalKindList = dao.getApprovalList();
@@ -366,6 +366,40 @@ public class DocService {
 		// 임시저장된 문서의 첨부파일 불러오기
 		ArrayList<AttachmentDTO> attachmentList = dao.getAttachmentList(id);
 		mav.addObject("attachmentList", attachmentList);
+		
+		return mav;
+	}
+	
+	public ModelAndView tempDocDelete(String docId) {
+		
+		// 문서를 삭제한 후 임시저장함으로 보낸다.
+		ModelAndView mav = new ModelAndView("redirect:/tempDocList.go");
+		
+		// 첨부파일이 있는 경우가 있으니 첨부파일 목록을 가져온다.
+		ArrayList<AttachmentDTO> attachmentList = dao.getAttachmentList(docId);
+		String attachmentId;
+		int row = 0;
+		
+		// 첨부파일이 있다면? 1. 데이터베이스에서 삭제한다.
+		if(attachmentList.size()>0) {
+			
+			for (AttachmentDTO attachmentDTO : attachmentList) {
+				
+				attachmentId = attachmentDTO.getId();
+				row = dao.attachmentDelete(attachmentId);
+				
+				if(row==1) {
+					// 2. 실제 파일을 삭제한다.
+					fileDelete(attachmentId);
+				}
+				
+			}
+			
+		}
+		
+		// 작업이 끝나면 문서를 삭제한다.
+		row = dao.docDelete(docId);
+		logger.info("deleted doc row : "+row);
 		
 		return mav;
 	}
@@ -589,7 +623,7 @@ public class DocService {
 
 	public ModelAndView requestDocList(HttpSession session) {
 		
-		ModelAndView mav = new ModelAndView("requestDocList");
+		ModelAndView mav = new ModelAndView("/doc/requestDocList");
 		
 		String loginId = (String) session.getAttribute("id");
 		
@@ -604,7 +638,7 @@ public class DocService {
 
 	public ModelAndView requestDocDetail(String docId) {
 		
-		ModelAndView mav = new ModelAndView("requestDocDetail");
+		ModelAndView mav = new ModelAndView("/doc/requestDocDetail");
 		
 		// 문서의 첨부파일 불러오기
 		HashMap<String, String> doc = dao.requestDocDetail(docId);
@@ -618,6 +652,20 @@ public class DocService {
 		
 		return mav;
 	}
+
+	public ModelAndView requestDocWaitList(HttpSession session) {
+		
+		ModelAndView mav = new ModelAndView("/doc/requestDocWaitList");
+		
+		String loginId = (String) session.getAttribute("id");
+		
+		ArrayList<HashMap<String, String>> requestDocWaitList = dao.requestDocWaitList(loginId);
+		mav.addObject("list", requestDocWaitList);
+		
+		return mav;
+	}
+
+
 
 
 

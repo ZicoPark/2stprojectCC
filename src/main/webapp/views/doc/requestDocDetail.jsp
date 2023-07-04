@@ -19,6 +19,7 @@
 	<br>
 	기안자 : <input type="text" value="${doc.create_member_name }" readonly="readonly"/>
 	<br>
+	결재요청시각 : ${doc.create_at }
 	생산부서 : ${doc.production_dept_name }
 	<br>
 	공개범위 : 
