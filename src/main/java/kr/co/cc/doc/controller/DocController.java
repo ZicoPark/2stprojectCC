@@ -55,7 +55,6 @@ public class DocController {
 		}
 		
 		logger.info("params"+params);
-
 		
 		return service.docWrite(params, approvalList, attachment, session);
 	}
@@ -76,6 +75,12 @@ public class DocController {
 	public ModelAndView tempDocUpdateForm(@RequestParam String id) {
 		
 		return service.tempDocUpdateForm(id);
+	}
+	
+	@RequestMapping(value="/tempDocDelete.do")
+	public ModelAndView tempDocDelete(@RequestParam String id) {
+		
+		return service.tempDocDelete(id);
 	}
 	
 	@RequestMapping(value="/attachmentDownload.do")
@@ -113,9 +118,30 @@ public class DocController {
 		return service.docUpdate(params, approvalList, attachment, session);
 	}
 	
-	@RequestMapping(value="/docRequestList.go")
-	public ModelAndView docRequestList(HttpSession session) {
+	@RequestMapping(value="/requestDocList.go")
+	public ModelAndView requestDocList(HttpSession session) {
 		
-		return service.docRequestList(session);
+		return service.requestDocList(session);
 	}
+	
+	@RequestMapping(value="/requestDocDetail.go")
+	public ModelAndView requestDocDetail(@RequestParam String id) {
+		
+		return service.requestDocDetail(id);
+	}
+	
+	@RequestMapping(value="/requestDocWaitList.go")
+	public ModelAndView requestDocWaitList(HttpSession session) {
+		
+		return service.requestDocWaitList(session);
+	}
+	
+	@RequestMapping(value="/requestDocWaitDetail.go")
+	public ModelAndView requestDocWaitDetail(@RequestParam String id, HttpSession session) {
+		
+		return service.requestDocWaitDetail(id, session);
+	}
+	
+	
+	
 }

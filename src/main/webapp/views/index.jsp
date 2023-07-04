@@ -223,7 +223,7 @@
           <img src="../../dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
         </div>
         <div class="info">
-          <a href="/userinfo.go" class="d-block">${loginId}</a>
+          <a href="/userinfo.go" class="d-block">${user.id}의 MyPage</a>
         </div>
       </div>
 
@@ -293,9 +293,15 @@
                 </a>
               </li>
               <li class="nav-item">
-                <a href="../../index3.jsp" class="nav-link">
+                <a href="/requestDocList.go" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
-                  <p>부제목3</p>
+                  <p>결재요청함</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="/requestDocWaitList.go" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>결재대기함</p>
                 </a>
               </li>
             </ul>
@@ -397,27 +403,21 @@
             <a href="#" class="nav-link">
               <img src="../../dist/img/부서리스트.png" class="nav-icon fas fa-tachometer-alt"/>
               <p>
-                부서리스트
+                인사 관리
                 <i class="right fas fa-angle-left"></i>
               </p>
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="/" class="nav-link">
+                <a href="/userinfo.go" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
-                  <p>부제목1</p>
+                  <p>마이페이지</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="/index2.go" class="nav-link">
+                <a href="/departmentlist.go" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
-                  <p>부제목2</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="../../index3.jsp" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>부제목3</p>
+                  <p>부서리스트</p>
                 </a>
               </li>
             </ul>
