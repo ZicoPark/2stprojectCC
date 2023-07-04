@@ -246,7 +246,7 @@ public class DocService {
 			dao.docWriteETC(docId, kianSignWritedContent);
 			
 			// status가 1일때는 결재요청함으로 보낸다.
-			mav.setViewName("redirect:/docApprovalWaitList.go");
+			mav.setViewName("redirect:/requestDocList.go");
 			
 			// 정상결재요청 시에는 결재선을 저장한다.
 			HashMap<String, Object> docStatusMap = new HashMap<String, Object>();
