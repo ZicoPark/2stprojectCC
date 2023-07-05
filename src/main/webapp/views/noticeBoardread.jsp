@@ -20,40 +20,26 @@
 <div class="wrapper">
   <div class="content-wrapper">
     <section class="content-header">
-    	<h1>공지사항</h1>         
+            <h1>공지 안읽은 사람</h1>         
     </section>
     <!-- Main content -->
     <section class="content">
-      <table class="table table-bordered table-hover dataTable dtr-inline">
-         <thead> 
-            <tr> 
-               <th>번호</th>
-               <th>제목</th>
-               <th>작성자</th>
-               <th>조회수</th>
-               <th>작성일</th>
-               <th>삭제</th>
-            </tr>
-         </thead>
-         <tbody>
-            <c:if test="${list eq null}">
-               <tr>
-                  <th colspan="6">등록된 글이 없습니다.</th>
-               </tr>
-            </c:if>
-            <c:forEach items="${list}" var="noticeBoard">
-               <tr> 
-                  <td>${noticeBoard.id}</td>
-                  <td><a href="noticeBoardDetail.do?id=${noticeBoard.id}">${noticeBoard.subject}</a></td>
-                  <td>${noticeBoard.name}</td>
-                  <td>${noticeBoard.hit } </td>
-                  <td>${noticeBoard.create_at }</td>
-                  <td><a href="noticeBoardDel.do?id=${noticeBoard.id}">삭제</a></td>
-               </tr>
-            </c:forEach>
-         </tbody>
-      </table>
-      <button class="btn btn-block btn-outline-success btn-lg" onclick="location.href='noticeBoardWrite.go'">글 작성</button>
+          <table>
+			<thead>
+				<tr>
+					<th>이름</th>
+					<th>ID</th>
+				</tr>
+			</thead>
+			<tbody>
+				<c:forEach items="${list}" var="member">
+					<tr>
+						<td>${member.name}</td>
+						<td>${member.id}</td>
+					</tr>			
+				</c:forEach>
+			</tbody>
+		</table>
     </section>
   </div>
 </div>
@@ -68,11 +54,5 @@
 <script src="../../dist/js/demo.js"></script>
 </body>
 <script>
-
-	var msg = "${msg}";
-	if(msg != ""){
-		alert(msg);
-	}
-
 </script>
 </html>

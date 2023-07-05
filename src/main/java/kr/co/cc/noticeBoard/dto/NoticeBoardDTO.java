@@ -14,8 +14,15 @@ public class NoticeBoardDTO {
    private String ori_file_name;
    private String classification;
    private String identify_value;
+   private String name;
    
 	   
+	public String getName() {
+	return name;
+}
+public void setName(String name) {
+	this.name = name;
+}
 	public String getId() {
 		return id;
 	}
@@ -76,8 +83,6 @@ public class NoticeBoardDTO {
 	public void setIdentify_value(String identify_value) {
 		this.identify_value = identify_value;
 	}
-   
-   
   
    
 }
