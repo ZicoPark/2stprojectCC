@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import kr.co.cc.member.dao.MemberDAO;
@@ -44,10 +45,11 @@ public class MemberController {
 		return "JoinForm";
 	}
 	
-	@PostMapping(value="/join.do")
-	public ModelAndView join(MemberDTO dto) {
+	@RequestMapping(value="/join.do" , method = RequestMethod.POST)
+	public ModelAndView join(@RequestParam HashMap<String, String> params, MultipartFile file, MemberDTO dto) {
 		logger.info("dto : " + dto.getUser_id());
-		return memberservice.join(dto);
+		logger.info("file : " + file);
+		return memberservice.join(params, file,dto);
 	}
 	
 	// 로그인 성공시 가는 메인페이지
@@ -130,6 +132,33 @@ public class MemberController {
        } 
        return page;
     }
+	
+	@RequestMapping(value = "/userinfoupdate.go")
+    public String userInfoUpdate(HttpSession session, Model model) {
+  	  
+  	String page = "redirect:/";		
+		MemberDTO dto = memberservice.userInfo(session.getAttribute("id"));
+		if(dto != null) {
+			page = "userInfoUpdate";
+			model.addAttribute("member", dto);
+		}				
+		return page;
+	}
+	
+	
+	@RequestMapping(value="/userinfoupdate.do", method = RequestMethod.POST)
+	public String userInfoUpdate(HttpSession session, @RequestParam HashMap<String, String> params, Model model, MultipartFile file) {
+		
+		logger.info("params : "+params);
+		String path = memberservice.userInfoUpdate(params,file);
+		//String loginPhotoName = memberservice.findPhotoName(params.get("userId"));
+	  
+		//session.setAttribute("loginPhotoName", loginPhotoName);
+ 
+	return path;
+	
+	}
+	
 	
 	// 부서 리스트
 	@RequestMapping(value="/departmentlist.go")

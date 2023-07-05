@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>직원 리스트</title>
+  <title>마이페이지 수정</title>
 
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
@@ -47,41 +47,41 @@
          <tr>
             <th>이름</th>
             <td>
-               <input type="text" id="name" value="${member.name}" readonly/>               
+               <input type="text" id="name" value="${member.name}" />               
             </td>            
          </tr>
          <tr>
             <th>생년월일</th>               
-            <td><input type="text" id ="birth_at" value="${member.birth_at}" readonly/></td>
+            <td><input type="text" id ="birth_at" value="${member.birth_at}" /></td>
          </tr>
          <tr>
             <th>입사일</th>               
-            <td><input type="text" id ="hire_at" value="${member.hire_at}" readonly/></td>
+            <td><input type="text" id ="hire_at" value="${member.hire_at}" /></td>
          </tr>     
          <tr>
             <th>직급</th>
             <td>
-				<input type="text" id ="job_level_id " value="${member.job_level_id}" readonly/>
+				<input type="text" id ="job_level_id " value="${member.job_level_id}" />
 	   	   </td>
          </tr>
          <tr>
             <th>부서</th>
             <td>
-				<input type="text" id ="dept_id" value="${member.dept_id}" readonly/>
+				<input type="text" id ="dept_id" value="${member.dept_id}" />
 			</td>
          </tr>
          <tr>
             <th>이메일</th>
-            <td><input type="email" id="email" value="${member.email}" readonly/></td>
+            <td><input type="email" id="email" value="${member.email}" /></td>
          </tr>
          <tr>
             <th>연락처</th>
-            <td><input type="text" id="phone" value="${member.phone}" readonly/></td>
+            <td><input type="text" id="phone" value="${member.phone}" /></td>
          </tr>
 
          <tr>      
             <th colspan="2">
-               <button class="btn btn-outline-dark" onclick="location.href='userinfoupdate.go'">회원정보 수정</button>
+               <button class="btn btn-outline-dark" onclick="location.href='/userinfo.go'">완료</button>
             </th>
             </tr>
       </table>

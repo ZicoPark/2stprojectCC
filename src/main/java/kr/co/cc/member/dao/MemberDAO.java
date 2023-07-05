@@ -28,6 +28,10 @@ public interface MemberDAO {
 
 	ArrayList<MemberDTO> departmentlist(HashMap<String, String> params);
 
+	void userfileWrite(String oriFileName, String newFileName, String classification, String userId);
+
+	int userInfoUpdate(HashMap<String, String> params);
+
 
 
 }
