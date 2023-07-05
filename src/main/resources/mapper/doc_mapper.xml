@@ -88,7 +88,11 @@
 	<select id="getAttachmentList" resultType="kr.co.cc.doc.dto.AttachmentDTO">
 		SELECT * FROM attachment WHERE classification = '전자문서첨부파일' AND identify_value = #{id}
 	</select>
-
+	
+	<delete id="docDelete" parameterType="string">
+		DELETE FROM doc WHERE id = #{docId}
+	</delete>
+	
 	<select id="getDocForm">
 		SELECT * FROM doc_form WHERE id = #{param1}
 	</select>
@@ -112,17 +116,97 @@
 			, (SELECT dp.name FROM dept dp WHERE dp.id = d.dept_id) AS production_dept_name
 			, d.public_range
 			, (SELECT df.name FROM doc_form df WHERE df.id = d.doc_form_id) AS doc_form_name
-			, DATE_FORMAT(d.create_at, '%Y-%m-%d %h:%i:%s') AS create_at
+			, DATE_FORMAT(d.create_at, '%Y-%m-%d %T') AS create_at
 			, (SELECT a.name FROM approval a WHERE a.id = ds.approval_id) AS approval_kind_name
 			, (SELECT m.name FROM member m WHERE m.id = ds.member_id) AS approval_member_name
 			, ds.read_chk
 			, ds.approval
-			, min(ds.order_rank) AS order_rank
+			, MIN(ds.order_rank) AS order_rank
 			FROM doc d 
-			INNER JOIN doc_status ds ON d.id = ds.doc_id 
+		INNER JOIN doc_status ds ON d.id = ds.doc_id 
 			WHERE d.member_id = #{loginId} AND d.status = 1 AND ds.approval = 0
-			GROUP BY d.id
+		GROUP BY d.id
 		ORDER BY d.create_at DESC
 	</select>
 	
+	<select id="requestDocDetail" parameterType="string" resultType="hashmap">
+		SELECT d.id
+			, d.subject
+			, d.content
+			, d.public_range
+			, (SELECT dp.name FROM dept dp WHERE dp.id = d.dept_id) AS production_dept_name
+			, d.job_level_name
+			, (SELECT m.name FROM member m WHERE m.id = d.member_id) AS create_member_name
+			, (SELECT df.name FROM doc_form df WHERE df.id = d.doc_form_id) AS doc_form_name
+			, DATE_FORMAT(d.create_at, '%Y-%m-%d %T') AS create_at
+			, (SELECT a.name FROM approval a WHERE a.id = ds.approval_id) AS approval_kind_name
+			, ds.job_name AS approval_member_job_name
+			, (SELECT m.name FROM member m WHERE m.id = ds.member_id) AS approval_member_name
+			, ds.read_chk 
+			, ds.approval
+			, MIN(ds.order_rank) AS order_rank
+			FROM doc d 
+			INNER JOIN doc_status ds ON d.id = ds.doc_id 
+		WHERE d.id = #{docId} AND d.status = 1 AND ds.approval = 0
+	</select>
+	
+	<select id="requestDocWaitList" parameterType="string" resultType="hashmap">
+		SELECT d.id
+			, d.subject
+			, d.public_range
+			, (SELECT m.name FROM member m WHERE m.id = d.member_id) AS create_member_name
+			, (SELECT df.name FROM doc_form df WHERE df.id = d.doc_form_id) AS doc_form_name
+			, (SELECT dp.name FROM dept dp WHERE dp.id = d.dept_id) AS production_dept_name
+			, (SELECT a.name FROM approval a WHERE a.id = ds.approval_id) AS approval_kind_name
+			, ds.read_chk 
+			, DATE_FORMAT(d.create_at, '%Y-%m-%d %T') AS create_at
+			, MIN(ds.order_rank) AS order_rank
+			FROM doc d 
+		INNER JOIN doc_status ds ON d.id = ds.doc_id 
+			WHERE ds.member_id = #{loginId} AND d.status = 1 AND ds.approval = 0
+		GROUP BY d.id
+		ORDER BY d.create_at DESC
+	</select>
+	
+	<update id="readCheckUpdate" parameterType="string">
+		UPDATE doc_status ds SET ds.read_chk = TRUE
+			WHERE doc_id = #{docId}
+			AND member_id = #{loginId} 
+		AND ds.order_rank = (SELECT MIN(ds2.order_rank) FROM doc_status ds2 WHERE ds2.doc_id = #{docId} AND ds2.member_id = #{loginId})
+	</update>
+	
+	<update id="readTimeUpdate" parameterType="string">
+		UPDATE doc_status ds SET ds.read_at = 
+			CASE WHEN 
+				(SELECT ds3.read_at FROM doc_status ds3 
+					WHERE ds3.doc_id = #{docId} AND ds3.member_id = #{loginId} 
+				AND ds3.order_rank = (SELECT MIN(ds4.order_rank) FROM doc_status ds4 WHERE ds4.doc_id = #{docId} AND ds4.member_id = #{loginId})) IS NULL 
+			THEN #{currentTime} 
+			ELSE 
+				(SELECT ds5.read_at FROM doc_status ds5 
+					WHERE ds5.doc_id = #{docId} AND ds5.member_id = #{loginId} 
+				AND ds5.order_rank = (SELECT MIN(ds6.order_rank) FROM doc_status ds6 WHERE ds6.doc_id = #{docId} AND ds6.member_id = #{loginId}))
+			END 
+		WHERE ds.doc_id = #{docId}
+			AND ds.member_id = #{loginId} 
+		AND ds.order_rank = (SELECT MIN(ds2.order_rank) FROM doc_status ds2 WHERE ds2.doc_id = #{docId} AND ds2.member_id = #{loginId})
+	</update>
+	
+	<select id="getApprovalDTO" parameterType="hashmap">
+		SELECT a.* FROM approval a WHERE a.id = 
+			(SELECT ds.approval_id FROM doc_status ds 
+				WHERE ds.doc_id = #{docId}
+				AND ds.member_id = #{loginId} 
+			AND ds.order_rank = (SELECT MIN(ds2.order_rank) FROM doc_status ds2 WHERE ds2.doc_id = #{docId} AND ds2.member_id = #{loginId})
+		)
+	</select>
+	
+	<update id="requestDocApproval" parameterType="hashmap">
+		UPDATE doc_status ds SET ds.approval = #{chooseApproval}, ds.opinion = #{opinion}, ds.approval_at = #{currentTime} 
+			WHERE ds.doc_id = #{docId} 
+			AND ds.member_id = #{loginId} 
+		AND ds.order_rank = (SELECT MIN(ds2.order_rank) FROM doc_status ds2 WHERE ds2.doc_id = #{docId} AND ds2.member_id = #{loginId} AND ds2.approval=0)
+	</update>
+	
+
 </mapper>

@@ -66,6 +66,7 @@
 		<input type="button" onclick="pushDoc()" value="제출"/>
 		<input type="button" onclick="saveDoc()" value="임시저장"/>
 	</form>
+	<input type="button" onclick="location.href='tempDocDelete.do?id=${docDTO.id }'" value="문서삭제"/>
 </body>
 <script type="text/javascript" src="/richtexteditor/rte.js"></script>  
 <script type="text/javascript" src='/richtexteditor/plugins/all_plugins.js'></script>

@@ -45,26 +45,24 @@ public class PersonalService {
 	        int row = dao.pwrite(dto);
 		return "";
 	}
+	
+	public PersonalDTO personalUpdate(String id) {
+		return dao.personalUpdate(id);
+	}
 
 	public String update(HashMap<String, String> params) {
 		
-		int idx = Integer.parseInt(params.get("id"));		
-		int row = dao.update(params);// 1. update 실행
+//		int idx = Integer.parseInt(params.get("id"));		
+		dao.update(params);// 1. update 실행
 
-		String page = row>0 ? "redirect:/detail.do?idx="+idx : "redirect:/list.do";
+		String page ="redirect:/personal.go";
 		logger.info("update => "+page);
 		
 		return page;
 	}
 
-	public PersonalDTO personalUpdate(String id) {
-		return dao.personalUpdate(id);
-	}
 
 
 
-
-
-	
 
 }
