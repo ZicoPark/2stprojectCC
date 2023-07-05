@@ -20,23 +20,43 @@
 <div class="wrapper">
   <div class="content-wrapper">
     <section class="content-header">
-            <h1>공지 안읽은 사람</h1>         
+            <h1>알림 리스트</h1>         
     </section>
     <!-- Main content -->
     <section class="content">
-          <table>
+        <table>
+			<colgroup>
+				<col width="20%"/>
+				<col width="20%"/>
+				<col width="40%"/>
+				<col width="10%"/>
+				<col width="10%"/>
+			</colgroup>
 			<thead>
 				<tr>
-					<th>이름</th>
-					<th>ID</th>
+					<th>게시판</th>
+					<th>알림 제목</th>
+					<th>알림 내용</th>
+					<th>게시판, 번호</th>
+					<th>날짜/시간</th>
 				</tr>
-			</thead>
+			</thead>		
 			<tbody>
-				<c:forEach items="${list}" var="member">
+				<c:if test="${noticeList eq null}">
 					<tr>
-						<td>${member.name}</td>
-						<td>${member.id}</td>
-					</tr>			
+						<th colspan="5">알림이 없습니다.</th>
+					</tr>
+				</c:if>
+							
+				<c:forEach items="${noticeList}" var="noticeList">
+					<tr>
+						<td>${noticeList.send_id}</td>
+						<td><a href="fdetail.do?fbNo=${alarmList.alarm_num}">${alarmList.alarm_title}</a></td>
+						<td>${alarmList.alarm_content}</td>
+						<td>${alarmList.alarm_class}, ${alarmList.alarm_num}</td>
+						<td>${alarmList.alarm_time}</td>
+					</tr>
+					
 				</c:forEach>
 			</tbody>
 		</table>

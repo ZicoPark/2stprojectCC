@@ -13,6 +13,17 @@
   <link rel="stylesheet" href="../../plugins/fontawesome-free/css/all.min.css">
   <!-- Theme style -->
   <link rel="stylesheet" href="../../dist/css/adminlte.min.css">
+  <style>
+
+.dashed-border {
+    border: 1px dashed #000;
+  }
+
+  .checked {
+
+    border-color: black;
+  }
+  </style>
 </head>
 <body>
 <jsp:include page = "index.jsp"></jsp:include>
@@ -47,12 +58,13 @@
 								</tr>
 							</thead>
 							<tbody>
-								<c:forEach items="${list}" var="personal">
+ 								<c:forEach items="${list}" var="personal">
 									<tr>
 										<td>
-											<div class="icheck-primary d-inline ml-2">
-										      <input type="checkbox" value="" name="todo1" id="todoCheck1">
-										      <label for="todoCheck1"></label>
+											 <div class="icheck-primary d-inline ml-2 checkbox-line">
+											    <input type="checkbox" value="" name="todo1" id="todoCheck1" onchange="toggleCheckbox(this)">
+											    <label for="todoCheck1"></label> 
+
 											</div>
 										</td>
 										<td><a>${personal.create_at}</a></td>
@@ -60,7 +72,7 @@
 										<td>${personal.start_at}</td>
 										<td>${personal.end_at}</td>
 										<td class="project-actions text-right"><a
-											href="personalUpdate.do?id=${personal.id}"
+											href="personalUpdate.go?id=${personal.id}"
 											class="btn btn-primary btn-sm view-btn"> <i
 												class="fas fa-edit"> </i> 수정
 										</a>                       
@@ -71,8 +83,9 @@
                           				</a> 
                           				</td>
 									</tr>
-								</c:forEach>
-							</tbody>
+								</c:forEach> 
+								
+</tbody>
 						</table>
       
       
@@ -212,13 +225,8 @@
 		      </ul>
 	      </div>
    </div>
-      
-      
 
       </div>
-
-
-
 
     </section>
   </div>
@@ -234,28 +242,30 @@
 <script src="../../dist/js/demo.js"></script>
 </body>
 <script>
-	var msg ="${msg}"
+	/* var msg ="${msg}"
 	
 	if(msg !=""){
 		alert(msg);
-	}
+	} */
+	
+	 // 체크박스 클릭 시 실선 추가/제거 함수
+	   // 체크박스 클릭 시 실선 추가/제거 함수
+  function toggleCheckbox(element) {
+    var label = element.nextElementSibling; // 체크박스의 다음 형제 요소인 label 선택
+    label.classList.toggle("checked"); // "checked" 클래스를 toggle하여 실선 추가/제거
+    var row = element.closest("tr"); // 체크박스가 포함된 가장 가까운 tr 요소를 찾음
+    row.classList.toggle("dashed-border"); // "dashed-border" 클래스를 toggle하여 실선 추가/제거
+  }
+
+  // 체크박스들에 대한 이벤트 처리
+  var checkboxes = document.querySelectorAll("input[type='checkbox']");
+  checkboxes.forEach(function (checkbox) {
+    checkbox.addEventListener("click", function () {
+      toggleCheckbox(this);
+    });
+  });
+	
+
+	
 </script>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

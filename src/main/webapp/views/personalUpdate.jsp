@@ -33,22 +33,23 @@
     </section>
 
 <form action="personalUpdate.do" method="post">
+
     <section class="content">
     
           <div class="card card-primary">
             <div class="card-header">
-              <h3 class="card-title">프로젝트 생성</h3>
-
+              <h3 class="card-title">개인 업무 작성</h3>
+			<input type="hidden" type="text" name="id" value="${personal.id}" />
             </div>
             <div class="card-body">
               <div class="form-group">
-				 <label for="inputName">업무 사항</label>
-                <input type="text" name="form-control" value="${personal.title}"/>
+				 <label for="inputName">업무 사항</label></br>
+                <h4>${personal.title}</h4> 
               </div>
               
               <div class="form-group">
                 <label for="inputPriod">시작일</label>
-                <input type="date" class="form-control" name="start_at" placeholder="시작일">
+                <input type="date" class="form-control" name="start_at" placeholder="시작일" >
               </div>
 
               <div class="form-group">
@@ -79,6 +80,17 @@
 <script src="../../dist/js/demo.js"></script>
 </body>
 <script>
+  // 이전에 입력한 시작일과 마감일 값
+  var startAt = "${personal.start_at}"; // personal.start_at은 이전에 입력한 시작일 값
+  var endAt = "${personal.end_at}"; // personal.end_at은 이전에 입력한 마감일 값
+
+  // 시작일과 마감일 필드
+  var startAtField = document.querySelector('input[name="start_at"]');
+  var endAtField = document.querySelector('input[name="end_at"]');
+
+  // 시작일과 마감일 필드의 값을 이전 값으로 초기화
+  startAtField.value = startAt;
+  endAtField.value = endAt;
 </script>
 </html>
    

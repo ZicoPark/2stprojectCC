@@ -5,7 +5,9 @@
 <mapper namespace="kr.co.cc.noticeBoard.dao.NoticeBoardDAO">
 
    <select id="nolist" resultType="kr.co.cc.noticeBoard.dto.NoticeBoardDTO">
-         SELECT * FROM notice_board
+         SELECT nb.id, nb.subject, nb.create_at,nb.hit,m.name FROM notice_board nb
+left join `member` m 
+on nb.member_id = m.id
    </select>
          
 <!--    <select id="list" resultType="kr.co.cc.noticeBoard.dto.NoticeBoardDTO">

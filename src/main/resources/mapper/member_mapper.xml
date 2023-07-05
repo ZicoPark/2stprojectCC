@@ -4,10 +4,20 @@
 	
 <mapper namespace="kr.co.cc.member.dao.MemberDAO">
 
-	<insert id = "join" parameterType="kr.co.cc.member.dto.MemberDTO">
-		INSERT INTO member(user_id,password,name,birth_at,hire_at,email,phone,status,admin_chk,job_level_id,dept_id)
-			VALUES(#{user_id},#{password},#{name},#{birth_at},#{hire_at},#{email},#{phone},1,0,#{job_level_id},#{dept_id})
+	<insert id = "join" parameterType="kr.co.cc.member.dto.MemberDTO"
+		useGeneratedKeys="false">
+		<selectKey keyProperty="id" resultType="java.lang.String" order="BEFORE">
+	        SELECT UUID()
+	    </selectKey>
+		INSERT INTO member(id,user_id,password,name,birth_at,hire_at,email,phone,status,admin_chk,job_level_id,dept_id)
+			VALUES(#{id},#{user_id},#{password},#{name},#{birth_at},#{hire_at},#{email},#{phone},1,0,#{job_level_id},#{dept_id})
 	</insert>
+
+	<insert id="userfileWrite">
+		INSERT INTO attachment(ori_file_name, id, classification, identify_value)
+			VALUES(#{param1}, #{param2}, #{param3}, #{param4})
+	</insert>
+
 	
 	<select id = "login" resultType="map">
 		SELECT id, password FROM member WHERE user_id = #{param1}
@@ -16,8 +26,6 @@
 	<select id = "loginid" resultType="String">
 		SELECT id FROM member WHERE user_id = #{param1}
 	</select>
-	
-	
 	
 	<select id="idChk" resultType="int">
       SELECT COUNT(user_id) FROM member WHERE user_id = #{param1}
@@ -62,28 +70,62 @@
 	</select>
 	
 	<update id="updateTemporaryPassword" parameterType="kr.co.cc.member.dto.MemberDTO">
-  		UPDATE member
-  			SET password = #{password}
-  			WHERE user_id = #{user_id}
+  		UPDATE member SET password = #{password} WHERE user_id = #{user_id}
 	</update>
 	
-	
 	<select id="userInfo" resultType="kr.co.cc.member.dto.MemberDTO">
-		SELECT user_id
-		, password
-		, name
-		, birth_at
-		, hire_at
-		, email
-		, phone
-		, status
-		, admin_chk
-		, job_level_id
-		, dept_id
-		FROM member
-		WHERE user_id = #{param1}
-
+		SELECT m.*
+			, a.id as photoName 
+			, a.ori_file_name 
+			, a.classification 
+			, a.identify_value 
+			FROM member m inner join attachment a on m.id = a.identify_value 
+		WHERE a.classification = '프로필사진' and m.id = #{param1}
 	</select>
+	
+	<update id="userInfoUpdate" parameterType="hashmap">
+		UPDATE user SET 
+			,password = #{password}
+			,email = #{email}
+		WHERE userId = #{userId}
+	</update>
+	
+<select id="departmentlist" resultType="kr.co.cc.member.dto.MemberDTO" parameterType="hashmap">
+  SELECT * FROM member
+  <where>
+    <if test="keyword != null and !keyword.equals('')">
+      <choose>
+        <when test="opt == 'user_id'">
+          AND user_id LIKE CONCAT('%', #{keyword}, '%')
+        </when>
+        <when test="opt == 'name'">
+          AND name LIKE CONCAT('%', #{keyword}, '%')
+        </when>
+        <when test="opt == 'email'">
+          AND email LIKE CONCAT('%', #{keyword}, '%')
+        </when>
+        <when test="opt == 'dept_id'">
+          AND dept_id IN (
+            '8e5f3282-1703-11ee-973f-0242ac110002',
+            '8ee07433-1703-11ee-973f-0242ac110002',
+            '8f963853-1703-11ee-973f-0242ac110002',
+            '9022f64a-1703-11ee-973f-0242ac110002'
+          ) 
+          AND dept_id = #{keyword}
+        </when>
+        <when test="opt == 'job_level_id'">
+          AND job_level_id IN (
+            '8ade9167-1703-11ee-973f-0242ac110002',
+            '8bbf948d-1703-11ee-973f-0242ac110002',
+            '8c4e7542-1703-11ee-973f-0242ac110002',
+            '8cdd8503-1703-11ee-973f-0242ac110002'
+          ) 
+          AND job_level_id = #{keyword}
+        </when>
+      </choose>
+    </if>
+  </where>
+</select>
 	
 	
 

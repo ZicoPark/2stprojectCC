@@ -37,7 +37,7 @@
     
           <div class="card card-primary">
             <div class="card-header">
-              <h3 class="card-title">프로젝트 생성</h3>
+              <h3 class="card-title">개인 업무 작성</h3>
 
             </div>
             <div class="card-body">

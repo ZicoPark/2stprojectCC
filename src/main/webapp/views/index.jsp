@@ -6,12 +6,20 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Creator Company</title>
 
-  <!-- Google Font: Source Sans Pro -->
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
-  <!-- Font Awesome -->
-  <link rel="stylesheet" href="../../plugins/fontawesome-free/css/all.min.css">
-  <!-- Theme style -->
-  <link rel="stylesheet" href="../../dist/css/adminlte.min.css">
+<!-- CSS only -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+<!-- Ionicons -->
+<link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+<!--  Google Font: Source Sans Pro -->
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+<!-- Font Awesome-->
+<link rel="stylesheet" href="plugins/fontawesome-free/css/all.min.css">
+<!-- Tempusdominus Bootstrap 4 -->
+<link rel="stylesheet" href="plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css">
+<!-- overlayScrollbars-->
+<link rel="stylesheet" href="plugins/overlayScrollbars/css/OverlayScrollbars.min.css">
+<!-- Theme style-->
+<link rel="stylesheet" href="dist/css/adminlte.min.css">
   
   <style>
 [class*=sidebar-dark-] .sidebar a {
@@ -20,8 +28,6 @@
 [class*=sidebar-dark-] .sidebar a p {
     color: white;
 }
-
-
   </style>
   
   
@@ -70,9 +76,9 @@
 
       <!-- Messages Dropdown Menu -->
       <li class="nav-item dropdown">
-        <a class="nav-link" data-toggle="dropdown" href="#">
+        <a class="nav-link" data-toggle="dropdown" href="/chatRoom.go">
           <i class="far fa-comments"></i>
-          <span class="badge badge-danger navbar-badge">3</span>
+          <span class="badge badge-danger navbar-badge">숫자</span>
         </a>
         <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
           <a href="#" class="dropdown-item">
@@ -126,7 +132,40 @@
           <a href="#" class="dropdown-item dropdown-footer">See All Messages</a>
         </div>
       </li>
-      <!-- Notifications Dropdown Menu -->
+      
+<!--       Notifications Dropdown Menu -->
+<!--       <li class="nav-item dropdown show">
+        <a class="nav-link" data-toggle="dropdown" href="">
+          <i class="far fa-bell"></i>
+          <span class="badge badge-warning navbar-badge">15</span>
+        </a>
+      <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right show" style="left: inherit; right: 0px;">
+          <span class="dropdown-item dropdown-header">최신 알림</span>
+          <div class="dropdown-divider"></div>
+          
+          
+          <a href="#" class="dropdown-item">
+            <i class="fas fa-envelope mr-2"></i> 4 new messages
+            <span class="float-right text-muted text-sm">3 mins</span>
+          </a>
+          <div class="dropdown-divider"></div>
+          <a href="#" class="dropdown-item">
+            <i class="fas fa-users mr-2"></i> 8 friend requests
+            <span class="float-right text-muted text-sm">12 hours</span>
+          </a>
+          <div class="dropdown-divider"></div>
+          <a href="#" class="dropdown-item">
+            <i class="fas fa-file mr-2"></i> 3 new reports
+            <span class="float-right text-muted text-sm">2 days</span>
+          </a>
+              
+          <div class="dropdown-divider"></div>
+          <a href="#" class="dropdown-item dropdown-footer">알림 더보기</a>
+        </div>
+      </li> -->
+
+<!-- 앙 알림띠 -->
+<!-- Notifications Dropdown Menu -->
       <li class="nav-item dropdown">
         <a class="nav-link" data-toggle="dropdown" href="#">
           <i class="far fa-bell"></i>
@@ -153,16 +192,17 @@
           <a href="#" class="dropdown-item dropdown-footer">See All Notifications</a>
         </div>
       </li>
-      <li class="nav-item">
-        <a class="nav-link" data-widget="fullscreen" href="#" role="button">
-          <i class="fas fa-expand-arrows-alt"></i>
-        </a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" data-widget="control-sidebar" data-slide="true" href="#" role="button">
-          <i class="fas fa-th-large"></i>
-        </a>
-      </li>
+
+
+
+
+
+      
+      
+      
+      <!-- 알림 끝 -->
+
+
     </ul>
   </nav>
   <!-- /.navbar -->
@@ -183,7 +223,7 @@
           <img src="../../dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
         </div>
         <div class="info">
-          <a href="/userinfo.go" class="d-block">${loginId}</a>
+          <a href="/userinfo.go" class="d-block">${user.id}의 MyPage</a>
         </div>
       </div>
 
@@ -253,9 +293,15 @@
                 </a>
               </li>
               <li class="nav-item">
-                <a href="../../index3.jsp" class="nav-link">
+                <a href="/requestDocList.go" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
-                  <p>부제목3</p>
+                  <p>결재요청함</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="/requestDocWaitList.go" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>결재대기함</p>
                 </a>
               </li>
             </ul>
@@ -357,27 +403,21 @@
             <a href="#" class="nav-link">
               <img src="../../dist/img/부서리스트.png" class="nav-icon fas fa-tachometer-alt"/>
               <p>
-                부서리스트
+                인사 관리
                 <i class="right fas fa-angle-left"></i>
               </p>
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="/" class="nav-link">
+                <a href="/userinfo.go" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
-                  <p>부제목1</p>
+                  <p>마이페이지</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="/index2.go" class="nav-link">
+                <a href="/departmentlist.go" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
-                  <p>부제목2</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="../../index3.jsp" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>부제목3</p>
+                  <p>부서리스트</p>
                 </a>
               </li>
             </ul>
@@ -457,8 +497,7 @@
             </ul>
           </li>
           
-          
-          
+  
                     <li class="nav-item">
             <a href="#" class="nav-link">
               <i class="nav-icon fas fa-tachometer-alt"></i>
@@ -572,13 +611,28 @@
 </div>
 <!-- ./wrapper -->
 
+
+<!-- jQuery UI -->
+<script src="plugins/jquery-ui/jquery-ui.min.js"></script>
 <!-- jQuery -->
 <script src="../../plugins/jquery/jquery.min.js"></script>
 <!-- Bootstrap 4 -->
 <script src="../../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
 <!-- AdminLTE App -->
 <script src="../../dist/js/adminlte.min.js"></script>
-<!-- AdminLTE for demo purposes -->
-<script src="../../dist/js/demo.js"></script>
+
+
 </body>
+
+
+<script>
+
+
+/* 
+속성( data-toggle)이 dropdown 일떄 쇼로 바꾸고  */
+
+
+</script>
+
+
 </html>
