@@ -51,13 +51,13 @@
 			VALUES(#{param1}, #{param2}, #{param3}, #{param4})
 	</insert>
 
-<!-- 자료실 상세보기 -->
-<select id="archivedetail" resultType="kr.co.cc.archive.dto.ArchiveDTO">
-    select ab.id, ab.member_id, ab.category, ab.subject, ab.content, ab.hit, ab.create_at, m.dept_id, m.name
-    from archive_board ab
-    join member m on ab.member_id = m.id
-    where ab.id = #{id}
-</select>
+	<!-- 자료실 상세보기 -->
+	<select id="archivedetail" resultType="kr.co.cc.archive.dto.ArchiveDTO">
+	    select ab.id, ab.member_id, ab.category, ab.subject, ab.content, ab.hit, ab.create_at, m.dept_id, m.name
+	    from archive_board ab
+	    join member m on ab.member_id = m.id
+	    where ab.id = #{id}
+	</select>
 
 
 	<!-- 조회수 상승 -->

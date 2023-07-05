@@ -60,7 +60,7 @@
               <div class="mailbox-read-info">
                 <h5>${detailms.title}</h5>
                 <h6>From: ${detailms.from_id} ${detailms.name}
-                  <span class="mailbox-read-time float-right">${detailms.send_date}</span></h6>
+                  <span class="mailbox-read-time float-right">${detailms.send_at}</span></h6>
               </div>
      
               </div>

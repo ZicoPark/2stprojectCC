@@ -55,23 +55,66 @@
               <div class="card-body">
                 <div class="form-group">
                 <input type="text" name="from_id" value="${loginId}" readonly="readonly" hidden="true" required/>
-                <input type="text" class="form-control" name="to_id" placeholder="받는 사람: " />
-                <!-- <button onclick="location.href='msMemberList.go'">주소록</button> -->
-              	<a data-toggle="modal" data-target="#modal" role="button">lock</a>   
-                	                        
-                </div>
-				<div id="modal" class="modal fade" tabindex="-1" role="dialog">
-				    <div class="modal-dialog">
-				        <div class="modal-content">
-				        </div>
-				    </div>
+                <input type="text" class="form-control" name="to_id" hidden/>
+				<div class="input-group">
+				  <input type="text" id="to_plz" name="to_plz" class="form-control" placeholder="받는 사람: " readonly/>
+				  <div class="input-group-append">
+				    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#memberModal">주소록</button>
+				  </div>
 				</div>
+
+                	                        
+				<!-- 모달 -->
+				<div class="modal fade" id="memberModal" tabindex="-1" role="dialog" aria-labelledby="memberModalLabel" aria-hidden="true">
+				  <div class="modal-dialog" role="document">
+				    <div class="modal-content">
+				      <!-- 모달 내용 -->
+				      <div class="modal-body">
+				        <!-- 모달 내용 추가 -->
+				        
+				    
+				        <table>
+						  <thead>
+						    <tr>
+						      <th></th>
+						      <th><input type="checkbox" name="allCheck"/></th>
+						      <th>부서</th>
+						      <th>이름</th>
+						    </tr>
+						  </thead>
+						  <tbody>
+						    <c:forEach items="${DeptList}" var="dept">
+						      <tr>
+						        <td class="checkbox"><input type="checkbox" name="Rowcheck" value="${dept.id}"></td> <!-- 멤버 아이디 -->
+						        <td>${dept.dept_name}</td>
+						        <td>${dept.member_name}</td>
+						      </tr>
+						    </c:forEach>
+						  </tbody>
+						</table>
+						
+				      </div>
+				      
+							<!-- 모달 푸터 -->
+						<div class="modal-footer">
+						  <button id="blindBtn" type="button" onclick="selectValues()" data-dismiss="modal">선택</button>
+						  <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
+						</div>
+
+
+				    </div>
+				  </div>
+				</div>   
 			
 			
-                <div class="form-group">
-                  <input class="form-control" name="title" maxlength="19" onkeyup="counter(event, '20')" placeholder="제목을 입력하세요">
-                  <span id="reCount">0 / 20</span>
-                </div>
+				<div class="form-group">
+				  <input class="form-control" name="title" maxlength="19" oninput="counter(this, '20')" placeholder="제목을 입력하세요">
+				</div>
+
+
+                
+                
+                
                 <div class="form-group" name="content">
                     <textarea id="compose-textarea" class="form-control" style="height: 300px" name="content">
                       
@@ -83,7 +126,6 @@
 			    <i class="fas fa-paperclip"></i> 파일 첨부
 			    <input type="file" name="file" multiple="multiple" onchange="displayFileNames(event)" id="fileInput">
 			  </div>
-			  <p class="help-block">Max. 32MB</p>
 			  <div id="fileNames"></div>
 			</div>
 
@@ -91,10 +133,11 @@
               <!-- /.card-body -->
               <div class="card-footer">
                 <div class="float-right">
-                  <button type="button" class="btn btn-default"><i class="fas fa-pencil-alt"></i> Draft</button>
+           
                   <button type="submit" class="btn btn-primary"><i class="far fa-envelope"></i> Send</button>
                 </div>
-                <button type="reset" class="btn btn-default"><i class="fas fa-times"></i> Discard</button>
+                <button type="reset" class="btn btn-default" onclick="goBack()"><i class="fas fa-times"></i> 닫기</button>
+
               </div>
               <!-- /.card-footer -->
             </div>
@@ -104,6 +147,7 @@
         </div>
         <!-- /.row -->
       </div><!-- /.container-fluid -->
+      </div>
       </div>
     </section>
     <!-- /.content -->
@@ -142,38 +186,113 @@
     $('#compose-textarea').summernote()
   })
   
-	$(".modal-content").load("/msMemberList.go");
+  function goBack() {
+  history.back();
+}
   
-  function counter(event, limit){
-	    var val = event.target.value.length;
-	    var elem = $(event.target).siblings().find('span');
-	    console.log(val);
-	    console.log(limit);
-	    console.log(elem);
-	    if(val <= limit){
-	      elem.html(val + " / " + limit);
-	      if (val >= 17) {
-	        elem.css('color', 'red');
-	      } else {
-	        elem.css('color', ''); // 기본 색상으로 변경 (CSS 스타일 제거)
-	      }
-	    }
-	  }
+$(function(){
+	var chkObj = $("input[name='Rowcheck']");
+	var rowCnt = chkObj.length;
+
 	  
-	  // 글자 수 실시간 업데이트
-	  var titleInput = document.querySelector('input[name="title"]');
-	  var countSpan = document.getElementById('reCount');
-	  
-	  titleInput.addEventListener('input', function() {
-	    var count = this.value.length;
-	    countSpan.innerText = count + ' / 20';
-	    
-	    if (count >= 20) {
-	      countSpan.style.color = 'red';
-	    } else {
-	      countSpan.style.color = ''; // 기본 색상으로 변경 (CSS 스타일 제거)
+	  $("input[name='allCheck']").click(function(){
+	    var chk_listArr = $("input[name='Rowcheck']"); // 체크박스의 name 속성을 "Rowcheck"로 수정
+	    for (var i=0; i<chk_listArr.length; i++){
+	      chk_listArr[i].checked = this.checked;
 	    }
 	  });
+	  $("input[name='Rowcheck']").click(function(){
+	    if($("input[name='Rowcheck']:checked").length == rowCnt){ // 체크박스의 name 속성을 "Rowcheck"로 수정
+	      $("input[name='allCheck']")[0].checked = true;
+	    }
+	    else{
+	      $("input[name='allCheck']")[0].checked = false;
+	    }
+	  });
+	});
+  
+  
+  function selectValues(){
+	  
+		  var valueArr = []; // 빈 배열로 초기화
+		  var valueArr2 = [];
+		  
+		  
+		  var chklist = $("input[name='Rowcheck']:checked"); // 선택된 체크박스 요소들을 가져옴
+
+		  if (chklist.length === 0) {
+		    alert("선택된 사원이 없습니다.");
+		    return; // 함수 종료
+		  }
+	    else{
+			var chk = confirm("사원 선택이 완료되었습니다.");	
+			
+		    // 선택된 체크박스의 값을 valueArr 배열에 추가
+		    chklist.each(function () {
+		      valueArr.push($(this).val());
+		    });
+		    
+		    chklist.each(function () {
+		        var memberName = $(this).closest('tr').find('td:nth-child(3)').text();
+		        valueArr2.push(memberName);
+		    });
+	    
+		    
+		    console.log(valueArr);
+		    console.log(valueArr2);
+		    console.log(chklist);
+			
+		    
+	        var recipientInput = $("input[name='to_id']");
+	        recipientInput.val(valueArr.join(', ')); 
+		    
+	        var toplzInput = $("input[name='to_plz']");
+	        toplzInput.val(valueArr2.join(', '));
+	     
+
+			$.ajax({
+			    url :'chk.send',                    // 전송 URL
+			    type : 'POST',                // GET or POST 방식
+			    traditional : true,
+			    data : {
+			    	valueArr : valueArr        // 보내고자 하는 data 변수 설정
+			    },
+	            success: function(jdata){
+	                if(jdata = 1) {
+	                    alert("사원 선택 완료");
+	                    $.each(jdata, function(index, item) {
+	                        $('#to_plz').val(item.name);
+	                    });
+	                
+	                
+	                }
+	                else{
+	                    alert("처리 실패");
+	                }
+	             
+	            }
+			});
+			
+
+			$('#memberModal').modal('hide');	
+		}
+		  
+	} 
+
+  
+  
+  
+  function counter(input, limit) {
+	  var count = input.value.length;
+	  var counterText = count + ' / ' + limit;
+	  input.setCustomValidity(counterText);
+
+	  if (count >= limit) {
+	    input.style.color = 'red';
+	  } else {
+	    input.style.color = ''; // 기본 색상으로 변경 (CSS 스타일 제거)
+	  }
+	}
 
 	  function displayFileNames(event) {
 		    var fileNamesDiv = document.getElementById('fileNames');

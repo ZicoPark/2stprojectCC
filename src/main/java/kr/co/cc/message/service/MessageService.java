@@ -6,6 +6,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.UUID;
 
 import javax.servlet.http.HttpSession;
 
@@ -41,7 +42,7 @@ public class MessageService {
 	
 	
 	public ArrayList<MessageDTO> sendList(HttpSession session) {
-		String id = (String) session.getAttribute("loginId");
+		String id = (String) session.getAttribute("id");
 		return dao.sendList(id);
 	}
 
@@ -71,7 +72,7 @@ public class MessageService {
 
 
 	public ArrayList<MessageDTO> receiveList(HttpSession session) {
-		String id = (String) session.getAttribute("loginId");
+		String id = (String) session.getAttribute("id");
 		return dao.receiveList(id);
 	}
 
@@ -83,24 +84,37 @@ public class MessageService {
 
 	// 쪽지 작성
 	public String msWrite(MultipartFile file, @RequestParam("to_id") String[] toIds, HashMap<String, String> params, HttpSession session) {
+	    
+	    String loginId = (String) session.getAttribute("id");
 	    String page = "redirect:/msWrite.go";
-	    String loginId = (String) session.getAttribute("loginId");
-
 	    logger.info("params: " + params);
 	    logger.info("files: " + file);
-
-	    for (String toId : toIds) {
+	    
 	        MessageDTO dto = new MessageDTO();
+	        
+	        StringBuilder sb = new StringBuilder();
+	        for (int i = 0; i < toIds.length; i++) {
+	            sb.append(toIds[i]);
+	            if (i < toIds.length - 1) {
+	                sb.append(","); // 구분자로 ',' 사용
+	            }
+	        }
+	        dto.setTo_id(sb.toString());
+	        
+	        
 	        dto.setFrom_id(loginId);
-	        dto.setTo_id(toId);
 	        dto.setTitle(params.get("title"));
 	        dto.setContent(params.get("content"));
+	        logger.info("to id 갯수"+toIds.length);
+	        for (String toId : toIds) {
+				dto.setTo_id(toId);
+				int row = dao.msWrite(dto);
+				logger.info("insert row: " + row);
+			}
 
-	        int row = dao.msWrite(dto);
-	        logger.info("insert row: " + row);
-	        int idx = dto.getId();
+	        String idx = dto.getId();
 
-	        logger.info("insert row: " + row);
+
 	        logger.info("idx: " + idx);
 
 	        if (file != null && !file.isEmpty()) {
@@ -109,7 +123,7 @@ public class MessageService {
 	            // 확장자를 추출하기 위한 과정
 	            String ext = fileName.substring(fileName.lastIndexOf("."));
 	            // 새로운 파일 이름은?
-	            String newFileName = System.currentTimeMillis() + ext;
+	            String newFileName = UUID.randomUUID().toString() + ext;
 	            String classification = "쪽지";
 	            try {
 	                byte[] bytes = file.getBytes();
@@ -121,7 +135,6 @@ public class MessageService {
 	                e.printStackTrace();
 	            }
 	        }
-	    }
 
 	    return "msSendSuccess";
 	}
@@ -131,21 +144,21 @@ public class MessageService {
 
 	public String msReply(MultipartFile file, HashMap<String, String> params, HttpSession session) {
 		
-		String toId = params.get("from_id"); // 답장을 보낼 사람의 ID
-		String loginId = (String) session.getAttribute("loginId");
+		String tofromId = params.get("from_id"); // 답장을 보낼 사람의 ID
+		String loginId = (String) session.getAttribute("id");
 		MessageDTO dto = new MessageDTO();
 		
 		logger.info("params :"+params);
 		logger.info("files :"+file);
 
 		dto.setFrom_id(loginId);
-		dto.setTo_id(toId);
+		dto.setTofrom_id(tofromId);
 		dto.setTitle(params.get("title"));
 		dto.setContent(params.get("content"));
 		int row = dao.msWrite(dto);
 		logger.info("insert row : "+row);
 		
-		int idx = dto.getId();
+		String idx = dto.getId();
 		
 		logger.info("idx : "+idx);
 		
@@ -173,16 +186,6 @@ public class MessageService {
 
 
 
-		public ModelAndView msMemberList() {
-			ModelAndView mav = new ModelAndView("msMemberList");
-
-			ArrayList<MessageDTO> DeptList = dao.msDeptList();
-			mav.addObject("DeptList", DeptList);
-
-			return mav;
-		}
-
-
 
 
 
@@ -191,6 +194,21 @@ public class MessageService {
 			
 		    return dao.msSelectDelete(id);
 			
+		}
+
+
+
+		public ArrayList<MessageDTO> msDeptList() {
+			
+			return dao.msDeptList();
+		}
+
+
+
+		public ArrayList<MessageDTO> sendMemberchk(String id) {
+			logger.info("체크한 사원들 제발");
+			
+			return dao.sendMemberchk(id);
 		}
 
 

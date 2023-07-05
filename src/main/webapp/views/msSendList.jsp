@@ -114,7 +114,7 @@
 						<c:if test="${item.read_chk}">읽음</c:if><c:if test="${!item.read_chk}">안읽음</c:if>
 				    </td>
 				    <td class="mailbox-date">
-				   	 ${item.send_date}
+				   	 ${item.send_at}
 				    </td>
 
 

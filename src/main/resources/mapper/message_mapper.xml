@@ -7,29 +7,32 @@
 
 	<!-- 보낸 쪽지함 -->
 	<select id="sendList" resultType="kr.co.cc.message.dto.MessageDTO">
-		SELECT ms.id , ms.to_id , ms.title , ms.send_date , ms.read_chk ,ms.del_chk 
+		SELECT ms.id , ms.to_id , ms.title , ms.send_at , ms.read_chk ,ms.del_chk 
 		FROM message ms JOIN member m WHERE ms.from_id = m.id and m.id = #{id} AND ms.del_chk = 0 ORDER BY id DESC 
 	</select>
 	
 	<!-- 받은 쪽지함 -->
 	<select id="receiveList" resultType="kr.co.cc.message.dto.MessageDTO">
-		SELECT ms.id , ms.from_id , ms.to_id , ms.title , ms.send_date , ms.read_chk ,ms.del_chk 
+		SELECT ms.id , ms.from_id , ms.to_id , ms.title , ms.send_at , ms.read_chk ,ms.del_chk 
 		FROM message ms JOIN member m WHERE ms.to_id = m.id and m.id = #{id} AND ms.del_chk = 0 ORDER BY id DESC 
 	</select>	
 	
 	<!-- 쪽지 작성 -->
-	<insert 
-	useGeneratedKeys="true"
-	keyColumn="id"
-	keyProperty="id"	
-	id="msWrite" parameterType="kr.co.cc.message.dto.MessageDTO">
-		INSERT INTO message (from_id,to_id,title,content,del_chk,read_chk)	
-		values(#{from_id},#{to_id},#{title},#{content},0,0); 		
+	<insert 	
+	id="msWrite" 
+	parameterType="kr.co.cc.message.dto.MessageDTO"
+	useGeneratedKeys="false"
+	>
+    <selectKey keyProperty="id" resultType="java.lang.String" order="BEFORE">
+       SELECT UUID()
+    </selectKey>
+		INSERT INTO message (id,from_id,to_id,title,content,del_chk,read_chk)	
+		values(#{id},#{from_id},#{to_id},#{title},#{content},0,0)		
 	</insert>
 	
 	<!-- 파일 첨부 -->
 	<insert id="msfileWrite">
-		INSERT INTO attachment(ori_file_name, new_file_name, classification, identify_value)
+		INSERT INTO attachment(ori_file_name, id, classification, identify_value)
 			VALUES(#{param1}, #{param2}, #{param3}, #{param4})
 	</insert>
 	
@@ -50,7 +53,7 @@
 
 	<!-- 쪽지 상세보기 -->
 	<select id="msdetail" resultType="kr.co.cc.message.dto.MessageDTO">
-		SELECT ms.id , ms.from_id ,ms.to_id ,ms.title ,ms.content ,ms.send_date ,ms.del_chk ,ms.read_chk , m1.name, m.dept_name
+		SELECT ms.id , ms.from_id ,ms.to_id ,ms.title ,ms.content ,ms.send_at ,ms.del_chk ,ms.read_chk , m1.name, m.dept_id
 		FROM message ms
 		JOIN member m ON ms.to_id = m.id
 		JOIN member m1 ON ms.from_id = m1.id
@@ -70,9 +73,20 @@
 	
 	<!-- 모달 창 안에 있는 값 -->
 	<select id="msDeptList" resultType="kr.co.cc.message.dto.MessageDTO">
-		SELECT id, name, dept_name FROM member
-		WHERE status = 1
+		SELECT m.id, m.name AS member_name, d.name AS dept_name
+		FROM member m
+		JOIN dept d ON m.dept_id = d.id
+		WHERE d.status = 1
+
 	</select>
+	
+	<select id="sendMemberchk">
+		SELECT m.id, m.name AS member_name, m.user_id ,d.name AS dept_name
+		FROM member m
+		JOIN dept d ON m.dept_id = d.id
+		WHERE m.id = #{id}
+	</select>	
+	
 	
 	<update id="msSelectDelete" parameterType="java.lang.String">
 		UPDATE message SET del_chk = 1 WHERE del_chk = 0 and id = #{id}

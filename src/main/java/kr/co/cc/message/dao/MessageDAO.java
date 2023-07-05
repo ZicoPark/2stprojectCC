@@ -21,7 +21,7 @@ public interface MessageDAO {
 
 	boolean msdelete(String id);
 
-	void msfileWrite(String oriFileName, String newFileName, String cls, int id);
+	void msfileWrite(String oriFileName, String newFileName, String cls, String idx);
 
 	void upHit(int id);
 
@@ -30,6 +30,8 @@ public interface MessageDAO {
 	boolean msSelectDelete(String id);
 
 	ArrayList<MessageDTO> msDeptList();
+
+	ArrayList<MessageDTO> sendMemberchk(String id);
 
 
 

@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -29,6 +30,7 @@ import org.springframework.web.context.annotation.RequestScope;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import jdk.javadoc.doclet.DocletEnvironment.ModuleMode;
 import kr.co.cc.message.dto.MessageDTO;
 import kr.co.cc.message.service.MessageService;
 
@@ -43,19 +45,51 @@ public class MessageController {
 	
 	// 쪽지 작성 페이지 이동
 	@RequestMapping(value="/msWrite.go")
-	public ModelAndView msWriteForm() {
-		
-		return new ModelAndView("compose");
+	public ModelAndView msWriteForm(Model model) {
+		ArrayList<MessageDTO> DeptList = service.msDeptList();
+		model.addAttribute("DeptList", DeptList);
+		return new ModelAndView("MessageWriteForm");
 	}
+	//주소록 사원 선택값 보내기
+	@RequestMapping(value = "/chk.send")
+	public String sendMemberajax(@RequestParam("valueArr") String[] valueArr, Model model) throws Exception {
+	    List<String> memList = new ArrayList<>();
+
+	    for (String value : valueArr) {
+	        List<MessageDTO> mem = service.sendMemberchk(value);
+	        logger.info("mem: " + mem);
+	        for (MessageDTO member : mem) {
+	            memList.add(member.toString()); // DTO 객체를 String으로 변환하여 추가
+	        }
+	    }
+
+	    model.addAttribute("memList", memList);
+	    logger.info("memList: " + memList);
+
+	    return "forward:/msWrite.do";
+	}
+
 	
 	// 쪽지 작성
 	@RequestMapping(value = "/msWrite.do", method = RequestMethod.POST)
-	public String msWrite(MultipartFile file, @RequestParam("to_id") String[] toIds, @RequestParam HashMap<String, String> params, HttpSession session) {
+	public String msWrite(MultipartFile file, @RequestParam("to_id") String[] toIds, @RequestParam HashMap<String, String> params, HttpSession session,Model model) {
 	    logger.info("params: " + params);
 	    logger.info("컨트롤러 파일 첨부: " + file);
 
+		/*
+		 * List<String> memList = (List<String>) model.getAttribute("memList");
+		 * model.addAttribute("memList", memList);
+		 */
+	    
 	    return service.msWrite(file, toIds, params, session);
 	}
+
+	
+    @RequestMapping(value = "/chk.send", method = RequestMethod.GET)
+    public String sendMemberchk(String id) throws Exception {
+    	service.sendMemberchk(id);
+       return "redirect:/msWrite.go";
+    }
 
 	
 	// 받은 쪽지 상세보기
@@ -186,11 +220,7 @@ public class MessageController {
        return "redirect:/msReceiveList.go";
     }	
     
-    // 쪽지 작성 -> 주소록
-	@RequestMapping(value = "/msMemberList.go")
-	public ModelAndView msMemberList() {
-		return service.msMemberList();
-	}
+
 
 	
 	// 체크박스 선택 삭제

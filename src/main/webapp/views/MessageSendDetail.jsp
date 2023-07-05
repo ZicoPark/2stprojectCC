@@ -60,11 +60,11 @@
               <div class="mailbox-read-info">
                 <div class="direct-chat-text">
                   <h6>From: ${detailms.name} < ${detailms.from_id} > <td class="project-state">
-                    <span class="badge badge-success">${detailms.dept_name}</span>
+                    <span class="badge badge-success">${detailms.dept_id}</span>
                     </td>  
                    </div>
                   
-                  <span class="mailbox-read-time float-right">${detailms.send_date}</span></h6>  
+                  <span class="mailbox-read-time float-right">${detailms.send_at}</span></h6>  
                     </div>
 
              
