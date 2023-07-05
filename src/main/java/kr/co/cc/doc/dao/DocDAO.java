@@ -59,7 +59,11 @@ public interface DocDAO {
 
 	ArrayList<HashMap<String, String>> requestDocWaitList(String loginId);
 
-	void readCheckUpdate(String docId, String loginId, String docUpdateTime);
+	void readCheckUpdate(String docId, String loginId);
+
+	void readTimeUpdate(String docId, String loginId, String currentTime);
+
+	void requestDocApproval(HashMap<String, String> params);
 
 	
 

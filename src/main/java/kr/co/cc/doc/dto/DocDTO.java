@@ -1,6 +1,6 @@
 package kr.co.cc.doc.dto;
 
-import java.sql.Date;
+import java.sql.Timestamp;
 
 public class DocDTO {
 
@@ -13,7 +13,7 @@ public class DocDTO {
 	private String dept_id;
 	private String job_level_name;
 	private String public_range;
-	private Date create_at;
+	private Timestamp create_at;
 	
 	public String getId() {
 		return id;
@@ -69,10 +69,10 @@ public class DocDTO {
 	public void setPublic_range(String public_range) {
 		this.public_range = public_range;
 	}
-	public Date getCreate_at() {
+	public Timestamp getCreate_at() {
 		return create_at;
 	}
-	public void setCreate_at(Date create_at) {
+	public void setCreate_at(Timestamp create_at) {
 		this.create_at = create_at;
 	}
 	

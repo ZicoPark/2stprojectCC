@@ -217,10 +217,10 @@ public class DocService {
 				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
 				String createDate = sdf.format(docDTO.getCreate_at());
 				String dateWritedContent = docFormUpdate(lineWritedContent, "<span id=\"docFormCreateDate\" style=\"font-size: 16px; text-align: left; font-style: italic; color: rgb(255, 0, 0)\">(기안일자 자동 입력)</span>", "<span id=\"docFormCreateDate\" style=\"font-size: 16px; text-align: left;\">"+createDate+"</span>");
-				
+				logger.info("docDTO.getCreate_at() :"+docDTO.getCreate_at());
 				String simpleCreateDate = createDate.substring(0, 10);
 				String lineDateWritedContent = docFormUpdate(dateWritedContent, "<div class=\"approvalDate \" style=\"width:100px; height:25px; border:1px solid black; font-size: 16px; color: rgb(255, 0, 0); font-style: italic; text-align : center;\">(결재일)</div>", "<div class=\"approvalDate \" style=\"width:100px; height:25px; border:1px solid black; font-size: 16px; text-align : center;\">"+simpleCreateDate+"</div>");
-				
+				logger.info("simpleCreateDate :"+simpleCreateDate);
 				
 				// 결재선 라인을 렌더링 한 후, 우선 기안자의 도장 이미지를 가져온다.
 				String memberStampBase64;
@@ -672,12 +672,14 @@ public class DocService {
 		String loginId = (String) session.getAttribute("id");
 		
 		// 진입했을 때 읽음표시 업데이트
-		// 진입했을 때 읽은날짜 업데이트
-		long currentTime = System.currentTimeMillis();
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
-		String docUpdateTime = sdf.format(new Date(currentTime));
+		dao.readCheckUpdate(docId, loginId);
 		
-		dao.readCheckUpdate(docId, loginId, docUpdateTime);
+		// 진입했을 때 읽은날짜 업데이트 - 처음 읽었을 때 한 번만 업데이트 되어야 함.
+		long currentTimeMillis = System.currentTimeMillis();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
+		String currentTime = sdf.format(new Date(currentTimeMillis));
+		
+		dao.readTimeUpdate(docId, loginId, currentTime);
 		
 		// 문서의 정보 불러오기
 		HashMap<String, String> doc = dao.requestDocDetail(docId);
@@ -687,9 +689,26 @@ public class DocService {
 		ArrayList<AttachmentDTO> attachmentList = dao.getAttachmentList(docId);
 		mav.addObject("attachmentList", attachmentList);		
 		
-		
-		
 		return mav;
+	}
+
+	public ModelAndView requestDocApproval(HashMap<String, String> params, HttpSession session) {
+
+		ModelAndView mav = new ModelAndView("redirect:/requestDocWaitList.go");
+		
+		// params에 결재자의 loginId를 넣기
+		String loginId = (String) session.getAttribute("id");
+		params.put("loginId", loginId);
+		
+		// params에 결재 시간을 넣기
+		long currentTimeMillis = System.currentTimeMillis();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
+		String currentTime = sdf.format(new Date(currentTimeMillis));
+		params.put("currentTime", currentTime);
+		
+		dao.requestDocApproval(params);
+		
+		return null;
 	}
 
 

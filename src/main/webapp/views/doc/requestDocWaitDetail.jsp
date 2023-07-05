@@ -8,18 +8,61 @@
 
 <script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
 <style>
+.modal {
+	position: absolute;
+	z-index: 2;
+	top: 0;
+	left: 0;
+	
+	width: 100%;
+	height: 100%;
+	
+	display: none;
+	
+	background-color: rgba(0, 0, 0, 0.4);
+}
+
+.modal.show {
+	display: block;
+}
+
+.modalBody {
+	position: absolute;
+	z-index: 1;
+	top: 50%;
+	left: 50%;
+	
+	width: 400px;
+	height: 400px;
+	
+	padding: 40px;
+	
+
+	
+	background-color: rgb(255, 255, 255);
+	border-radius: 10px;
+	box-shadow: 0 2px 3px 0 rgba(34, 36, 38, 0.15);
+	
+	transform: translateX(-50%) translateY(-50%);
+}
+
+textarea {
+  resize: none;
+}
 </style>
 </head>
 <body>
+<form action="requestDocApproval.do" method="post">
 	<h1>결재대기문서</h1>
 	<br>
 	<br>
-	<input type="text" value="${doc.id }" hidden="true"/>
+	<input type="text" name="docId" value="${doc.id }" hidden="true"/>
 	제목 : <input type="text" value="${doc.subject }" readonly="readonly"/>
 	<br>
 	기안자 : <input type="text" value="${doc.create_member_name }" readonly="readonly"/>
 	<br>
 	결재요청시각 : ${doc.create_at }
+	<br>
 	생산부서 : ${doc.production_dept_name }
 	<br>
 	공개범위 : 
@@ -30,7 +73,7 @@
 		부서별공개
 	</c:if>
 	<br>
-	결재단계 : ${doc. approval_kind_name}대기 중
+	결재단계 : ${doc.approval_kind_name }대기 중
 	<br>
 	처리자 : ${doc.approval_member_job_name } ${doc.approval_member_name }
 	<br>
@@ -55,6 +98,23 @@
 	<br>
 	문서종류 : <input type="text" value="${doc.doc_form_name }" readonly="readonly"/>
 	<br>
+	<div class="modal">
+		<div class=modalBody>
+			<h3>결재하기</h3>
+			<br>
+			결재여부 : 
+			<br>
+			<input type="radio" name="chooseApproval" value="1"/>결재&nbsp;&nbsp;
+			<input type="radio" name="chooseApproval" value="2"/>반려
+			<br>
+			의견 : 
+			<br>
+			<textarea name="opinion"></textarea>
+			<input type="submit" value="처리"/>
+		</div>
+	</div>
+	<button type="button" class="modalOpenBtn">결재하기</button>
+	<br>
 	<div id="div_editor">
 		<!-- 에디터 안에 들어갈 자리 -->
 	</div>
@@ -70,6 +130,7 @@
 		</c:forEach>
 	</c:if>
 	<input type="button" onclick="location.href='/requestDocWaitList.go'" value="리스트"/>
+</form>
 </body>
 <script type="text/javascript" src="/richtexteditor/rte.js"></script>  
 <script type="text/javascript" src='/richtexteditor/plugins/all_plugins.js'></script>
@@ -86,5 +147,27 @@ var editor = new RichTextEditor("#div_editor", config);
 var content = document.getElementById('content').value;
 editor.setHTMLCode(content); // editor에 내용 넣기
 editor.setReadOnly();
+
+const body = document.querySelector('body');
+const modal = document.querySelector('.modal');
+const modalOpenBtn = document.querySelector('.modalOpenBtn');
+
+modalOpenBtn.addEventListener('click', () => {
+	modal.classList.toggle('show');
+
+	if (modal.classList.contains('show')) {
+		body.style.overflow = 'hidden';
+	}
+});
+
+modal.addEventListener('click', (event) => {
+	if (event.target === modal) {
+		modal.classList.toggle('show');
+	
+		if (!modal.classList.contains('show')) {
+			body.style.overflow = 'auto';
+		}
+	}
+});
 </script>
 </html>
