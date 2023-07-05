@@ -672,12 +672,14 @@ public class DocService {
 		String loginId = (String) session.getAttribute("id");
 		
 		// 진입했을 때 읽음표시 업데이트
-		// 진입했을 때 읽은날짜 업데이트
-		long currentTime = System.currentTimeMillis();
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
-		String docUpdateTime = sdf.format(new Date(currentTime));
+		dao.readCheckUpdate(docId, loginId);
 		
-		dao.readCheckUpdate(docId, loginId, docUpdateTime);
+		// 진입했을 때 읽은날짜 업데이트 - 처음 읽었을 때 한 번만 업데이트 되어야 함.
+		long currentTimeMillis = System.currentTimeMillis();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
+		String currentTime = sdf.format(new Date(currentTimeMillis));
+		
+		dao.readTimeUpdate(docId, loginId, currentTime);
 		
 		// 문서의 정보 불러오기
 		HashMap<String, String> doc = dao.requestDocDetail(docId);
