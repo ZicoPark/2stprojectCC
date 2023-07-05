@@ -31,7 +31,7 @@ public interface DocDAO {
 
 	int docWrite(DocDTO dto);
 
-	DocDTO getWritedDoc(String uuid);
+	DocDTO getWritedDoc(String docId);
 	
 	String getApprovalId(String approvalPriority);
 	
@@ -62,8 +62,12 @@ public interface DocDAO {
 	void readCheckUpdate(String docId, String loginId);
 
 	void readTimeUpdate(String docId, String loginId, String currentTime);
+	
+	ApprovalDTO getApprovalDTO(HashMap<String, String> params);
 
 	void requestDocApproval(HashMap<String, String> params);
+
+
 
 	
 
