@@ -63,6 +63,8 @@ public interface DocDAO {
 
 	void readTimeUpdate(String docId, String loginId, String currentTime);
 
+	void requestDocApproval(HashMap<String, String> params);
+
 	
 
 	
