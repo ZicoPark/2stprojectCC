@@ -74,7 +74,13 @@
 	</update>
 	
 	<select id="userInfo" resultType="kr.co.cc.member.dto.MemberDTO">
-		SELECT * FROM member WHERE id = #{param1}
+		SELECT m.*
+			, a.id as photoName 
+			, a.ori_file_name 
+			, a.classification 
+			, a.identify_value 
+			FROM member m inner join attachment a on m.id = a.identify_value 
+		WHERE a.classification = '프로필사진' and m.id = #{param1}
 	</select>
 	
 	<update id="userInfoUpdate" parameterType="hashmap">
