@@ -1,5 +1,6 @@
 package kr.co.cc.member.dao;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -7,6 +8,7 @@ import kr.co.cc.member.dto.MemberDTO;
 
 
 public interface MemberDAO {
+
 
 	int join(MemberDTO dto);
 
@@ -23,5 +25,9 @@ public interface MemberDAO {
 	boolean updateTemporaryPassword(MemberDTO userInfoPW);
 
 	String loginid(String user_id);
+
+	ArrayList<MemberDTO> departmentlist(HashMap<String, String> params);
+
+
 
 }

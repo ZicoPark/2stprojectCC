@@ -23,7 +23,7 @@ public class AdminService {
 
 	private Connection conn;
 	private ResultSet rs;
-	String url = "jdbc:log4jdbc:mariadb://152.69.231.87:3306/cc";
+	String url = "jdbc:log4jdbc:mariadb://152.69.231.87:3306/cc2";
 	String username = "web_user";
 	String password = "gudi@gdj63";
 	
@@ -45,47 +45,82 @@ public class AdminService {
 		return mav;
 	}
 
-	public ModelAndView AdminMemberDetail(String id) {
-		// logger.info("MemberId : "+id);
+	public ModelAndView AdminMemberDetail(String user_id) {
+		// logger.info("MemberId : "+user_id);
 		ModelAndView mav = new ModelAndView("AdminMemberDetail");
-		AdminDTO detail = dao.AdminMemberDetail(id);
+		AdminDTO detail = dao.AdminMemberDetail(user_id);
+		// logger.info("디테일확인 : "+detail);
 		mav.addObject("detail", detail);
 		return mav;
 	}
 	
 	public ArrayList<AdminDTO> MemberSearch(String searchField, String searchText){ //특정한 리스트를 받아서 반환
 		ArrayList<AdminDTO> list = new ArrayList<AdminDTO>();
-		String SQL = "SELECT id, dept_name, name, status, admin_chk FROM member WHERE " + searchField.trim();
+		connectToDB();
+		String SQL = "SELECT member.user_id, member.dept_id, member.name, member.status, member.admin_chk, dept.name AS dept_name " +
+	             "FROM member " +
+	             "JOIN dept ON member.dept_id = dept.id " +
+	             "WHERE ";
+		if (searchField.trim().equals("name")) {
+		    SQL += "member.name LIKE ?";
+		} else if (searchField.trim().equals("id")) {
+		    SQL += "member.user_id LIKE ?";
+		} else if (searchField.trim().equals("dept_name")) {
+		    SQL += "dept.name LIKE ?";
+		}
 		try {
-			connectToDB();
-			if(searchText != null && !searchText.equals("")){
-				SQL +=" LIKE '%"+searchText.trim()+"%'";
-			}
-			PreparedStatement pstmt=conn.prepareStatement(SQL);
-			rs=pstmt.executeQuery(); 
-			while(rs.next()) {
-				AdminDTO dto = new AdminDTO();
-				dto.setId(rs.getString("id"));
-	            dto.setDept_name(rs.getString("dept_name"));
-	            dto.setName(rs.getString("name"));
-	            dto.setStatus(rs.getBoolean("status"));
-	            dto.setAdmin_chk(rs.getBoolean("admin_chk"));
-				list.add(dto);
-			}     
-		} catch(Exception e) {
-			e.printStackTrace();
+			PreparedStatement pstmt = conn.prepareStatement(SQL);
+		    pstmt.setString(1, "%" + searchText.trim() + "%");
+		    rs = pstmt.executeQuery();
+		    while (rs.next()) {
+		        AdminDTO dto = new AdminDTO();
+		        dto.setUser_id(rs.getString("user_id"));
+		        dto.setDept_id(rs.getString("dept_id"));
+		        dto.setName(rs.getString("name"));
+		        dto.setStatus(rs.getBoolean("status"));
+		        dto.setAdmin_chk(rs.getBoolean("admin_chk"));
+		        dto.setDept_name(rs.getString("dept_name"));
+		        list.add(dto);
+		    }
+		} catch (Exception e) {
+		    e.printStackTrace();
 		}
 		return list;
 	}
 
-	public String MemberUpdate(AdminDTO dto, String id) {
-		int row = dao.MemberUpdate(dto, id);
+	public String MemberUpdate(AdminDTO dto, String user_id) {
+		int row = dao.MemberUpdate(dto, user_id);
 		logger.info("업데이트 확인 여부 : "+row);
 		// logger.info("id 확인 : "+id);
 		// String page = "redirect:/MemberList.go";
-		String page = "redirect:/AdminMemberDetail.go?id="+id;
+		String page = "redirect:/AdminMemberDetail.go?id="+user_id;
 		return page;
 	}
+
+	public ModelAndView MemberONOFFList() {
+		ModelAndView mav = new ModelAndView("MemberONOFFList");
+		ArrayList<AdminDTO> list = dao.MemberONOFFList();
+		mav.addObject("list",list);
+		return mav;
+	}
+
+	public ModelAndView MemberONOFFListDetail(String id) {
+		ModelAndView mav = new ModelAndView("MemberONOFFListDetail");
+		AdminDTO detail = dao.MemberONOFFListDetail(id);
+		mav.addObject("detail", detail);
+		return mav;
+	}
+
+	public ModelAndView MemberONOFFDelete(String id) {
+		ModelAndView mav = new ModelAndView("redirect://MemberONOFFList.go");
+		int success = dao.MemberONOFFDelete(id);
+		logger.info("삭제 여부 : "+success);
+		return mav;
+	}
+
+	
+
+	
 
 	
 	

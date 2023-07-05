@@ -11,37 +11,39 @@
 </style>
 </head>
 <body>
-	<h1>임시저장문서 계속 작성하기</h1>
+	<h1>새 문서 작성</h1>
 	<br>
 	<br>
-	<form action="docUpdate.do" method="post" enctype="multipart/form-data">
-		문서번호 : <input type="text" name="id" value="${docDTO.id }" readonly="readonly"/>
-		<br>
-		제목 : <input type="text" name="subject" value="${docDTO.subject }"/>
-		<br>
-		기안자 : <input type="text" value="${docDTO.memberId }" readonly="readonly"/>
-		<br>
-		공개범위 : 
-		<select name="publicRange">
-			<option value="all" <c:if test="${docDTO.publicRange == 'all' }">selected</c:if>>전체</option>
-			<option value="dept" <c:if test="${docDTO.publicRange == 'dept' }">selected</c:if>>부서별</option>
-		</select>
-		<br>
-		문서종류 : 공사중
-
-		<br>
-		<div id="approvalList">
-		<input type="button" value="결재선 추가" onclick="addApproval()"/>
-		<select name="approvalVariable">
+	<form action="docWrite.do" method="post" enctype="multipart/form-data">
+		<select id="docForm" name="docFormId" onchange="docFormListCall(this)">
 			<option value="default">--</option>
-			<c:forEach items="${approvalKindList}" var="i">
+			<c:forEach items="${docFormList}" var="i">
 				<option value="${i.id}">${i.name}</option>
 			</c:forEach>
 		</select>
-		<select name="approvalPerson">
+		<c:forEach items="${docFormList}" var="i">
+			<textarea id="${i.id}" hidden="true">${i.content}</textarea>
+		</c:forEach>
+		<br>
+		<input type="text" name="subject" value="" placeholder="제목을 입력하세요"/>
+		<br>
+		<select name="publicRange">
+			<option value="all">전체</option>
+			<option value="dept">부서별</option>
+		</select>
+		<br>
+		<div id="approvalList">
+		<input type="button" value="결재선 추가" onclick="addApproval()"/>
+		<select name="approvalPriority">
+			<option value="default">--</option>
+			<c:forEach items="${approvalKindList}" var="i">
+				<option value="${i.priority}">${i.name}</option>
+			</c:forEach>
+		</select>
+		<select name="approvalMemberId">
 			<option value="default">--</option>
 			<c:forEach items="${memberList}" var="i">
-				<option value="${i.id}">${i.deptName} | ${i.name}</option>
+				<option value="${i.id}">${i.dept_name} | ${i.name}</option>
 			</c:forEach>
 		</select>
 		<br>
@@ -49,22 +51,12 @@
 		<div id="div_editor">
 			<!-- 에디터 안에 들어갈 자리 -->
 		</div>
-		<textarea hidden="true" id="beforeContent">${docDTO.content }</textarea>
-		<textarea hidden="true" id="afterContent" name="afterContent"></textarea>
+		<textarea hidden="true" id="content" name="content"></textarea>
 		<input type="hidden" id="status" name="status"/>
 		<input type="file" multiple="multiple" name="attachment"/>
-		<c:if test="${attachmentList.size() == 0 }">
-			<div>첨부파일 없음.</div>
-		</c:if>
-		<c:if test="${attachmentList.size() > 0 }">
-			<c:forEach items="${attachmentList }" var="i">
-				<div>
-					<a href="attachmentDownload.do?oriFileName=${i.oriFileName }&newFileName=${i.newFileName }">${i.oriFileName }</a>
-					<a href="attachmentDelete.do?id=${docDTO.id }&newFileName=${i.newFileName }">삭제</a>
-				</div>
-			</c:forEach>
-		</c:if>
+		
 		<input type="button" onclick="pushDoc()" value="제출"/>
+		<input type="button" onclick="saveDoc()" value="임시저장"/>
 	</form>
 </body>
 <script type="text/javascript" src="/richtexteditor/rte.js"></script>  
@@ -75,24 +67,28 @@ config.editorResizeMode = "none"; // 에디터 크기조절 none
 
 var editor = new RichTextEditor("#div_editor", config);
 
-var beforeContent = document.getElementById('beforeContent').value;
-editor.setHTMLCode(beforeContent); // editor에 내용 넣기, docForm은 기본 양식
+function docFormListCall(elem){
+
+	var docForm = document.getElementById(elem.value).value;
+	editor.setHTMLCode(docForm); // editor에 내용 넣기, docForm은 기본 양식
+	
+}
 
 // 결재선 추가할 때 쓸 변수 content, addApproval() 함수
 var content = '';
 
 content += '<input type="button" value="결재선 추가" onclick="addApproval()"/>';
-content += '<select name="approvalVariable">';
+content += '<select name="approvalPriority">';
 content += '<option value="default">--</option>';
 content += '<c:forEach items="${approvalKindList}" var="i">';
-content += '<option value="${i.id}">${i.name}</option>';
+content += '<option value="${i.priority}">${i.name}</option>';
 content += '</c:forEach>';
 content += '</select>';
 
-content += '<select name="approvalPerson">';
+content += '<select name="approvalMemberId">';
 content += '<option value="default">--</option>';
 content += '<c:forEach items="${memberList}" var="i">';
-content += '<option value="${i.id}">${i.deptName} | ${i.name}</option>';
+content += '<option value="${i.id}">${i.dept_name} | ${i.name}</option>';
 content += '</c:forEach>';
 content += '</select>';
 content += '<br>';
@@ -106,10 +102,20 @@ function addApproval(){
 function pushDoc(){
 	
 	var submitContent = editor.getHTMLCode();
-	$('textarea[name="afterContent"]').val(submitContent);
+	$('textarea[name="content"]').val(submitContent);
 	$('input[name="status"]').val('1');
 	$('form').submit();
 	
 }
+
+function saveDoc(){
+	
+	var submitContent = editor.getHTMLCode();
+	$('textarea[name="content"]').val(submitContent);
+	$('input[name="status"]').val('2');
+	$('form').submit();
+	
+}
+
 </script>
 </html>

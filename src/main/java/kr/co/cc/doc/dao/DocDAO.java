@@ -45,19 +45,33 @@ public interface DocDAO {
 
 	ArrayList<AttachmentDTO> getAttachmentList(String id);
 	
+	int docDelete(String docId);
+	
+	DocFormDTO getDocForm(String doc_form_id);
+	
+	int attachmentDelete(String attachmentId);
+	
+	int docUpdate(HashMap<String, String> params);
+
+	ArrayList<HashMap<String, String>> getRequestDocList(String loginId);
+
+	HashMap<String, String> requestDocDetail(String docId);
+
+	ArrayList<HashMap<String, String>> requestDocWaitList(String loginId);
+
+	void readCheckUpdate(String docId, String loginId, String docUpdateTime);
 
 	
 
 	
-	
 
 	
 
 	
 
-	int attachmentDelete(String newFileName);
+	
 
-	void docUpdate(HashMap<String, String> params);
+	
 
 	
 

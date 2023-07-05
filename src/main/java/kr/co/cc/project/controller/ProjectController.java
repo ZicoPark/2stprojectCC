@@ -43,15 +43,22 @@ public class ProjectController {
 	    }
 	    
 	    model.addAttribute("list", list);
-	    model.addAttribute("loginId", loginId);
+	    model.addAttribute("id", loginId);
 	    logger.info("loginid : " + loginId);
+	    
+	    String msg = (String) session.getAttribute("msg");
+		if(msg != null) {
+			model.addAttribute("msg", msg);
+			session.removeAttribute("msg");
+		}
+	    
 	    return "projects";
 	}
 
 
 	
 	@RequestMapping(value = "projectDetail.go")
-	public String projectList(HttpSession session, Model model, @RequestParam int id) {
+	public String projectList(HttpSession session, Model model, @RequestParam String id) {
 		String page = "redirect:/";
 		
 		if(session.getAttribute("id") != null) {
@@ -65,7 +72,7 @@ public class ProjectController {
 	
 	@GetMapping(value="/projectDetail.ajax")
 	@ResponseBody
-	public HashMap<String, Object> writePage(Model model, @RequestParam int id, HttpSession session) {
+	public HashMap<String, Object> writePage(@RequestParam String id, HttpSession session) {
 	    logger.info("detail : " + id);
 	    String page = "redirect:/projects.go";
 	    
@@ -73,11 +80,7 @@ public class ProjectController {
 	    
 	    ArrayList<ProjectDTO> detailList = service.detail(id);
 	    map.put("detailList", detailList);
-	    
-
-	    model.addAttribute("detailList", detailList);
-	    
-	    model.addAttribute("project_id",id);
+	    map.put("project_id", id);
 	    
 
 	    return map;
@@ -90,10 +93,10 @@ public class ProjectController {
 	}
 	
 	@GetMapping(value="/projectUpdate.go")
-	public String projectUpdateGo(Model model, HttpSession session, @RequestParam int id) {
+	public String projectUpdateGo(Model model, HttpSession session, @RequestParam String id) {
 	    ProjectDTO dto = service.projectDetailUp(id);
 	    model.addAttribute("projectDetailUp", dto);
-	    
+	    model.addAttribute("project_id", id);
 	    return "projectUpdate";
 	}
 
@@ -103,9 +106,12 @@ public class ProjectController {
 	    logger.info("update param:" + params);
 	    if (session.getAttribute("id") != null) {
 	        // 프로젝트 정보 업데이트
+	    	String id = params.get("project_id");
+	    	logger.info("idddddd"+id);
 	        service.projectUpdate(params);
+	        logger.info("params"+params);
+	        
 
-	        String id = params.get("project_id");
 
 	        String memberIdsString = params.get("member_id");
 
@@ -113,7 +119,7 @@ public class ProjectController {
 	            String[] memberIds = memberIdsString.split(",");
 	            // 새로운 참가자 정보 추가
 	            for (String contributorId : memberIds) {
-	                service.addContributor(id, contributorId);
+	                service.addContributor(contributorId, id);
 	            }
 	        }
 
@@ -123,6 +129,24 @@ public class ProjectController {
 	}
 
 
+	@GetMapping(value = "/projectDel.do")
+	public String projectDel(HttpSession session, @RequestParam String id) {
+		logger.info("params : " + id);
+		logger.info("del 접근 : ");
+		
+		String msg = "철회에 실패 했습니다.";
+		
+		if(session.getAttribute("id") != null) {
+			if(service.project_del(id) == 1) { 
+			msg = "철회에 성공 했습니다.";				
+			}							
+		}
+		// redirect 시 데이터를 보낼 수 없다.
+		// 하지만 session 에 데이터를 넣어 보낼 수 있다.
+		session.setAttribute("msg", msg);
+		
+		return "redirect:/projects.go";
+	}
 
 
 	
@@ -143,7 +167,9 @@ public class ProjectController {
 
 	    String projectId = service.write(dto, id);
 	    String project_id=dto.getId();
+	    logger.info("projectId"+projectId);
 	    logger.info("project_id"+project_id);
+
 
 	    String memberIdsString = params.get("user_id");
 	    String[] memberIds = memberIdsString.split(",");
@@ -157,13 +183,16 @@ public class ProjectController {
 	}
 	
 	@GetMapping(value="/projectInsert.go")
-	public String projectInsertGo(HttpSession session, Model model,@RequestParam String idx) {
+	public String projectInsertGo(HttpSession session, Model model,@RequestParam String id) {
 		String memberId = (String) session.getAttribute("id");
+		
+		String user_id = service.getMemberById(memberId);
+		model.addAttribute("user_id", user_id);
+
 		model.addAttribute("member_id", memberId);
-		logger.info("왜 안될까요?"+idx);
-		model.addAttribute("project_idx",idx);
-		
-		
+		logger.info("왜 안될까요?"+id);
+		model.addAttribute("project_id",id);
+			
 		return "projectInsert";
 	}
 	
@@ -175,8 +204,7 @@ public class ProjectController {
 		return service.insert(video_file, params);
 	}
 
-
-
+	
 
 	
 	

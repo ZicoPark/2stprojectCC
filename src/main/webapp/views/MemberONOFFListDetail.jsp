@@ -4,8 +4,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <style>
-	#btn{
-		width: 80px;
+	.btn{
+		width: 70px;
 		height: 35px;
 		border-top-left-radius: 5px;
 		border-top-right-radius: 5px;
@@ -41,7 +41,7 @@
 <div class="wrapper">
 	<div class="content-wrapper">
 		<section class="content-header">
-            <h1>사원 승인/삭제</h1>         
+            <h1>사원 승인/삭제 상세보기</h1>         
     	</section>
     	<!-- Main content -->
 	    <section class="content">
@@ -49,26 +49,31 @@
 		<br/>
 	    	<table class="table table-bordered">
 	    		<tr>
-					<th>번호</th>
 					<th>이름</th>
 					<th>아이디</th>
+					<th>생년월일</th>
+					<th>입사일</th>
 					<th>부서</th>
-					<th>처리상태</th>
-					<th>상세보기</th>
+					<th>직급</th>
+					<th>이메일</th>
+					<th>연락처</th>
 				</tr>
-				<c:forEach items="${list}" var="member" varStatus="loop">
-					<tr>
-			    		<td>${fn:length(list) - loop.index}</td>
-						<td>${member.name}</td>
-						<td>${member.id}</td>
-						<td>${member.dept_name}</td>
-						<td>대기중</td>
-						<td id="but">
-					    	<button id="btn" onclick="location.href='MemberONOFFListDetail.go?id=${member.id}'">상세보기</button>
-					    </td>
-					</tr>
-				</c:forEach>
+				<tr>
+					<td>${detail.name}</td>
+					<td>${detail.id}</td>
+					<td>${detail.birth_at}</td>
+					<td>${detail.hire_at}</td>
+					<td>${detail.dept_name}</td>
+					<td>${detail.job_name}</td>
+					<td>${detail.email}</td>
+					<td>${detail.phone}</td>
+				</tr>
 	    	</table>
+	    	<div id="but">
+	    		<button class="btn" onclick="location.href='MemberONOFFList.go'">목록</button>
+	    		<button class="btn" onclick="location.href='MemberONOFFDelete.go'">삭제</button>
+	    	</div>
+	    	
 		</section>
 	</div>
 </div>

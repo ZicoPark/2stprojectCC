@@ -33,22 +33,23 @@
     </section>
 
 <form action="personalUpdate.do" method="post">
+
     <section class="content">
     
           <div class="card card-primary">
             <div class="card-header">
               <h3 class="card-title">프로젝트 생성</h3>
-
+			<input type="hidden" type="text" name="id" value="${personal.id}" />
             </div>
             <div class="card-body">
               <div class="form-group">
-				 <label for="inputName">업무 사항</label>
-                <input type="text" name="form-control" value="${personal.title}"/>
+				 <label for="inputName">업무 사항</label></br>
+                <h4>${personal.title}</h4> 
               </div>
               
               <div class="form-group">
                 <label for="inputPriod">시작일</label>
-                <input type="date" class="form-control" name="start_at" placeholder="시작일">
+                <input type="date" class="form-control" name="start_at" placeholder="시작일" >
               </div>
 
               <div class="form-group">

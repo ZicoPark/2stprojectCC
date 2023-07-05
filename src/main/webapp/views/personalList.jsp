@@ -60,7 +60,7 @@
 										<td>${personal.start_at}</td>
 										<td>${personal.end_at}</td>
 										<td class="project-actions text-right"><a
-											href="personalUpdate.do?id=${personal.id}"
+											href="personalUpdate.go?id=${personal.id}"
 											class="btn btn-primary btn-sm view-btn"> <i
 												class="fas fa-edit"> </i> 수정
 										</a>                       
