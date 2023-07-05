@@ -1,5 +1,8 @@
 package kr.co.cc.member.controller;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -10,6 +13,12 @@ import javax.servlet.http.HttpSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.mail.MailSender;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -34,7 +43,8 @@ public class MemberController {
 	@Autowired MemberService memberservice;
 	
 	Logger logger = LoggerFactory.getLogger(getClass());
-
+	@Value("${spring.servlet.multipart.location}") private String attachmentRoot;
+	
 	@RequestMapping(value="/", method = RequestMethod.GET)
 	public String home(Model model) {
 		return "Login";
@@ -167,5 +177,26 @@ public class MemberController {
 		logger.info("departmentlist params : " + params);
 		return memberservice.departmentlist(params);
 	}
+	
+	@RequestMapping(value="/photoView.do")
+	public ResponseEntity<Resource> photoView(String path){
+		
+		Resource body = new FileSystemResource(attachmentRoot+"/"+path);
+		
+		HttpHeaders header = new HttpHeaders();
+		
+		try {
+				
+			String type = Files.probeContentType(Paths.get(attachmentRoot+"/"+path));
+			logger.info("type : "+type);
+			header.add("Content-type", type);
+			
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		return new ResponseEntity<Resource>(body, header, HttpStatus.OK);
+	}
+
 	
 }

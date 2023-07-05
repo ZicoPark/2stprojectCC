@@ -27,7 +27,7 @@
       <table class="table table-bordered table-hover dataTable dtr-inline">
          <tr>
       		<td colspan="2">
-				<img width="200" src="C:/upload/${member.photoName}"/>
+				<img width="200" src="photoView.do?path=${member.photoName}"/>
 			</td>
 			<td></td>
          </tr>
