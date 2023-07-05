@@ -169,10 +169,34 @@
 	</select>
 	
 	<update id="readCheckUpdate" parameterType="string">
-		UPDATE doc_status ds SET ds.read_chk = TRUE, ds.read_at = #{docUpdateTime}
+		UPDATE doc_status ds SET ds.read_chk = TRUE
 			WHERE doc_id = #{docId}
 			AND member_id = #{loginId} 
-		AND ds.order_rank = (SELECT MIN(ds2.order_rank) FROM doc_status ds2 WHERE doc_id = #{docId} AND member_id = #{loginId})
+		AND ds.order_rank = (SELECT MIN(ds2.order_rank) FROM doc_status ds2 WHERE ds2.doc_id = #{docId} AND ds2.member_id = #{loginId})
+	</update>
+	
+	<update id="readTimeUpdate" parameterType="string">
+		UPDATE doc_status ds SET ds.read_at = 
+			CASE WHEN 
+				(SELECT ds3.read_at FROM doc_status ds3 
+					WHERE ds3.doc_id = #{docId} AND ds3.member_id = #{loginId} 
+				AND ds3.order_rank = (SELECT MIN(ds4.order_rank) FROM doc_status ds4 WHERE ds4.doc_id = #{docId} AND ds4.member_id = #{loginId})) IS NULL 
+			THEN #{currentTime} 
+			ELSE 
+				(SELECT ds5.read_at FROM doc_status ds5 
+					WHERE ds5.doc_id = #{docId} AND ds5.member_id = #{loginId} 
+				AND ds5.order_rank = (SELECT MIN(ds6.order_rank) FROM doc_status ds6 WHERE ds6.doc_id = #{docId} AND ds6.member_id = #{loginId}))
+			END 
+		WHERE ds.doc_id = #{docId}
+			AND ds.member_id = #{loginId} 
+		AND ds.order_rank = (SELECT MIN(ds2.order_rank) FROM doc_status ds2 WHERE ds2.doc_id = #{docId} AND ds2.member_id = #{loginId})
+	</update>
+	
+	<update id="requestDocApproval" parameterType="hashmap">
+		UPDATE doc_status ds SET ds.approval = #{chooseApproval}, ds.opinion = #{opinion}, ds.approval_at = #{currentTime} 
+			WHERE ds.doc_id = #{docId} 
+			AND ds.member_id = #{loginId} 
+		AND ds.order_rank = (SELECT MIN(ds2.order_rank) FROM doc_status ds2 WHERE ds2.doc_id = #{docId} AND ds2.member_id = #{loginId} AND ds2.approval=0)
 	</update>
 	
 </mapper>
