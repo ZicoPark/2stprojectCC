@@ -27,6 +27,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -39,6 +40,7 @@ import kr.co.cc.doc.dto.MemberDTO;
 
 @Service
 @MapperScan(value={"kr.co.cc.doc.dao"})
+@Transactional
 public class DocService {
 
 	Logger logger = LoggerFactory.getLogger(this.getClass());
@@ -52,7 +54,7 @@ public class DocService {
 
 	public ModelAndView docWriteForm(HttpSession session) {
 		
-		ModelAndView mav = new ModelAndView("docWriteForm");
+		ModelAndView mav = new ModelAndView("/doc/docWriteForm");
 		
 		// 결재 종류 불러오기
 		ArrayList<ApprovalDTO> approvalKindList = dao.getApprovalList();
@@ -180,17 +182,9 @@ public class DocService {
 			
 		}else {
 			
-			// 기안일자에 등록날짜를 넣는다.
-			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
-			String createDate = sdf.format(docDTO.getCreate_at());
-			String dateWritedContent = docFormUpdate(idWritedContent, "<span id=\"docFormCreateDate\" style=\"font-size: 16px; text-align: left; font-style: italic; color: rgb(255, 0, 0)\">(기안일자 자동 입력)</span>", "<span id=\"docFormCreateDate\" style=\"font-size: 16px; text-align: left;\">"+createDate+"</span>");
-			
-			String simpleCreateDate = createDate.substring(0, 10);
-			String lineDateWritedContent = docFormUpdate(dateWritedContent, "<div class=\"approvalDate \" style=\"width:100px; height:25px; border:1px solid black; font-size: 16px; color: rgb(255, 0, 0); font-style: italic; text-align : center;\">(결재일)</div>", "<div class=\"approvalDate \" style=\"width:100px; height:25px; border:1px solid black; font-size: 16px; text-align : center;\">"+simpleCreateDate+"</div>");
-			
 			// 결재선을 확인하여 도장찍는 위치에 칸을 렌더링한다.
-			String lineDocForm;
-			String kianSignDocForm;
+			String lineWritedContent;
+			String kianSignWritedContent;
 			String approvalLinePriority;
 			String approvalLineName;
 			String approvalLineMemberId;
@@ -219,12 +213,21 @@ public class DocService {
 
 				}
 			
-				lineDocForm = docFormUpdate(lineDateWritedContent, oriLine, newLine);
+				lineWritedContent = docFormUpdate(idWritedContent, oriLine, newLine);
+				
+				// 기안일자에 등록날짜를 넣는다.
+				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+				String createDate = sdf.format(docDTO.getCreate_at());
+				String dateWritedContent = docFormUpdate(lineWritedContent, "<span id=\"docFormCreateDate\" style=\"font-size: 16px; text-align: left; font-style: italic; color: rgb(255, 0, 0)\">(기안일자 자동 입력)</span>", "<span id=\"docFormCreateDate\" style=\"font-size: 16px; text-align: left;\">"+createDate+"</span>");
+				logger.info("docDTO.getCreate_at() :"+docDTO.getCreate_at());
+				String simpleCreateDate = createDate.substring(0, 10);
+				String lineDateWritedContent = docFormUpdate(dateWritedContent, "<div class=\"approvalDate \" style=\"width:100px; height:25px; border:1px solid black; font-size: 16px; color: rgb(255, 0, 0); font-style: italic; text-align : center;\">(결재일)</div>", "<div class=\"approvalDate \" style=\"width:100px; height:25px; border:1px solid black; font-size: 16px; text-align : center;\">"+simpleCreateDate+"</div>");
+				logger.info("simpleCreateDate :"+simpleCreateDate);
 				
 				// 결재선 라인을 렌더링 한 후, 우선 기안자의 도장 이미지를 가져온다.
 				String memberStampBase64;
 				String fileName = getMemberSignFilePath(memberInfo.getId());
-				String kianSign = memberInfo.getName(); // 서명이미지 파일이 없으면 그냥 멤버 이름을 넣기 때문에 멤버 이름으로 초기화한다.
+				String kianSign = "<div class=\"approvalSign \" style=\"width:100px; height:75px; border:1px solid black; font-size: 16px; text-align : center;\"><span style=\"width:100px; height:100px; border:1px solid white; font-weight: bold; font-size:20px; text-align:center;\">"+memberInfo.getName()+"</span>"; // 서명이미지 파일이 없으면 그냥 멤버 이름을 넣기 때문에 멤버 이름으로 초기화한다.
 				logger.info("fileName : "+fileName); // 서명이미지가 없으면 null이 출력된다.
 				
 				if(fileName!=null) { 
@@ -239,12 +242,12 @@ public class DocService {
 					
 				}
 				
-			kianSignDocForm = docFormUpdate(lineDocForm, "<div class=\"approvalSign \" style=\"width:100px; height:75px; border:1px solid black; font-size: 16px; color: rgb(255, 0, 0); font-style: italic; text-align : center;\">(기안 서명)", kianSign);
+				kianSignWritedContent = docFormUpdate(lineDateWritedContent, "<div class=\"approvalSign \" style=\"width:100px; height:75px; border:1px solid black; font-size: 16px; color: rgb(255, 0, 0); font-style: italic; text-align : center;\">(기안 서명)", kianSign);
 	
-			dao.docWriteETC(docId, kianSignDocForm);
+			dao.docWriteETC(docId, kianSignWritedContent);
 			
 			// status가 1일때는 결재요청함으로 보낸다.
-			mav.setViewName("redirect:/docApprovalWaitList.go");
+			mav.setViewName("redirect:/requestDocList.go");
 			
 			// 정상결재요청 시에는 결재선을 저장한다.
 			HashMap<String, Object> docStatusMap = new HashMap<String, Object>();
@@ -324,7 +327,7 @@ public class DocService {
 
 	public ModelAndView tempDocList(HttpSession session) {
 		
-		ModelAndView mav = new ModelAndView("tempDocList");
+		ModelAndView mav = new ModelAndView("/doc/tempDocList");
 		
 		int status = 2; // 1: 정상결재요청 2: 임시저장
 		String loginId = (String) session.getAttribute("id");
@@ -338,7 +341,7 @@ public class DocService {
 
 	public ModelAndView tempDocUpdateForm(String id) {
 
-		ModelAndView mav = new ModelAndView("docUpdateForm");
+		ModelAndView mav = new ModelAndView("/doc/tempDocUpdateForm");
 			
 		// 결재 종류 불러오기
 		ArrayList<ApprovalDTO> approvalKindList = dao.getApprovalList();
@@ -365,6 +368,40 @@ public class DocService {
 		// 임시저장된 문서의 첨부파일 불러오기
 		ArrayList<AttachmentDTO> attachmentList = dao.getAttachmentList(id);
 		mav.addObject("attachmentList", attachmentList);
+		
+		return mav;
+	}
+	
+	public ModelAndView tempDocDelete(String docId) {
+		
+		// 문서를 삭제한 후 임시저장함으로 보낸다.
+		ModelAndView mav = new ModelAndView("redirect:/tempDocList.go");
+		
+		// 첨부파일이 있는 경우가 있으니 첨부파일 목록을 가져온다.
+		ArrayList<AttachmentDTO> attachmentList = dao.getAttachmentList(docId);
+		String attachmentId;
+		int row = 0;
+		
+		// 첨부파일이 있다면? 1. 데이터베이스에서 삭제한다.
+		if(attachmentList.size()>0) {
+			
+			for (AttachmentDTO attachmentDTO : attachmentList) {
+				
+				attachmentId = attachmentDTO.getId();
+				row = dao.attachmentDelete(attachmentId);
+				
+				if(row==1) {
+					// 2. 실제 파일을 삭제한다.
+					fileDelete(attachmentId);
+				}
+				
+			}
+			
+		}
+		
+		// 작업이 끝나면 문서를 삭제한다.
+		row = dao.docDelete(docId);
+		logger.info("deleted doc row : "+row);
 		
 		return mav;
 	}
@@ -494,7 +531,7 @@ public class DocService {
 				// 결재선 라인을 렌더링 한 후, 우선 기안자의 도장 이미지를 가져온다.
 				String memberStampBase64;
 				String fileName = getMemberSignFilePath(memberInfo.getId());
-				String kianSign = memberInfo.getName(); // 서명이미지 파일이 없으면 그냥 멤버 이름을 넣기 때문에 멤버 이름으로 초기화한다.
+				String kianSign = "<div class=\"approvalSign \" style=\"width:100px; height:75px; border:1px solid black; font-size: 16px; text-align : center;\"><span style=\"width:100px; height:100px; border:1px solid white; font-weight: bold; font-size:20px; text-align:center;\">"+memberInfo.getName()+"</span>"; // 서명이미지 파일이 없으면 그냥 멤버 이름을 넣기 때문에 멤버 이름으로 초기화한다.
 				logger.info("fileName : "+fileName); // 서명이미지가 없으면 null이 출력된다.
 				
 				if(fileName!=null) { 
@@ -517,7 +554,7 @@ public class DocService {
 			row = dao.docUpdate(params);
 			
 			// status가 1일때는 결재요청함으로 보낸다.
-			mav.setViewName("redirect:/docApprovalWaitList.go");
+			mav.setViewName("redirect:/requestDocList.go");
 			
 			// 정상결재요청 시에는 결재선을 저장한다.
 			HashMap<String, Object> docStatusMap = new HashMap<String, Object>();
@@ -586,11 +623,146 @@ public class DocService {
 		return mav;
 	}
 
-
-	public ModelAndView docRequestList(HttpSession session) {
-		// TODO Auto-generated method stub
-		return null;
+	public ModelAndView requestDocList(HttpSession session) {
+		
+		ModelAndView mav = new ModelAndView("/doc/requestDocList");
+		
+		String loginId = (String) session.getAttribute("id");
+		
+		ArrayList<HashMap<String, String>> requestDocList = dao.getRequestDocList(loginId);
+		
+//		logger.info("requestDocList : "+requestDocList);
+		
+		mav.addObject("list", requestDocList);
+		
+		return mav;
 	}
+
+	public ModelAndView requestDocDetail(String docId) {
+		
+		ModelAndView mav = new ModelAndView("/doc/requestDocDetail");
+		
+		// 문서의 정보 불러오기
+		HashMap<String, String> doc = dao.requestDocDetail(docId);
+		mav.addObject("doc", doc);
+		
+		// 문서의 첨부파일 불러오기
+		ArrayList<AttachmentDTO> attachmentList = dao.getAttachmentList(docId);
+		mav.addObject("attachmentList", attachmentList);
+		
+		logger.info("doc : "+doc);
+		
+		return mav;
+	}
+
+	public ModelAndView requestDocWaitList(HttpSession session) {
+		
+		ModelAndView mav = new ModelAndView("/doc/requestDocWaitList");
+		
+		String loginId = (String) session.getAttribute("id");
+		
+		ArrayList<HashMap<String, String>> requestDocWaitList = dao.requestDocWaitList(loginId);
+		mav.addObject("list", requestDocWaitList);
+		
+		return mav;
+	}
+
+	public ModelAndView requestDocWaitDetail(String docId, HttpSession session) {
+		
+		ModelAndView mav = new ModelAndView("/doc/requestDocWaitDetail");
+		
+		String loginId = (String) session.getAttribute("id");
+		
+		// 진입했을 때 읽음표시 업데이트
+		dao.readCheckUpdate(docId, loginId);
+		
+		// 진입했을 때 읽은날짜 업데이트 - 처음 읽었을 때 한 번만 업데이트 되어야 함.
+		long currentTimeMillis = System.currentTimeMillis();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
+		String currentTime = sdf.format(new Date(currentTimeMillis));
+		
+		dao.readTimeUpdate(docId, loginId, currentTime);
+		
+		// 문서의 정보 불러오기
+		HashMap<String, String> docMap = dao.requestDocDetail(docId);
+		mav.addObject("doc", docMap);
+		
+		// 문서의 첨부파일 불러오기
+		ArrayList<AttachmentDTO> attachmentList = dao.getAttachmentList(docId);
+		mav.addObject("attachmentList", attachmentList);		
+		
+		return mav;
+	}
+
+	public ModelAndView requestDocApproval(HashMap<String, String> params, HttpSession session) {
+
+		ModelAndView mav = new ModelAndView("redirect:/requestDocWaitList.go");
+		
+		// params에 결재자의 loginId를 넣기
+		String loginId = (String) session.getAttribute("id");
+		params.put("loginId", loginId);
+		
+		// 결재자의 모든 정보를 가져오기
+		MemberDTO memberInfo = dao.getMemberInfo(loginId);
+		
+		// params에 결재 시간을 넣기
+		long currentTimeMillis = System.currentTimeMillis();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
+		String currentTime = sdf.format(new Date(currentTimeMillis));
+		params.put("currentTime", currentTime);
+		
+		// 결재자의 결재 종류 불러오기
+		ApprovalDTO approvalDTO = dao.getApprovalDTO(params);
+		
+		// 문서의 정보 불러오기
+		DocDTO docDTO = dao.getWritedDoc(params.get("docId"));
+		
+		// 결재자의 도장 찍기
+		String memberStampBase64;
+		String fileName;
+		fileName = getMemberSignFilePath(memberInfo.getId());
+		String kianSign = "<span style=\"width:100px; height:100px; border:1px solid white; font-weight: bold; font-size:20px; text-align:center;\">"+memberInfo.getName()+"</span>"; // 서명이미지 파일이 없으면 그냥 멤버 이름을 넣기 때문에 멤버 이름으로 초기화한다.
+		logger.info("fileName : "+fileName); // 서명이미지가 없으면 null이 출력된다.
+		
+		if(fileName!=null) { 
+			// 서명이미지 파일이 있으면 멤버의 이미지파일을 가져와 base64로 인코딩해서 넣는다.
+			try {
+				byte[] src = FileUtils.readFileToByteArray(new File(attachmentRoot+"/"+fileName));
+				memberStampBase64 = Base64.getEncoder().encodeToString(src);
+				kianSign = "<img src=\"data:image/png;base64,"+memberStampBase64+"\" style=\"max-width: 100%;\" />"+"<span style=\"width:100px; height:100px; border:1px solid white; font-size:16px; text-align:center;\">"+memberInfo.getName()+"</span>";
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			
+		}
+		
+		String oriContent = docDTO.getContent();
+		
+		String oriLine = 
+				"<div class=\"approvalSign "+loginId+"\" style=\"width:100px; height:75px; border:1px solid black; font-size: 16px; color: rgb(255, 0, 0); font-style: italic; text-align : center;\">("+approvalDTO.getName()+" 서명)</div>";
+		String newLine = 
+				"<div class=\"approvalSign "+loginId+"\" style=\"width:100px; height:75px; border:1px solid black; font-size: 16px; text-align : center;\">"+kianSign+"</div>";
+		
+		String signWritedContent = docFormUpdate(oriContent, oriLine, newLine);
+		
+		// 결재일자 넣기
+		oriLine = "<div class=\"approvalDate "+loginId+"\" style=\"width:100px; height:25px; border:1px solid black; font-size: 16px; color: rgb(255, 0, 0); font-style: italic; text-align : center;\">(결재일)</div>";
+		newLine = "<div class=\"approvalDate "+loginId+"\" style=\"width:100px; height:25px; border:1px solid black; font-size: 16px; text-align : center;\">"+currentTime.substring(0, 10)+"</div>";
+		
+		String dateWritedContent = docFormUpdate(signWritedContent, oriLine, newLine);
+		
+		dao.docWriteETC(params.get("docId"), dateWritedContent);
+		
+		
+		// 마지막으로 doc_status 테이블에 update를 한다.
+		dao.requestDocApproval(params);
+		
+		
+		
+		return mav;
+	}
+
+
 
 
 

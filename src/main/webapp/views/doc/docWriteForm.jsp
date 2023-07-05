@@ -11,6 +11,7 @@
 </style>
 </head>
 <body>
+	<jsp:include page="../index.jsp"/>
 	<h1>새 문서 작성</h1>
 	<br>
 	<br>

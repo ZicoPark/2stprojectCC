@@ -26,6 +26,7 @@ public class ProjectDTO {
 	private String comment_content;
 	private int comment_status;
 	private Date comment_create_date;
+	private String coment_id;
 	
 
 	private String ori_file_name;
@@ -36,6 +37,12 @@ public class ProjectDTO {
 	   
 	   
 	  
+	public String getComent_id() {
+		return coment_id;
+	}
+	public void setComent_id(String coment_id) {
+		this.coment_id = coment_id;
+	}
 	public int getDel_chk() {
 		return del_chk;
 	}

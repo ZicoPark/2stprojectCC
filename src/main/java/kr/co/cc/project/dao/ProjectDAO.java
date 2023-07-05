@@ -43,6 +43,18 @@ public interface ProjectDAO {
 
 	int projectDel(String id);
 
+	void archivefileWrite(String oriFileName, String newFileName, String cls, String id);
+
+	String projectDetailFile(String id);
+
+	ArrayList<HashMap<String, String>> getAllComment(String projectId);
+
+	int replyWrite(String id, String content, String loginId);
+
+
+
+
+
 
 
 }
