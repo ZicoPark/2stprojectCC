@@ -1,5 +1,7 @@
 package kr.co.cc.project.controller;
 
+import java.io.IOException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -9,9 +11,17 @@ import javax.servlet.http.HttpSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -25,6 +35,7 @@ import kr.co.cc.project.service.ProjectService;
 public class ProjectController {
 
 	Logger logger = LoggerFactory.getLogger(getClass());
+	@Value("${spring.servlet.multipart.location}") private String root;
 	
 	@Autowired ProjectService service;
 
@@ -76,13 +87,21 @@ public class ProjectController {
 	    logger.info("detail : " + id);
 	    String page = "redirect:/projects.go";
 	    
+	    String loginId = (String) session.getAttribute("id");
 	    HashMap<String, Object> map = new HashMap<String, Object>();
 	    
 	    ArrayList<ProjectDTO> detailList = service.detail(id);
-	    map.put("detailList", detailList);
-	    map.put("project_id", id);
-	    
 
+	    ArrayList<HashMap<String, String>> commentList = new ArrayList<HashMap<String,String>>();
+	    commentList = service.getAllComment(id);
+	    
+	    for (HashMap<String, String> hashMap : commentList) {
+			logger.info("코멘트 정보 : "+hashMap);
+		}
+	    map.put("commentList", commentList);
+	    map.put("loginId", loginId);
+		map.put("project_id", id);
+	    
 	    return map;
 	}
 
@@ -197,14 +216,46 @@ public class ProjectController {
 	}
 	
 	@RequestMapping(value = "/projectInsert.do", method = RequestMethod.POST)
-	public String write(MultipartFile video_file,
-			@RequestParam HashMap<String, String> params) {
+	public String write(MultipartFile[] attachment,
+			@RequestParam HashMap<String, String> params, HttpSession session, Model model) {
 		logger.info("params : " + params);
 		logger.info("intsert 접근 : ");
-		return service.insert(video_file, params);
+		return service.insert(attachment, params, session, model);
 	}
 
-	
+	// 파일 다운로드
+		@GetMapping(value="/attachmentDownload.do")
+		public ResponseEntity<Resource> download(String id) {
+			
+			Resource body = new FileSystemResource(root+"/"+id);//BODY		
+			HttpHeaders header = new HttpHeaders();//Header
+			try {						
+				String fileName = "이미지"+id.substring(id.lastIndexOf("."));
+				fileName = URLEncoder.encode(fileName, "UTF-8");
+				// text/... 은 문자열, image/... 이미지, application/octet-stream 은 바이너리 데이터
+				header.add("Content-type", "application/octet-stream");
+				// content-Disposition 은 내려보낼 내용이 문자열(inline)인지 파일(attatchment)인지 알려준다. 
+				header.add("content-Disposition", "attatchment;fileName=\""+fileName+"\"");
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+				
+			//body, header, status
+			return new ResponseEntity<Resource>(body, header, HttpStatus.OK);
+		}
+		
+		@PostMapping(value="/postComment.ajax")
+		@ResponseBody
+		public HashMap<String, Object> replyWrite(@RequestParam String id, @RequestParam String content, HttpSession session) {
+
+		    
+		    String loginId = (String) session.getAttribute("id");
+		    logger.info("id" + id);
+		    logger.info("content" + content);    
+
+		    return service.replyWrite(id, content, loginId);
+
+		}
 
 	
 	
