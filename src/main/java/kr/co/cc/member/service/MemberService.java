@@ -88,6 +88,7 @@ public class MemberService {
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName(page);
 		mav.addObject("msg", msg);  
+		logger.info("params: " + params);
 		return mav;
 	}
 

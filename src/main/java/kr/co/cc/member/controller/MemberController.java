@@ -59,6 +59,7 @@ public class MemberController {
 	public ModelAndView join(@RequestParam HashMap<String, String> params, MultipartFile file, MemberDTO dto) {
 		logger.info("dto : " + dto.getUser_id());
 		logger.info("file : " + file);
+		logger.info("params: " + params);
 		return memberservice.join(params, file,dto);
 	}
 	
