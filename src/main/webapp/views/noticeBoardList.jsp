@@ -7,17 +7,45 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>AdminLTE 3 | Projects</title>
 
-  <!-- Google Font: Source Sans Pro -->
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
-  <!-- Font Awesome -->
-  <link rel="stylesheet" href="../../plugins/fontawesome-free/css/all.min.css">
-  <!-- Theme style -->
-  <link rel="stylesheet" href="../../dist/css/adminlte.min.css">
+
+ <!-- CSS only -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+<!-- Tempusdominus Bootstrap 4 -->
+<link rel="stylesheet" href="plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css">
+<!-- overlayScrollbars-->
+<link rel="stylesheet" href="plugins/overlayScrollbars/css/OverlayScrollbars.min.css">
+<!-- Ionicons -->
+<link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+
+
+
+<!--  Google Font: Source Sans Pro -->
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+<!-- Font Awesome-->
+<link rel="stylesheet" href="plugins/fontawesome-free/css/all.min.css">
+<!-- Theme style-->
+<link rel="stylesheet" href="dist/css/adminlte.min.css">
+
+<!--  
+<style type="text/css">
+	[class*=sidebar-dark-] .sidebar a {
+		color: white;
+	}
+	[class*=sidebar-dark-] .sidebar a p {
+	    color: white;
+	}
+</style>
+-->
 </head>
-<body>
-<jsp:include page = "index.jsp"></jsp:include>
+
+<body class="hold-transition sidebar-mini">
+
 <!-- Site wrapper -->
 <div class="wrapper">
+
+	<jsp:include page = "index.jsp"></jsp:include>
+	
+	
   <div class="content-wrapper">
     <section class="content-header">
     	<h1>공지사항</h1>         
@@ -45,7 +73,7 @@
                <tr> 
                   <td>${noticeBoard.id}</td>
                   <td><a href="noticeBoardDetail.do?id=${noticeBoard.id}">${noticeBoard.subject}</a></td>
-                  <td>${noticeBoard.member_id}</td>
+                  <td>${noticeBoard.name}</td>
                   <td>${noticeBoard.hit } </td>
                   <td>${noticeBoard.create_at }</td>
                   <td><a href="noticeBoardDel.do?id=${noticeBoard.id}">삭제</a></td>
@@ -58,6 +86,10 @@
   </div>
 </div>
 <!-- ./wrapper -->
+
+
+
+
 <!-- jQuery -->
 <script src="../../plugins/jquery/jquery.min.js"></script>
 <!-- Bootstrap 4 -->
@@ -66,6 +98,13 @@
 <script src="../../dist/js/adminlte.min.js"></script>
 <!-- AdminLTE for demo purposes -->
 <script src="../../dist/js/demo.js"></script>
+
+
+
+<!-- jQuery UI 
+<script src="plugins/jquery-ui/jquery-ui.min.js"></script>
+-->
+
 </body>
 <script>
 

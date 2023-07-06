@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -55,15 +56,8 @@ public class DocController {
 		}
 		
 		logger.info("params"+params);
-
 		
 		return service.docWrite(params, approvalList, attachment, session);
-	}
-	
-	@RequestMapping(value="/docApprovalWaitList.go")
-	public ModelAndView docApprovalWaitList() {
-		
-		return null;
 	}
 	
 	@RequestMapping(value="/tempDocList.go")
@@ -76,6 +70,12 @@ public class DocController {
 	public ModelAndView tempDocUpdateForm(@RequestParam String id) {
 		
 		return service.tempDocUpdateForm(id);
+	}
+	
+	@RequestMapping(value="/tempDocDelete.do")
+	public ModelAndView tempDocDelete(@RequestParam String id) {
+		
+		return service.tempDocDelete(id);
 	}
 	
 	@RequestMapping(value="/attachmentDownload.do")
@@ -118,4 +118,36 @@ public class DocController {
 		
 		return service.requestDocList(session);
 	}
+	
+	@RequestMapping(value="/requestDocDetail.go")
+	public ModelAndView requestDocDetail(@RequestParam String id) {
+		
+		return service.requestDocDetail(id);
+	}
+	
+	@RequestMapping(value="/docWithDraw.ajax")
+	@ResponseBody
+	public HashMap<String, Object> docWithDraw(@RequestParam String docId){
+		
+		return service.docWithDraw(docId);
+	}
+	
+	@RequestMapping(value="/requestDocWaitList.go")
+	public ModelAndView requestDocWaitList(HttpSession session) {
+		
+		return service.requestDocWaitList(session);
+	}
+	
+	@RequestMapping(value="/requestDocWaitDetail.go")
+	public ModelAndView requestDocWaitDetail(@RequestParam String id, HttpSession session) {
+		
+		return service.requestDocWaitDetail(id, session);
+	}
+	
+	@RequestMapping(value="/requestDocApproval.do")
+	public ModelAndView requestDocApproval(@RequestParam HashMap<String, String> params, HttpSession session) {
+		
+		return service.requestDocApproval(params, session);
+	}
+	
 }

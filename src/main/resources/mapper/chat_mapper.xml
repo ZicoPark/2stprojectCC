@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC   "-//mybatis.org//DTD Mapper 3.0//EN"
+   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	   
+<mapper namespace="kr.co.cc.chat.dao.ChatDAO">
+
+	<select id="memberListAll" resultType="kr.co.cc.chat.dto.MemberDTO">
+		SELECT m.id, m.name, d.name as dept_name
+		from member m inner join dept d 
+		on m.dept_id = d.id
+	</select>
+	
+	<insert 
+       id="createRoom" 
+       parameterType="kr.co.cc.chat.dto.ChatDTO" 
+       useGeneratedKeys="false">
+       <selectKey keyProperty="chat_room_id" resultType="java.lang.String" order="BEFORE">
+           SELECT UUID()
+       </selectKey>
+       INSERT INTO chat_room(chat_room_id,name,blind) VALUES(#{chat_room_id},#{name}, false)
+   </insert>
+		
+	<insert id="insert_chat_room_info">
+		INSERT INTO chat_room_info(chat_room_id, member_id, state) VALUES(#{param1}, #{param2}, 'in')
+	</insert>
+	
+	
+	<select id="chatList" resultType="kr.co.cc.chat.dto.ChatDTO" parameterType="String">
+		select * from chat_room_info
+		WHERE member_id=#{member_id}
+		AND state='in'
+	</select>
+	
+	<select id="room_list" resultType="kr.co.cc.chat.dto.ChatDTO" parameterType="String">
+		select * from chat_room
+		WHERE chat_room_id = #{chat_room_id}
+	</select>
+	
+	<select id="chatHistory" resultType="kr.co.cc.chat.dto.ChatDTO" parameterType="String">
+		SELECT c.send_id ,c.chat_room_id ,c.content ,c.send_time ,c.blind, m.id, m.name, d.name as dept_name 
+		from `chat` c inner join `member` m on c.send_id = m.id
+		inner join dept d on m.dept_id = d.id
+		WHERE chat_room_id = #{chat_room_id}
+	</select>
+	
+	<select id="chatLoad" parameterType="String">
+		SELECT c.send_id ,c.chat_room_id ,c.content ,c.send_time ,c.blind, m.id, m.name, d.name as dept_name 
+		from `chat` c inner join `member` m on c.send_id = m.id
+		inner join dept d on m.dept_id = d.id
+		WHERE chat_room_id = #{chat_room_id}
+	</select>
+	
+	<insert id="chatStored" parameterType="hashmap">
+		INSERT INTO chat(send_id, chat_room_id, content, send_time)
+		VALUES(#{send_id}, #{chat_room_id}, #{content}, now())	
+	</insert>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<update id="chatRoomExit" parameterType="hashmap">
+		UPDATE chat_room_info SET state = 'out'
+		WHERE user_id=#{user_id}
+		AND chat_room_id=#{chat_room_id}
+	</update>
+	
+	<insert id="exitMessage" parameterType="hashmap">
+		INSERT INTO chat(send_id, chat_room_id,content,blind,is_notice)
+		VALUES(#{user_id},#{chat_room_id}, CONCAT(#{user_id},'님이 퇴장하셨습니다.'), false, true)
+	</insert>
+	
+	<select id="chatRoomInfo" parameterType="String" resultType="kr.co.cc.chat.dto.ChatDTO">
+		SELECT * FROM chat_room_info
+		WHERE chat_room_info=#{chat_room_info}
+	</select>
+</mapper>

@@ -1,155 +1,118 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
-<title>회원 정보</title>
-<script src = "https://code.jquery.com/jquery-3.6.4.min.js"></script>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>직원 리스트</title>
 
-<!-- 부트스트랩 JavaScript 파일 불러오기 -->
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
-	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
-	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
-<style>
-
-	body{
-		position:relative;
-		font-size:15px;
-		padding : 10px;
-		min-width: 1200px;
-	}
-	
-	#content {
-		width:78%;
-		height:83%;
-		background-color: #f8f9fa;
-		padding: 10 30 10;
-		margin : 5px;
-		float:right;
-		
-	}
-	
-	#LNB {
-		width:20%;
-		height : 83%;
-		background-color: #f8f9fa;
-		float:left;
-		margin : 5px;
-		font-weight: bold;
-        font-size: 18px;
-		text-align:center;
-	}
-	
-	table {
-	 margin-left: 300px;
-	}
-	
-	a {
-	  color : black;
-	}
-	
-	a:link {
-	  color : black;
-	}
-	a:visited {
-	  color : black;
-	}
-	a:hover {
-	 text-decoration-line: none;
-	  color : #FFA500 ;
-
-      
-</style>
+  <!-- Google Font: Source Sans Pro -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="../../plugins/fontawesome-free/css/all.min.css">
+  <!-- Theme style -->
+  <link rel="stylesheet" href="../../dist/css/adminlte.min.css">
 </head>
 <body>
-
-
-<div id="LNB">
-    
-       <br/><br/>
-		<c:if test="${loginId eq null}">
-			<img width="200" height="200" src="/photo/기본프로필.png">
-		</c:if>
-		<c:if test="${loginId ne null}">
-			<img width="200" height="200" src="/photo/${loginPhotoName}"> 
-			<br/> <h3 style="display:inline-block; margin-top:10px;">${loginId} </h3>님 <a href="/cf/userNoticeAlarm">🔔</a>
-		</c:if>
-			<br/><br/>
-           <a href="/cf/userinfo.go">회원 정보</a>
-           <br/><br/>
-           <a href="/cf/userprofile.go?userId=${loginId}">회원 프로필</a>
-           <br/><br/>
-           <a href="/cf/userNoticeAlarm">알림</a>
-           <br/><br/>
-           <a href="/cf/allgames">참여 경기</a>
-           <br/><br/>
-           <a href="/cf/mygames">리뷰</a>
-           <br/><br/>
-   </div>
-	<div id="content" >
-   <h3>회원 정보</h3>
-      <table>
-      	<tr>
-      		<td colspan="2">
-      		&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
-				<!--  <img width="200" src="/photo/${member.photoName}"/>-->
-			</td>
-			<td></td>
+<jsp:include page = "index.jsp"></jsp:include>
+<div class="wrapper">
+  <div class="content-wrapper">
+    <section class="content-header">
+    	<h1>마이 페이지</h1>         
+    </section>
+    <!-- Main content -->
+    <section class="content">
+    	
+      <table class="table table-bordered table-hover dataTable dtr-inline">
+         <tr> 
+      		<th rowspan="10">
+				<img width="500" height="500" src="photoView.do?path=${member.photoName}"/>
+			</th>
          </tr>
          <tr>
             <th>아이디</th>
             <td>
-               <input type="text" id="id" name="id" value="${member.id}" readonly/>                           
+               ${member.user_id}                    
             </td>
          </tr>
          <tr>
             <th>비밀번호</th>
             <td>
-               <input type="password" id="password" value="${member.password}" readonly/>                              
+               ********
+               <button class="btn btn-outline-dark" onclick="location.href='userinfopassword.go'">비밀번호 변경</button>         
             </td>
          </tr>
          <tr>
             <th>이름</th>
             <td>
-               <input type="text" id="name" value="${member.name}" readonly/>               
+               ${member.name}               
             </td>            
          </tr>
          <tr>
             <th>생년월일</th>               
-            <td><input type="text" id ="birthday" value="${member.birth_date}" readonly/></td>
+            <td>${member.birth_at}</td>
          </tr>
          <tr>
             <th>입사일</th>               
-            <td><input type="text" id ="hiredate" value="${member.hire_date}" readonly/></td>
+            <td>${member.hire_at}</td>
          </tr>     
          <tr>
             <th>직급</th>
-            <td><input type="text" id="job_name" value="${member.job_name}" readonly/></td>
+            <td>
+				<c:choose>
+					<c:when test="${member.job_level_id eq '8ade9167-1703-11ee-973f-0242ac110002'}">팀원</c:when>
+					<c:when test="${member.job_level_id eq '8bbf948d-1703-11ee-973f-0242ac110002'}">팀장</c:when>
+					<c:when test="${member.job_level_id eq '8c4e7542-1703-11ee-973f-0242ac110002'}">이사</c:when>
+					<c:when test="${member.job_level_id eq '8cdd8503-1703-11ee-973f-0242ac110002'}">사장</c:when>
+				</c:choose>
+	   	   </td>
          </tr>
          <tr>
             <th>부서</th>
-            <td><input type="text" id="dept_name" value="${member.dept_name}" readonly/></td>
+			<td>
+				<c:choose>
+					<c:when test="${member.dept_id eq '8e5f3282-1703-11ee-973f-0242ac110002'}">총무팀</c:when>
+					<c:when test="${member.dept_id eq '8ee07433-1703-11ee-973f-0242ac110002'}">기획팀</c:when>
+					<c:when test="${member.dept_id eq '8f963853-1703-11ee-973f-0242ac110002'}">촬영팀</c:when>
+					<c:when test="${member.dept_id eq '9022f64a-1703-11ee-973f-0242ac110002'}">편집팀</c:when>
+				</c:choose>
+			</td>
          </tr>
          <tr>
             <th>이메일</th>
-            <td><input type="email" id="email" value="${member.email}" readonly/></td>
+            <td>${member.email}</td>
          </tr>
          <tr>
             <th>연락처</th>
-            <td><input type="text" id="phone" value="${member.phone}" readonly/></td>
+            <td>${member.phone}</td>
          </tr>
+
          <tr>      
-            <th colspan="2">
+            <th colspan="4">
                <button class="btn btn-outline-dark" onclick="location.href='userinfoupdate.go'">회원정보 수정</button>
-               <button class="btn btn-outline-dark" onclick="location.href='./'">돌아가기</button>
-               <button class="btn btn-outline-dark" onclick="location.href='userdelete.go'">회원탈퇴</button>
             </th>
             </tr>
       </table>
-      </div>
+    </section>
+  </div>
+</div>
+<!-- ./wrapper -->
+<!-- jQuery -->
+<script src="../../plugins/jquery/jquery.min.js"></script>
+<!-- Bootstrap 4 -->
+<script src="../../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<!-- AdminLTE App -->
+<script src="../../dist/js/adminlte.min.js"></script>
+<!-- AdminLTE for demo purposes -->
+<script src="../../dist/js/demo.js"></script>
 </body>
 <script>
+
+	var msg = "${msg}";
+	if(msg != ""){
+		alert(msg);
+	}
 
 </script>
 </html>

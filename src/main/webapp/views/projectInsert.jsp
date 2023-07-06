@@ -73,8 +73,8 @@
 											name="content" rows="3"></textarea>
 									</div>
 									<div class="form-group">
-										<label for="inputVideo">파일 첨부</label> <input type="file"
-											id="inputVideo" name="video_file">
+										<i class="fas fa-paperclip"></i> 파일 첨부
+			    							<input type="file" name="attachment" multiple="multiple">
 									</div>
 
 

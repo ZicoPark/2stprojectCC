@@ -27,14 +27,13 @@
   <!-- Navbar -->
   
  		
-	
+
+
 	   <c:forEach items="${DeptList}" var="dept">
 		<td class="checkbox"><input type="checkbox" name="Rowcheck" value="${dept.id}"></td>
-        <td>${dept.name}</td>
+        <td>${dept.member_name}</td>
         <td>${dept.dept_name}</td>
 	   </c:forEach>
-
-
   
 
 
@@ -51,7 +50,9 @@
       </tr>
     </thead>
     <tbody>
+	
 
+	   
     </tbody>
   </table>
   
@@ -78,33 +79,7 @@
 <script src="../../dist/js/demo.js"></script>
 
 <script>
-var dropdown = document.getElementsByClassName("dropdown-btn");
-var i;
 
-for (i = 0; i < dropdown.length; i++) {
-  dropdown[i].addEventListener("click", function() {
-    this.classList.toggle("active");
-    var dropdownContent = this.nextElementSibling;
-    if (dropdownContent.style.display === "block") {
-      dropdownContent.style.display = "none";
-    } else {
-      dropdownContent.style.display = "block";
-    }
-  });
-}
-
-$('#all').click(function(e){
-	   var $chk = $('input[type="checkbox"]');
-	   	
-	   if($(this).is(':checked')){
-	      $chk.prop('checked',true);
-	   }else{
-	      $chk.prop('checked',false);
-	   }
-		console.log($chk);
-	 
-
-	   });
 
 
 

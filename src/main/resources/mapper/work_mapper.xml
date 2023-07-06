@@ -1,11 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE mapper PUBLIC	"-//mybatis.org//DTD Mapper 3.0//EN"
-	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!DOCTYPE mapper PUBLIC   "-//mybatis.org//DTD Mapper 3.0//EN"
+   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 	
 <mapper namespace="kr.co.cc.work.dao.WorkDAO">
 
 	<select id="workHistoryList" resultType="kr.co.cc.work.dto.WorkDTO">
 		SELECT * FROM working_hour WHERE member_id=#{id} ORDER BY date DESC
+	</select>
+	
+	<select id="historyListFind" resultType="kr.co.cc.work.dto.WorkDTO">
+		SELECT * FROM working_hour WHERE member_id=#{param2} AND date LIKE CONCAT(#{param1}, '%') ORDER BY date DESC
 	</select>
 
 	<select id="timeGoBefore" resultType="int">

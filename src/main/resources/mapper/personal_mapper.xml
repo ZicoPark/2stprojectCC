@@ -9,20 +9,7 @@
 			SELECT * FROM personal ORDER BY start_at DESC
 		</select>
 		
-		<select id="personalUpdate">
-			SELECT * FROM personal where id =#{param1}
-		</select>
-	
-<!-- 		<insert id="pwrite" parameterType="hashmap">
-			INSERT INTO personal(create_at, member_id, title, start_at, end_at, status)
-			VALUES(#{create_at}, #{member_id},#{title},#{start_at},#{end_at}, #{status})
-		</insert> -->
-		
-		<delete id="del">
-   		   DELETE FROM personal WHERE id = #{param1}
-   		</delete>
-   		
-   		<insert 
+		<insert 
 	    id="pwrite" 
 	    parameterType="kr.co.cc.personal.dto.PersonalDTO" 
 	    useGeneratedKeys="false">
@@ -32,10 +19,25 @@
 	    INSERT INTO personal(id, member_id, title, start_at,end_at, status)
 	      VALUES(#{id}, #{member_id}, #{title}, #{start_at},#{end_at},1)
 	</insert> 
-	
-	<update id="pupdate" parameterType="hashmap">
-		UPDATE personal SET title = #{title}, start_at = #{start_at}, end_at = #{end_at} WHERE id = #{id}
-	</update>
+		
+ 		<select id="personalUpdate">
+			SELECT * FROM personal where id =#{param1}
+		</select>
+		
+<!-- 		<select id="update">
+			SELECT * FROM personal where id =#{param1}
+		</select> -->
+		
+		<update id="update" parameterType="hashmap">
+		UPDATE personal SET start_at = #{start_at}, end_at = #{end_at} WHERE id = #{id}
+		</update>
+		
+		<delete id="del">
+   		   DELETE FROM personal WHERE id = #{param1}
+   		</delete>
+   		
+
+
 	
 	
 		

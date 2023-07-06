@@ -19,7 +19,16 @@ public class FreeBoardDTO {
 	private String classification;
 	private String identify_value;
 	private String admin_chk;
+
+	private String free_board_id;
+
 	
+	public String getFree_board_id() {
+		return free_board_id;
+	}
+	public void setFree_board_id(String free_board_id) {
+		this.free_board_id = free_board_id;
+	}
 	public String getAdmin_chk() {
 		return admin_chk;
 	}

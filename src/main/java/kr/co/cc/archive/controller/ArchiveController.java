@@ -97,7 +97,7 @@ public class ArchiveController {
 			if(loginId.equals(member_id)) {
 				
 				logger.info("작성자와 세션아이디 일치함");
-				ArchiveDTO detailms = service.archivedetail(id, "detail");
+				ArchiveDTO detailms = service.archivedetail(id, "update");
 				
 				if(detailms != null) {
 					ArrayList<String> detailfile = service.archiveDetailFile(id);

@@ -4,12 +4,13 @@ package kr.co.cc.message.dto;
 
 public class MessageDTO {
 
-	private int id;
+	private String id;
+	private String user_id;
 	private String from_id;
 	private String to_id;
 	private String title;
 	private String content;
-	private String send_date;
+	private String send_at;
 	private boolean del_chk;
 	private boolean read_chk;
 	private String formattedDate;
@@ -17,31 +18,96 @@ public class MessageDTO {
 	private String new_file_name;
 	private String classification;
 	private String identify_value;
-	private String job_name;
-	private String dept_name;
+	private String job_level_id;
+	private String dept_id;
 	private String password;
 	private String name;
-	private String birth_date;
-	private String hire_date;
-	private String end_date;
+	private String birth_at;
+	private String hire_at;
+	private String end_at;
 	private String email;
 	private String phone;
 	private String status;
 	private String admin_chk;
+	private String dept_name;
+	private String member_name;
+	private String tofrom_id;
+	private String from_name;
+	private String to_name;
 	
-	
-	public String getJob_name() {
-		return job_name;
+	public String getFrom_name() {
+		return from_name;
 	}
-	public void setJob_name(String job_name) {
-		this.job_name = job_name;
+	public void setFrom_name(String from_name) {
+		this.from_name = from_name;
 	}
-	public String getDept_name() {
-		return dept_name;
+	public String getTo_name() {
+		return to_name;
 	}
-	public void setDept_name(String dept_name) {
-		this.dept_name = dept_name;
+	public void setTo_name(String to_name) {
+		this.to_name = to_name;
 	}
+	public String getTofrom_id() {
+		return tofrom_id;
+	}
+	public void setTofrom_id(String tofrom_id) {
+		this.tofrom_id = tofrom_id;
+	}
+	public String getMember_name() {
+		return member_name;
+	}
+	public void setMember_name(String member_name) {
+		this.member_name = member_name;
+	}
+	public String getUser_id() {
+		return user_id;
+	}
+	public void setUser_id(String user_id) {
+		this.user_id = user_id;
+	}
+	public String getSend_at() {
+		return send_at;
+	}
+	public void setSend_at(String send_at) {
+		this.send_at = send_at;
+	}
+	public String getJob_level_id() {
+		return job_level_id;
+	}
+	public void setJob_level_id(String job_level_id) {
+		this.job_level_id = job_level_id;
+	}
+	public String getDept_id() {
+		return dept_id;
+	}
+	public void setDept_id(String dept_id) {
+		this.dept_id = dept_id;
+	}
+	public String getBirth_at() {
+		return birth_at;
+	}
+	public void setBirth_at(String birth_at) {
+		this.birth_at = birth_at;
+	}
+	public String getHire_at() {
+		return hire_at;
+	}
+	public void setHire_at(String hire_at) {
+		this.hire_at = hire_at;
+	}
+	public String getEnd_at() {
+		return end_at;
+	}
+	public void setEnd_at(String end_at) {
+		this.end_at = end_at;
+	}
+	public String getId() {
+		return id;
+	}
+	public void setId(String id) {
+		this.id = id;
+	}
+
 	public String getPassword() {
 		return password;
 	}
@@ -54,24 +120,7 @@ public class MessageDTO {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public String getBirth_date() {
-		return birth_date;
-	}
-	public void setBirth_date(String birth_date) {
-		this.birth_date = birth_date;
-	}
-	public String getHire_date() {
-		return hire_date;
-	}
-	public void setHire_date(String hire_date) {
-		this.hire_date = hire_date;
-	}
-	public String getEnd_date() {
-		return end_date;
-	}
-	public void setEnd_date(String end_date) {
-		this.end_date = end_date;
-	}
+
 	public String getEmail() {
 		return email;
 	}
@@ -120,18 +169,7 @@ public class MessageDTO {
 	public void setIdentify_value(String identify_value) {
 		this.identify_value = identify_value;
 	}
-	public String getSend_date() {
-		return send_date;
-	}
-	public void setSend_date(String send_date) {
-		this.send_date = send_date;
-	}
-	public int getId() {
-		return id;
-	}
-	public void setId(int id) {
-		this.id = id;
-	}
+
 	public String getFrom_id() {
 		return from_id;
 	}
@@ -141,8 +179,8 @@ public class MessageDTO {
 	public String getTo_id() {
 		return to_id;
 	}
-	public void setTo_id(String to_id) {
-		this.to_id = to_id;
+	public void setTo_id(String toId) {
+		this.to_id = toId;
 	}
 	public String getTitle() {
 		return title;
@@ -176,6 +214,12 @@ public class MessageDTO {
     public void setFormattedDate(String formattedDate) {
         this.formattedDate = formattedDate;
     }
+	public String getDept_name() {
+		return dept_name;
+	}
+	public void setDept_name(String dept_name) {
+		this.dept_name = dept_name;
+	}
 
 	
 }

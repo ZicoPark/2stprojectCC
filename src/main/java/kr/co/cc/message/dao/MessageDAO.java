@@ -3,17 +3,17 @@ package kr.co.cc.message.dao;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-
+import kr.co.cc.archive.dto.ArchiveDTO;
 import kr.co.cc.member.dto.MemberDTO;
 import kr.co.cc.message.dto.MessageDTO;
 
 public interface MessageDAO {
 
-	ArrayList<MessageDTO> sendList(String id);
+	ArrayList<ArchiveDTO> sendList(int offset);
 
 	ArrayList<MemberDTO> search(HashMap<String, String> params);
 
-	MessageDTO msdetail(int id);
+	MessageDTO msdetail(String id);
 
 	int msWrite(MessageDTO dto);
 
@@ -21,15 +21,29 @@ public interface MessageDAO {
 
 	boolean msdelete(String id);
 
-	void msfileWrite(String oriFileName, String newFileName, String cls, int id);
+	void msfileWrite(String oriFileName, String newFileName, String cls, String idx);
 
-	void upHit(int id);
+	void upHit(String id);
 
-	String msDetailFile(int id);
+	 ArrayList<String> msDetailFile(String id);
 
 	boolean msSelectDelete(String id);
 
 	ArrayList<MessageDTO> msDeptList();
+
+	ArrayList<MessageDTO> sendMemberchk(String id);
+
+	ArrayList<MessageDTO> msDept();
+
+	String selectFile(String id);
+
+	MessageDTO logincheck(String loginId);
+
+	int sendtotalCount();
+
+	int sendtotalCountSearch(String search);
+
+	ArrayList<ArchiveDTO> sendListSearch(HashMap<String, Object> params);
 
 
 
