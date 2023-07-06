@@ -28,12 +28,12 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1>보낸쪽지함 상세보기</h1>
+            <h1>보낸쪽지함</h1>
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="#">Home</a></li>
-              <li class="breadcrumb-item active">보낸쪽지함 상세보기</li>
+              <li class="breadcrumb-item active">보낸쪽지함</li>
             </ol>
           </div>
         </div>
@@ -44,11 +44,51 @@
     <section class="content">
       <div class="container-fluid">
         <div class="row">
- 
+	<!-- row 밑에  -->
+	<div class="col-md-3">
+	<a href="/msWrite.go" class="btn btn-primary btn-block mb-3">쪽지 작성</a>
+	<div class="card">
+	<div class="card-header">
+	<h3 class="card-title">보관함</h3>
+	<div class="card-tools">
+	<button type="button" class="btn btn-tool" data-card-widget="collapse">
+	<i class="fas fa-minus"></i>
+	</button>
+	</div>
+	</div>
+	<div class="card-body p-0">
+	<ul class="nav nav-pills flex-column">
+	<li class="nav-item active">
+	<a href="#" class="nav-link">
+	<i class="far fa-envelope"></i> 전체 쪽지
+	<span class="badge bg-primary float-right">12</span>
+	</a>
+	</li>
+	<li class="nav-item">
+	<a href="/msReceiveList.go" class="nav-link">
+	<i class="fas fa-inbox"></i> 받은 쪽지
+	</a>
+	</li>
+	<li class="nav-item">
+	<a href="/msSendList.go" class="nav-link">
+	<i class="far fa-file-alt"></i> 보낸 쪽지
+	</a>
+	</li>
+	<li class="nav-item">
+	<a href="#" class="nav-link">
+	<i class="far fa-trash-alt"></i> 휴지통
+	</a>
+	</li>
+	</ul>
+	</div>
+	
+	</div>
+	</div> 
+	<!-- col-md-9 위에  -->
         <div class="col-md-9">
           <div class="card card-primary card-outline">
             <div class="card-header">
-              <h2 class="card-title">${detailms.title}</h2>
+              
 
               <div class="card-tools">
                 <a href="#" class="btn btn-tool" title="Previous"><i class="fas fa-chevron-left"></i></a>
@@ -58,17 +98,16 @@
             <!-- /.card-header -->
             <div class="card-body p-0">
               <div class="mailbox-read-info">
-                <div class="direct-chat-text">
-                  <h6>From: ${detailms.name} < ${detailms.from_id} > <td class="project-state">
+              	<h5>${detailms.title}</h5>
+                <div>
+                  <h6>From: ${detailms.name} < ${detailms.from_id} > 
                     <span class="badge badge-success">${detailms.dept_id}</span>
-                    </td>  
-                   </div>
-                  
-                  <span class="mailbox-read-time float-right">${detailms.send_at}</span></h6>  
-                    </div>
+                 
+                  	<span class="mailbox-read-time float-right">${detailms.send_at}</span>
+                   </h6>
+                 </div>
+                </div>
 
-             
-     
               </div>
               <!-- /.mailbox-controls -->
               <div class="mailbox-read-message">
@@ -78,32 +117,27 @@
             </div>
             <!-- /.card-body -->
     
-			<c:if test="${detailFile.length() > 0}">
-            <div class="card-footer bg-white">
- 
-
-
+				<c:if test="${detailFile.size() > 0 }">
+					<c:forEach items="${detailFile}" var="i">
                   <div class="mailbox-attachment-info">
-                    <a class="mailbox-attachment-name"><i class="fas fa-paperclip"></i> ${detailFile}</a>
-                        <span class="mailbox-attachment-size clearfix mt-1">
-                          
-                          <a href="msdownload.do?path=${detailFile}" class="btn btn-default btn-sm float-right"><i class="fas fa-cloud-download-alt"></i></a>
-                        </span>
+                    <a class="mailbox-attachment-name"><i class="fas fa-paperclip"></i> &nbsp ${i.ori_file_name}</a>
+					&nbsp &nbsp
+                    <a href="msdownload.do?path=${i.id}"><i class="fas fa-cloud-download-alt"></i></a>
+                    
                   </div>
-           
-            </div>
-   </c:if>
+
+            	</c:forEach>
+			</c:if>
+
 
  
 
             <!-- /.card-footer -->
             <div class="card-footer">
               <div class="float-right">
-                <button type="button" onclick="location.href='./msReply.go?to_id=${detailms.from_id}'"><i class="fas fa-reply"></i> 답장</button>
-                <button type="button" onclick="location.href='/msSendList.go'" class="btn btn-default"> 목록</button>
-              </div>
               <button type="button" class="btn btn-default" onclick="location.href='msDelete.do?id=${detailms.id}'"><i class="far fa-trash-alt"></i></button>
-              <button type="button" class="btn btn-default"><i class="fas fa-print"></i> Print</button>
+                <button type="button" onclick="location.href='/msSendList.go'" class="btn btn-default"> 목록</button>
+ 			</div>
             </div>
             <!-- /.card-footer -->
           </div>

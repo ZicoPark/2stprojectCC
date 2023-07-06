@@ -71,6 +71,8 @@
 	</select>
 
 
+
+
 	<update id="archiveUpdate" parameterType="hashmap">
 		UPDATE archive_board SET 
 		subject = #{subject}

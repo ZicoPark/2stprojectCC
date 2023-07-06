@@ -47,6 +47,9 @@ public class MessageController {
 	@RequestMapping(value="/msWrite.go")
 	public ModelAndView msWriteForm(Model model) {
 		ArrayList<MessageDTO> DeptList = service.msDeptList();
+		ArrayList<MessageDTO> dept = service.msDept();
+
+		model.addAttribute("dept",dept);
 		model.addAttribute("DeptList", DeptList);
 		return new ModelAndView("MessageWriteForm");
 	}
@@ -98,13 +101,13 @@ public class MessageController {
 			
 			logger.info("상세보기 쪽지 번호 : "+id);
 			
-			MessageDTO detailms = service.msdetail(Integer.parseInt(id), "detail");
+			MessageDTO detailms = service.msdetail(id, "detail");
 			String page = "redirect:/msSendList.go";
 			
 			if(detailms != null) {
 				
 				logger.info("if문 진입");
-				String detailfile = service.msDetailFile(Integer.parseInt(id));
+				ArrayList<String> detailfile = service.msDetailFile(id);
 				
 				logger.info("detailFile :"+detailfile);
 				
@@ -125,13 +128,13 @@ public class MessageController {
 			
 			logger.info("상세보기 쪽지 번호 : "+id);
 			
-			MessageDTO detailms = service.msdetail(Integer.parseInt(id), "detail");
+			MessageDTO detailms = service.msdetail(id, "detail");
 			String page = "redirect:/msSendList.go";
 			
 			if(detailms != null) {
 				
 				logger.info("if문 진입");
-				String detailfile = service.msDetailFile(Integer.parseInt(id));
+				ArrayList<String> detailfile = service.msDetailFile(id);
 				
 				logger.info("detailFile :"+detailfile);
 				
@@ -150,41 +153,44 @@ public class MessageController {
 	@GetMapping(value="/msdownload.do")
 	public ResponseEntity<Resource> download(String path) {
 		
-		Resource body = new FileSystemResource(root+"/"+path);//BODY		
-		HttpHeaders header = new HttpHeaders();//Header
+		String oriFileName = service.selectFile(path);
+		
+		Resource body = new FileSystemResource(root+"/"+path);
+		
+		HttpHeaders header = new HttpHeaders();
 		try {						
-			String fileName = "이미지"+path.substring(path.lastIndexOf("."));
-			// 한글 파일명은 깨질수 있으므로 인코딩을 한번 해 준다.
+			String fileName = oriFileName+path.substring(path.lastIndexOf("."));
+			
 			fileName = URLEncoder.encode(fileName, "UTF-8");
-			// text/... 은 문자열, image/... 이미지, application/octet-stream 은 바이너리 데이터
+			
 			header.add("Content-type", "application/octet-stream");
-			// content-Disposition 은 내려보낼 내용이 문자열(inline)인지 파일(attatchment)인지 알려준다. 
+			
 			header.add("content-Disposition", "attatchment;fileName=\""+fileName+"\"");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 			
-		//body, header, status
+	
 		return new ResponseEntity<Resource>(body, header, HttpStatus.OK);
 	}
 	
 	// 보낸 쪽지함 이동
 	@RequestMapping(value="/msSendList.go")
-	public String msSendList(Model model,HttpSession session) {
+	public String msSendList() {
 		logger.info("보낸 쪽지함 이동");
-		ArrayList<MessageDTO> sendList = service.sendList(session);
-		
-		model.addAttribute("list", sendList);
+	
 		return "msSendList";
 	}	
 	
-	@RequestMapping(value="/search.do", method= {RequestMethod.GET,RequestMethod.POST})
-	public ModelAndView search(@RequestParam HashMap<String, String>params) {
-		logger.info("search params : "+params);
-		
-		return service.search(params);
-		
-	}
+	// 보낸 쪽지함 리스트 
+	@RequestMapping(value="/sendlist.ajax")
+	@ResponseBody
+	public HashMap<String, Object> msSendList(@RequestParam HashMap<String, Object> params,HttpSession session) {
+		logger.info("보낸 쪽지함 이동");
+
+		return service.sendList(session,params);
+	}	
+	
 
 	// 받은 쪽지함 이동
 	@RequestMapping(value="/msReceiveList.go")

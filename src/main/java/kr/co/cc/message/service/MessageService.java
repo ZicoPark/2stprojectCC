@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
-
+import kr.co.cc.archive.dto.ArchiveDTO;
 import kr.co.cc.member.dto.MemberDTO;
 import kr.co.cc.message.dao.MessageDAO;
 import kr.co.cc.message.dto.MessageDTO;
@@ -41,9 +41,61 @@ public class MessageService {
 
 	
 	
-	public ArrayList<MessageDTO> sendList(HttpSession session) {
-		String id = (String) session.getAttribute("id");
-		return dao.sendList(id);
+	public HashMap<String, Object> sendList(HttpSession session, HashMap<String, Object> params) {
+		
+		int page = Integer.parseInt(String.valueOf(params.get("page")));
+	    String search = String.valueOf(params.get("search"));
+	    String loginId = (String) session.getAttribute("id");
+	    MessageDTO loginid = dao.logincheck(loginId);
+	    
+	    HashMap<String, Object> map = new HashMap<String, Object>();
+
+	    int offset = 10*(page-1);	    
+		
+	    logger.info("offset : " + offset);
+	    
+	    logger.info("params : " + params);
+	    
+	    int total = 0;	    
+		
+	    if(search.equals("default") || search.equals("")) {
+	      
+	    	  total = dao.sendtotalCount();
+
+	      	}else {	      
+	    	   	   
+	    	  total = dao.sendtotalCountSearch(search);
+	       }
+	    
+	    int range = total%10  == 0 ? total/10 : total/10+1;
+
+	      page = page>range ? range:page;
+	      
+	      ArrayList<ArchiveDTO> list = null;
+	      
+	      params.put("offset", offset);
+			
+	      logger.info("user search:"+search);
+	      
+	      if(search.equals("default") ||search.equals("")) {
+
+	          list = dao.sendList(offset);
+	       
+	     
+	      }else {
+
+	         list = dao.sendListSearch(params);
+	      }
+	      		
+	      
+	      //logger.info("list size : "+ list.size());
+	      map.put("list", list);
+	      map.put("currPage", page);	      
+	      map.put("loginid",loginid);
+
+	
+		return map;
+
 	}
 
 	public ModelAndView search(HashMap<String, String> params) {
@@ -54,7 +106,7 @@ public class MessageService {
 	}
 
 	//  쪽지 상세보기
-	public MessageDTO msdetail(int id, String flag) {
+	public MessageDTO msdetail(String id, String flag) {
 		if(flag.equals("detail")) {
 			logger.info("if문 진입");
 			dao.upHit(id); // 읽음 처리
@@ -65,7 +117,7 @@ public class MessageService {
 	}
 
 
-	public String msDetailFile(int id) {
+	public ArrayList<String> msDetailFile(String id) {
 		return dao.msDetailFile(id);
 	}
 
@@ -210,6 +262,22 @@ public class MessageService {
 			
 			return dao.sendMemberchk(id);
 		}
+
+
+
+		public ArrayList<MessageDTO> msDept() {
+			
+			return dao.msDept();
+		}
+
+
+
+		public String selectFile(String id) {
+			
+			return dao.selectFile(id);
+		}
+
+
 
 
 

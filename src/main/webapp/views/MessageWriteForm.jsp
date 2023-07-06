@@ -15,7 +15,17 @@
   <link rel="stylesheet" href="../../dist/css/adminlte.min.css">
   <!-- summernote -->
   <link rel="stylesheet" href="../../plugins/summernote/summernote-bs4.min.css">
+  
+ <style>
+  .table-wrapper {
+    display: flex;
+  }
+  .table-wrapper table {
+    flex-grow: 1;
+  }
+</style> 
 </head>
+
 <body class="hold-transition sidebar-mini">
 <jsp:include page = "index.jsp"></jsp:include>
 <div class="wrapper">
@@ -45,7 +55,47 @@
     <section class="content">
       <div class="container-fluid">
         <div class="row">
- 
+	<!-- row 밑에  -->
+	<div class="col-md-3">
+	<a href="/msWrite.go" class="btn btn-primary btn-block mb-3">쪽지 작성</a>
+	<div class="card">
+	<div class="card-header">
+	<h3 class="card-title">보관함</h3>
+	<div class="card-tools">
+	<button type="button" class="btn btn-tool" data-card-widget="collapse">
+	<i class="fas fa-minus"></i>
+	</button>
+	</div>
+	</div>
+	<div class="card-body p-0">
+	<ul class="nav nav-pills flex-column">
+	<li class="nav-item active">
+	<a href="#" class="nav-link">
+	<i class="far fa-envelope"></i> 전체 쪽지
+	<span class="badge bg-primary float-right">12</span>
+	</a>
+	</li>
+	<li class="nav-item">
+	<a href="/msReceiveList.go" class="nav-link">
+	<i class="fas fa-inbox"></i> 받은 쪽지
+	</a>
+	</li>
+	<li class="nav-item">
+	<a href="/msSendList.go" class="nav-link">
+	<i class="far fa-file-alt"></i> 보낸 쪽지
+	</a>
+	</li>
+	<li class="nav-item">
+	<a href="#" class="nav-link">
+	<i class="far fa-trash-alt"></i> 휴지통
+	</a>
+	</li>
+	</ul>
+	</div>
+	
+	</div>
+	</div> 
+	<!-- col-md-9 위에  --> 
           <div class="col-md-9">
             <div class="card card-primary card-outline">
               <div class="card-header">
@@ -69,31 +119,41 @@
 				  <div class="modal-dialog" role="document">
 				    <div class="modal-content">
 				      <!-- 모달 내용 -->
-				      <div class="modal-body">
-				        <!-- 모달 내용 추가 -->
-				        
-				    
-				        <table>
-						  <thead>
-						    <tr>
-						      <th></th>
-						      <th><input type="checkbox" name="allCheck"/></th>
-						      <th>부서</th>
-						      <th>이름</th>
-						    </tr>
-						  </thead>
-						  <tbody>
-						    <c:forEach items="${DeptList}" var="dept">
-						      <tr>
-						        <td class="checkbox"><input type="checkbox" name="Rowcheck" value="${dept.id}"></td> <!-- 멤버 아이디 -->
-						        <td>${dept.dept_name}</td>
-						        <td>${dept.member_name}</td>
-						      </tr>
-						    </c:forEach>
-						  </tbody>
-						</table>
-						
-				      </div>
+					<div class="modal-body">
+					  <!-- 모달 내용 추가 -->
+					  <div class="table-wrapper">
+					    <table>
+					      <thead>
+					        <tr>
+					          <td>
+					            <input type="checkbox" id="allCheck" name="allCheck" onclick="toggleAllCheckboxes()" hidden/>
+					            <label for="allCheck">전체</label>
+					          </td>
+					        </tr>
+					        
+					        <select id="deptList" name="name" onchange="updateDeptList()">
+					          <option value="default">--</option>
+					          <c:forEach items="${dept}" var="i">
+					            <option value="${i.name}">${i.name}</option>
+					          </c:forEach>
+					        </select>
+					                        
+					      </thead>
+					    </table>
+					
+					    <table>
+					      <tbody id="deptTableBody">
+					        <c:forEach items="${DeptList}" var="dept">
+					          <tr>
+					            <td class="checkbox"><input type="checkbox" name="Rowcheck" value="${dept.id}"></td>
+					            <td>${dept.dept_name}</td>
+					            <td>${dept.member_name}</td>
+					          </tr>
+					        </c:forEach>
+					      </tbody>
+					    </table>
+					  </div>
+					</div>
 				      
 							<!-- 모달 푸터 -->
 						<div class="modal-footer">
@@ -107,19 +167,14 @@
 				</div>   
 			
 			
-				<div class="form-group">
-				  <input class="form-control" name="title" maxlength="19" oninput="counter(this, '20')" placeholder="제목을 입력하세요">
-				</div>
-
-
-                
-                
-                
-                <div class="form-group" name="content">
-                    <textarea id="compose-textarea" class="form-control" style="height: 300px" name="content">
+				
+			 <input type="text" class="form-control" name="title" maxlength="19"  placeholder="제목을 입력하세요">
+			
+            <div class="form-group" name="content">
+              <textarea id="compose-textarea" class="form-control" style="height: 600px" name="content">
                       
-                    </textarea>
-                </div>
+              </textarea>
+            </div>
                 
 			<div class="form-group">
 			  <div class="btn btn-default btn-file">
@@ -186,6 +241,18 @@
     $('#compose-textarea').summernote()
   })
   
+  
+
+function toggleAllCheckboxes() {
+  var checkboxes = document.querySelectorAll('input[type="checkbox"][name="Rowcheck"]');
+  var allCheck = document.getElementById('allCheck');
+
+  for (var i = 0; i < checkboxes.length; i++) {
+    checkboxes[i].checked = allCheck.checked;
+  }
+}
+  
+  
   function goBack() {
   history.back();
 }
@@ -196,13 +263,13 @@ $(function(){
 
 	  
 	  $("input[name='allCheck']").click(function(){
-	    var chk_listArr = $("input[name='Rowcheck']"); // 체크박스의 name 속성을 "Rowcheck"로 수정
+	    var chk_listArr = $("input[name='Rowcheck']"); 
 	    for (var i=0; i<chk_listArr.length; i++){
 	      chk_listArr[i].checked = this.checked;
 	    }
 	  });
 	  $("input[name='Rowcheck']").click(function(){
-	    if($("input[name='Rowcheck']:checked").length == rowCnt){ // 체크박스의 name 속성을 "Rowcheck"로 수정
+	    if($("input[name='Rowcheck']:checked").length == rowCnt){ 
 	      $("input[name='allCheck']")[0].checked = true;
 	    }
 	    else{

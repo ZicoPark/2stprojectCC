@@ -129,6 +129,9 @@ function listCall(page){
 	   });
 	}
 
+
+
+
 //list 받아와서 보여줌
 function listPrint(list){
 	   	var content ='';

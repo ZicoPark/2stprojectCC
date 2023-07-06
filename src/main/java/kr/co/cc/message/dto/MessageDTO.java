@@ -32,7 +32,21 @@ public class MessageDTO {
 	private String dept_name;
 	private String member_name;
 	private String tofrom_id;
+	private String from_name;
+	private String to_name;
 	
+	public String getFrom_name() {
+		return from_name;
+	}
+	public void setFrom_name(String from_name) {
+		this.from_name = from_name;
+	}
+	public String getTo_name() {
+		return to_name;
+	}
+	public void setTo_name(String to_name) {
+		this.to_name = to_name;
+	}
 	public String getTofrom_id() {
 		return tofrom_id;
 	}
