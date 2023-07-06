@@ -108,7 +108,7 @@ public class MemberController {
 	public String login(String user_id, String password, Model model, HttpSession session, String id) {
 		String page = "Login";
 		
-		if (memberservice.login(user_id,password,id) != null){
+		if (memberservice.login(user_id,password,id) == true){
 			page = "redirect:/main.go";
 			id = memberservice.loginid(user_id);
 			session.setAttribute("id", id);
