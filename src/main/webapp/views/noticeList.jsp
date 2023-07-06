@@ -42,7 +42,7 @@
 				</tr>
 			</thead>		
 			<tbody>
-				<c:if test="${noticeList eq null}">
+<%-- 				<c:if test="${noticeList eq null}">
 					<tr>
 						<th colspan="5">알림이 없습니다.</th>
 					</tr>
@@ -57,7 +57,7 @@
 						<td>${alarmList.alarm_time}</td>
 					</tr>
 					
-				</c:forEach>
+				</c:forEach> --%>
 			</tbody>
 		</table>
     </section>
