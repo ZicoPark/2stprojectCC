@@ -1,13 +1,41 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<style>
-	[class*=sidebar-dark-] .sidebar a {
-		color: white;
-	}
-	[class*=sidebar-dark-] .sidebar a p {
-	    color: white;
-	}
-</style>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Creator Company</title>
+
+<!-- CSS only -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+<!-- Ionicons -->
+<link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+<!--  Google Font: Source Sans Pro -->
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+<!-- Font Awesome-->
+<link rel="stylesheet" href="plugins/fontawesome-free/css/all.min.css">
+<!-- Tempusdominus Bootstrap 4 -->
+<link rel="stylesheet" href="plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css">
+<!-- overlayScrollbars-->
+<link rel="stylesheet" href="plugins/overlayScrollbars/css/OverlayScrollbars.min.css">
+<!-- Theme style-->
+<link rel="stylesheet" href="dist/css/adminlte.min.css">
+  
+  <style>
+[class*=sidebar-dark-] .sidebar a {
+    color: white;
+}
+[class*=sidebar-dark-] .sidebar a p {
+    color: white;
+}
+  </style>
+  
+  
+</head>
+<body class="hold-transition sidebar-mini">
+<!-- Site wrapper -->
+<div class="wrapper">
+
   <!-- Navbar -->
   <nav class="main-header navbar navbar-expand navbar-white navbar-light">
     <!-- Left navbar links -->
@@ -106,11 +134,38 @@
         </div>
       </li>
       
-      
-      
-      
-      
+<!--       Notifications Dropdown Menu -->
+<!--       <li class="nav-item dropdown show">
+        <a class="nav-link" data-toggle="dropdown" href="">
+          <i class="far fa-bell"></i>
+          <span class="badge badge-warning navbar-badge">15</span>
+        </a>
+      <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right show" style="left: inherit; right: 0px;">
+          <span class="dropdown-item dropdown-header">최신 알림</span>
+          <div class="dropdown-divider"></div>
+          
+          
+          <a href="#" class="dropdown-item">
+            <i class="fas fa-envelope mr-2"></i> 4 new messages
+            <span class="float-right text-muted text-sm">3 mins</span>
+          </a>
+          <div class="dropdown-divider"></div>
+          <a href="#" class="dropdown-item">
+            <i class="fas fa-users mr-2"></i> 8 friend requests
+            <span class="float-right text-muted text-sm">12 hours</span>
+          </a>
+          <div class="dropdown-divider"></div>
+          <a href="#" class="dropdown-item">
+            <i class="fas fa-file mr-2"></i> 3 new reports
+            <span class="float-right text-muted text-sm">2 days</span>
+          </a>
+              
+          <div class="dropdown-divider"></div>
+          <a href="#" class="dropdown-item dropdown-footer">알림 더보기</a>
+        </div>
+      </li> -->
 
+<!-- 앙 알림띠 -->
 <!-- Notifications Dropdown Menu -->
       <li class="nav-item dropdown">
         <a class="nav-link" data-toggle="dropdown" href="#">
@@ -118,24 +173,24 @@
           <span class="badge badge-warning navbar-badge">15</span>
         </a>
         <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-          <span class="dropdown-item dropdown-header">최신 알림</span>
+          <span class="dropdown-item dropdown-header">15 Notifications</span>
           <div class="dropdown-divider"></div>
           <a href="#" class="dropdown-item">
-            <i class="fas fa-envelope mr-2"></i> 쪽지
+            <i class="fas fa-envelope mr-2"></i> 4 new messages
             <span class="float-right text-muted text-sm">3 mins</span>
           </a>
           <div class="dropdown-divider"></div>
           <a href="#" class="dropdown-item">
-            <i class="fas fa-users mr-2"></i> 공지사항
+            <i class="fas fa-users mr-2"></i> 8 friend requests
             <span class="float-right text-muted text-sm">12 hours</span>
           </a>
           <div class="dropdown-divider"></div>
           <a href="#" class="dropdown-item">
-            <i class="fas fa-file mr-2"></i> 전자결재 
+            <i class="fas fa-file mr-2"></i> 3 new reports
             <span class="float-right text-muted text-sm">2 days</span>
           </a>
           <div class="dropdown-divider"></div>
-          <a href="notice.go" class="dropdown-item dropdown-footer">알림 더보기</a>
+          <a href="#" class="dropdown-item dropdown-footer">See All Notifications</a>
         </div>
       </li>
 
@@ -529,6 +584,7 @@
           
           
           
+          
         </ul>
       </nav>
       <!-- /.sidebar-menu -->
@@ -538,14 +594,46 @@
           <a href="/logout">로그아웃</a>
 
 
-
+   <!-- 
+   
+   
+   
+   내용들어가는 부분 
+   
+   
+   
+    -->
 
   <!-- Control Sidebar -->
   <aside class="control-sidebar control-sidebar-dark">
     <!-- Control sidebar content goes here -->
   </aside>
   <!-- /.control-sidebar -->
+</div>
+<!-- ./wrapper -->
 
 
+<!-- jQuery UI -->
+<script src="plugins/jquery-ui/jquery-ui.min.js"></script>
+<!-- jQuery -->
+<script src="../../plugins/jquery/jquery.min.js"></script>
+<!-- Bootstrap 4 -->
+<script src="../../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<!-- AdminLTE App -->
+<script src="../../dist/js/adminlte.min.js"></script>
 
 
+</body>
+
+
+<script>
+
+
+/* 
+속성( data-toggle)이 dropdown 일떄 쇼로 바꾸고  */
+
+
+</script>
+
+
+</html>

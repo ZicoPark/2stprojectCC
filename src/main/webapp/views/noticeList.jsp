@@ -20,7 +20,7 @@
 <div class="wrapper">
   <div class="content-wrapper">
     <section class="content-header">
-            <h1>알림 리스트</h1>         
+            <h1>이전 알림</h1>         
     </section>
     <!-- Main content -->
     <section class="content">
