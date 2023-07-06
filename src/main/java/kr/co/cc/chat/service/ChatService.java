@@ -53,20 +53,14 @@ public class ChatService {
 		return room_list;
 	}
 	
-	
-	
-	
-	
-	
-	
-	
-	
-
-
-
 	public ArrayList<ChatDTO> chatHistory(String chat_room_id) {
 		return dao.chatHistory(chat_room_id);
 	}
+	
+	public ArrayList<ChatDTO> chatLoad(String chat_room_id) {
+		return dao.chatLoad(chat_room_id);
+	}
+	
 
 	public void chatStored(ChatDTO dto) {
 		HashMap<String, Object> map = new HashMap<String, Object>();
@@ -77,10 +71,7 @@ public class ChatService {
 		dao.chatStored(map);
 	}
 
-	public ArrayList<ChatDTO> chatLoad(String id) {
-		return dao.chatLoad(id);
-	}
-
+	
 	
 
 	

@@ -33,8 +33,6 @@ public class ChatController {
 		this.template = template;
 	}
 	
-	
-	
 	@GetMapping(value="/chatRoom.go")
 	public String home() {
 		return "chatRoom";
@@ -73,19 +71,6 @@ public class ChatController {
 		return service.chatList(member_id);
 	}
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-
-	
 	@PostMapping(value="/chatHistory.ajax")
 	@ResponseBody
 	public ArrayList<ChatDTO> chatHistory(@RequestParam String chat_room_id) {
@@ -97,9 +82,17 @@ public class ChatController {
 	public ModelAndView chat(@PathVariable String chat_room_id) {
 		
 		logger.info("chat_room_id : " + chat_room_id);
-		ModelAndView mav = new ModelAndView("chat");
+		ModelAndView mav = new ModelAndView("chatRoom");
 		return mav;
 	}
+	
+	@PostMapping(value="/chatLoad.ajax")
+	@ResponseBody
+	public ArrayList<ChatDTO> chatStored(@RequestBody String chat_room_id) {
+		logger.info("chat_room_id : " + chat_room_id);
+		return service.chatLoad(chat_room_id);
+	}
+
 	
 	@MessageMapping(value="/chat/sendMessage")
 	public void sendMessage(@PathVariable String chat_room_id, @Payload ChatDTO dto
@@ -115,12 +108,11 @@ public class ChatController {
 		template.convertAndSend("/sub/chat/"+ dto.getChat_room_id(), dto);
 	}
 	
-	@PostMapping(value="/chatStored.ajax")
-	@ResponseBody
-	public ArrayList<ChatDTO> chatStored(@RequestBody String id) {
-		logger.info("id : " + id);
-		return service.chatLoad(id);
-	}
+	
+	
+	
+	
+	
 	
 	
 	

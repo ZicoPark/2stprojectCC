@@ -120,6 +120,14 @@ public class WorkController {
 		return mav;
 	}
 	
+	@GetMapping(value="/historyListFind.do")
+	public ModelAndView historyListFind(@RequestParam(required = false, defaultValue = "7") int historyList, HttpSession session) {
+		int currentYear = LocalDate.now().getYear();
+		String value = historyList < 10 ? currentYear +"-0"+historyList : currentYear+"-"+historyList;
+		return service.historyListFind(value,session);
+	}
+	
+	
 	@GetMapping(value="/workHistoryReqList.go")
 	public ModelAndView workHistoryReqListGo(HttpSession session) {
 		return service.workHistoryReqListGo(session);
