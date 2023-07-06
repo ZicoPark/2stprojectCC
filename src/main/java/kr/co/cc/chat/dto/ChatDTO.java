@@ -1,6 +1,7 @@
 package kr.co.cc.chat.dto;
 
 import java.sql.Date;
+import java.time.LocalDateTime;
 
 
 public class ChatDTO {
@@ -11,14 +12,34 @@ public class ChatDTO {
 	private String subject;
 	private String content;
 	private boolean is_read;
-	private Date send_time;
+	private LocalDateTime send_time;
 	private boolean blind;
 	private boolean is_notice;
+	private String dept_name;
+	private int number;
 	
 	
 	
 	
 	
+	public int getNumber() {
+		return number;
+	}
+	public void setNumber(int number) {
+		this.number = number;
+	}
+	public LocalDateTime getSend_time() {
+		return send_time;
+	}
+	public void setSend_time(LocalDateTime send_time) {
+		this.send_time = send_time;
+	}
+	public String getDept_name() {
+		return dept_name;
+	}
+	public void setDept_name(String dept_name) {
+		this.dept_name = dept_name;
+	}
 	public String getChat_room_id() {
 		return chat_room_id;
 	}
@@ -66,12 +87,6 @@ public class ChatDTO {
 	}
 	public void setIs_read(boolean is_read) {
 		this.is_read = is_read;
-	}
-	public Date getSend_time() {
-		return send_time;
-	}
-	public void setSend_time(Date send_time) {
-		this.send_time = send_time;
 	}
 	public boolean isIs_notice() {
 		return is_notice;

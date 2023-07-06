@@ -3,6 +3,8 @@ package kr.co.cc.chat.controller;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import javax.servlet.http.HttpSession;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,7 +36,11 @@ public class ChatController {
 	}
 	
 	@GetMapping(value="/chatRoom.go")
-	public String home() {
+	public String home(HttpSession session) {
+		String chatNameChk = service.chatNameChk(session);
+		
+		session.setAttribute("chatNameChk", chatNameChk);
+		
 		return "chatRoom";
 	}	
 	
@@ -109,18 +115,17 @@ public class ChatController {
 	}
 	
 	
-	
-	
-	
-	
-	
-	
-	
 	@PostMapping(value="/chatRoomExit.ajax")
 	@ResponseBody
-	public int chatRoomExit(@RequestParam HashMap<String, Object> params) {
-		logger.info("params : " + params);
-		return service.chatRoomExit(params);
+	public HashMap<String, Object> chatRoomExit(@RequestParam String member_id,@RequestParam String chat_room_id) {
+		logger.info("member_id : " + member_id, "chat_room_id : " + chat_room_id);
+		service.chatRoomExit(chat_room_id,member_id);
+		
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		
+		map.put("success", "success");
+		
+		return map;
 	}
 	
 }

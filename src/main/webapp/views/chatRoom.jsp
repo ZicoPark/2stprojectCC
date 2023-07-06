@@ -72,13 +72,13 @@
     <section class="content">
     
     <!-- 채팅방 생성 -->
-    <button type="button" class="btn btn-block btn-primary" data-bs-toggle="modal" data-bs-target="#chatCreateModal" onclick="create()">채팅방 생성하기</button>
+    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#chatCreateModal" onclick="create()">채팅방 생성하기</button>
     
     <!-- 채팅방 초대 -->
-    <button type="button" class="btn btn-block btn-primary" data-bs-toggle="modal" data-bs-target="#chatInviteModal" onclick="invite()">초대하기</button>
+    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#chatInviteModal" onclick="invite()">초대하기</button>
     
     <!-- 채팅방 나가기 -->
-    <button class="btn btn-block btn-danger" onclick="chatRoomExit()">채팅방 나가기</button>
+    <button class="btn btn-primary" onclick="chatRoomExit()">채팅방 나가기</button>
     
     
     
@@ -102,8 +102,8 @@
 		</div>
 		
 		<!-- 채팅 입력 -->
-		<input type="text" id="content">
-		<button class="btn btn-block btn-success" onclick="sendMessage()">전송</button>
+		<input type="text" id="content" onkeydown="handleKeyDown(event)">
+		<button class="btn btn-primary" onclick="sendMessage()">전송</button>
 	</div>
 	
     </section>
@@ -184,6 +184,9 @@
 	var name='';
 	var socket;
 	var stompClient;
+	var sessionId = "${sessionScope.id}";
+	var chatNameChk = "${sessionScope.chatNameChk}";
+	
 
 	var msg = "${msg}";
 	if(msg != ""){
@@ -359,16 +362,16 @@
 			
 			if("${sessionScope.id}" == item.send_id) {
 				console.log('나' + item.send_id);
-				content+='<div class="direct-chat-msg right">';
-				content+='<div class="direct-chat-infos clearfix">';
-				content+='<span class="direct-chat-name float-right">'+item.name+' ('+item.dept_name+')'+'</span>';
-				content+='<span class="direct-chat-timestamp float-left">'+item.send_time+'</span>';
-			}else {
-				console.log('상대' + item.send_id);
 				content+='<div class="direct-chat-msg">';
 				content+='<div class="direct-chat-infos clearfix">';
 				content+='<span class="direct-chat-name float-left">'+item.name+' ('+item.dept_name+')'+'</span>';
 				content+='<span class="direct-chat-timestamp float-right">'+item.send_time+'</span>';
+			}else {
+				console.log('상대' + item.send_id);
+				content+='<div class="direct-chat-msg right">';
+				content+='<div class="direct-chat-infos clearfix">';
+				content+='<span class="direct-chat-name float-right">'+item.name+' ('+item.dept_name+')'+'</span>';
+				content+='<span class="direct-chat-timestamp float-left">'+item.send_time+'</span>';
 			}
 			
 			content+='</div>';
@@ -401,17 +404,21 @@
 	function chatRoomExit() {
 		console.log('chatRoomExit() 호출');
 		console.log('chat_room_id : ' + chat_room_id);
+		
 		$.ajax({
 			url:'chatRoomExit.ajax',
 			type:'post',
 			data:{
-				'member_id': "${sessionScope.id}",
+				'member_id': sessionId,
 				'chat_room_id' : chat_room_id				
 			},
 			dataType:'json',
 			success:function(data){
-				console.log('chatRoomExit.ajax : ' + data);
 				console.log('chatRoomExit.ajax 통신 성공');
+				$('#content').val(chatNameChk + "님이 퇴장하였습니다.");
+
+				sendMessage("");
+				location.href = "chatRoom.go";
 			},
 			error:function(e){
 				console.log('chatRoomExit.ajax 통신 실패');
@@ -421,6 +428,12 @@
 	}
 	
 	
+	function handleKeyDown(event) {
+	  if (event.keyCode === 13) { // 엔터 키를 눌렀을 때
+	    event.preventDefault(); // 기본 동작 (폼 제출 등) 막기
+	    sendMessage(); // sendMessage 함수 호출
+	  }
+	}
 	
 	
 	
