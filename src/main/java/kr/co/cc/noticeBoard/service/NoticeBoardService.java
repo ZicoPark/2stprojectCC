@@ -147,7 +147,7 @@ public class NoticeBoardService {
 //	      return dao.detail(id);
 //	   }
    
-   public NoticeBoardDTO archivedetail(String id, String flag) {
+   public NoticeBoardDTO nodetail(String id, String flag) {
 		
 		if(flag.equals("detail")) {
 			logger.info("if문");
@@ -168,7 +168,24 @@ public class NoticeBoardService {
    }
 
 
+	public ArrayList<NoticeBoardDTO> relist() {
+		return dao.relist();
+	}
 
+
+	public ArrayList<NoticeBoardDTO> rlist(String id) {
+		return dao.rlist(id);
+	}
+
+
+	public int rcount(String loginId, String id) {
+		return dao.rcount(loginId, id);
+	}
+
+
+	public void getinfo(String loginId, String id) {
+		dao.getinfo(loginId, id);
+	}
 
 
 //   //읽사

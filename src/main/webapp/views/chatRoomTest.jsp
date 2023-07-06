@@ -231,60 +231,8 @@
 
 <script>
 	
-
 	
 	
-	
-	
-	
-	function chatHistory(data) {
-		data.forEach(function(item) {
-			var content = '';
-			console.log(item.is_notice);
-			if(item.is_notice != true){
-				if(name == item.send_id) {
-					console.log('일치요' + item.send_id);
-					content+='<div class="direct-chat-msg">';
-					content+='<div class="direct-chat-infos clearfix">';
-					content+='<span class="direct-chat-name float-left">'+item.send_id+'</span>';
-					content+='<span class="direct-chat-timestamp float-right">'+item.send_time+'</span>';
-				}else {
-					console.log('불일치요' + item.send_id);
-					content+='<div class="direct-chat-msg right">';
-					content+='<div class="direct-chat-infos clearfix">';
-					content+='<span class="direct-chat-name float-right">'+item.send_id+'</span>';
-					content+='<span class="direct-chat-timestamp float-left">'+item.send_time+'</span>';
-				}
-				
-				content+='</div>';
-				content+='<img class="direct-chat-img" src="dist/img/user1-128x128.jpg" alt="message user image">';
-				content+='<div class="direct-chat-text">'+item.content+'</div></div>';
-			} else {
-				content += '<div>'+item.content+'</div>';
-			}
-			
-
-			$('#chat_history').append(content);
-		});
-	}
-	
-	function sendMessage(event) {
-	    var messageContent = $('#content').val();
-
-	    if (messageContent && stompClient) {
-	    	console.log('if문 시작');
-	        var chatMessage = {
-	            chat_room_id: chat_room_id,
-	            send_id: name,
-	            content: $('#content').val(),
-	            is_notice : false
-	        };
-
-	        stompClient.send("/pub/chat/sendMessage", {}, JSON.stringify(chatMessage));
-	        $('#content').val('');
-	    }
-	    //event.preventDefault();
-	}
 	
 	
 	
@@ -303,6 +251,7 @@
 	        };
 
 	        stompClient.send("/pub/chat/sendMessage", {}, JSON.stringify(chatMessage));
+	        $.ajax
 		}
 	}
 </script>

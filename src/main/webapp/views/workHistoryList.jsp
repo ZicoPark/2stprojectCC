@@ -30,6 +30,13 @@
 		    <button type="button" class="btn btn-danger btn-sm" onclick="location.href='timeEnd.do'">퇴근</button>&nbsp;&nbsp;
 		    <button type="button" class="btn btn-info btn-sm" onclick="location.href='workHistoryReqList.go'">수정 요청 리스트</button>
 		</div>
+		<div>
+		<br/>
+    	<form action="historyListFind.do">
+			<input type="number" min=1 max=12 id="historyList" name="historyList"/>월
+			<button>월 검색</button>
+    	</form>
+    	</div>
 
 		<br/>
 		<br/>

@@ -207,6 +207,14 @@ public class WorkService {
 		return mav;
 	}
 	
+	public ModelAndView historyListFind(String value, HttpSession session) {
+		ModelAndView mav = new ModelAndView("workHistoryList");
+		String id =  (String) session.getAttribute("id");
+		ArrayList<WorkDTO> workList = dao.historyListFind(value, id);
+		mav.addObject("workList",workList);
+		return mav;
+	}
+	
 
 	public void annualRegistration(HashMap<String, String> params, HttpSession session) {
 		
@@ -291,6 +299,8 @@ public class WorkService {
 	public ArrayList<WorkDTO> approvalChange(String approval) {
 		return dao.approvalChange(approval);
 	}
+
+	
 
 
 }

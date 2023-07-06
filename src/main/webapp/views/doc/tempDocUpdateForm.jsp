@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
@@ -11,62 +12,71 @@
 </style>
 </head>
 <body>
-	<h1>임시저장문서 계속 작성하기</h1>
-	<br>
-	<br>
-	<form action="docUpdate.do" method="post" enctype="multipart/form-data">
-		<input type="text" name="id" value="${docDTO.id }" hidden="true"/>
-		제목 : <input type="text" name="subject" value="${docDTO.subject }"/>
-		<br>
-		기안자 : <input type="text" value="${memberName }" readonly="readonly"/>
-		<br>
-		공개범위 : 
-		<select name="publicRange">
-			<option value="all" <c:if test="${docDTO.public_range == 'all' }">selected</c:if>>전체</option>
-			<option value="dept" <c:if test="${docDTO.public_range == 'dept' }">selected</c:if>>부서별</option>
-		</select>
-		<br>
-		문서종류 : ${docFormName }
-
-		<br>
-		<div id="approvalList">
-		<input type="button" value="결재선 추가" onclick="addApproval()"/>
-		<select name="approvalPriority">
-			<option value="default">--</option>
-			<c:forEach items="${approvalKindList}" var="i">
-				<option value="${i.priority}">${i.name}</option>
-			</c:forEach>
-		</select>
-		<select name="approvalMemberId">
-			<option value="default">--</option>
-			<c:forEach items="${memberList}" var="i">
-				<option value="${i.id}">${i.dept_name} | ${i.name}</option>
-			</c:forEach>
-		</select>
-		<br>
+	<jsp:include page="../index.jsp"/>
+	<!-- Site wrapper -->
+	<div class="wrapper">
+		<div class="content-wrapper">
+			<section class="content-header">
+				<h1>임시저장문서 계속 작성</h1>
+			</section>
+			<!-- Main content -->
+			<section class="content">
+				<form action="docUpdate.do" method="post" enctype="multipart/form-data">
+					<input type="text" name="id" value="${docDTO.id }" hidden="true"/>
+					제목 : <input type="text" name="subject" value="${docDTO.subject }"/>
+					<br>
+					기안자 : <input type="text" value="${memberName }" readonly="readonly"/>
+					<br>
+					공개범위 : 
+					<select name="publicRange">
+						<option value="all" <c:if test="${docDTO.public_range == 'all' }">selected</c:if>>전체</option>
+						<option value="dept" <c:if test="${docDTO.public_range == 'dept' }">selected</c:if>>부서별</option>
+					</select>
+					<br>
+					문서종류 : ${docFormName }
+			
+					<br>
+					<div id="approvalList">
+					<input type="button" value="결재선 추가" onclick="addApproval()"/>
+					<select name="approvalPriority">
+						<option value="default">--</option>
+						<c:forEach items="${approvalKindList}" var="i">
+							<option value="${i.priority}">${i.name}</option>
+						</c:forEach>
+					</select>
+					<select name="approvalMemberId">
+						<option value="default">--</option>
+						<c:forEach items="${memberList}" var="i">
+							<option value="${i.id}">${i.dept_name} | ${i.name}</option>
+						</c:forEach>
+					</select>
+					<br>
+					</div>
+					<div id="div_editor">
+						<!-- 에디터 안에 들어갈 자리 -->
+					</div>
+					<textarea hidden="true" id="beforeContent">${docDTO.content }</textarea>
+					<textarea hidden="true" id="afterContent" name="afterContent"></textarea>
+					<input type="hidden" id="status" name="status"/>
+					<input type="file" multiple="multiple" name="attachment"/>
+					<c:if test="${attachmentList.size() == 0 }">
+						<div>첨부파일 없음.</div>
+					</c:if>
+					<c:if test="${attachmentList.size() > 0 }">
+						<c:forEach items="${attachmentList }" var="i">
+							<div>
+								<a href="attachmentDownload.do?oriFileName=${i.ori_file_name }&attachmentId=${i.id }">${i.ori_file_name }</a>
+								<a href="attachmentDelete.do?docId=${docDTO.id }&attachmentId=${i.id }">삭제</a>
+							</div>
+						</c:forEach>
+					</c:if>
+					<input type="button" onclick="pushDoc()" value="제출"/>
+					<input type="button" onclick="saveDoc()" value="임시저장"/>
+				</form>
+				<input type="button" onclick="location.href='tempDocDelete.do?id=${docDTO.id }'" value="문서삭제"/>
+				</section>
 		</div>
-		<div id="div_editor">
-			<!-- 에디터 안에 들어갈 자리 -->
-		</div>
-		<textarea hidden="true" id="beforeContent">${docDTO.content }</textarea>
-		<textarea hidden="true" id="afterContent" name="afterContent"></textarea>
-		<input type="hidden" id="status" name="status"/>
-		<input type="file" multiple="multiple" name="attachment"/>
-		<c:if test="${attachmentList.size() == 0 }">
-			<div>첨부파일 없음.</div>
-		</c:if>
-		<c:if test="${attachmentList.size() > 0 }">
-			<c:forEach items="${attachmentList }" var="i">
-				<div>
-					<a href="attachmentDownload.do?oriFileName=${i.ori_file_name }&attachmentId=${i.id }">${i.ori_file_name }</a>
-					<a href="attachmentDelete.do?docId=${docDTO.id }&attachmentId=${i.id }">삭제</a>
-				</div>
-			</c:forEach>
-		</c:if>
-		<input type="button" onclick="pushDoc()" value="제출"/>
-		<input type="button" onclick="saveDoc()" value="임시저장"/>
-	</form>
-	<input type="button" onclick="location.href='tempDocDelete.do?id=${docDTO.id }'" value="문서삭제"/>
+	</div>
 </body>
 <script type="text/javascript" src="/richtexteditor/rte.js"></script>  
 <script type="text/javascript" src='/richtexteditor/plugins/all_plugins.js'></script>

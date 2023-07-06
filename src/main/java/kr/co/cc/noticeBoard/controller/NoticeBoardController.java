@@ -18,6 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
+import kr.co.cc.member.dto.MemberDTO;
 import kr.co.cc.noticeBoard.dto.NoticeBoardDTO;
 import kr.co.cc.noticeBoard.service.NoticeBoardService;
 
@@ -66,27 +67,44 @@ public class NoticeBoardController {
    }
    
    @RequestMapping(value="/noticeBoardDetail.do")
-   public String nodetail(Model model, @RequestParam String id){
+   public String nodetail(Model model, @RequestParam String id, HttpSession session){
       
-      logger.info("nodetail : "+id);
+      logger.info("nodetail : " + id);
       
-      	NoticeBoardDTO detailno = service.archivedetail(id, "detail");
-		String page = "redirect:/noticeBoard.go";
-		
-		if(detailno != null) {
-			
-			logger.info("if문 진입");
-			ArrayList<String> detailfile = service.noDetailFile(id);
-			
-			logger.info("detailFile :"+detailfile);
-			
-			page = "noticeBoardDetail";
-			model.addAttribute("detailno", detailno);
-			model.addAttribute("detailFile", detailfile);
-			
-		}	
-		return page;
-}
+      NoticeBoardDTO detailno = service.nodetail(id, "detail");
+      String page = "redirect:/noticeBoard.go";
+      
+      if (detailno != null) {
+         
+         logger.info("if문 진입");
+         ArrayList<String> detailfile = service.noDetailFile(id);
+         
+         logger.info("detailFile: " + detailfile);
+         
+         page = "noticeBoardDetail";
+         model.addAttribute("detailno", detailno);
+         model.addAttribute("detailFile", detailfile);
+
+         String loginId = (String) session.getAttribute("id");
+         logger.info("read: " + loginId);
+
+         // 중복 방지용 변수 초기화
+         int row = service.rcount(loginId, id);
+         logger.info("row: " + row);
+
+         if (row == 0) {
+            // 읽은 직원 insert
+            service.getinfo(loginId, id);
+         }
+         
+         // 읽은 사람 목록을 가져옵니다.
+         ArrayList<NoticeBoardDTO> reader = service.rlist(id);
+         logger.info("reader: " + reader);
+         model.addAttribute("reader", reader);
+      }   
+      
+      return page;   
+   }
    
 //   @RequestMapping(value="/noticeBoardDetail.do")
 //   public String noDetail(Model model, @RequestParam String id) {

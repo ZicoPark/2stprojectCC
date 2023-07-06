@@ -19,11 +19,11 @@
        </selectKey>
        INSERT INTO chat_room(chat_room_id,name,blind) VALUES(#{chat_room_id},#{name}, false)
    </insert>
-	
-	
+		
 	<insert id="insert_chat_room_info">
 		INSERT INTO chat_room_info(chat_room_id, member_id, state) VALUES(#{param1}, #{param2}, 'in')
 	</insert>
+	
 	
 	<select id="chatList" resultType="kr.co.cc.chat.dto.ChatDTO" parameterType="String">
 		select * from chat_room_info
@@ -36,27 +36,34 @@
 		WHERE chat_room_id = #{chat_room_id}
 	</select>
 	
-	
-	
-
-	
-	
-	
 	<select id="chatHistory" resultType="kr.co.cc.chat.dto.ChatDTO" parameterType="String">
-		select * from chat
+		SELECT c.send_id ,c.chat_room_id ,c.content ,c.send_time ,c.blind, m.id, m.name, d.name as dept_name 
+		from `chat` c inner join `member` m on c.send_id = m.id
+		inner join dept d on m.dept_id = d.id
+		WHERE chat_room_id = #{chat_room_id}
+	</select>
+	
+	<select id="chatLoad" parameterType="String">
+		SELECT c.send_id ,c.chat_room_id ,c.content ,c.send_time ,c.blind, m.id, m.name, d.name as dept_name 
+		from `chat` c inner join `member` m on c.send_id = m.id
+		inner join dept d on m.dept_id = d.id
 		WHERE chat_room_id = #{chat_room_id}
 	</select>
 	
 	<insert id="chatStored" parameterType="hashmap">
-		INSERT INTO chat(send_id, chat_room_id, content, is_notice)
-		VALUES(#{send_id}, #{chat_room_id}, #{content}, #{is_notice})
-	
+		INSERT INTO chat(send_id, chat_room_id, content, send_time)
+		VALUES(#{send_id}, #{chat_room_id}, #{content}, now())	
 	</insert>
 	
-	<select id="chatLoad" parameterType="String">
-		SELECT * FROM chat
-		WHERE chat_room_id = #{id}
-	</select>
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	<update id="chatRoomExit" parameterType="hashmap">
 		UPDATE chat_room_info SET state = 'out'
