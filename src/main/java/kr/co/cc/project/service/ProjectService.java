@@ -7,6 +7,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.UUID;
 
 import javax.servlet.http.HttpSession;
 
@@ -14,7 +15,9 @@ import org.mybatis.spring.annotation.MapperScan;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.ui.Model;
 import org.springframework.web.multipart.MultipartFile;
 
 import kr.co.cc.project.dto.AttachmentDTO;
@@ -25,12 +28,18 @@ import kr.co.cc.project.dto.ProjectDTO;
 @MapperScan(value= {"kr.co.cc.project.dao"})
 public class ProjectService {
 
-	@Autowired ProjectDAO dao;
+	
 	
 	Logger logger = LoggerFactory.getLogger(getClass());
+	@Value("${spring.servlet.multipart.location}") private String attachmentRoot;
+	private final ProjectDAO dao;
 	
+	public ProjectService(ProjectDAO dao) {
+		this.dao = dao;
+	}
+    
 	
-    public String write(ProjectDTO dto, String id) {
+	public String write(ProjectDTO dto, String id) {
         dto.setMember_id(id);
         logger.info("id"+id);
         int row = dao.ProjectWrite(dto);
@@ -53,12 +62,10 @@ public class ProjectService {
 		return dao.ProjectDetail(id);
 	}
 
-	public String insert(MultipartFile video_file, HashMap<String, String> params) {
+	public String insert(MultipartFile[] attachment, HashMap<String, String> params, HttpSession session, Model model) {
+		String id = (String) session.getAttribute("id");
 		String page = "redirect:/projects.go";
-		
 
-		
-		
 		ProjectDTO dto = new ProjectDTO();
 		dto.setMember_id(params.get("member_id"));
 		dto.setContent(params.get("content"));
@@ -66,55 +73,56 @@ public class ProjectService {
 		dto.setStatus(params.get("status"));
 		dto.setProject_id(params.get("project_id"));
 		int row = dao.commentWrite(dto);
+		
+		String idx = dto.getId();
+
 		dao.stateChange(dto);
+		if(row==1) { // 업로드된 자료실 게시물이 1이라면
+			
+			for (MultipartFile file : attachment) {
+				
+				logger.info("업로드할 file 있나요? :"+!file.isEmpty());
+				
+				if(!file.isEmpty()) {
+					attachmentSave(idx, file, "프로젝트 첨부파일");
+				}
+				
+				try { // 쓰레드 0.001초 지연으로 중복파일명 막자
+					Thread.sleep(1);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+				
+			}
+		}
 		page = "redirect:/projectDetail.go?id="+params.get("project_id");
 		
 
-		
-		if(!video_file.getOriginalFilename().equals("")) {
-			logger.info("파일 업로드 작업");
-			// 2-1. 파일을 저장
-			fileSave(params, video_file); 			
-		}
-	/*	
-		int id = dto.getId();
-		logger.info("insert"+id);		
-	*/		
 		return page;
 		
 	}
 
-	private void fileSave(HashMap<String, String> params, MultipartFile file) {
-		
-		String orifilename = file.getOriginalFilename();
-		String ext = orifilename.substring(orifilename.lastIndexOf("."));
-		String ori_file_name = orifilename + ext;
-		logger.info(orifilename + " => " + ori_file_name);
-		/*
-		try {
-			byte[] bytes = file.getBytes();// 1-4. 바이트 추출
-			// 1-5. 추출한 바이트 저장
-			Path path = Paths.get("C:/img/upload/" + new_file_name); // 경로가져오기
-			Files.write(path, bytes);
-			logger.info(new_file_name + " save OK");
-			String idx= params.get("project_idx");
-			dao.ProjectFileWrite(idx, ori_file_name, new_file_name);
-		} catch (IOException e) {
-			e.printStackTrace();
+	private void attachmentSave(String id, MultipartFile file, String cls) {
+			
+			String oriFileName = file.getOriginalFilename();
+			String ext = oriFileName.substring(oriFileName.lastIndexOf("."));
+			UUID uuid = UUID.randomUUID();
+			String newFileName = uuid.toString() + ext;
+			logger.info("파일 업로드 : "+oriFileName+"=>"+newFileName+"으로 변경될 예정");
+			
+			try {
+				byte[] bytes = file.getBytes();
+				Path path = Paths.get(attachmentRoot+"/"+newFileName);
+				Files.write(path, bytes);
+				logger.info(newFileName+" upload 디렉토리에 저장 완료 !");
+				
+				dao.archivefileWrite(oriFileName, newFileName, cls, id);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			
 		}
-		*/
-		
-		AttachmentDTO dto = new AttachmentDTO();
-		dto.setOri_file_name(ori_file_name);
-		dto.setClassification("프로젝트첨부파일");
-		dto.setIdentify_value(params.get("project_id"));
-		
-		dao.AttachmentSave(dto);
-		
-		////////////// 유민아 이거 참고해랏
-		String attachmentId = dto.getId();
-		logger.info("인서트한 첨부파일의 id : "+attachmentId);
-	}
+
 
 	public ProjectDTO projectDetailUp(String id) {
 		return dao.projectDetailUp(id);
@@ -148,6 +156,28 @@ public class ProjectService {
 
 		return dao.projectDel(id);
 	}
+
+
+	public String projectDetailFile(String id) {
+		return dao.projectDetailFile(id);
+	}
+
+
+	public ArrayList<HashMap<String, String>> getAllComment(String projectId) {
+		
+		return dao.getAllComment(projectId);
+	}
+
+
+	public HashMap<String, Object> replyWrite(String id, String content, String loginId) {
+		HashMap<String, Object> data = new HashMap<String, Object>();
+		data.put("success", dao.replyWrite(id, content, loginId));
+		return data;
+
+	}
+
+
+
 
 
 
