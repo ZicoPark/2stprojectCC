@@ -1,5 +1,10 @@
 package kr.co.cc.member.service;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -18,9 +23,11 @@ import org.mybatis.spring.annotation.MapperScan;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import kr.co.cc.member.dao.MemberDAO;
@@ -35,29 +42,52 @@ public class MemberService {
 	@Autowired PasswordEncoder encoder;
 	
 	Logger logger = LoggerFactory.getLogger(getClass());
-
+	
+	@Value("${spring.servlet.multipart.location}") private String attachmentRoot;
 	
 	
 	
-	public ModelAndView join(MemberDTO dto) {
-		
+	public ModelAndView join(HashMap<String, String> params, MultipartFile file, MemberDTO dto) {
+		logger.info("file: " + file);
 		logger.info(dto.getUser_id()+"/"+dto.getPassword());
 		String enc_pass = encoder.encode(dto.getPassword());
 		dto.setPassword(enc_pass);
 		int success = memberdao.join(dto);
 		logger.info("join success : "+success);
-				
+		
 		String msg = "회원등록에 실패하였습니다.";
 		String page = "JoinForm";
 		
 		if (success > 0) {
 			msg = "회원등록에 성공하였습니다.";
 			page = "Login";
-		}
+			String userId = dto.getId();	
+			logger.info("userId: " + userId);
+	        if (file != null && !file.isEmpty()) {
+	            // 입력받은 파일 이름
+	            String oriFileName = file.getOriginalFilename();
+	            // 확장자를 추출하기 위한 과정
+	            String ext = oriFileName.substring(oriFileName.lastIndexOf("."));
+	            // 새로운 파일 이름은?
+	            UUID uuid = UUID.randomUUID();
+	            String newFileName = uuid.toString() + ext;
+	            logger.info("파일 업로드 : "+oriFileName+"=>"+newFileName+"으로 변경될 예정");
+	            String classification = "프로필사진";
+	            try {
+	                byte[] bytes = file.getBytes();
+
+	                Path path = Paths.get(attachmentRoot + "/" + newFileName);
+	                Files.write(path, bytes);
+	                memberdao.userfileWrite(oriFileName, newFileName, classification, userId);
+	            } catch (IOException e) {
+	                e.printStackTrace();
+	            }
+	        }	        
+	    }
 		
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName(page);
-		mav.addObject("msg", msg);
+		mav.addObject("msg", msg);  
 		return mav;
 	}
 
@@ -209,6 +239,18 @@ public class MemberService {
 		return memberdao.userInfo(attribute);
 	}
 
+	public String userInfoUpdate(HashMap<String, String> params, MultipartFile file) {
+		String userId = params.get("userId");
+  		int row = memberdao.userInfoUpdate(params);
+  		String page = row>0 ? "redirect:/userinfo.go?userId="+userId : "redirect:/userinfo.go";
+  		logger.info("update => "+page);
+//  		 if(!file.getOriginalFilename().equals("")) {
+//  			String type="fileChange";
+//  			 photoSave(file,params,type); 
+//  		 }
+  		 
+  		return page;
+	}
 
 	public ModelAndView departmentlist(HashMap<String, String> params) {
 		
@@ -219,9 +261,5 @@ public class MemberService {
 		mav.addObject("departmentlist", departmentlist);
 		return mav;
 	}
-
-
-
-	
 
 }

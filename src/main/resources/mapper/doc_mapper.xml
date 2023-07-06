@@ -123,9 +123,9 @@
 			, ds.approval
 			, MIN(ds.order_rank) AS order_rank
 			FROM doc d 
-			INNER JOIN doc_status ds ON d.id = ds.doc_id 
+		INNER JOIN doc_status ds ON d.id = ds.doc_id 
 			WHERE d.member_id = #{loginId} AND d.status = 1 AND ds.approval = 0
-			GROUP BY d.id
+		GROUP BY d.id
 		ORDER BY d.create_at DESC
 	</select>
 	
@@ -162,9 +162,9 @@
 			, DATE_FORMAT(d.create_at, '%Y-%m-%d %T') AS create_at
 			, MIN(ds.order_rank) AS order_rank
 			FROM doc d 
-			INNER JOIN doc_status ds ON d.id = ds.doc_id 
+		INNER JOIN doc_status ds ON d.id = ds.doc_id 
 			WHERE ds.member_id = #{loginId} AND d.status = 1 AND ds.approval = 0
-			GROUP BY d.id
+		GROUP BY d.id
 		ORDER BY d.create_at DESC
 	</select>
 	
@@ -192,6 +192,15 @@
 		AND ds.order_rank = (SELECT MIN(ds2.order_rank) FROM doc_status ds2 WHERE ds2.doc_id = #{docId} AND ds2.member_id = #{loginId})
 	</update>
 	
+	<select id="getApprovalDTO" parameterType="hashmap">
+		SELECT a.* FROM approval a WHERE a.id = 
+			(SELECT ds.approval_id FROM doc_status ds 
+				WHERE ds.doc_id = #{docId}
+				AND ds.member_id = #{loginId} 
+			AND ds.order_rank = (SELECT MIN(ds2.order_rank) FROM doc_status ds2 WHERE ds2.doc_id = #{docId} AND ds2.member_id = #{loginId})
+		)
+	</select>
+	
 	<update id="requestDocApproval" parameterType="hashmap">
 		UPDATE doc_status ds SET ds.approval = #{chooseApproval}, ds.opinion = #{opinion}, ds.approval_at = #{currentTime} 
 			WHERE ds.doc_id = #{docId} 
@@ -199,4 +208,5 @@
 		AND ds.order_rank = (SELECT MIN(ds2.order_rank) FROM doc_status ds2 WHERE ds2.doc_id = #{docId} AND ds2.member_id = #{loginId} AND ds2.approval=0)
 	</update>
 	
+
 </mapper>
