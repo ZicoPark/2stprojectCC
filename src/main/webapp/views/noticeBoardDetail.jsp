@@ -32,7 +32,7 @@
 		    </tr>
 		    <tr>
 		       <th>작성자</th>
-		       <td>${noticeBoard.name}</td>
+		       <td>${detailno.name}</td>
 		    </tr>
 		    <tr>
 		       <th>조회수</th>
@@ -68,40 +68,30 @@
 		    	<th colspan="2"></th>
 		    </tr>
 		    <tbody>
-		    	
-		    <tr>
-                <th colspan="2" style="text-align:center">공지 확인 사원</th>
-                <td>      
-
-         <c:if test="${reader eq null }">
-            <tr> 
-               <td colspan="3" id="fornull" style="text-align:center">아직 읽은 사원이 없습니다.</td>         
-            </tr>
-         </c:if >
-         <c:if test="${reader.size()==0}">
-            <tr> 
-               <td colspan="3" id="forzero" style="text-align:center">아직 읽은 사원이 없습니다.</td>         
-            </tr>
-         </c:if >
-         <c:forEach items="${reader}" var="reader">
-            <tr>
-                <td style="text-align: center;">${reader.member_id}</td>
-            </tr>
-         </c:forEach>
-
-				   
-				   
-				   
-				   
-				   
-				   
-				   
-				   
-				   
-				   
-				   
-                </td>
-            </tr>  
+				<c:if test="${reader eq null}">
+				    <tr>
+				        <th style="text-align:left">공지 확인 사원</th>
+				        <td colspan="3" id="fornull" style="text-align:center">아직 읽은 사원이 없습니다.</td>
+				    </tr>
+				</c:if>
+				
+				<c:if test="${reader.size()==0}">
+				    <tr>
+				        <th style="text-align:center">공지 확인 사원</th>
+				        <td colspan="3" id="forzero" style="text-align:center">아직 읽은 사원이 없습니다.</td>
+				    </tr>
+				</c:if>
+				
+				<c:if test="${not empty reader}">
+				    <tr>
+				        <th style="text-align:left">공지 확인 사원</th>
+				        <td style="text-align:center">
+				            <c:forEach items="${reader}" var="employee">
+				                ${employee.name}<br>
+				            </c:forEach>
+				        </td>
+				    </tr>
+				</c:if>
 		    </tbody>
 		    
 		    <tr>

@@ -7,6 +7,10 @@
 	<select id="workHistoryList" resultType="kr.co.cc.work.dto.WorkDTO">
 		SELECT * FROM working_hour WHERE member_id=#{id} ORDER BY date DESC
 	</select>
+	
+	<select id="historyListFind" resultType="kr.co.cc.work.dto.WorkDTO">
+		SELECT * FROM working_hour WHERE member_id=#{param2} AND date LIKE CONCAT(#{param1}, '%') ORDER BY date DESC
+	</select>
 
 	<select id="timeGoBefore" resultType="int">
 		SELECT COUNT(member_id) FROM working_hour WHERE member_id=#{param1} AND date=#{param2}

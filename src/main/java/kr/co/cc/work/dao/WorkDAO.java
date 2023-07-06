@@ -94,6 +94,8 @@ public interface WorkDAO {
 
 	void workHourChange(String regist_id, String name, String start_at, String end_at);
 
+	ArrayList<WorkDTO> historyListFind(String value, String id);
+
 
 
 
