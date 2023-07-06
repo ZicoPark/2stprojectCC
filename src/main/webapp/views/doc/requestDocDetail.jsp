@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
@@ -11,54 +12,63 @@
 </style>
 </head>
 <body>
-	<h1>결재요청문서</h1>
-	<br>
-	<br>
-	<input type="text" value="${doc.id }" hidden="true"/>
-	제목 : <input type="text" value="${doc.subject }" readonly="readonly"/>
-	<br>
-	기안자 : <input type="text" value="${doc.create_member_name }" readonly="readonly"/>
-	<br>
-	결재요청시각 : ${doc.create_at }
-	생산부서 : ${doc.production_dept_name }
-	<br>
-	공개범위 : 
-	<c:if test="${doc.public_range eq 'all' }">
-		전체공개
-	</c:if>
-	<c:if test="${doc.public_range eq 'dept' }">
-		부서별공개
-	</c:if>
-	<br>
-	결재단계 : ${doc. approval_kind_name}대기 중
-	<br>
-	처리자 : ${doc.approval_member_job_name } ${doc.approval_member_name }
-	<br>
-	읽음여부 : 
-	<c:if test="${doc.read_chk eq true }">
-		읽음
-	</c:if>
-	<c:if test="${doc.read_chk eq false }">
-		안읽음
-	</c:if>
-	<br>
-	문서종류 : <input type="text" value="${doc.doc_form_name }" readonly="readonly"/>
-	<br>
-	<div id="div_editor">
-		<!-- 에디터 안에 들어갈 자리 -->
+	<jsp:include page="../index.jsp"/>
+	<!-- Site wrapper -->
+	<div class="wrapper">
+		<div class="content-wrapper">
+			<section class="content-header">
+				<h1>결재요청문서</h1>
+			</section>
+			<!-- Main content -->
+			<section class="content">
+				<input type="text" value="${doc.id }" hidden="true"/>
+				제목 : <input type="text" value="${doc.subject }" readonly="readonly"/>
+				<br>
+				기안자 : <input type="text" value="${doc.create_member_name }" readonly="readonly"/>
+				<br>
+				결재요청시각 : ${doc.create_at }
+				생산부서 : ${doc.production_dept_name }
+				<br>
+				공개범위 : 
+				<c:if test="${doc.public_range eq 'all' }">
+					전체공개
+				</c:if>
+				<c:if test="${doc.public_range eq 'dept' }">
+					부서별공개
+				</c:if>
+				<br>
+				결재단계 : ${doc. approval_kind_name}대기 중
+				<br>
+				처리자 : ${doc.approval_member_job_name } ${doc.approval_member_name }
+				<br>
+				읽음여부 : 
+				<c:if test="${doc.read_chk eq true }">
+					읽음
+				</c:if>
+				<c:if test="${doc.read_chk eq false }">
+					안읽음
+				</c:if>
+				<br>
+				문서종류 : <input type="text" value="${doc.doc_form_name }" readonly="readonly"/>
+				<br>
+				<div id="div_editor">
+					<!-- 에디터 안에 들어갈 자리 -->
+				</div>
+				<textarea hidden="true" id="content">${doc.content }</textarea>
+				<c:if test="${attachmentList.size() == 0 }">
+					<div>첨부파일 없음.</div>
+				</c:if>
+				<c:if test="${attachmentList.size() > 0 }">
+					<c:forEach items="${attachmentList }" var="i">
+						<div>
+							<a href="attachmentDownload.do?oriFileName=${i.ori_file_name }&attachmentId=${i.id }">${i.ori_file_name }</a>
+						</div>
+					</c:forEach>
+				</c:if>
+				<input type="button" onclick="location.href='/requestDocList.go'" value="리스트"/>
+			</section>
+		</div>
 	</div>
-	<textarea hidden="true" id="content">${doc.content }</textarea>
-	<c:if test="${attachmentList.size() == 0 }">
-		<div>첨부파일 없음.</div>
-	</c:if>
-	<c:if test="${attachmentList.size() > 0 }">
-		<c:forEach items="${attachmentList }" var="i">
-			<div>
-				<a href="attachmentDownload.do?oriFileName=${i.ori_file_name }&attachmentId=${i.id }">${i.ori_file_name }</a>
-			</div>
-		</c:forEach>
-	</c:if>
-	<input type="button" onclick="location.href='/requestDocList.go'" value="리스트"/>
 </body>
 <script type="text/javascript" src="/richtexteditor/rte.js"></script>  
 <script type="text/javascript" src='/richtexteditor/plugins/all_plugins.js'></script>

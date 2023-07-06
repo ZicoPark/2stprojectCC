@@ -59,12 +59,6 @@ public class DocController {
 		return service.docWrite(params, approvalList, attachment, session);
 	}
 	
-	@RequestMapping(value="/docApprovalWaitList.go")
-	public ModelAndView docApprovalWaitList() {
-		
-		return null;
-	}
-	
 	@RequestMapping(value="/tempDocList.go")
 	public ModelAndView tempDocList(HttpSession session) {
 		
