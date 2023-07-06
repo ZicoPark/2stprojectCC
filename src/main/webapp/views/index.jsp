@@ -325,21 +325,9 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="/" class="nav-link">
+                <a href="/CalenderList.go" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
-                  <p>부제목1</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="/index2.go" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>부제목2</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="../../index3.jsp" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>부제목3</p>
+                  <p>캘린더</p>
                 </a>
               </li>
             </ul>

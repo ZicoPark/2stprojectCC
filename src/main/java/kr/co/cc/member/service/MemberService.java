@@ -93,15 +93,16 @@ public class MemberService {
 	}
 
 	
-	public Map<String, Object> login(String user_id, String password,String id) {
+	public boolean login(String user_id, String password,String id) {
 		
 		Map<String, Object> enc_pw = memberdao.login(user_id);
 	
 		if (enc_pw != null && !enc_pw.isEmpty()) {
 	        boolean matches = encoder.matches(password, enc_pw.get("password").toString());
+	        return matches;
 	    }
 		
-	    return enc_pw;
+	    return false;
 	}
 	
 	

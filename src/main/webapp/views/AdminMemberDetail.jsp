@@ -1,7 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ page import="kr.co.cc.admin.dto.AdminDTO" %>
 <!DOCTYPE html>
+<%
+	AdminDTO dto = new AdminDTO();
+%>
 <html lang="en">
 <style>
 	#btn, #list{
@@ -101,18 +105,18 @@
 							부서 : &nbsp;&nbsp;&nbsp;&nbsp; ${detail.dept_name}
 							<select name="dept" class="dept">
 							    <option value="총무팀">총무팀</option>
+								<option value="기획팀">기획팀</option>
 								<option value="촬영팀">촬영팀</option>
 								<option value="편집팀">편집팀</option>
-								<option value="기획팀">기획팀</option>
 							</select>
 						</td>
 						<td>
 							직급 : &nbsp;&nbsp;&nbsp;&nbsp; ${detail.job_name}
 							<select name="job" class="job">
-								<option value="사원" >사원</option>
-								<option value="대리" >대리</option>
+								<option value="팀원" >팀원</option>
 								<option value="팀장" >팀장</option>
-								<option value="대표이사" >대표이사</option>
+								<option value="이사" >이사</option>
+								<option value="사장" >사장</option>
 							</select>
 						</td>
 						<td>
