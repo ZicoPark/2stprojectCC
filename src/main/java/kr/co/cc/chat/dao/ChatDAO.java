@@ -19,19 +19,19 @@ public interface ChatDAO {
 	
 	ChatDTO room_list(String chat_room_id);
 	
+	ArrayList<ChatDTO> chatHistory(String chat_room_id);
 	
-	
-	
+	ArrayList<ChatDTO> chatLoad(String chat_room_id);
 	
 	
 
-	ArrayList<ChatDTO> chatHistory(String chat_room_id);
+	
 
 	
 
 	int chatStored(HashMap<String, Object> map);
 
-	ArrayList<ChatDTO> chatLoad(String id);
+	
 
 	
 
