@@ -47,9 +47,7 @@ public class AdminController {
 	@PostMapping("/MemberUpdate.go")
 	public String memberUpdate(HttpServletRequest request) {
 	    String user_id = request.getParameter("id");
-	    logger.info("id확인 : "+user_id);
 	    String jobName = request.getParameter("job");
-	    // logger.info("jobName 확인 : "+jobName);
 	    String deptName = request.getParameter("dept");
 	    String[] statusArray = request.getParameterValues("status");
 	    String[] adminArray = request.getParameterValues("admin");
@@ -67,7 +65,7 @@ public class AdminController {
 				 */
 	    }
 
-	    if (adminArray != null && adminArray.length > 0) {
+	    if (adminArray != null && adminArray.length > 0) {	
 	        String adminStr = adminArray[0];
 	        if (adminStr.equalsIgnoreCase("1")) {
 	            admin = true;
@@ -80,9 +78,12 @@ public class AdminController {
 	    AdminDTO dto = new AdminDTO();
 	    dto.setUser_id(user_id);
 	    dto.setJob_level_id(jobName);
+	    dto.setJob_name(jobName);
 	    dto.setDept_id(deptName);
+	    dto.setDept_name(deptName);
 	    dto.setStatus(status);
 	    dto.setAdmin_chk(admin);
+	    // logger.info("dto확인 : "+dto);
 	    
 	    return service.MemberUpdate(dto, user_id);
 	}
