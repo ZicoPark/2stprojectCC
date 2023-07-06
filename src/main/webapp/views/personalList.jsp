@@ -40,7 +40,6 @@
       <div class="card">
 	      <div class="card-header ui-sortable-handle">
 		      <h3 class="card-title">
-			      <i class="ion ion-clipboard mr-1"></i>
 			<!--       To Do List -->
 		      </h3>
 		   		   <button onclick="location.href='personalWrite.go'" class="btn btn-primary float-right"><i class="fas fa-plus"></i> Add item</button>
@@ -61,11 +60,11 @@
  								<c:forEach items="${list}" var="personal">
 									<tr>
 										<td>
-											 <div class="icheck-primary d-inline ml-2 checkbox-line">
+<!-- 											 <div class="icheck-primary d-inline ml-2 checkbox-line">
 											    <input type="checkbox" value="" name="todo1" id="todoCheck1" onchange="toggleCheckbox(this)">
 											    <label for="todoCheck1"></label> 
 
-											</div>
+											</div> -->
 										</td>
 										<td><a>${personal.create_at}</a></td>
 										<td>${personal.title}</td>

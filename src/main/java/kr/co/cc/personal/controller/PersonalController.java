@@ -68,9 +68,9 @@ public class PersonalController {
 	    dto.setStart_at(params.get("start_at"));
 	    dto.setEnd_at(params.get("end_at"));
 
-	    String projectId = service.pwrite(dto, id);
-	    String project_id=dto.getId();
-	    logger.info("project_id"+project_id);
+	    String personalId = service.pwrite(dto, id);
+	    String personal_id=dto.getId();
+	    logger.info("personalId"+personal_id);
 
   		return "redirect:/personal.go";
   	}

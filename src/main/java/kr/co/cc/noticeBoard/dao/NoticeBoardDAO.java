@@ -28,6 +28,14 @@ public interface NoticeBoardDAO {
 
    int write(NoticeBoardDTO dto);
 
+ArrayList<NoticeBoardDTO> relist();
+
+ArrayList<NoticeBoardDTO> rlist(String id);
+
+int rcount(String loginId, String id);
+
+void getinfo(String loginId, String id);
+
    
 
 
