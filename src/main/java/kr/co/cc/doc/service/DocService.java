@@ -654,6 +654,15 @@ public class DocService {
 		
 		return mav;
 	}
+	
+	public HashMap<String, Object> docWithDraw(String docId) {
+		// 회수기능을 위해 order_rank가 0인 결재자의 읽음 여부를 withdrawChk라는 이름으로 가져온다.
+		String withDrawChk = dao.getWithDrawChk(docId);
+		
+		
+		
+		return null;
+	}
 
 	public ModelAndView requestDocWaitList(HttpSession session) {
 		
@@ -753,14 +762,13 @@ public class DocService {
 		
 		dao.docWriteETC(params.get("docId"), dateWritedContent);
 		
-		
 		// 마지막으로 doc_status 테이블에 update를 한다.
 		dao.requestDocApproval(params);
 		
-		
-		
 		return mav;
 	}
+
+
 
 
 

@@ -51,6 +51,7 @@
 				<br>
 				문서종류 : <input type="text" value="${doc.doc_form_name }" readonly="readonly"/>
 				<br>
+				<input type="button" value="문서회수" onclick="withDraw()"/>
 				<div id="div_editor">
 					<!-- 에디터 안에 들어갈 자리 -->
 				</div>
@@ -85,5 +86,26 @@ var editor = new RichTextEditor("#div_editor", config);
 var content = document.getElementById('content').value;
 editor.setHTMLCode(content); // editor에 내용 넣기
 editor.setReadOnly();
+
+function withDraw(){
+// 비동기방식으로 withDrawChk와 읽은시간을 가져온다.
+//	var withDrawChk = '${withDrawChk}';
+	var docId = '${doc.id }';
+	$.ajax({
+		type:'post',
+		url:'docWithDraw.ajax',
+		data:{
+			docId:docId
+		},
+		dataType:'json',
+		success:function(data){
+			console.log(data);
+		},
+		error:function(e){
+			console.log(e);
+		}
+	});
+	
+}
 </script>
 </html>
