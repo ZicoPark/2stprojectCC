@@ -56,6 +56,8 @@ public interface DocDAO {
 	ArrayList<HashMap<String, String>> getRequestDocList(String loginId);
 
 	HashMap<String, String> requestDocDetail(String docId);
+	
+	String getWithDrawChk(String docId);
 
 	ArrayList<HashMap<String, String>> requestDocWaitList(String loginId);
 
@@ -66,6 +68,8 @@ public interface DocDAO {
 	ApprovalDTO getApprovalDTO(HashMap<String, String> params);
 
 	void requestDocApproval(HashMap<String, String> params);
+
+	
 
 
 

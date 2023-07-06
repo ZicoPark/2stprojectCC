@@ -33,6 +33,7 @@
 		width : 700px;
 		height : 100%;
 		float : left;
+		overflow: auto;
 	}
 	
 	.main-sidebar {
@@ -71,27 +72,26 @@
     <section class="content">
     
     <!-- 채팅방 생성 -->
-    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#chatCreateModal" onclick="create()">채팅방 생성하기</button>
+    <button type="button" class="btn btn-block btn-primary" data-bs-toggle="modal" data-bs-target="#chatCreateModal" onclick="create()">채팅방 생성하기</button>
     
     <!-- 채팅방 초대 -->
-    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#chatInviteModal" onclick="invite()">초대하기</button>
+    <button type="button" class="btn btn-block btn-primary" data-bs-toggle="modal" data-bs-target="#chatInviteModal" onclick="invite()">초대하기</button>
     
     <!-- 채팅방 나가기 -->
-    <button onclick="chat_room_exit()">채팅방 나가기</button>
+    <button class="btn btn-block btn-danger" onclick="chatRoomExit()">채팅방 나가기</button>
     
     
     
-    <div id="chat_list">
-    
+    <div id="chat_list">    
     	<!-- 채팅방 리스트 -->
 	    <div id="chat_room"></div>
 	    
 	    <!-- 채팅방 내용 -->
 	    <div id="chat_history">
-			<div class="direct-chat-msg right">
+			<div class="direct-chat-msg left">
 				<div class="direct-chat-infos clearfix">
-					<span class="direct-chat-name float-right">CEO</span>
-					<span class="direct-chat-timestamp float-left">24 July 11:05 am</span>
+					<span class="direct-chat-name float-left">CEO</span>
+					<span class="direct-chat-timestamp float-right">24 July 11:05 am</span>
 				</div>
 				
 				<img class="direct-chat-img" src="dist/img/user3-128x128.jpg" alt="message user image">
@@ -99,13 +99,13 @@
 						 Creator Company에 오신 것을 환영합니다 !
 				</div>
 			</div>
-		</div>	
-	
+		</div>
+		
 		<!-- 채팅 입력 -->
 		<input type="text" id="content">
-		<button onclick="sendMessage()">전송</button>
-		
+		<button class="btn btn-block btn-success" onclick="sendMessage()">전송</button>
 	</div>
+	
     </section>
   </div>
 </div>
@@ -396,6 +396,33 @@
 	    }
 	    //event.preventDefault();
 	}
+	
+	
+	function chatRoomExit() {
+		console.log('chatRoomExit() 호출');
+		console.log('chat_room_id : ' + chat_room_id);
+		$.ajax({
+			url:'chatRoomExit.ajax',
+			type:'post',
+			data:{
+				'member_id': "${sessionScope.id}",
+				'chat_room_id' : chat_room_id				
+			},
+			dataType:'json',
+			success:function(data){
+				console.log('chatRoomExit.ajax : ' + data);
+				console.log('chatRoomExit.ajax 통신 성공');
+			},
+			error:function(e){
+				console.log('chatRoomExit.ajax 통신 실패');
+				console.log(e);
+			}
+		});
+	}
+	
+	
+	
+	
 	
 	
 	

@@ -52,9 +52,16 @@
 	
 	<insert id="chatStored" parameterType="hashmap">
 		INSERT INTO chat(send_id, chat_room_id, content, send_time)
-		VALUES(#{send_id}, #{chat_room_id}, #{content}, now())
-	
+		VALUES(#{send_id}, #{chat_room_id}, #{content}, now())	
 	</insert>
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 	
