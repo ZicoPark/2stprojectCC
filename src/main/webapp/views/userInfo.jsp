@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -25,62 +25,71 @@
     <section class="content">
     	
       <table class="table table-bordered table-hover dataTable dtr-inline">
-         <tr>
-      		<td colspan="2">
-				<img width="200" src="photoView.do?path=${member.photoName}"/>
-			</td>
-			<td></td>
+         <tr> 
+      		<th rowspan="10">
+				<img width="500" height="500" src="photoView.do?path=${member.photoName}"/>
+			</th>
          </tr>
-
          <tr>
             <th>아이디</th>
             <td>
-               <input type="text" id="id" name="id" value="${member.user_id}" readonly/>                           
+               ${member.user_id}                    
             </td>
          </tr>
          <tr>
             <th>비밀번호</th>
             <td>
-               <input type="password" id="password" value="${member.password}" readonly/>                              
+               ********
+               <button class="btn btn-outline-dark" onclick="location.href='userinfopassword.go'">비밀번호 변경</button>         
             </td>
          </tr>
          <tr>
             <th>이름</th>
             <td>
-               <input type="text" id="name" value="${member.name}" readonly/>               
+               ${member.name}               
             </td>            
          </tr>
          <tr>
             <th>생년월일</th>               
-            <td><input type="text" id ="birth_at" value="${member.birth_at}" readonly/></td>
+            <td>${member.birth_at}</td>
          </tr>
          <tr>
             <th>입사일</th>               
-            <td><input type="text" id ="hire_at" value="${member.hire_at}" readonly/></td>
+            <td>${member.hire_at}</td>
          </tr>     
          <tr>
             <th>직급</th>
             <td>
-				<input type="text" id ="job_level_id " value="${member.job_level_id}" readonly/>
+				<c:choose>
+					<c:when test="${member.job_level_id eq '8ade9167-1703-11ee-973f-0242ac110002'}">팀원</c:when>
+					<c:when test="${member.job_level_id eq '8bbf948d-1703-11ee-973f-0242ac110002'}">팀장</c:when>
+					<c:when test="${member.job_level_id eq '8c4e7542-1703-11ee-973f-0242ac110002'}">이사</c:when>
+					<c:when test="${member.job_level_id eq '8cdd8503-1703-11ee-973f-0242ac110002'}">사장</c:when>
+				</c:choose>
 	   	   </td>
          </tr>
          <tr>
             <th>부서</th>
-            <td>
-				<input type="text" id ="dept_id" value="${member.dept_id}" readonly/>
+			<td>
+				<c:choose>
+					<c:when test="${member.dept_id eq '8e5f3282-1703-11ee-973f-0242ac110002'}">총무팀</c:when>
+					<c:when test="${member.dept_id eq '8ee07433-1703-11ee-973f-0242ac110002'}">기획팀</c:when>
+					<c:when test="${member.dept_id eq '8f963853-1703-11ee-973f-0242ac110002'}">촬영팀</c:when>
+					<c:when test="${member.dept_id eq '9022f64a-1703-11ee-973f-0242ac110002'}">편집팀</c:when>
+				</c:choose>
 			</td>
          </tr>
          <tr>
             <th>이메일</th>
-            <td><input type="email" id="email" value="${member.email}" readonly/></td>
+            <td>${member.email}</td>
          </tr>
          <tr>
             <th>연락처</th>
-            <td><input type="text" id="phone" value="${member.phone}" readonly/></td>
+            <td>${member.phone}</td>
          </tr>
 
          <tr>      
-            <th colspan="2">
+            <th colspan="4">
                <button class="btn btn-outline-dark" onclick="location.href='userinfoupdate.go'">회원정보 수정</button>
             </th>
             </tr>

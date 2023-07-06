@@ -20,7 +20,7 @@
 <div class="wrapper">
   <div class="content-wrapper">
     <section class="content-header">
-            <h1>알림 리스트</h1>         
+            <h1>이전 알림</h1>         
     </section>
     <!-- Main content -->
     <section class="content">
@@ -42,7 +42,7 @@
 				</tr>
 			</thead>		
 			<tbody>
-				<c:if test="${noticeList eq null}">
+<%-- 				<c:if test="${noticeList eq null}">
 					<tr>
 						<th colspan="5">알림이 없습니다.</th>
 					</tr>
@@ -57,7 +57,7 @@
 						<td>${alarmList.alarm_time}</td>
 					</tr>
 					
-				</c:forEach>
+				</c:forEach> --%>
 			</tbody>
 		</table>
     </section>

@@ -59,6 +59,7 @@ public class MemberController {
 	public ModelAndView join(@RequestParam HashMap<String, String> params, MultipartFile file, MemberDTO dto) {
 		logger.info("dto : " + dto.getUser_id());
 		logger.info("file : " + file);
+		logger.info("params: " + params);
 		return memberservice.join(params, file,dto);
 	}
 	
@@ -107,7 +108,7 @@ public class MemberController {
 	public String login(String user_id, String password, Model model, HttpSession session, String id) {
 		String page = "Login";
 		
-		if (memberservice.login(user_id,password,id) != null){
+		if (memberservice.login(user_id,password,id) == true){
 			page = "redirect:/main.go";
 			id = memberservice.loginid(user_id);
 			session.setAttribute("id", id);
