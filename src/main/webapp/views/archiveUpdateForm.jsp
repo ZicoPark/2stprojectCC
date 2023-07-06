@@ -64,7 +64,7 @@
 				    </c:if>
 				</div>
 								
-				<input type="hidden" name="deletedFiles" id="deletedFiles">
+				<input type="text" name="deletedFiles" id="deletedFiles">
 
               <!-- /.card-body -->
               <div class="card-footer">
@@ -133,46 +133,47 @@
 	    }
 	  });
 
-	  // 첨부파일 목록 보여주고 안 보여주고 
-	    function displayFileNames(event) {
-	        var fileNamesDiv = document.getElementById('fileNames');
+  // 첨부파일 목록 보여주고 안 보여주고 
+    function displayFileNames(event) {
+        var fileNamesDiv = document.getElementById('fileNames');
 
-	        var files = Array.from(event.target.files);
-	        files.forEach(function(file) {
-	            var fileNameDiv = document.createElement('div');
-	            var fileNameSpan = document.createElement('span');
-	            fileNameSpan.innerText = file.name;
+        var files = Array.from(event.target.files);
+        files.forEach(function(file) {
+            var fileNameDiv = document.createElement('div');
+            var fileNameSpan = document.createElement('span');
+            fileNameSpan.innerText = file.name;
 
-	            var cancelIcon = document.createElement('i');
-	            cancelIcon.className = 'fas fa-times cancel-icon';
-	            cancelIcon.addEventListener('click', function() {
-	                removeFile(this);
-	            });
+            var cancelIcon = document.createElement('i');
+            cancelIcon.className = 'fas fa-times cancel-icon';
+            cancelIcon.addEventListener('click', function() {
+                removeFile(this);
+            });
 
-	            fileNameDiv.appendChild(fileNameSpan);
-	            fileNameDiv.appendChild(cancelIcon);
-	            fileNamesDiv.appendChild(fileNameDiv);
-	        });
-	    }
+            fileNameDiv.appendChild(fileNameSpan);
+            fileNameDiv.appendChild(cancelIcon);
+            fileNamesDiv.appendChild(fileNameDiv);
+        });
+    }
 
+	// removeFile 값 컨트롤러로 보내기 위해서 value 값 가져오는 거! 
+    function removeFileEvent(icon) { // this 로 받았던 아이콘을 매개변수로 받는 함수고
+        var fileNameDiv = $(icon).parent();  // 아이콘의 부모요소를 찾아내줌
+        var fileNameInput = fileNameDiv.find('input[type="text"]'); // 그 중에 타입이 텍스트인 놈 찾아내줌
+        var newFileName = fileNameInput.attr('value'); // value 값을 찾아주면 그게 newFileName 에 담김
 
-	    function removeFileEvent(icon) {
-	        var fileNameDiv = $(icon).parent();
-	        var fileNameInput = fileNameDiv.find('input[type="text"]');
-	        var newFileName = fileNameInput.attr('value');
+        console.log(newFileName);
+        fileNameDiv.remove(); // 부모요소 삭제해줌 div 삭제하면 그 안에 값들 삭제됨
 
-	        console.log(newFileName);
-	        fileNameDiv.remove();
-
-	        var deletedFilesInput = document.getElementById('deletedFiles');
-	        var deletedFiles = deletedFilesInput.value;
-	        if (deletedFiles) {
-	          deletedFiles += ',' + newFileName;
-	        } else {
-	          deletedFiles = newFileName;
-	        }
-	        deletedFilesInput.value = deletedFiles;
-	      }
+        var deletedFilesInput = document.getElementById('deletedFiles'); //deletedFiles라는 id를 가진놈 가져옴 => 삭제된 파일 이름들을 저장해줌 
+        var deletedFiles = deletedFilesInput.value; // value 값 가져와주고 => 삭제된 놈 이름 
+        // 처리단계
+        if (deletedFiles) { 
+          deletedFiles += ',' + newFileName; 
+        } else { // 값이 없으면 삭제될 파일 없음 -> newFileName 만 넣어줌
+          deletedFiles = newFileName;
+        }
+        deletedFilesInput.value = deletedFiles; 
+      }
 
 </script>
 

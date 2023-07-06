@@ -150,6 +150,10 @@
 		WHERE d.id = #{docId} AND d.status = 1 AND ds.approval = 0
 	</select>
 	
+	<select id="getWithDrawChk" resultType="string">
+		SELECT ds.read_chk FROM doc_status ds WHERE ds.doc_id = #{docId} AND ds.order_rank = 0
+	</select>
+	
 	<select id="requestDocWaitList" parameterType="string" resultType="hashmap">
 		SELECT d.id
 			, d.subject

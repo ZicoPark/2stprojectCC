@@ -33,6 +33,7 @@
 		width : 700px;
 		height : 100%;
 		float : left;
+		overflow: auto;
 	}
 	
 	.main-sidebar {
@@ -71,27 +72,26 @@
     <section class="content">
     
     <!-- 채팅방 생성 -->
-    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#chatCreateModal" onclick="create()">채팅방 생성하기</button>
+    <button type="button" class="btn btn-block btn-primary" data-bs-toggle="modal" data-bs-target="#chatCreateModal" onclick="create()">채팅방 생성하기</button>
     
     <!-- 채팅방 초대 -->
-    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#chatInviteModal" onclick="invite()">초대하기</button>
+    <button type="button" class="btn btn-block btn-primary" data-bs-toggle="modal" data-bs-target="#chatInviteModal" onclick="invite()">초대하기</button>
     
     <!-- 채팅방 나가기 -->
-    <button onclick="chat_room_exit()">채팅방 나가기</button>
+    <button class="btn btn-block btn-danger" onclick="chatRoomExit()">채팅방 나가기</button>
     
     
     
-    <div id="chat_list">
-    
+    <div id="chat_list">    
     	<!-- 채팅방 리스트 -->
 	    <div id="chat_room"></div>
 	    
 	    <!-- 채팅방 내용 -->
 	    <div id="chat_history">
-			<div class="direct-chat-msg right">
+			<div class="direct-chat-msg left">
 				<div class="direct-chat-infos clearfix">
-					<span class="direct-chat-name float-right">Sarah Bullock</span>
-					<span class="direct-chat-timestamp float-left">23 Jan 2:05 pm</span>
+					<span class="direct-chat-name float-left">CEO</span>
+					<span class="direct-chat-timestamp float-right">24 July 11:05 am</span>
 				</div>
 				
 				<img class="direct-chat-img" src="dist/img/user3-128x128.jpg" alt="message user image">
@@ -99,13 +99,13 @@
 						 Creator Company에 오신 것을 환영합니다 !
 				</div>
 			</div>
-		</div>	
-	
+		</div>
+		
 		<!-- 채팅 입력 -->
 		<input type="text" id="content">
-		<button onclick="sendMessage()">전송</button>
-		
+		<button class="btn btn-block btn-success" onclick="sendMessage()">전송</button>
 	</div>
+	
     </section>
   </div>
 </div>
@@ -174,11 +174,12 @@
 <script src="../../dist/js/adminlte.min.js"></script>
 <!-- AdminLTE for demo purposes -->
 <script src="../../dist/js/demo.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
 <!-- JavaScript Bundle with Popper -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
 </body>
 <script>
-
 	var chat_room_id;
 	var name='';
 	var socket;
@@ -228,7 +229,6 @@
 			}
 		});
 	}
-	
 	
 	$('#send-button-create').click(function() {
 		var member_id_array = [];
@@ -294,17 +294,9 @@
 			}
 		});
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	function chatOpen(chat_room_id) {
+		
+	function chatOpen(id) {
+		chat_room_id = id;
 		console.log(chat_room_id);
 		$('#chat_history').html('');
 		$.ajax({
@@ -322,32 +314,33 @@
 			}
 		});
 		
-		<!--
+		// SockJS를 사용하여 WebSocket 연결
 		socket= new SockJS('/ws-stomp');
+		// Stomp.over(socket)은 생성된 WebSocket을 사용하여 Stomp 클라이언트(like 라이브러리)를 생성
 		stompClient= Stomp.over(socket);
+		// 디버그 출력을 비활성화
 		// stompClient.debug = null
-		// 콘솔에 찍히는 debug disable 시킨다
+		
+		// Stomp 클라이언트로 서버에 연결
+		// StompClient.connect()를 호출하여 서버에 연결		
+		// StompClient.subscribe()를 사용하여 특정 주제를 구독하여 서버로부터 메시지를 수신
 		stompClient.connect({}, function (frame) {
 	        console.log('Connected: ' + frame);
 	        // var connid = utils.random_string(8); 8자리 랜덤생성?
 	        console.log(socket._transport.url);
-	        // 구독 설정
-	        stompClient.subscribe('/sub/chat/'+id, function (message) {
-	            console.log('Received message: ' + JSON.parse(message.body));
-	            var body = JSON.parse(message.body);
-	            var content='<div>'+body.send_id+' : '+body.content+'</div>';
-	            //$('#chat_history').append(content);
+	     	// '/sub/chat/'+id' 주제를 구독하여 채팅 메시지를 수신
+	        stompClient.subscribe('/sub/chat/'+chat_room_id, function (message) {
+	            
+	            // 채팅 내역 불러오기 AJAX 요청
 	            $.ajax({
-	        		url:'chatStored.ajax',
+	        		url:'chatLoad.ajax',
 	        		type:'post',
-	        		data:id,
+	        		data:chat_room_id,
 	        		dataType:'json',
 	        		contentType: 'application/json; charset=utf-8',
-	        		/**/
 	        		success:function(data){
 	        			console.log(data);
 	        			$('#chat_history').html('');
-	        			
 	        			chatHistory(data);
 	        			
 	        		},
@@ -358,8 +351,74 @@
 	            // 메시지 처리 로직 추가
 	        });
 	    });
+	}	
+	
+	function chatHistory(data) {
+		data.forEach(function(item) {
+			var content = '';
+			
+			if("${sessionScope.id}" == item.send_id) {
+				console.log('나' + item.send_id);
+				content+='<div class="direct-chat-msg right">';
+				content+='<div class="direct-chat-infos clearfix">';
+				content+='<span class="direct-chat-name float-right">'+item.name+' ('+item.dept_name+')'+'</span>';
+				content+='<span class="direct-chat-timestamp float-left">'+item.send_time+'</span>';
+			}else {
+				console.log('상대' + item.send_id);
+				content+='<div class="direct-chat-msg">';
+				content+='<div class="direct-chat-infos clearfix">';
+				content+='<span class="direct-chat-name float-left">'+item.name+' ('+item.dept_name+')'+'</span>';
+				content+='<span class="direct-chat-timestamp float-right">'+item.send_time+'</span>';
+			}
+			
+			content+='</div>';
+			content+='<img class="direct-chat-img" src="dist/img/user1-128x128.jpg" alt="message user image">';
+			content+='<div class="direct-chat-text">'+item.content+'</div></div>';			
+
+			$('#chat_history').append(content);
+		});
+	}	
+	
+	
+	function sendMessage(event) {
+	    var messageContent = $('#content').val();
+
+	    if (messageContent && stompClient) {
+	    	console.log('sendMessage 시작');
+	        var chatMessage = {
+	            chat_room_id: chat_room_id,
+	            send_id: "${sessionScope.id}",
+	            content: $('#content').val()
+	        };
+
+	        stompClient.send("/pub/chat/sendMessage", {}, JSON.stringify(chatMessage));
+	        $('#content').val('');
+	    }
+	    //event.preventDefault();
 	}
-	 -->
+	
+	
+	function chatRoomExit() {
+		console.log('chatRoomExit() 호출');
+		console.log('chat_room_id : ' + chat_room_id);
+		$.ajax({
+			url:'chatRoomExit.ajax',
+			type:'post',
+			data:{
+				'member_id': "${sessionScope.id}",
+				'chat_room_id' : chat_room_id				
+			},
+			dataType:'json',
+			success:function(data){
+				console.log('chatRoomExit.ajax : ' + data);
+				console.log('chatRoomExit.ajax 통신 성공');
+			},
+			error:function(e){
+				console.log('chatRoomExit.ajax 통신 실패');
+				console.log(e);
+			}
+		});
+	}
 	
 	
 	
@@ -367,10 +426,7 @@
 	
 	
 	
-	
-	
-	
-	
+	<!--
 	function invite() {
 		console.log('invite() 호출');
 		$.ajax({
@@ -411,7 +467,7 @@
 		});
 		
 	}
-	
+	-->
 
 </script>
 </html>

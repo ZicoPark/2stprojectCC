@@ -44,7 +44,47 @@
     <section class="content">
       <div class="container-fluid">
         <div class="row">
- 
+	<!-- row 밑에  -->
+	<div class="col-md-3">
+	<a href="/msWrite.go" class="btn btn-primary btn-block mb-3">쪽지 작성</a>
+	<div class="card">
+	<div class="card-header">
+	<h3 class="card-title">보관함</h3>
+	<div class="card-tools">
+	<button type="button" class="btn btn-tool" data-card-widget="collapse">
+	<i class="fas fa-minus"></i>
+	</button>
+	</div>
+	</div>
+	<div class="card-body p-0">
+	<ul class="nav nav-pills flex-column">
+	<li class="nav-item active">
+	<a href="#" class="nav-link">
+	<i class="far fa-envelope"></i> 전체 쪽지
+	<span class="badge bg-primary float-right">12</span>
+	</a>
+	</li>
+	<li class="nav-item">
+	<a href="/msReceiveList.go" class="nav-link">
+	<i class="fas fa-inbox"></i> 받은 쪽지
+	</a>
+	</li>
+	<li class="nav-item">
+	<a href="/msSendList.go" class="nav-link">
+	<i class="far fa-file-alt"></i> 보낸 쪽지
+	</a>
+	</li>
+	<li class="nav-item">
+	<a href="#" class="nav-link">
+	<i class="far fa-trash-alt"></i> 휴지통
+	</a>
+	</li>
+	</ul>
+	</div>
+	
+	</div>
+	</div> 
+	<!-- col-md-9 위에  --> 
         <div class="col-md-9">
           <div class="card card-primary card-outline">
             <div class="card-header">
@@ -60,7 +100,7 @@
               <div class="mailbox-read-info">
                 <h5>${detailms.title}</h5>
                 <h6>From: ${detailms.from_id} ${detailms.name}
-                  <span class="mailbox-read-time float-right">${detailms.send_date}</span></h6>
+                  <span class="mailbox-read-time float-right">${detailms.send_at}</span></h6>
               </div>
      
               </div>

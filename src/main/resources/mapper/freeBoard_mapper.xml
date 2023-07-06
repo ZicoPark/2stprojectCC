@@ -74,6 +74,47 @@
 	</select>	
 
 
-
+	<!-- 댓글 조회 -->
+	<select id="replyList" resultType="kr.co.cc.freeBoard.dto.FreeBoardDTO">
+		SELECT r.id ,r.free_board_id ,r.member_id ,r.content ,r.create_at, m.user_id , m.name from reply r 
+		JOIN member m on m.id = r.member_id
+		WHERE r.status = 1	AND r.free_board_id = #{free_board_id} 
+		ORDER BY r.create_at DESC
+	</select>
+	
+	
+	<!-- 댓글 작성 -->
+	<insert 
+	 id="postWrite"  parameterType="kr.co.cc.freeBoard.dto.FreeBoardDTO" >
+	INSERT into reply (free_board_id,member_id,content,status)
+	VALUES (#{free_board_id},#{member_id},#{content},1)
+	</insert>
+	
+	
+	<!-- 단일 댓글 조회-->
+	
+	<select id="replySelect" resultType="kr.co.cc.freeBoard.dto.FreeBoardDTO">
+		SELECT r.id ,r.free_board_id ,r.member_id ,r.content ,r.create_at, m.user_id , m.name from reply r 
+		JOIN member m on m.id = r.member_id
+		WHERE r.id = #{id}	AND r.free_board_id = #{free_board_id} 
+	</select>	
+	
+	
+	<update id="replyModify" parameterType="hashmap">
+		UPDATE reply SET 
+		content = #{content}
+		WHERE id = #{id}
+	</update>	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 
 </mapper>

@@ -38,6 +38,16 @@ public interface FreeBoardDAO {
 
 	FreeBoardDTO logincheck(String loginId);
 
+	ArrayList<FreeBoardDTO> replyList(String id);
+
+	void postWrite(FreeBoardDTO dto);
+
+	FreeBoardDTO replySelect(FreeBoardDTO dto);
+
+	int replyModify(HashMap<String, String> params);
+
+	
+
 
 
 

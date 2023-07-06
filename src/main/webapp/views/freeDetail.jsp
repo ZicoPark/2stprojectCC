@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -17,6 +18,7 @@
 </head>
 <body class="hold-transition sidebar-mini">
 <jsp:include page = "index.jsp"></jsp:include>
+
 <div class="wrapper">
 
   <div class="content-wrapper">
@@ -103,19 +105,83 @@
 			  </div>
 			</div>
 
+			<!-- 댓글 -->
+	
+			<hr />
+				
+<!-- 				<li>
+				        <div>
+				            <p>첫번째 댓글 작성자</p>
+				            <p>첫번째 댓글</p>
+				        </div>
+				    </li>
+				    <li>
+				        <div>
+				            <p>두번째 댓글 작성자</p>
+				            <p>두번째 댓글</p>
+				        </div>
+				    </li>
+				    <li>
+				        <div>
+				            <p>세번째 댓글 작성자</p>
+				            <p>세번째 댓글</p>
+				        </div>
+				    </li>-->
 
+
+			<div>
+			
+			    <form method="post" action="replyWrite.do">
+			    
+			        <p>
+			            <label>댓글 작성자</label> <input type="text" name="member_id" value="${loginId}">
+			        </p>
+			        <p>
+			            <textarea rows="5" cols="50" name="content"></textarea>
+			        </p>
+			        <p>
+			        	<input type="hidden" name="free_board_id" value="${detailms.id}">
+			            <button type="submit">댓글 작성</button>
+			        </p>
+			    </form>
+			    
+			</div>
+
+
+				 
+			<ul>
+				<c:forEach items="${reply}" var="reply">
+				<li>
+					<div>
+						<p>${reply.name} ( ${reply.user_id} ) / <fmt:formatDate value="${reply.create_at}" type="both" dateStyle="short" timeStyle="short" /></p>
+						<p>${reply.content }</p>
+						
+						<p>
+							<a href="#" onclick="editComment(${reply.id})">수정</a> / <a href="">삭제</a>
+						
+						</p>
+						
+						<hr />
+					</div>
+				</li>	
+				</c:forEach>
+			</ul>
+			
+
+
+			<!-- 댓글 끝 -->
             </div>
             <!-- /.card-footer -->
           </div>
           <!-- /.card -->
         </div>
         <!-- /.col -->
-      </div>
-      <!-- /.row -->
+
+ 
     </section>
-      </div><!-- /.container-fluid -->
-   
-  </div>
+   </div><!-- /.container-fluid -->
+ </div>  
+  
 
 <!-- jQuery -->
 <script src="../../plugins/jquery/jquery.min.js"></script>
@@ -126,4 +192,39 @@
 <!-- AdminLTE for demo purposes -->
 <script src="../../dist/js/demo.js"></script>
 </body>
+
+<script>
+
+$.ajax({
+    type: "GET",
+    url: "./comment.edit.ajax.html?comment_no=" + comment_no,
+    dataType: "text",
+    contentType: "application/x-www-form-urlencoded;charset=UTF-8",
+    success: function(data) {
+        $('#edit-comment' + comment_no).html(data);
+        $('#edit-comment' + comment_no).css('display', 'block');
+    },
+    error: function(xhr, status, error) {
+        console.log(error); // 오류 메시지 출력
+    }
+});
+
+function editComment(comment_no) {
+    $('#comment' + comment_no).css('display', 'none');
+
+    $.ajax({
+        type: "GET",
+        url: "./comment.edit.ajax.html?comment_no=" + comment_no,
+        dataType: "text",
+        contentType: "application/x-www-form-urlencoded;charset=UTF-8",
+        success: function(data) {
+            $('#edit-comment' + comment_no).html(data);
+            $('#edit-comment' + comment_no).css('display', 'block');
+        },
+        error: function(xhr, status, error) {
+            console.log(error); // 오류 메시지 출력
+        }
+    });
+}
+</script>
 </html>

@@ -13,6 +13,11 @@
 	    INSERT INTO project (id, name, member_id, public_range, start_at, end_at, step, status)
 	    VALUES (#{id},#{name}, #{member_id}, #{public_range}, #{start_at}, #{end_at}, '기획', '준비중')
 	</insert>
+	
+	<insert id="archivefileWrite">
+		INSERT INTO attachment(ori_file_name, id, classification, identify_value)
+			VALUES(#{param1}, #{param2}, #{param3}, #{param4})
+	</insert>
 
     
     <insert id="addContributor" parameterType="string">
@@ -50,21 +55,22 @@
 
 	
 		<select id="ProjectDetail" parameterType="String" resultType="kr.co.cc.project.dto.ProjectDTO">
-		    SELECT c.id, c.project_id, m.user_id, c.content, c.status, c.create_at, c.step, c.status, a.id
+		    SELECT c.id, c.project_id, m.user_id, c.content, c.status, c.create_at, c.step, c.status
 		    FROM comment c
-		    JOIN attachment a ON c.project_id = a.identify_value
 		    JOIN member m ON c.member_id = m.id
-		    WHERE c.project_id = #{id} AND a.classification = '프로젝트첨부파일';
+		    WHERE c.project_id = #{id};
 		</select>
 
-		
-		
-		
-		
-		<insert id="commentWrite" parameterType="kr.co.cc.project.dto.ProjectDTO">
+		<insert
+		 id="commentWrite" 
+		 parameterType="kr.co.cc.project.dto.AttachmentDTO"
+		 useGeneratedKeys="true" keyProperty="id">
+		 <selectKey keyProperty="id" resultType="java.lang.String" order="BEFORE">
+	        SELECT UUID()
+	    </selectKey>
 		INSERT INTO
-		comment(content,member_id,project_id,step,status)
-		VALUES(#{content},#{member_id},#{project_id},#{step},#{status})
+		comment(id, content,member_id,project_id,step,status)
+		VALUES(#{id},#{content},#{member_id},#{project_id},#{step},#{status})
 	</insert>
 		
 	
@@ -81,6 +87,13 @@
 	INSERT INTO attachment(id, identify_value, ori_file_name,classification)
 	VALUES(#{id}, #{identify_value},#{ori_file_name},'프로젝트첨부파일')
 	</insert>
+	
+	<select id="projectDetailFile" resultType="string">
+		SELECT id FROM attachment WHERE identify_value = #{id} 
+	</select>
+
+	
+	
 	
 	<select id="projectDetailUp" resultType="kr.co.cc.project.dto.ProjectDTO">
     SELECT p.id, p.name, p.member_id, p.public_range, p.start_at, p.end_at, p.step, p.status, GROUP_CONCAT(c.member_id SEPARATOR ',') AS contributors
@@ -111,8 +124,26 @@
 	  WHERE id = #{project_id}
 	</update>
 	
-
-
+	<select id="getAllComment" parameterType="string" resultType="hashmap">
+		select c.id AS comment_id
+			, c.project_id 
+			, (select m.user_id from member m where m.id = c.member_id) AS member_id
+			, c.content 
+			, DATE_FORMAT(c.create_at, '%Y-%m-%d %T') AS create_at
+			, c.step 
+			, c.status 
+			, a.id AS attachment_id
+			, a.ori_file_name 
+			from comment c 
+			left join attachment a on a.identify_value = c.id 
+			where c.project_id = #{projectId}
+		order by create_at ASC
+	</select>
+	
+	<insert id="replyWrite">
+	  INSERT INTO comment_reply (coment_id, content, member_id, status)
+	  VALUES (#{id}, #{content}, #{loginId}, 1)
+	</insert>
 																							
 </mapper>
 
