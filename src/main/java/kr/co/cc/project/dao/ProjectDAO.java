@@ -51,6 +51,8 @@ public interface ProjectDAO {
 
 	int replyWrite(String id, String content, String loginId);
 
+	ArrayList<ProjectDTO> replyLoad(String id);
+
 
 
 

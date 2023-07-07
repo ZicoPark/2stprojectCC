@@ -244,7 +244,7 @@ public class ProjectController {
 			return new ResponseEntity<Resource>(body, header, HttpStatus.OK);
 		}
 		
-		@PostMapping(value="/postComment.ajax")
+		@PostMapping(value="/postCommentWrite.ajax")
 		@ResponseBody
 		public HashMap<String, Object> replyWrite(@RequestParam String id, @RequestParam String content, HttpSession session) {
 
@@ -254,6 +254,16 @@ public class ProjectController {
 		    logger.info("content" + content);    
 
 		    return service.replyWrite(id, content, loginId);
+
+		}
+		
+		@PostMapping(value="/postCommentRead.ajax")
+		@ResponseBody
+		public HashMap<String, Object> replyWrite(@RequestParam String comment_id) {
+
+		    logger.info("comment_id : " + comment_id);    
+
+		    return service.replyRead(comment_id);
 
 		}
 
