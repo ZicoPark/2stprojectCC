@@ -534,6 +534,29 @@
   </aside>
   <!-- /.control-sidebar -->
 
+<script>
+	var socket = new WebSocket('ws://localhost/alarm'); // WebSocket 서버의 주소와 엔드포인트 경로
+	
+	socket.onopen = function(event) {
+		// WebSocket 연결이 열렸을 때 실행되는 로직을 구현합니다.
+	    console.log('websocket 연결');
+	};
+
+	socket.onmessage = function(event) {
+	    var message = event.data;
+	    console.log('message : ' + message);
+	    // WebSocket으로 수신된 메시지를 처리하는 로직을 구현합니다.
+	};
+
+	socket.onclose = function(event) {
+		// WebSocket 연결이 닫혔을 때 실행되는 로직을 구현합니다.
+	    console.log('websocket 종료');
+	};
+
+	socket.onerror = function(error) {
+	    // WebSocket 오류 처리 로직을 구현합니다.
+	};
+</script>
 
 
 

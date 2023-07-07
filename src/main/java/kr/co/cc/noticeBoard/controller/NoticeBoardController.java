@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
 
 import kr.co.cc.member.dto.MemberDTO;
@@ -58,12 +59,13 @@ public class NoticeBoardController {
 
    
    @RequestMapping(value = "/noticeBoardWrite.do", method = RequestMethod.POST)
-   public String nowrite(MultipartFile file, @RequestParam HashMap<String, String> params, HttpSession session) {
+   public String nowrite(MultipartFile file, @RequestParam HashMap<String, String> params, HttpSession session, RedirectAttributes rttr) {
    
      logger.info("params : " + params);
      logger.info("파일 : "+file);
- 
-      return service.nowrite(file, params,session);
+     
+     
+      return service.nowrite(file, params,session,rttr);
    }
    
    @RequestMapping(value="/noticeBoardDetail.do")
