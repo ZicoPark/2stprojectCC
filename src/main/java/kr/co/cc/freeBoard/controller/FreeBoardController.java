@@ -96,7 +96,7 @@ public class FreeBoardController {
 	
 	
 	
-	
+	// 댓글 작성하기
 	@RequestMapping(value="/replyWrite.do", method = RequestMethod.POST)
 	public String postWrite(FreeBoardDTO dto, @RequestParam("free_board_id") String free_board_id, HttpSession session) {
 	    String id = (String) session.getAttribute("id");
