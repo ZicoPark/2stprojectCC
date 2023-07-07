@@ -24,25 +24,35 @@
     </section>
     <!-- Main content -->
     <section class="content">
-        <table>
-			<colgroup>
-				<col width="20%"/>
-				<col width="20%"/>
-				<col width="40%"/>
-				<col width="10%"/>
-				<col width="10%"/>
-			</colgroup>
-			<thead>
+
+<div class="col-12">
+<div class="card">
+<div class="card-header">
+<h3 class="card-title">Fixed Header Table</h3>
+<div class="card-tools">
+<div class="input-group input-group-sm" style="width: 150px;">
+<input type="text" name="table_search" class="form-control float-right" placeholder="Search">
+<div class="input-group-append">
+<button type="submit" class="btn btn-default">
+<i class="fas fa-search"></i>
+</button>
+</div>
+</div>
+</div>
+</div>
+
+<div class="card-body table-responsive p-0" style="height: 300px;">
+<table class="table table-head-fixed text-nowrap">
+<thead>
 				<tr>
-					<th>게시판</th>
+					<th>분류</th>
 					<th>알림 제목</th>
-					<th>알림 내용</th>
-					<th>게시판, 번호</th>
-					<th>날짜/시간</th>
+					<th>발신인</th>
+					<th>날짜</th>
 				</tr>
-			</thead>		
-			<tbody>
-<%-- 				<c:if test="${noticeList eq null}">
+</thead>
+<tbody>
+ 				<c:if test="${noticeList eq null}">
 					<tr>
 						<th colspan="5">알림이 없습니다.</th>
 					</tr>
@@ -52,14 +62,73 @@
 					<tr>
 						<td>${noticeList.send_id}</td>
 						<td><a href="fdetail.do?fbNo=${alarmList.alarm_num}">${alarmList.alarm_title}</a></td>
-						<td>${alarmList.alarm_content}</td>
 						<td>${alarmList.alarm_class}, ${alarmList.alarm_num}</td>
 						<td>${alarmList.alarm_time}</td>
-					</tr>
-					
-				</c:forEach> --%>
-			</tbody>
-		</table>
+					</tr>				
+				</c:forEach>
+<tr>
+<td>183</td>
+<td>John Doe</td>
+<td>11-7-2014</td>
+<td><span class="tag tag-success">Approved</span></td>
+<td>Bacon ipsum dolor sit amet salami venison chicken flank fatback doner.</td>
+</tr>
+<tr>
+<td>219</td>
+<td>Alexander Pierce</td>
+<td>11-7-2014</td>
+<td><span class="tag tag-warning">Pending</span></td>
+<td>Bacon ipsum dolor sit amet salami venison chicken flank fatback doner.</td>
+</tr>
+<tr>
+<td>657</td>
+<td>Bob Doe</td>
+<td>11-7-2014</td>
+<td><span class="tag tag-primary">Approved</span></td>
+<td>Bacon ipsum dolor sit amet salami venison chicken flank fatback doner.</td>
+</tr>
+<tr>
+<td>175</td>
+<td>Mike Doe</td>
+<td>11-7-2014</td>
+<td><span class="tag tag-danger">Denied</span></td>
+<td>Bacon ipsum dolor sit amet salami venison chicken flank fatback doner.</td>
+</tr>
+<tr>
+<td>134</td>
+<td>Jim Doe</td>
+<td>11-7-2014</td>
+<td><span class="tag tag-success">Approved</span></td>
+<td>Bacon ipsum dolor sit amet salami venison chicken flank fatback doner.</td>
+</tr>
+<tr>
+<td>494</td>
+<td>Victoria Doe</td>
+<td>11-7-2014</td>
+<td><span class="tag tag-warning">Pending</span></td>
+<td>Bacon ipsum dolor sit amet salami venison chicken flank fatback doner.</td>
+</tr>
+<tr>
+<td>832</td>
+<td>Michael Doe</td>
+<td>11-7-2014</td>
+<td><span class="tag tag-primary">Approved</span></td>
+<td>Bacon ipsum dolor sit amet salami venison chicken flank fatback doner.</td>
+</tr>
+<tr>
+<td>982</td>
+<td>Rocky Doe</td>
+<td>11-7-2014</td>
+<td><span class="tag tag-danger">Denied</span></td>
+<td>Bacon ipsum dolor sit amet salami venison chicken flank fatback doner.</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+</div>
+
+</div>
     </section>
   </div>
 </div>
@@ -76,3 +145,7 @@
 <script>
 </script>
 </html>
+
+
+
+

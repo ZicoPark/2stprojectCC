@@ -15,4 +15,5 @@ public class NoticeService {
 		@Autowired NoticeDAO dao;
 	   Logger logger = LoggerFactory.getLogger(getClass());
 
+
 }
