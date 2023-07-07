@@ -28,7 +28,7 @@
 <div class="wrapper">
 	<!-- Content Wrapper. Contains page content -->
 	<div class="content-wrapper">
-		<form action="CalenderListsave.go" name="event" method="post">
+<!-- 		<form action="CalenderListsave.go" name="event" method="post"> -->
 		<!-- Content Header (Page header) -->
 		<section class="content-header">
 			<div class="container-fluid">
@@ -56,8 +56,8 @@
 								<h4 class="card-title">이벤트 목록</h4>
 							</div>
 							<div class="card-body">
-							<!-- the events -->
-								<div id="external-events">
+							<!-- the event -->
+								<div id="external-event">
 									<div class="external-event bg-success" draggable="true">점심 시간</div>
 									<div class="external-event bg-warning" draggable="true">퇴근 시간</div>
 									<div class="external-event bg-info" draggable="true">휴식 시간</div>
@@ -104,7 +104,7 @@
 								<h4 class="card-title">이벤트 삭제</h4>
 							</div>
 							<div class="card-body">
-								<div id="external-events">
+								<div id="external-event">
 									<button class="btn btn-primary">삭제</button>
 								</div>
 							</div>
@@ -128,8 +128,8 @@
 			</div><!-- /.container-fluid -->
     	</section>
 		<!-- /.content -->
-    	<button id="save"type="submit" class="btn btn-primary">저장</button>
-	</form>
+<!--     	<button id="save"type="submit" class="btn btn-primary">저장</button>
+	</form> -->
 </div>
 <!-- /.content-wrapper -->
 
@@ -163,133 +163,215 @@
 <script src="../dist/js/demo.js"></script>
 <!-- Page specific script -->
 <script>	
-  $(function () {
+$(function () {
 
-    /* 외부 이벤트 초기화
-     -----------------------------------------------------------------*/
-    function ini_events(ele) {
-      ele.each(function () {
+	  /* 외부 이벤트 초기화
+	   -----------------------------------------------------------------*/
+	  function ini_event(ele) {
+	    ele.each(function () {
 
-        // 이벤트 객체 생성 (https://fullcalendar.io/docs/event-object)
-        // 시작 또는 종료일이 필요하지 않음	
-        var eventObject = {
-          title: $.trim($(this).text()) // 해당 요소의 텍스트를 이벤트 제목으로 사용
-        }
+	      // 이벤트 객체 생성 (https://fullcalendar.io/docs/event-object)
+	      // 시작 또는 종료일이 필요하지 않음	
+	      var eventObject = {
+	        title: $.trim($(this).text()) // 해당 요소의 텍스트를 이벤트 제목으로 사용
+	      }
 
-        // 나중에 사용할 수 있도록 이벤트 개체를 DOM 요소에 저장
-        $(this).data('eventObject', eventObject)
+	      // 나중에 사용할 수 있도록 이벤트 개체를 DOM 요소에 저장
+	      $(this).data('eventObject', eventObject)
 
-        // jQuery UI를 사용하여 이벤트를 드래그 가능하게 만들기
-        $(this).draggable({
-          zIndex        : 1070,
-          revert        : true, // 이벤트가 원래 상태로 돌아가게 하기
-          revertDuration: 0  //  드래그 후 원래위치
-        })
+	      // jQuery UI를 사용하여 이벤트를 드래그 가능하게 만들기
+	      $(this).draggable({
+	        zIndex: 1070,
+	        revert: true, // 이벤트가 원래 상태로 돌아가게 하기
+	        revertDuration: 0 //  드래그 후 원래위치
+	      });
 
-      })
-    }
+	    });
+	  }
 
-    ini_events($('#external-events div.external-event'))
+	  ini_event($('#external-event div.external-event'));
 
-    /* 달력 초기화
-     -----------------------------------------------------------------*/
-    // 달력 이벤트용 날짜(더미데이터)
-    var date = new Date()
-    var d    = date.getDate(),
-        m    = date.getMonth(),
-        y    = date.getFullYear()
+	  /* 달력 초기화
+	   -----------------------------------------------------------------*/
+	  // 달력 이벤트용 날짜(더미데이터)
+	  var date = new Date();
+	  var d = date.getDate();
+	  var m = date.getMonth();
+	  var y = date.getFullYear();
 
-    var Calendar = FullCalendar.Calendar;
-    var Draggable = FullCalendar.Draggable;
+	  var Calendar = FullCalendar.Calendar;
+	  var Draggable = FullCalendar.Draggable;
 
-    var containerEl = document.getElementById('external-events');
-    var checkbox = document.getElementById('drop-remove');
-    var calendarEl = document.getElementById('calendar');
+	  var containerEl = document.getElementById('external-event');
+	  var checkbox = document.getElementById('drop-remove');
+	  var calendarEl = document.getElementById('calendar');
 
-    // 외부 이벤트 초기화
-    // -----------------------------------------------------------------
+	  // 외부 이벤트 초기화
+	  // -----------------------------------------------------------------
 
-    new Draggable(containerEl, {
-      itemSelector: '.external-event',
-      eventData: function(eventEl) {
-        return {
-          title: eventEl.innerText,
-          backgroundColor: window.getComputedStyle( eventEl ,null).getPropertyValue('background-color'),
-          borderColor: window.getComputedStyle( eventEl ,null).getPropertyValue('background-color'),
-          textColor: window.getComputedStyle( eventEl ,null).getPropertyValue('color'),
-        };
-      }
-    });
+	  new Draggable(containerEl, {
+	    itemSelector: '.external-event',
+	    eventData: function (eventEl) {
+	      return {
+	        title: eventEl.innerText,
+	        backgroundColor: window.getComputedStyle(eventEl, null).getPropertyValue('background-color'),
+	        borderColor: window.getComputedStyle(eventEl, null).getPropertyValue('background-color'),
+	        textColor: window.getComputedStyle(eventEl, null).getPropertyValue('color'),
+	      };
+	    }
+	  });
+	  var events = [];
+	  var calendar = new Calendar(calendarEl, {
+	    headerToolbar: {
+	      left: 'prev,next today',
+	      center: 'title',
+	      right: 'dayGridMonth,timeGridWeek,timeGridDay'
+	    },
+	    themeSystem: 'bootstrap',
+	    locale: 'ko',
+	    // 랜덤 기본 이벤트
+	    events: events,
+	    editable: true,
+	    droppable: true, // true일시 일정에 항목놓기 가능 !!!
+	    drop: function (info) {
+	      var start = info.date; // 시작 시간 (date)
+	      var end = moment(start).add(1, 'day').toDate(); // 종료 시간은 시작 시간으로부터 1일 후로 설정
 
-    var calendar = new Calendar(calendarEl, {
-      headerToolbar: {
-        left  : 'prev,next today',
-        center: 'title',
-        right : 'dayGridMonth,timeGridWeek,timeGridDay'
-      },
-      themeSystem: 'bootstrap',
-      // 랜덤 기본 이벤트
-      events: [],
-      editable  : true,
-      droppable : true, // true일시 일정에 항목놓기 가능 !!!
-      drop      : function(info) {
-        // 삭제 후 제거 확인란이 선택되었는가?
-        if (checkbox.checked) {
-          // 그렇다면 드래그 가능한 이벤트 목록에서 요소를 제거하기
-			info.draggedEl.parentNode.removeChild(info.draggedEl);
-        	}
-        },
-      eventClick : function(info) {
-          //delete event from calender
-         info.event.remove();
-      }
-      
-      
-    });
+	      events.push({
+	    	id: info.draggedEl.innerText,
+	        title: info.draggedEl.innerText,
+	        start: start,
+	        end: end
+	      });
+	      $.ajax({
+	        url: 'CalenderList.go',
+	        method: 'POST',
+	        data: {
+	          id: info.draggedEl.innerText,
+	          title: info.draggedEl.innerText,
+	          start: start,
+	          end: end
+	        },
+	        dataType: 'json',
+	        success: function (data) {
+	          console.log(data);
+	        },
+	        error: function (e) {
+	          console.log(e);
+	        }
+	      });
+	      //console.log("Title:", info.draggedEl.innerText);
+	      //console.log("Start 시간:", start);
+	      //console.log("End 시간:", end);
 
-    calendar.render();
-    // $('#calendar').fullCalendar()
+	      // 드래그로 목록에서 삭제 확인란이 선택되었는가?
+	      if (checkbox.checked) {
+	        // 그렇다면 드래그 가능한 이벤트 목록에서 요소를 제거하기
+	        info.draggedEl.parentNode.removeChild(info.draggedEl);
+	      }
+	    },
+	    eventDrop: function (info) {
+	      var event = info.event; // 드래그된 이벤트 객체
+	      var start = event.start; // 변경된 이벤트의 시작 시간
+	      var end = moment(start).add(1, 'hour').toDate(); // 변경된 이벤트의 종료 시간
+	      if (event.end) {
+	        var eventDuration = moment.duration(moment(event.end).diff(moment(event.start)));
+	        end = moment(start).add(eventDuration).toDate();
+	      }
+	      $.ajax({
+	        url: 'CalenderListDropsave.ajax',
+	        method: 'POST',
+	        data: {
+	          title: event.title,
+	          start: start,
+	          end: end
+	        },
+	        dataType: 'json',
+	        success: function (data) {
+	          console.log(data);
+	        },
+	        error: function (e) {
+	          console.log(e);
+	        }
+	      });
+	      //console.log("Dropped Event - Title:", event.title);
+	      //console.log("Start 시간:", start);
+	      //console.log("End 시간:", end);
+	    },
+	    eventResize: function (info) {
+	      var event = info.event; // 리사이즈된 이벤트 객체
+	      var start = event.start; // 리사이즈된 이벤트의 시작 시간
+	      var end = event.end;
+	      // console.log("Start 시간:", start);
+	      //console.log("End 시간:", end);
+	      $.ajax({
+	        url: 'CalenderListResize.ajax',
+	        method: 'POST',
+	        data: {
+	          title: event.title,
+	          start: start,
+	          end: end
+	        },
+	        dataType: 'json',
+	        success: function (data) {
+	          console.log(data);
+	        },
+	        error: function (e) {
+	          console.log(e);
+	        }
+	      });
+	    },
+	    eventClick: function (info) {
+	      //delete event from calender
+	      console.log("Event ID:", info.event.id);
+	      info.event.remove();
+	    }
+	  });
 
-    /* 이벤트 추가 */
-    var currColor = '#3c8dbc' //red를 기본값으로
-    // 색상 선택 버튼
-    $('#color-chooser > li > a').click(function (e) {
-      e.preventDefault()
-      // 색상 저장
-      currColor = $(this).css('color')
-      // 버튼에 색상 효과 추가
-      $('#add-new-event').css({
-        'background-color': currColor,
-        'border-color'    : currColor
-      })
-    })
-    $('#add-new-event').click(function (e) {
-      e.preventDefault()
-      // 값을 가져오고 null이 아닌지 확인
-      var val = $('#new-event').val()
-      if (val.length == 0) {
-        return
-      }
+	  calendar.render();
+	  // $('#calendar').fullCalendar()
 
-      // 이벤트 생성
-      var event = $('<div />')
-      event.css({
-        'background-color': currColor,
-        'border-color'    : currColor,
-        'color'           : '#fff'
-      }).addClass('external-event')
-      event.text(val)
-      $('#external-events').prepend(event)
+	  /* 이벤트 추가 */
+	  var currColor = '#3c8dbc'; // red를 기본값으로
+	  // 색상 선택 버튼
+	  $('#color-chooser > li > a').click(function (e) {
+	    e.preventDefault();
+	    // 색상 저장
+	    currColor = $(this).css('color');
+	    // 버튼에 색상 효과 추가
+	    $('#add-new-event').css({
+	      'background-color': currColor,
+	      'border-color': currColor
+	    });
+	  });
+	  $('#add-new-event').click(function (e) {
+	    e.preventDefault();
+	    // 값을 가져오고 null이 아닌지 확인
+	    var val = $('#new-event').val();
+	    if (val.length == 0) {
+	      return;
+	    }
 
-      // 드래그 기능 추가
-      ini_events(event)
+	    // 이벤트 생성
+	    var event = $('<div />')
+	    event.css({
+	      'background-color': currColor,
+	      'border-color': currColor,
+	      'color': '#fff'
+	    }).addClass('external-event');
+	    event.text(val);
+	    $('#external-event').prepend(event);
+	    // 드래그 기능 추가
+	    ini_event(event);
 
-      // 텍스트 입력에서 이벤트를 제거
-      $('#new-event').val('')
-    })
-    
-    
-  })
+	    // 텍스트 입력에서 이벤트를 제거
+	    $('#new-event').val('');
+
+	    calendar.addEvent(event);
+	  });
+
+
+	});
   // 안쓰는거
           /* {
           title          : 'All Day Event',
