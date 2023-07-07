@@ -168,15 +168,16 @@ public class ArchiveService {
 			        logger.info("insert row: " + row);
 			        String id = "";
 
-			        logger.info("update idx: " + id);
+			        logger.info("서비스 deletedFiles 있나요 : "+deletedFiles);
 
 					if(row>0) { // 업로드된 자료실 게시물이 1이라면
 						
-						if(deletedFiles.size()>1) {
+						if(deletedFiles.size()>0) {
 							attachmentRemove(deletedFiles);
 						}
 						
 						id = params.get("id");
+						logger.info("update idx: " + id);
 						
 						for (MultipartFile file : attachment) {
 							
@@ -196,7 +197,7 @@ public class ArchiveService {
 					}
 	
 					
-			    return 0;
+			    return row;
 			}
 	private void attachmentRemove(ArrayList<String> newFileName) {
 		

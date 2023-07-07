@@ -176,9 +176,28 @@ public class FreeBoardService {
 		public FreeBoardDTO logincheck(String loginId) {
 			
 			return dao.logincheck(loginId);
+		}
+
+		public ArrayList<FreeBoardDTO> replyList(String id) {
+			
+			return dao.replyList(id);
+		}
+
+		public void postWrite(FreeBoardDTO dto) {
+			
+			dao.postWrite(dto);
 		}	
 	
-	
+		// 단일 댓글 조회
+		public FreeBoardDTO replySelect(FreeBoardDTO dto) throws Exception {
+		    return dao.replySelect(dto);
+		}
+
+		// 수정
+		public int replyModify(HashMap<String, String> params) {
+			
+			return dao.replyModify(params);
+		}
 	
 	
 	

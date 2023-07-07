@@ -22,25 +22,28 @@ public interface ChatDAO {
 	ArrayList<ChatDTO> chatHistory(String chat_room_id);
 	
 	ArrayList<ChatDTO> chatLoad(String chat_room_id);
-	
-	
-
-	
-
-	
 
 	int chatStored(HashMap<String, Object> map);
 
+	void chatRoomExit(String chat_room_id, String member_id);
 	
-
+	String chatNameChk(String id);
 	
-
+	void insert_chat(String chat_room_id);
 	
-
-	int chatRoomExit(HashMap<String, Object> params);
+	
+	
+	
+	
 
 	int exitMessage(HashMap<String, Object> params);
 
 	ArrayList<ChatDTO> chatRoomInfo(String chat_room_id);
+
+	
+
+	
+
+	
 
 }
