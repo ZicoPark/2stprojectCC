@@ -176,7 +176,12 @@ public class ProjectService {
 
 	}
 
+	public HashMap<String, Object> replyRead(String comment_id) {
+		HashMap<String, Object> data = new HashMap<String, Object>();
+		data.put("dto", dao.replyLoad(comment_id));
+		return data;
 
+	}
 
 
 

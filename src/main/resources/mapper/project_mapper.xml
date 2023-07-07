@@ -144,7 +144,11 @@
 	  INSERT INTO comment_reply (coment_id, content, member_id, status)
 	  VALUES (#{id}, #{content}, #{loginId}, 1)
 	</insert>
-																							
+	
+	<select id="replyLoad" resultType="kr.co.cc.project.dto.ProjectDTO" parameterType="String">
+		SELECT * FROM comment_reply
+		WHERE coment_id=#{comment_id}
+	</select>																	
 </mapper>
 
 
