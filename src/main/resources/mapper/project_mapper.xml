@@ -146,9 +146,16 @@
 	</insert>
 	
 	<select id="replyLoad" resultType="kr.co.cc.project.dto.ProjectDTO" parameterType="String">
-		SELECT * FROM comment_reply
-		WHERE coment_id=#{comment_id}
-	</select>																	
+		SELECT cr.*,(select m.name from member m where m.id = cr.member_id ) as name 
+		FROM comment_reply cr WHERE coment_id=#{comment_id}
+	</select>	
+	
+	<delete id="replyDel" parameterType="java.lang.String">
+	  DELETE FROM comment_reply
+	  WHERE coment_id = #{commentId}
+	</delete>																
 </mapper>
+
+
 
 

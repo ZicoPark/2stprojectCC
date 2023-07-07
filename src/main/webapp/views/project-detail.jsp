@@ -48,7 +48,7 @@
           <h3 class="card-title">Projects Detail</h3>
 
           <div class="card-tools">
-           <a href="projectInsert.go?id=${project_id}" class="btn btn-sm btn-primary">추가</a>
+           <a href="projectInsert.go?id=${project_id}" class="btn btn-sm btn-primary"><i class="fas fa-edit"></i>추가</a>
            <a href="projectDel.do?id=${project_id}" class="btn btn-danger btn-sm">철회</a>
                           				
             <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
@@ -73,6 +73,7 @@
   </div>
   <!-- /.content-wrapper -->
 
+<input type="hidden" id="loginId" value="${sessionScope.id }">
 
   <!-- Control Sidebar -->
   <aside class="control-sidebar control-sidebar-dark">
@@ -90,6 +91,9 @@
 <script src="../../dist/js/adminlte.min.js"></script>
 
 <script>
+var loginId = $("#loginId").val();
+console.log('id:'+loginId);
+
 $(document).ready(function() {
 	  console.log("함수 실행");
 
@@ -136,7 +140,7 @@ $(document).ready(function() {
 	          var commentForm = '<div class="commentForm'+ detail.comment_id+'">';
 	          commentForm += '<input type="text" class="commentInput" placeholder="댓글 작성">';
 	          commentForm += '<input type="hidden" value="' + detail.comment_id + '">';
-	          commentForm += '<button class="commentButton" id="'+detail.comment_id+'">작성</button>';
+	          commentForm += '<button class="commentButton btn btn-primary btn-sm view-btn" id="' + detail.comment_id + '"><i class="far fa-envelope"></i>작성</button>';
 	          commentForm += '<div class="commentReply'+detail.comment_id+'"></div>';
 	          commentForm += '</div>';
 	          commentForm += '<hr>';
@@ -194,7 +198,6 @@ $(document).ready(function() {
 	  });
 
 	  function getComments(comment_id) {
-	    //var commentId = commentListContainer.find('.commentInput').siblings('input[type="hidden"]').val();
 		console.log(comment_id);
 	    $.ajax({
 	      url: 'postCommentRead.ajax', // 서버에서 데이터를 가져올 URL
@@ -211,19 +214,46 @@ $(document).ready(function() {
 	        $('.commentReply'+comment_id).empty(); // 기존 댓글 목록을 비웁니다.
 
 	        data.dto.forEach(function(item) {
-	          var commentHtml = '<div>' + item.member_id + '</div>';
+	          var commentHtml = '<div>' + item.name+ '</div>';
 	          commentHtml += '<div>' + item.content + '</div>';
 	          commentHtml += '<div>' + item.create_at + '</div>';
+	          if (item.member_id === loginId) {
+	              commentHtml += '<button class="deleteButton" data-comment-id="' + item.comment_id + '">삭제</button>';
+	          }  
 	          commentHtml += '<hr>';
 
 	          $('.commentReply'+comment_id).append(commentHtml);
 	        });
+	        
+	        $('.commentReply'+comment_id).find('.deleteButton').click(function() {
+	            var commentId = $(this).data('comment-id');
+	            deleteComment(commentId);
+	          });   
+	        
 	      },
 	      error: function(data) {
 	        console.log(data);
 	      }
 	    });
 	  }
+	  
+	  function deleteComment(commentId) {
+		  $.ajax({
+		    url: 'replyDel.ajax', // 삭제 요청을 보낼 URL
+		    method: "POST",
+		    dataType: "json",
+		    data: {
+		      'commentId': commentId
+		    },
+		    success: function(data) {
+		      console.log("댓글 삭제 요청이 성공적으로 완료되었습니다.");
+		    },
+		    error: function(data) {
+		      console.log("댓글 삭제 요청이 실패했습니다.");
+		    }
+		  });
+		}
+	  
 	});
 
 

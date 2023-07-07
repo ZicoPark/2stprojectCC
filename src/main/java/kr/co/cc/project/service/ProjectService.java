@@ -184,6 +184,13 @@ public class ProjectService {
 	}
 
 
+	public int replyDel(String commentId) {
+		
+		int row = dao.replyDel(commentId);
+		return  row;
+	}
+
+
 
 
 

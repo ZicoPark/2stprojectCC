@@ -48,11 +48,12 @@ public class ProjectController {
 	    
 	    ArrayList<ProjectDTO> list = service.list();
 	    logger.info("list cnt : " + list.size());
-	    for (ProjectDTO project : list) {
+	 
+	    for (ProjectDTO project : list) {    	
 	        List<String> userIds = service.getUserIdsByProjectId(project.getId());
 	        project.setUserIds(userIds);
 	    }
-	    
+	   
 	    model.addAttribute("list", list);
 	    model.addAttribute("id", loginId);
 	    logger.info("loginid : " + loginId);
@@ -264,6 +265,17 @@ public class ProjectController {
 		    logger.info("comment_id : " + comment_id);    
 
 		    return service.replyRead(comment_id);
+
+		}
+		
+		@PostMapping(value="/replyDel.ajax")
+		@ResponseBody
+		public HashMap<String, Object> replyDel(@RequestParam String commentId) {
+
+		    logger.info("comment_id : " + commentId);    
+		    int row = service.replyDel(commentId);
+		    
+		    return null;
 
 		}
 

@@ -53,6 +53,8 @@ public interface ProjectDAO {
 
 	ArrayList<ProjectDTO> replyLoad(String id);
 
+	int replyDel(String commentId);
+
 
 
 
