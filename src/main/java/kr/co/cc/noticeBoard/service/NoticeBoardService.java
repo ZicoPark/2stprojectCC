@@ -17,7 +17,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import kr.co.cc.alarm.config.WebSocketHandler;
 import kr.co.cc.archive.dto.ArchiveDTO;
 import kr.co.cc.noticeBoard.dao.NoticeBoardDAO;
 import kr.co.cc.noticeBoard.dto.NoticeBoardDTO;
@@ -28,6 +30,12 @@ public class NoticeBoardService {
 
    @Autowired NoticeBoardDAO dao;
    @Value("${spring.servlet.multipart.location}") private String root;
+   
+   private WebSocketHandler handler = null;
+   
+   public NoticeBoardService(WebSocketHandler handler) {
+	   this.handler = handler;
+   }
    
    Logger logger = LoggerFactory.getLogger(getClass());
    
@@ -75,7 +83,7 @@ public class NoticeBoardService {
 //   }
 
 	
-	public String nowrite(MultipartFile file, HashMap<String, String> params, HttpSession session) {
+	public String nowrite(MultipartFile file, HashMap<String, String> params, HttpSession session, RedirectAttributes rttr) {
 	    String loginId = (String) session.getAttribute("id");
 	    String page = "noticeBoard.go";
 	    logger.info("params: " + params);
@@ -113,8 +121,10 @@ public class NoticeBoardService {
 	            e.printStackTrace();
 	        }
 	    }
-	
-	    page = "redirect:/noticeBoardDetail.do?id=" + idx;
+	  
+	    //notiNotice(dto.getId(), approvalMemberId, "공지사항", docId);
+	    handler.sendAlarm("알림이 왔습니다");
+	    page = "redirect:/noticeBoardDetail.do?id=" + idx ;
 	
 	    return page;
 	}

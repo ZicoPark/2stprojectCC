@@ -78,6 +78,8 @@
 <script src="../../dist/js/demo.js"></script>
 </body>
 <script>
+
+console.log(socket);
 </script>
 </html>
    

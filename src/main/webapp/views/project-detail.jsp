@@ -48,7 +48,7 @@
           <h3 class="card-title">Projects Detail</h3>
 
           <div class="card-tools">
-           <a href="projectInsert.go?id=${project_id}" class="btn btn-sm btn-primary">추가</a>
+           <a href="projectInsert.go?id=${project_id}" class="btn btn-sm btn-primary"><i class="fas fa-edit"></i>추가</a>
            <a href="projectDel.do?id=${project_id}" class="btn btn-danger btn-sm">철회</a>
                           				
             <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
@@ -73,6 +73,7 @@
   </div>
   <!-- /.content-wrapper -->
 
+<input type="hidden" id="loginId" value="${sessionScope.id }">
 
   <!-- Control Sidebar -->
   <aside class="control-sidebar control-sidebar-dark">
@@ -88,126 +89,172 @@
 <script src="../../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
 <!-- AdminLTE App -->
 <script src="../../dist/js/adminlte.min.js"></script>
-<!-- AdminLTE for demo purposes -->
-<script src="../../dist/js/demo.js"></script>
+
 <script>
+var loginId = $("#loginId").val();
+console.log('id:'+loginId);
+
 $(document).ready(function() {
 	  console.log("함수 실행");
 
 	  var projectId = "${project_id}";
+	  detailAjax();
 
-	  $.ajax({
-	    url: "projectDetail.ajax?id=" + projectId, // 서버에서 데이터를 가져올 URL
-	    method: "GET",
-	    dataType: "json",
-	    success: function(data) {
-	      var container = $("#projectDetailContainer");
-	      var commentListContainer = $(".commentListContainer"); // 댓글 목록을 표시하는 영역의 컨테이너
+	  function detailAjax() {
+	    console.log('detailAjax() 호출');
+	    $.ajax({
+	      url: "projectDetail.ajax?id=" + projectId, // 서버에서 데이터를 가져올 URL
+	      method: "GET",
+	      async : false,
+	      dataType: "json",
+	      success: function(data) {
+	        var container = $("#projectDetailContainer");
 
-	      $.each(data.commentList, function(index, detail) {
-	        var commentList = data.commentList; // detailfile 값 가져오기
-	        var commentId = detail.comment_id;
-	        console.log('commentList : ' + commentList);
-	        console.log('commentId : ' + commentId);
+	        $.each(data.commentList, function(index, detail) {
+	          var commentId = detail.comment_id;
 
-	        var html = '<div class="row">';
-	        html += '<div class="col-12 col-md-12 col-lg-8 order-2 order-md-1">';
-	        html += '<div class="row">';
-	        html += '<div class="col-12">';
-	        html += '<span style="border: 1px solid green; border-radius: 5px; padding: 3px;">' + detail.step + '</span>';
-	        html += '<span style="border: 1px solid red; border-radius: 5px; padding: 3px;">' + detail.status + '</span>';
-	        html += '<div class="post">';
-	        html += '<div class="user-block">';
-	        html += '<img class="img-circle img-bordered-sm" src="../../dist/img/user1-128x128.jpg" alt="user image">';
-	        html += '<span class="username">';
-	        html += '<a href="#">' + detail.member_id + '</a>';
-	        html += '</span>';
-	        html += '<span class="description">' + detail.create_at + '</span>';
-	        html += '</div>';
-	        html += '<p>' + detail.content + '</p>';
-	        if (detail.attachment_id != null) {
-	          html += '<p><a href="attachmentDownload.do?id=' + detail.attachment_id + '">' + detail.ori_file_name + '</a></p>';
-	        }
-
-	        html += '</div>';
-
-	        var commentForm = '<div class="commentForm">';
-	        commentForm += '<input type="text" class="commentInput" placeholder="댓글 작성">';
-	        commentForm += '<input type="hidden" value="' + detail.comment_id + '">';
-	        commentForm += '<button class="commentButton">작성</button>';
-	        commentForm += '</div>';
-
-	        html += commentForm;
-	        
-
-	        html += '</div></div></div>';
-
-	        container.prepend(html);
-	        
-	      });
-	      container.on('click', '.commentButton', function() {
-	        var commentId = $(this).siblings('input[type="hidden"]').val(); // 작성된 댓글 내용 가져오기
-	        console.log('commentId : ' + commentId);
-
-	        var replyContent = $(this).siblings('input[type="text"]').val();
-	        console.log('replyContent : ' + replyContent);
-
-	        var commentInput = $(this).prevAll('.commentInput').first();
-
-	        console.log('id : ' + commentId);
-	        // 서버로 댓글 전송하는 Ajax 요청
-	        $.ajax({
-	          url: "postComment.ajax", // 댓글 작성 요청을 처리하는 서버 URL
-	          method: "POST",
-	          dataType: "json",
-	          data: {
-	            id: commentId, // 해당 코멘트의 고유번호
-	            content: replyContent
-	          },
-	          success: function(response) {
-	            alert("댓글을 작성했습니다.");
-	            // 서버에서 댓글 작성 결과를 받았을 때의 처리 로직
-	            if (response.success) {
-	              // 댓글 작성 성공한 경우
-	              var newComment = {
-	                id: response.id, // 서버에서 반환한 새로운 댓글의 고유번호
-	                comment_id: commentId,
-	                member_id: response.member_id, // 실제 데이터를 가져와야 함
-	                content: response.content,
-	                create_at: response.create_at
-	              };
-
-	              var newCommentHtml = createCommentHtml(newComment); // 새로운 댓글 HTML 생성 함수 (예시용으로 임의로 작성)
-	              commentListContainer.prepend(newCommentHtml); // 새로운 댓글을 목록의 맨 위에 추가
-
-	              commentInput.val(''); // 댓글 입력 필드 초기화
-	            } else {
-	              // 댓글 작성 실패한 경우
-	              alert("댓글 작성에 실패했습니다.");
-	            }
-	          },
-	          error: function(xhr, status, error) {
-	            console.log(error);
+	          var html = '<div class="row">';
+	          html += '<div class="col-12 col-md-12 col-lg-8 order-2 order-md-1">';
+	          html += '<div class="row">';
+	          html += '<div class="col-12">';
+	          html += '<span style="border: 1px solid green; border-radius: 5px; padding: 3px;">' + detail.step + '</span>';
+	          html += '<span style="border: 1px solid red; border-radius: 5px; padding: 3px;">' + detail.status + '</span>';
+	          html += '<div class="post">';
+	          html += '<div class="user-block">';
+	          html += '<img class="img-circle img-bordered-sm" src="../../dist/img/user1-128x128.jpg" alt="user image">';
+	          html += '<span class="username">';
+	          html += '<a href="#">' + detail.member_id + '</a>';
+	          html += '</span>';
+	          html += '<span class="description">' + detail.create_at + '</span>';
+	          html += '</div>';
+	          html += '<p>' + detail.content + '</p>';
+	          if (detail.attachment_id != null) {
+	        	html += '<div class="mailbox-attachment-info">';
+	        	html += '<a class="mailbox-attachment-name"><i class="fas fa-paperclip"></i> &nbsp;' + detail.ori_file_name + '</a>';
+	        	html += '<a href="attachmentDownload.do?id=' + detail.attachment_id + '" class="btn btn-default btn-sm"><i class="fas fa-cloud-download-alt"></i></a>';
+	        	html += '</div>';
+	      
 	          }
+	          html += '</div>';
+
+	          var commentForm = '<div class="commentForm'+ detail.comment_id+'">';
+	          commentForm += '<input type="text" class="commentInput" placeholder="댓글 작성">';
+	          commentForm += '<input type="hidden" value="' + detail.comment_id + '">';
+	          commentForm += '<button class="commentButton btn btn-primary btn-sm view-btn" id="' + detail.comment_id + '"><i class="far fa-envelope"></i>작성</button>';
+	          commentForm += '<div class="commentReply'+detail.comment_id+'"></div>';
+	          commentForm += '</div>';
+	          commentForm += '<hr>';
+
+	          html += commentForm;
+	          
+	          
+	          
+	          html += '</div></div></div>';
+
+	          container.prepend(html);
+	          getComments(detail.comment_id);
 	        });
-	      });
-	    },
-	    error: function(xhr, status, error) {
-	      console.log(error);
-	    }
+
+	        // 댓글 목록을 표시하는 영역의 컨테이너 찾기
+	        var commentListContainer = $(".commentList");
+
+	        // 댓글 작성 후 댓글 목록을 가져오는 함수 호출
+	        
+
+	      },
+	      error: function(xhr, status, error) {
+	        console.log(error);
+	      }
+	    });
+	  }
+
+	  $(document).on('click', '.commentButton', function() {
+	    var commentId = $(this).attr('id'); // 작성된 댓글 내용 가져오기
+	    var replyContent = $(this).siblings('input[type="text"]').val();
+	    var commentInput = $(this).prevAll('.commentInput').first();
+
+	    console.log('commentId : ' + $(this).attr('id'));
+
+	    // 서버로 댓글 전송하는 Ajax 요청
+	    $.ajax({
+	      url: "postCommentWrite.ajax", // 댓글 작성 요청을 처리하는 서버 URL
+	      method: "POST",
+	      dataType: "json",
+	      data: {
+	        'id': commentId, // 해당 코멘트의 고유번호
+	        'content': replyContent
+	      },
+	      success: function(data) {
+	        console.log(data);
+	        alert("댓글을 작성했습니다.");
+
+	        getComments(commentId);
+	        commentInput.val('');
+	      },
+	      error: function(xhr, status, error) {
+	        console.log(error);
+	      }
+	    });
 	  });
+
+	  function getComments(comment_id) {
+		console.log(comment_id);
+	    $.ajax({
+	      url: 'postCommentRead.ajax', // 서버에서 데이터를 가져올 URL
+	      method: "POST",
+	      dataType: "json",
+	      async: false,
+	      data: {
+	        'comment_id': comment_id
+	      },
+	      success: function(data) {
+	        console.log(data);
+	        console.log(data.dto);
+
+	        $('.commentReply'+comment_id).empty(); // 기존 댓글 목록을 비웁니다.
+
+	        data.dto.forEach(function(item) {
+	          var commentHtml = '<div>' + item.name+ '</div>';
+	          commentHtml += '<div>' + item.content + '</div>';
+	          commentHtml += '<div>' + item.create_at + '</div>';
+	          if (item.member_id === loginId) {
+	              commentHtml += '<button class="deleteButton" data-comment-id="' + item.comment_id + '">삭제</button>';
+	          }  
+	          commentHtml += '<hr>';
+
+	          $('.commentReply'+comment_id).append(commentHtml);
+	        });
+	        
+	        $('.commentReply'+comment_id).find('.deleteButton').click(function() {
+	            var commentId = $(this).data('comment-id');
+	            deleteComment(commentId);
+	          });   
+	        
+	      },
+	      error: function(data) {
+	        console.log(data);
+	      }
+	    });
+	  }
+	  
+	  function deleteComment(commentId) {
+		  $.ajax({
+		    url: 'replyDel.ajax', // 삭제 요청을 보낼 URL
+		    method: "POST",
+		    dataType: "json",
+		    data: {
+		      'commentId': commentId
+		    },
+		    success: function(data) {
+		      console.log("댓글 삭제 요청이 성공적으로 완료되었습니다.");
+		    },
+		    error: function(data) {
+		      console.log("댓글 삭제 요청이 실패했습니다.");
+		    }
+		  });
+		}
+	  
 	});
-
-
-	function createCommentHtml(comment) {
-	  var html = '<div class="comment">';
-	  html += '<span class="comment-id">' + comment.id + '</span>';
-	  html += '<span class="comment-member">' + comment.member_id + '</span>';
-	  html += '<span class="comment-content">' + comment.content + '</span>';
-	  html += '<span class="comment-date">' + comment.create_at + '</span>';
-	  html += '</div>';
-	  return html;
-	}
 
 
 

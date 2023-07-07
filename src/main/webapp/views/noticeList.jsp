@@ -24,42 +24,55 @@
     </section>
     <!-- Main content -->
     <section class="content">
-        <table>
-			<colgroup>
-				<col width="20%"/>
-				<col width="20%"/>
-				<col width="40%"/>
-				<col width="10%"/>
-				<col width="10%"/>
-			</colgroup>
-			<thead>
-				<tr>
-					<th>게시판</th>
-					<th>알림 제목</th>
-					<th>알림 내용</th>
-					<th>게시판, 번호</th>
-					<th>날짜/시간</th>
-				</tr>
-			</thead>		
-			<tbody>
-<%-- 				<c:if test="${noticeList eq null}">
+
+
+<div class="card">
+<div class="card-header">
+<h3 class="card-title"><!-- 헤더 제목 넣을거면 넣고 --></h3>
+</div>
+
+<div class="card-body p-0">
+<table class="table table-striped">
+<thead>
+<tr>
+<th style="text-align:center">분류</th>
+<th style="text-align:center">알림 제목</th>
+<th style="text-align:center">발신인</th>
+<th style="text-align:center">날짜</th>
+</tr>
+</thead>
+<tbody>
+ 				<c:if test="${noticeList eq null}">
 					<tr>
-						<th colspan="5">알림이 없습니다.</th>
+						<th colspan="5" style="text-align:center">알림이 없습니다.</th>
 					</tr>
 				</c:if>
 							
-				<c:forEach items="${noticeList}" var="noticeList">
+				<c:forEach items="${list}" var="noticeList">
 					<tr>
-						<td>${noticeList.send_id}</td>
-						<td><a href="fdetail.do?fbNo=${alarmList.alarm_num}">${alarmList.alarm_title}</a></td>
-						<td>${alarmList.alarm_content}</td>
-						<td>${alarmList.alarm_class}, ${alarmList.alarm_num}</td>
-						<td>${alarmList.alarm_time}</td>
-					</tr>
-					
-				</c:forEach> --%>
-			</tbody>
-		</table>
+						<td style="text-align:center">${noticeList.type}</td>
+						<td style="text-align:center">${noticeList.identify_value}</td>
+						<td style="text-align:center">${noticeList.name}</td>
+						<td style="text-align:center">${noticeList.create_at}</td>
+					</tr>				
+				</c:forEach>
+<tr>
+</tbody>
+
+</table>
+</div>
+<div class="card-footer clearfix">
+<ul class="pagination pagination-sm m-0 float-right">
+<li class="page-item"><a class="page-link" href="#">«</a></li>
+<li class="page-item"><a class="page-link" href="#">1</a></li>
+<li class="page-item"><a class="page-link" href="#">2</a></li>
+<li class="page-item"><a class="page-link" href="#">3</a></li>
+<li class="page-item"><a class="page-link" href="#">»</a></li>
+</ul>
+</div>
+</div>
+
+
     </section>
   </div>
 </div>
