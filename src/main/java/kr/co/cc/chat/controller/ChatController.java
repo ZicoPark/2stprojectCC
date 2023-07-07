@@ -47,7 +47,7 @@ public class ChatController {
 	@PostMapping(value="/memberListAll.ajax")
 	@ResponseBody
 	public ArrayList<MemberDTO> memberListAll() {
-		logger.info("/memberList.ajax");
+		logger.info("/memberListAll.ajax");
 		return service.memberListAll();
 	}
 	
@@ -114,7 +114,6 @@ public class ChatController {
 		template.convertAndSend("/sub/chat/"+ dto.getChat_room_id(), dto);
 	}
 	
-	
 	@PostMapping(value="/chatRoomExit.ajax")
 	@ResponseBody
 	public HashMap<String, Object> chatRoomExit(@RequestParam String member_id,@RequestParam String chat_room_id) {
@@ -127,5 +126,33 @@ public class ChatController {
 		
 		return map;
 	}
+	
+	@PostMapping(value="/memberList.ajax")
+	@ResponseBody
+	public ArrayList<MemberDTO> memberList(@RequestParam String chat_room_id) {
+		logger.info("/memberList.ajax");
+		return service.memberList(chat_room_id);
+	}
+	
+	@PostMapping(value="/inviteChatRoom.ajax")
+	@ResponseBody
+	public String inviteChatRoom(@RequestParam(value="member_id_array[]") ArrayList<String> member_id_array
+			,@RequestParam String chat_room_id) {
+		logger.info("member_id_array" + member_id_array);
+		logger.info("chat_room_id : " + chat_room_id);
+		
+		for (String member_id_array_list : member_id_array) {
+			logger.info("member_id_array : " + member_id_array_list);
+		}
+		
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		
+		map.put("member_id_array", member_id_array);
+		map.put("chat_room_id", chat_room_id);
+		
+		return service.inviteChatRoom(map);
+	}
+	
+	
 	
 }
