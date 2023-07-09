@@ -86,7 +86,7 @@ public class FreeBoardService {
 	      //logger.info("list size : "+ list.size());
 	      map.put("list", list);
 	      map.put("currPage", page);	      
-	    
+	      map.put("pages", range);
 
 	
 		return map;
@@ -178,10 +178,6 @@ public class FreeBoardService {
 			return dao.logincheck(loginId);
 		}
 
-		public ArrayList<FreeBoardDTO> replyList(String id) {
-			
-			return dao.replyList(id);
-		}
 
 		public void postWrite(FreeBoardDTO dto) {
 			
@@ -193,10 +189,50 @@ public class FreeBoardService {
 		    return dao.replySelect(dto);
 		}
 
-		// 수정
-		public int replyModify(HashMap<String, String> params) {
+		// 수정 - public HashMap<String, Object>은 select 일때만 
+		// org.apache.ibatis.binding.BindingException: Mapper method 'kr.co.cc.freeBoard.dao.FreeBoardDAO.commentUpdate' has an unsupported return type: class java.util.HashMap
+		public void commentUpdate(HashMap<String, Object> params) {
 			
-			return dao.replyModify(params);
+			logger.info("서비스 댓글 업데이트!");
+			dao.commentUpdate(params);
+		}
+
+		public HashMap<String, Object> replyList(HttpSession session, HashMap<String, Object> params) {
+			
+			int page = Integer.parseInt(String.valueOf(params.get("page")));
+		 
+		    String loginId = (String) session.getAttribute("id");
+		    FreeBoardDTO loginid = dao.logincheck(loginId);
+		    
+		    HashMap<String, Object> map = new HashMap<String, Object>();
+
+		    int offset = 10*(page-1);	    
+			
+		    logger.info("offset : " + offset);
+		    params.put("offset", offset);
+		    logger.info("params : " + params);
+		       
+
+		    int total = dao.replyTotalCount();
+
+		    int range = total%10  == 0 ? total/10 : total/10+1;
+
+		      page = page>range ? range:page;
+		      
+		      ArrayList<FreeBoardDTO> list = null;
+		      
+		      params.put("offset", offset);
+				
+		      logger.info("서비스 params : "+params);
+		      list = dao.replyList(params);
+
+		      //logger.info("list size : "+ list.size());
+		      map.put("list", list);
+		      map.put("currPage", page);	      
+		      map.put("loginid",loginid);
+		      map.put("pages", range);
+		
+			return map;
 		}
 	
 	

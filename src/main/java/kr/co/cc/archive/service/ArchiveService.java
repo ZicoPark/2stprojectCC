@@ -92,7 +92,7 @@ public class ArchiveService {
 	      map.put("list", list);
 	      map.put("currPage", page);	      
 	      map.put("loginid",loginid);
-
+	      map.put("pages", range);
 	
 		return map;
 

@@ -70,9 +70,7 @@ public class FreeBoardController {
 			FreeBoardDTO loginid = service.logincheck(loginId);
 			logger.info("상세보기 로그인한 아이디 관리자 여부 : "+loginid);
 			String page = "freeDetail";
-			// 댓글 조회
-			ArrayList<FreeBoardDTO> reply = null;
-			reply = service.replyList(id);
+
 			
 			
 			
@@ -85,7 +83,6 @@ public class FreeBoardController {
 				
 				page = "freeDetail";
 				
-				model.addAttribute("reply", reply);
 				model.addAttribute("detailms", detailms);
 				model.addAttribute("detailFile", detailfile);
 				model.addAttribute("loginId", loginId);
@@ -94,6 +91,13 @@ public class FreeBoardController {
 			return page;
 	}	
 	
+    @RequestMapping(value="/replyList.ajax", method = RequestMethod.POST)
+    @ResponseBody
+    public HashMap<String, Object> replyList(HttpSession session, @RequestParam HashMap<String, Object> params){
+    	logger.info("댓글 리스트 호출");
+    	logger.info("params : "+params);
+       return service.replyList(session, params);
+    }	
 	
 	
 	// 댓글 작성하기
@@ -136,23 +140,22 @@ public class FreeBoardController {
 	}
 	
 	// 댓글 수정
-	@RequestMapping(value = "/replyModify.do")
-	public String archiveUpdate(@RequestParam HashMap<String, String> params, HttpSession session, Model model) {
+	@RequestMapping(value="/commentUpdate.ajax", method = RequestMethod.POST)
+    @ResponseBody
+    public HashMap<String, Object> commentUpdate(@RequestParam HashMap<String, Object> params){
+		logger.info("id : " + params.get("id"));
+		logger.info("content : " + params.get("content"));
+		
+		logger.info("params : "+params);
+		service.commentUpdate(params);
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("success", true); // ajax 에서 success 였을 때 넘어가는 데이터가 map
+		return map; 
+    }
 	
-	logger.info("댓글 수정 하겠습니다");
-
-	logger.info("params: " + params);
-	service.replyModify(params);
-	
-	String page = "redirect:/freedetail.do?id="+params.get("free_board_id");
-	
-	
-	
-	return page;
-	}		
 	
 	// 댓글 삭제
 	
-	
+
 	
 }
