@@ -25,110 +25,54 @@
     <!-- Main content -->
     <section class="content">
 
-<div class="col-12">
+
 <div class="card">
 <div class="card-header">
-<h3 class="card-title">Fixed Header Table</h3>
-<div class="card-tools">
-<div class="input-group input-group-sm" style="width: 150px;">
-<input type="text" name="table_search" class="form-control float-right" placeholder="Search">
-<div class="input-group-append">
-<button type="submit" class="btn btn-default">
-<i class="fas fa-search"></i>
-</button>
-</div>
-</div>
-</div>
+<h3 class="card-title"><!-- 헤더 제목 넣을거면 넣고 --></h3>
 </div>
 
-<div class="card-body table-responsive p-0" style="height: 300px;">
-<table class="table table-head-fixed text-nowrap">
+<div class="card-body p-0">
+<table class="table table-striped">
 <thead>
-				<tr>
-					<th>분류</th>
-					<th>알림 제목</th>
-					<th>발신인</th>
-					<th>날짜</th>
-				</tr>
+<tr>
+<th style="text-align:center">분류</th>
+<th style="text-align:center">알림 제목</th>
+<th style="text-align:center">발신인</th>
+<th style="text-align:center">날짜</th>
+</tr>
 </thead>
 <tbody>
  				<c:if test="${noticeList eq null}">
 					<tr>
-						<th colspan="5">알림이 없습니다.</th>
+						<th colspan="5" style="text-align:center">알림이 없습니다.</th>
 					</tr>
 				</c:if>
 							
-				<c:forEach items="${noticeList}" var="noticeList">
+				<c:forEach items="${list}" var="noticeList">
 					<tr>
-						<td>${noticeList.send_id}</td>
-						<td><a href="fdetail.do?fbNo=${alarmList.alarm_num}">${alarmList.alarm_title}</a></td>
-						<td>${alarmList.alarm_class}, ${alarmList.alarm_num}</td>
-						<td>${alarmList.alarm_time}</td>
+						<td style="text-align:center">${noticeList.type}</td>
+						<td style="text-align:center">${noticeList.identify_value}</td>
+						<td style="text-align:center">${noticeList.name}</td>
+						<td style="text-align:center">${noticeList.create_at}</td>
 					</tr>				
 				</c:forEach>
 <tr>
-<td>183</td>
-<td>John Doe</td>
-<td>11-7-2014</td>
-<td><span class="tag tag-success">Approved</span></td>
-<td>Bacon ipsum dolor sit amet salami venison chicken flank fatback doner.</td>
-</tr>
-<tr>
-<td>219</td>
-<td>Alexander Pierce</td>
-<td>11-7-2014</td>
-<td><span class="tag tag-warning">Pending</span></td>
-<td>Bacon ipsum dolor sit amet salami venison chicken flank fatback doner.</td>
-</tr>
-<tr>
-<td>657</td>
-<td>Bob Doe</td>
-<td>11-7-2014</td>
-<td><span class="tag tag-primary">Approved</span></td>
-<td>Bacon ipsum dolor sit amet salami venison chicken flank fatback doner.</td>
-</tr>
-<tr>
-<td>175</td>
-<td>Mike Doe</td>
-<td>11-7-2014</td>
-<td><span class="tag tag-danger">Denied</span></td>
-<td>Bacon ipsum dolor sit amet salami venison chicken flank fatback doner.</td>
-</tr>
-<tr>
-<td>134</td>
-<td>Jim Doe</td>
-<td>11-7-2014</td>
-<td><span class="tag tag-success">Approved</span></td>
-<td>Bacon ipsum dolor sit amet salami venison chicken flank fatback doner.</td>
-</tr>
-<tr>
-<td>494</td>
-<td>Victoria Doe</td>
-<td>11-7-2014</td>
-<td><span class="tag tag-warning">Pending</span></td>
-<td>Bacon ipsum dolor sit amet salami venison chicken flank fatback doner.</td>
-</tr>
-<tr>
-<td>832</td>
-<td>Michael Doe</td>
-<td>11-7-2014</td>
-<td><span class="tag tag-primary">Approved</span></td>
-<td>Bacon ipsum dolor sit amet salami venison chicken flank fatback doner.</td>
-</tr>
-<tr>
-<td>982</td>
-<td>Rocky Doe</td>
-<td>11-7-2014</td>
-<td><span class="tag tag-danger">Denied</span></td>
-<td>Bacon ipsum dolor sit amet salami venison chicken flank fatback doner.</td>
-</tr>
 </tbody>
+
 </table>
 </div>
-
+<div class="card-footer clearfix">
+<ul class="pagination pagination-sm m-0 float-right">
+<li class="page-item"><a class="page-link" href="#">«</a></li>
+<li class="page-item"><a class="page-link" href="#">1</a></li>
+<li class="page-item"><a class="page-link" href="#">2</a></li>
+<li class="page-item"><a class="page-link" href="#">3</a></li>
+<li class="page-item"><a class="page-link" href="#">»</a></li>
+</ul>
+</div>
 </div>
 
-</div>
+
     </section>
   </div>
 </div>
@@ -145,7 +89,3 @@
 <script>
 </script>
 </html>
-
-
-
-

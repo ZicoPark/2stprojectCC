@@ -1,5 +1,7 @@
 package kr.co.cc.calender.controller;
 
+import javax.servlet.http.HttpSession;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,8 +21,8 @@ public class CalenderController {
 	
 	// 캘린더 리스트
 	@RequestMapping(value = "/CalenderList.go")
-	public ModelAndView CalenderList() {
-		return service.CalenderList();
+	public ModelAndView CalenderList(HttpSession session) {
+		return service.CalenderList(session);
 	}
 	
 	// 캘린더 저장

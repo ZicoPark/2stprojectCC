@@ -144,7 +144,18 @@
 	  INSERT INTO comment_reply (coment_id, content, member_id, status)
 	  VALUES (#{id}, #{content}, #{loginId}, 1)
 	</insert>
-																							
+	
+	<select id="replyLoad" resultType="kr.co.cc.project.dto.ProjectDTO" parameterType="String">
+		SELECT cr.*,(select m.name from member m where m.id = cr.member_id ) as name 
+		FROM comment_reply cr WHERE coment_id=#{comment_id}
+	</select>	
+	
+	<delete id="replyDel" parameterType="java.lang.String">
+	  DELETE FROM comment_reply
+	  WHERE coment_id = #{commentId}
+	</delete>																
 </mapper>
+
+
 
 

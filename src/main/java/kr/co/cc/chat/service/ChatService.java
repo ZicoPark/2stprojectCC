@@ -19,14 +19,15 @@ import kr.co.cc.chat.dao.ChatDAO;
 public class ChatService {
 	
 	Logger logger = LoggerFactory.getLogger(getClass());	
-	private final ChatDAO dao;	
-	public ArrayList<MemberDTO> memberListAll() {
-		return dao.memberListAll();
-	}
+	private final ChatDAO dao;
 	public ChatService(ChatDAO dao) {
 		this.dao = dao;
 	}
-		
+	
+	
+	public ArrayList<MemberDTO> memberListAll() {
+		return dao.memberListAll();
+	}
 	
 	public String createChatRoom(HashMap<String, Object> map) {
 		ChatDTO dto = new ChatDTO();
@@ -37,7 +38,7 @@ public class ChatService {
 		logger.info("getChat_room_id : " + dto.getChat_room_id());
 		
 		for (String member_id_array : (ArrayList<String>) map.get("member_id_array")) {
-			logger.info("user_id : "+ member_id_array);
+			logger.info("id : "+ member_id_array);
 			dao.insert_chat_room_info(dto.getChat_room_id(), member_id_array);
 			
 		}
@@ -82,20 +83,29 @@ public class ChatService {
 		String id = (String) session.getAttribute("id");
 		return dao.chatNameChk(id);
 	}
+	public ArrayList<MemberDTO> memberList(String chat_room_id) {
+		logger.info(chat_room_id + "chat_room_id");
+		return dao.memberList(chat_room_id);
+	}
+
+
+	public String inviteChatRoom(HashMap<String, Object> map) {
+		ChatDTO dto = new ChatDTO();
+		dto.setChat_room_id(String.valueOf(map.get("chat_room_id")));
+		
+		logger.info("getChat_room_id : " + dto.getChat_room_id());
+		
+		String chat_room_id = dto.getChat_room_id();
+		
+		for (String member_id_array : (ArrayList<String>) map.get("member_id_array")) {
+			logger.info("id : "+ member_id_array);
+			dao.insert_chat_room_info(chat_room_id, member_id_array);			
+		}
+		
+		return "success";
+	}
 
 	
 	
-	
-	/*
-	public ArrayList<MemberDTO> memberList(String chat_room_id) {
-		ArrayList<ChatDTO> list = dao.chatRoomInfo(chat_room_id);
-		ArrayList<MemberDTO> listAll = dao.memberListAll();
-		
-		for (ChatDTO dto : list) {
-			listAll.removeIf(m -> m.equals(dto.get));
-		}
-		
-		list.removeIf(filter);
-		return null;
-	}*/
+
 }

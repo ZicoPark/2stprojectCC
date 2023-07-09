@@ -28,6 +28,15 @@
 		float : left;
 	}
 	
+	#listtCss{
+		margin-bottom: 20px;
+	}
+	
+	#listCss:hover {
+		border-bottom: 2px solid blue; 
+		color: blue;
+	}
+	
 	#chat_history {
 		border : 2px solid red;
 		width : 700px;
@@ -154,8 +163,7 @@
 				
 				<div class="input-container modal-footer">
 					<span>
-						<input type="text" placeholder="채팅방 이름을 적어주세요" id="chat-room-name">
-						<button type="button" id="send-button-invite" class="send-button-invite">추가하기</button>
+						<button type="button" id="send-button-invite" class="send-button-invite">초대하기</button>
 					</span>
 				</div>
 			
@@ -202,7 +210,8 @@
 			dataType:'json',
 			success:function(data){
 				console.log(data);
-				$('.chatting-list-create').html('');
+				 $('.chatting-list-create').html('');
+		         $('.chatting-list-invite').html('');
 				var content =  '<table><tr><th><input type="checkbox" name="member_all"></th><th>이름</th><th>부서</th></tr>';
 				data.forEach(function(item) {
 					if(item.id == "${sessionScope.id}") {
@@ -287,7 +296,7 @@
 				console.log('chatList.ajax 통신 성공');
 				$('#chat_room').html('');
 				data.forEach(function(item) {
-					var content = '<div onclick="chatOpen(\''+item.chat_room_id+'\')">'+item.name+'</div>';
+					var content = '<div id="listCss" onclick="chatOpen(\''+item.chat_room_id+'\')">'+item.name+'</div>';
 					$('#chat_room').append(content);
 				});
 			},
@@ -400,6 +409,13 @@
 	    //event.preventDefault();
 	}
 	
+	function handleKeyDown(event) {
+		  if (event.keyCode === 13) { // 엔터 키를 눌렀을 때
+		    event.preventDefault(); // 기본 동작 (폼 제출 등) 막기
+		    sendMessage(); // sendMessage 함수 호출
+		  }
+	}
+	
 	
 	function chatRoomExit() {
 		console.log('chatRoomExit() 호출');
@@ -428,18 +444,7 @@
 	}
 	
 	
-	function handleKeyDown(event) {
-	  if (event.keyCode === 13) { // 엔터 키를 눌렀을 때
-	    event.preventDefault(); // 기본 동작 (폼 제출 등) 막기
-	    sendMessage(); // sendMessage 함수 호출
-	  }
-	}
-	
-	
-	
-	
-	
-	<!--
+
 	function invite() {
 		console.log('invite() 호출');
 		$.ajax({
@@ -449,38 +454,93 @@
 			dataType:'json',
 			success:function(data){
 				console.log(data);
-				$('.chatting-list').html('');
+				$('.chatting-list-create').html('');
+				$('.chatting-list-invite').html('');
 				var content =  '<table><tr><th><input type="checkbox" name="member_all"></th><th>이름</th><th>부서</th></tr>';
 				data.forEach(function(item) {
 					if(item.id == "${sessionScope.id}") {
 						content+='';
 					}else {
-						content+='<tr><th><input type="checkbox" name="id-invite" value="'+item.id+'"></th><th>'+item.name+'</th><th>'+item.dept_name+'</th></tr>';
+						content+='<tr><th><input type="checkbox" name="id" value="'+item.id+'"></th><th>'+item.name+'</th><th>'+item.dept_name+'</th></tr>'
 					}
-					
+				             
 				});
 				content += '</table>';
-				$('.chatting-list-invite').empty();
+				          
 				$('.chatting-list-invite').append(content);
-				
 				$('input:checkbox[name="member_all"]').change(function() {
-					console.log('member_all 체인지 이벤트');
-					if($('input:checkbox[name="member_all"]').is(':checked')) {
-						console.log('체크');
-						$('input:checkbox[name="member_id"]').prop('checked', true);
-					}else {
-						console.log('체크해제');
-						$('input:checkbox[name="member_id"]').prop('checked', false);
-					}
+				console.log('member_all 체인지 이벤트');
+				if($('input:checkbox[name="member_all"]').is(':checked')) {
+					console.log('체크');
+					$('input:checkbox[name="id"]').prop('checked', true);
+				}else {
+					console.log('체크해제');
+					$('input:checkbox[name="id"]').prop('checked', false);
+				}
 				});
 			},
 			error:function(e){
-				console.log(e);
+			   console.log(e);
 			}
 		});
 		
 	}
-	-->
 
+   
+
+	$('#send-button-invite').click(function() {
+		var member_id_array = [];
+		if($('input:checkbox[name="id"]:checked').length == 0) {
+			alert('한명 이상의 사원을 선택해주세요 !');
+		}else {
+			$('input:checkbox[name="id"]').each(function() {
+				if($(this).is(":checked")==true){
+					console.log("member_id_array : " + $(this).val());
+					member_id_array.push($(this).val());
+				}
+			});
+			member_id_array.push("${sessionScope.id}");
+	          
+			$.ajax({
+				url:'inviteChatRoom.ajax',
+				type:'post',
+				async: false,
+				data:{
+					'member_id_array': member_id_array,
+					'chat_room_id' : chat_room_id	
+				},
+				dataType:'text',
+				success:function(data){
+					console.log(data);
+	                console.log('inviteChatroom.ajax () 성공');
+	                $('#content').val("채팅방에 사원을 초대하였습니다. 확인해주세요.");
+					sendMessage("");
+				},
+				error:function(e){
+					console.log(e);
+				}
+			});
+	          
+			chatListAjax();
+		}
+	    
+		console.log(member_id_array);
+	});
+
+	
+	$('#send-button-invite').click(function() {
+		 $('.chatting-list-create').html('');
+         $('.chatting-list-invite').html('');
+		$('#chatInviteModal').modal('hide');
+	});
+	
+	$('#send-button-create').click(function() {
+		 $('.chatting-list-create').html('');
+        $('.chatting-list-invite').html('');
+		$('#chatCreateModal').modal('hide');
+	});
+	
+	
+	
 </script>
 </html>
