@@ -105,6 +105,11 @@ public class ChatService {
 		return "success";
 	}
 
+
+	public ArrayList<ChatDTO> chatMember(String chat_room_id) {
+		return dao.chatMember(chat_room_id);
+	}
+
 	
 	
 

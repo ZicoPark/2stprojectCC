@@ -85,6 +85,18 @@
 		)
 	</select>
 	
+	<select id="chatMember">
+	SELECT m.id, m.name, d.name as dept_name
+	FROM member m
+	INNER JOIN dept d 
+	ON m.dept_id = d.id
+	WHERE m.id IN (
+	    SELECT member_id
+	    FROM chat_room_info
+	    WHERE chat_room_id = #{param1}  AND state = 'in'
+	)
+	</select>
+	
 
 	
 
