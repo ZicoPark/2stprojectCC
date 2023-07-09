@@ -114,5 +114,6 @@
 <script src="../../dist/js/demo.js"></script>
 </body>
 <script>
+	//socket.send('알림');
 </script>
 </html>

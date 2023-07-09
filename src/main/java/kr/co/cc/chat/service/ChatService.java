@@ -3,6 +3,8 @@ package kr.co.cc.chat.service;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import javax.servlet.http.HttpSession;
+
 import org.mybatis.spring.annotation.MapperScan;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,14 +19,15 @@ import kr.co.cc.chat.dao.ChatDAO;
 public class ChatService {
 	
 	Logger logger = LoggerFactory.getLogger(getClass());	
-	private final ChatDAO dao;	
-	public ArrayList<MemberDTO> memberListAll() {
-		return dao.memberListAll();
-	}
+	private final ChatDAO dao;
 	public ChatService(ChatDAO dao) {
 		this.dao = dao;
 	}
-		
+	
+	
+	public ArrayList<MemberDTO> memberListAll() {
+		return dao.memberListAll();
+	}
 	
 	public String createChatRoom(HashMap<String, Object> map) {
 		ChatDTO dto = new ChatDTO();
@@ -35,9 +38,12 @@ public class ChatService {
 		logger.info("getChat_room_id : " + dto.getChat_room_id());
 		
 		for (String member_id_array : (ArrayList<String>) map.get("member_id_array")) {
-			logger.info("user_id : "+ member_id_array);
+			logger.info("id : "+ member_id_array);
 			dao.insert_chat_room_info(dto.getChat_room_id(), member_id_array);
+			
 		}
+		
+		dao.insert_chat(dto.getChat_room_id());
 		
 		return "success";
 	}
@@ -59,8 +65,7 @@ public class ChatService {
 	
 	public ArrayList<ChatDTO> chatLoad(String chat_room_id) {
 		return dao.chatLoad(chat_room_id);
-	}
-	
+	}	
 
 	public void chatStored(ChatDTO dto) {
 		HashMap<String, Object> map = new HashMap<String, Object>();
@@ -70,27 +75,42 @@ public class ChatService {
 		map.put("is_notice", dto.isIs_notice());
 		dao.chatStored(map);
 	}
-
-	
-	
-
-	
-
-	public int chatRoomExit(HashMap<String, Object> params) {
-		dao.exitMessage(params);
-		return dao.chatRoomExit(params);
-	}
-	
-	/*
-	public ArrayList<MemberDTO> memberList(String chat_room_id) {
-		ArrayList<ChatDTO> list = dao.chatRoomInfo(chat_room_id);
-		ArrayList<MemberDTO> listAll = dao.memberListAll();
+	public void chatRoomExit(String chat_room_id, String member_id) {
+		dao.chatRoomExit(chat_room_id,member_id);
 		
-		for (ChatDTO dto : list) {
-			listAll.removeIf(m -> m.equals(dto.get));
+	}
+	public String chatNameChk(HttpSession session) {
+		String id = (String) session.getAttribute("id");
+		return dao.chatNameChk(id);
+	}
+	public ArrayList<MemberDTO> memberList(String chat_room_id) {
+		logger.info(chat_room_id + "chat_room_id");
+		return dao.memberList(chat_room_id);
+	}
+
+
+	public String inviteChatRoom(HashMap<String, Object> map) {
+		ChatDTO dto = new ChatDTO();
+		dto.setChat_room_id(String.valueOf(map.get("chat_room_id")));
+		
+		logger.info("getChat_room_id : " + dto.getChat_room_id());
+		
+		String chat_room_id = dto.getChat_room_id();
+		
+		for (String member_id_array : (ArrayList<String>) map.get("member_id_array")) {
+			logger.info("id : "+ member_id_array);
+			dao.insert_chat_room_info(chat_room_id, member_id_array);			
 		}
 		
-		list.removeIf(filter);
-		return null;
-	}*/
+		return "success";
+	}
+
+
+	public ArrayList<ChatDTO> chatMember(String chat_room_id) {
+		return dao.chatMember(chat_room_id);
+	}
+
+	
+	
+
 }

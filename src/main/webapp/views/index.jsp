@@ -115,7 +115,7 @@
       <li class="nav-item dropdown">
         <a class="nav-link" data-toggle="dropdown" href="#">
           <i class="far fa-bell"></i>
-          <span class="badge badge-warning navbar-badge">15</span>
+          <span class="badge badge-warning navbar-badge"></span>
         </a>
         <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
           <span class="dropdown-item dropdown-header">최신 알림</span>
@@ -156,7 +156,7 @@
   <!-- Main Sidebar Container -->
   <aside class="main-sidebar sidebar-dark-primary elevation-4 bg-white">
     <!-- Brand Logo -->
-    <a href="../../index3.jsp" class="brand-link">
+    <a href="/main.go" class="brand-link">
       <img src="../../dist/img/KakaoTalk_20230613_164257782.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-10" style="opacity: .8">
       <span class="brand-text font-weight-light">CreatorCompany</span>
     </a>
@@ -325,21 +325,9 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="/" class="nav-link">
+                <a href="/CalenderList.go" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
-                  <p>부제목1</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="/index2.go" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>부제목2</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="../../index3.jsp" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>부제목3</p>
+                  <p>캘린더</p>
                 </a>
               </li>
             </ul>
@@ -545,7 +533,51 @@
     <!-- Control sidebar content goes here -->
   </aside>
   <!-- /.control-sidebar -->
+	<!-- <script src="../../js/websocket.js"></script> -->
+<script>
 
+var socket;
+
+socket = new WebSocket('ws://localhost/alarm');
+
+socket.onopen = function(event) {
+    console.log('WebSocket 연결이 열렸습니다.');
+    $.ajax({
+		type:'post',
+		url:'alarmCount.ajax',
+		data: {
+			receive_id : '${sessionScope.id}'
+		},
+		dataType:'json',
+		success:function(data){
+			console.log(data);
+			$('.badge.badge-warning.navbar-badge').html(data);
+		},
+		error:function(e){
+			console.log(e);
+		}		
+	});
+};
+
+socket.onmessage = function(event) {
+    var message = event.data;
+    console.log('수신된 메시지: ' + message);
+    // 메시지 처리 로직 구현
+};
+
+socket.onclose = function(event) {
+    console.log('WebSocket 연결이 닫혔습니다.');
+};
+
+socket.onerror = function(error) {
+    console.error('WebSocket 오류:', error);
+};
+  
+
+
+
+
+</script>
 
 
 

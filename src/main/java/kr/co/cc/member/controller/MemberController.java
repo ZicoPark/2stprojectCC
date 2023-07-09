@@ -31,8 +31,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
+import kr.co.cc.main.dto.MainDTO;
 
-import kr.co.cc.archive.dto.ArchiveDTO;
 import kr.co.cc.member.dao.MemberDAO;
 import kr.co.cc.member.dto.MemberDTO;
 import kr.co.cc.member.service.MemberService;
@@ -64,11 +64,20 @@ public class MemberController {
 		return memberservice.join(params, file,dto);
 	}
 	
-	// 로그인 성공시 가는 메인페이지
-	@RequestMapping(value="/main.go")
-	public String main(Model model) {
-		return "workHistoryList";
-	}
+	/*
+	 * // 로그인 성공시 가는 메인페이지
+	 * 
+	 * @RequestMapping(value="/main.go") public String main(Model model, HttpSession
+	 * session) {
+	 * 
+	 * String loginId = (String) session.getAttribute("id"); MainDTO mainPage =
+	 * memberservice.mainPage(loginId); logger.info("mainPage : "+mainPage);
+	 * 
+	 * 
+	 * model.addAttribute("main",mainPage);
+	 * 
+	 * return "mainTest"; }
+	 */
 	
 	// 아이디 중복 체크
 	@RequestMapping(value = "/idChk.ajax", method = RequestMethod.POST)
@@ -110,11 +119,14 @@ public class MemberController {
 		String page = "Login";
 		
 		if (memberservice.login(user_id,password,id) == true){
-			page = "redirect:/main.go";
 			id = memberservice.loginid(user_id);
 			session.setAttribute("id", id);
 			session.setAttribute("user_id", user_id);
 			logger.info("id : " + id + "/ " + "user_id : " + user_id + "/ " + "password  : " + password);
+			
+			page = "redirect:/main.go?id="+id;
+			
+			
 		}else {
 			model.addAttribute("msg", "아이디 또는 비밀번호를 확인해주세요");
 		}

@@ -3,6 +3,8 @@ package kr.co.cc.chat.controller;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import javax.servlet.http.HttpSession;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,14 +36,18 @@ public class ChatController {
 	}
 	
 	@GetMapping(value="/chatRoom.go")
-	public String home() {
+	public String home(HttpSession session) {
+		String chatNameChk = service.chatNameChk(session);
+		
+		session.setAttribute("chatNameChk", chatNameChk);
+		
 		return "chatRoom";
 	}	
 	
 	@PostMapping(value="/memberListAll.ajax")
 	@ResponseBody
 	public ArrayList<MemberDTO> memberListAll() {
-		logger.info("/memberList.ajax");
+		logger.info("/memberListAll.ajax");
 		return service.memberListAll();
 	}
 	
@@ -108,19 +114,51 @@ public class ChatController {
 		template.convertAndSend("/sub/chat/"+ dto.getChat_room_id(), dto);
 	}
 	
-	
-	
-	
-	
-	
-	
-	
-	
 	@PostMapping(value="/chatRoomExit.ajax")
 	@ResponseBody
-	public int chatRoomExit(@RequestParam HashMap<String, Object> params) {
-		logger.info("params : " + params);
-		return service.chatRoomExit(params);
+	public HashMap<String, Object> chatRoomExit(@RequestParam String member_id,@RequestParam String chat_room_id) {
+		logger.info("member_id : " + member_id, "chat_room_id : " + chat_room_id);
+		service.chatRoomExit(chat_room_id,member_id);
+		
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		
+		map.put("success", "success");
+		
+		return map;
 	}
+	
+	@PostMapping(value="/memberList.ajax")
+	@ResponseBody
+	public ArrayList<MemberDTO> memberList(@RequestParam String chat_room_id) {
+		logger.info("/memberList.ajax");
+		return service.memberList(chat_room_id);
+	}
+	
+	@PostMapping(value="/inviteChatRoom.ajax")
+	@ResponseBody
+	public String inviteChatRoom(@RequestParam(value="member_id_array[]") ArrayList<String> member_id_array
+			,@RequestParam String chat_room_id) {
+		logger.info("member_id_array" + member_id_array);
+		logger.info("chat_room_id : " + chat_room_id);
+		
+		for (String member_id_array_list : member_id_array) {
+			logger.info("member_id_array : " + member_id_array_list);
+		}
+		
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		
+		map.put("member_id_array", member_id_array);
+		map.put("chat_room_id", chat_room_id);
+		
+		return service.inviteChatRoom(map);
+	}
+	
+	@PostMapping(value="/chatMember.ajax")
+	@ResponseBody
+	public ArrayList<ChatDTO> chatMember(@RequestParam String chat_room_id) {
+		logger.info("chatMember.ajax chat_room_id : " + chat_room_id);
+		return service.chatMember(chat_room_id);
+	}
+	
 	
 }

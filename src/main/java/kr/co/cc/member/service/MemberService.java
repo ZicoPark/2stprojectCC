@@ -30,6 +30,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import kr.co.cc.main.dto.MainDTO;
 import kr.co.cc.member.dao.MemberDAO;
 import kr.co.cc.member.dto.MemberDTO;
 
@@ -369,6 +370,11 @@ public class MemberService {
 	}
 
 
+
+	public MainDTO mainPage(String loginId) {
+		logger.info("멤버 컨트롤러에서 메인페이지 이동 - 서비스 ");
+		return memberdao.mainPage(loginId);
+	}
 
 
 }

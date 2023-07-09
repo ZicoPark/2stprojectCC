@@ -1,9 +1,8 @@
-package kr.co.cc.notice.dto;
+package kr.co.cc.alarm.dto;
 
 import java.sql.Date;
 
-public class NoticeDTO {
-	
+public class AlarmDTO {
 	private String id;
 	private String send_id;
 	private String receive_id;
@@ -11,7 +10,6 @@ public class NoticeDTO {
 	private boolean status;
 	private String identify_value;
 	private Date create_at;
-	
 	public String getId() {
 		return id;
 	}
@@ -56,10 +54,4 @@ public class NoticeDTO {
 	}
 	
 	
-	
-	
-	
-	
-	
-
 }

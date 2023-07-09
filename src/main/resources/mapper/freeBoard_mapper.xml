@@ -75,7 +75,7 @@
 
 
 	<!-- 댓글 조회 -->
-	<select id="replyList" resultType="kr.co.cc.freeBoard.dto.FreeBoardDTO">
+	<select id="replyList" resultType="kr.co.cc.freeBoard.dto.FreeBoardDTO" parameterType="hashmap">
 		SELECT r.id ,r.free_board_id ,r.member_id ,r.content ,r.create_at, m.user_id , m.name from reply r 
 		JOIN member m on m.id = r.member_id
 		WHERE r.status = 1	AND r.free_board_id = #{free_board_id} 
@@ -100,13 +100,15 @@
 	</select>	
 	
 	
-	<update id="replyModify" parameterType="hashmap">
+	<update id="commentUpdate" parameterType="hashmap">
 		UPDATE reply SET 
 		content = #{content}
 		WHERE id = #{id}
 	</update>	
 	
-	
+	<select id="replyTotalCount" parameterType="String" resultType ="int">
+		SELECT COUNT (id) FROM reply WHERE status = 1
+	</select>	
 	
 	
 	

@@ -24,11 +24,18 @@
 		INSERT INTO chat_room_info(chat_room_id, member_id, state) VALUES(#{param1}, #{param2}, 'in')
 	</insert>
 	
+	<insert id="insert_chat">
+		INSERT INTO chat(send_id, chat_room_id, content, send_time) VALUES('방장', #{param1}, '방이 생성 되었습니다.', now())
+	</insert>
 	
-	<select id="chatList" resultType="kr.co.cc.chat.dto.ChatDTO" parameterType="String">
-		select * from chat_room_info
-		WHERE member_id=#{member_id}
-		AND state='in'
+	
+	<select id="chatList" resultType="kr.co.cc.chat.dto.ChatDTO" parameterType="String">		
+		SELECT i.chat_room_id, i.member_id, i.state, c.send_time
+		FROM chat_room_info i
+		INNER JOIN chat c ON i.chat_room_id = c.chat_room_id
+		WHERE i.member_id = #{member_id} AND i.state = 'in'
+		group by i.chat_room_id
+		ORDER BY c.send_time DESC
 	</select>
 	
 	<select id="room_list" resultType="kr.co.cc.chat.dto.ChatDTO" parameterType="String">
@@ -41,6 +48,7 @@
 		from `chat` c inner join `member` m on c.send_id = m.id
 		inner join dept d on m.dept_id = d.id
 		WHERE chat_room_id = #{chat_room_id}
+		order by c.send_time
 	</select>
 	
 	<select id="chatLoad" parameterType="String">
@@ -48,6 +56,7 @@
 		from `chat` c inner join `member` m on c.send_id = m.id
 		inner join dept d on m.dept_id = d.id
 		WHERE chat_room_id = #{chat_room_id}
+		order by c.send_time
 	</select>
 	
 	<insert id="chatStored" parameterType="hashmap">
@@ -55,29 +64,40 @@
 		VALUES(#{send_id}, #{chat_room_id}, #{content}, now())	
 	</insert>
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	<update id="chatRoomExit" parameterType="hashmap">
+	<update id="chatRoomExit">
 		UPDATE chat_room_info SET state = 'out'
-		WHERE user_id=#{user_id}
-		AND chat_room_id=#{chat_room_id}
+		WHERE member_id=#{param2}
+		AND chat_room_id=#{param1}
 	</update>
 	
-	<insert id="exitMessage" parameterType="hashmap">
-		INSERT INTO chat(send_id, chat_room_id,content,blind,is_notice)
-		VALUES(#{user_id},#{chat_room_id}, CONCAT(#{user_id},'님이 퇴장하셨습니다.'), false, true)
-	</insert>
-	
-	<select id="chatRoomInfo" parameterType="String" resultType="kr.co.cc.chat.dto.ChatDTO">
-		SELECT * FROM chat_room_info
-		WHERE chat_room_info=#{chat_room_info}
+	<select id="chatNameChk">
+		select name from member where id = #{param1}
 	</select>
+	
+	<select id="memberList" resultType="kr.co.cc.chat.dto.MemberDTO">
+		SELECT m.id, m.name, d.name as dept_name
+		from member m inner join dept d 
+		on m.dept_id = d.id
+		WHERE m.id NOT IN (
+			SELECT member_id
+			FROM chat_room_info
+			WHERE chat_room_id = #{param1}
+		)
+	</select>
+	
+	<select id="chatMember">
+	SELECT m.id, m.name, d.name as dept_name
+	FROM member m
+	INNER JOIN dept d 
+	ON m.dept_id = d.id
+	WHERE m.id IN (
+	    SELECT member_id
+	    FROM chat_room_info
+	    WHERE chat_room_id = #{param1}  AND state = 'in'
+	)
+	</select>
+	
+
+	
+
 </mapper>

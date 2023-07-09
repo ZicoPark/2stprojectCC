@@ -146,5 +146,14 @@
 </select>
 	
 	
+	
+	<select id="mainPage" parameterType="kr.co.cc.main.dto.MainDTO">
+		SELECT m.id AS m_id , d.id AS d_id , jl.id AS jl_id, m.user_id , m.name AS m_name , d.name AS d_name , jl.name AS jl_name, a.id AS a_id
+		from member m
+		JOIN dept d on m.dept_id = d.id
+		JOIN job_level jl on m.job_level_id = jl.id
+		JOIN attachment a on m.id = a.identify_value
+		WHERE m.id = #{loginId}	
+	</select>	
 
 </mapper>
