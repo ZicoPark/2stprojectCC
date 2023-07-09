@@ -169,8 +169,8 @@
           <img src="../../dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
         </div>
         <div class="info">
-          <a href="/userinfo.go" class="d-block">${user.id}의 MyPage</a>
-        </div>
+		  <a href="/userinfo.go" class="d-block">${user.id}의 MyPage</a>
+		</div>
       </div>
 
       <!-- SidebarSearch Form -->
