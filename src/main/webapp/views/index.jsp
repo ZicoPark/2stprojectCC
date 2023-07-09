@@ -156,7 +156,7 @@
   <!-- Main Sidebar Container -->
   <aside class="main-sidebar sidebar-dark-primary elevation-4 bg-white">
     <!-- Brand Logo -->
-    <a href="../../index3.jsp" class="brand-link">
+    <a href="/main.go" class="brand-link">
       <img src="../../dist/img/KakaoTalk_20230613_164257782.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-10" style="opacity: .8">
       <span class="brand-text font-weight-light">CreatorCompany</span>
     </a>

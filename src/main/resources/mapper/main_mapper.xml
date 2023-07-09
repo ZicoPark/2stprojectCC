@@ -4,4 +4,26 @@
 	
 <mapper namespace="kr.co.cc.main.dao.MainDAO">
 
+	<select id="mWorkHistory" resultType="kr.co.cc.main.dto.MainDTO">
+		SELECT * FROM working_hour WHERE member_id=#{id} ORDER BY date DESC LIMIT 1
+	</select>
+
+	<select id="totalCountMs" resultType="int">
+		select count (m.id) from message m where m.to_id = #{id} and read_chk = 0
+	</select>
+
+	<select id="totalCountDoc" resultType="int">
+		select count (id) from doc where member_id = #{id} and status = 1
+	</select>
+
+	<select id="totalCountPr" resultType="int">
+		select count (id) from project where member_id = #{id} and del_chk = 0
+	</select>
+	
+	
+	<select id="noticelist" resultType="kr.co.cc.noticeBoard.dto.NoticeBoardDTO">
+         SELECT nb.id, nb.subject, nb.create_at ,m.name FROM notice_board nb
+		left join member m on nb.member_id = m.id ORDER BY create_at DESC limit 5
+   	</select>
+
 </mapper>

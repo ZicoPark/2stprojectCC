@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import kr.co.cc.main.dto.MainDTO;
 import kr.co.cc.member.dto.MemberDTO;
 
 
@@ -31,6 +32,8 @@ public interface MemberDAO {
 	void userfileWrite(String oriFileName, String newFileName, String classification, String userId);
 
 	int userInfoUpdate(HashMap<String, String> params);
+
+	MainDTO mainPage(String loginId);
 
 
 

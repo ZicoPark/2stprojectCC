@@ -153,6 +153,12 @@ public class ChatController {
 		return service.inviteChatRoom(map);
 	}
 	
+	@PostMapping(value="/chatMember.ajax")
+	@ResponseBody
+	public ArrayList<ChatDTO> chatMember(@RequestParam String chat_room_id) {
+		logger.info("chatMember.ajax chat_room_id : " + chat_room_id);
+		return service.chatMember(chat_room_id);
+	}
 	
 	
 }
