@@ -65,7 +65,6 @@
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
    <div class="wrapper">
-      <jsp:include page="header.jsp"/>
    
       <!-- Content Wrapper. Contains page content -->
         <div class="content-wrapper">
@@ -174,8 +173,6 @@
             </div>
          </div>
           
-          
-          <jsp:include page="footer.jsp"/>
       </div>
       <!-- /.content-wrapper -->
      

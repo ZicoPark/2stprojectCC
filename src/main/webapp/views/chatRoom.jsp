@@ -16,56 +16,128 @@
   <link rel="stylesheet" href="../../dist/css/adminlte.min.css">
   <!-- Tempusdominus Bootstrap 4 -->
   <link rel="stylesheet" href="plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css">
-  <style>
-	#chat_list {
-		height : 700px;
-	}
-	
-	#chat_room {
-		border : 1px solid blue;
-		width : 300px;
-		height : 100%;
-		float : left;
-	}
-	
-	#listtCss{
-		margin-bottom: 20px;
-	}
-	
-	#listCss:hover {
-		border-bottom: 2px solid blue; 
-		color: blue;
-	}
-	
-	#chat_history {
-		border : 2px solid red;
-		width : 700px;
-		height : 100%;
-		float : left;
-		overflow: auto;
-	}
-	
-	.main-sidebar {
-		background-color: #e9ddc6;
-	}
-	.mt-2 .nav .nav-item .nav-link p {
-		color : black;
-	}
-	.logo {
-		width : 231px;
-		height : 68px;
-	}
+<style>
+    
+    .chat-list {
+        display: flex;
+        align-items: stretch;
+    }
+    
+	.chat-column1{
+	    flex: 1;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        background-color: white;
+        overflow-y: auto;
+        height: 250px;
+        
+    }
+    
+	.chat-column2{
+		flex: 1;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        background-color: white;
+        overflow-y: auto;
+        height: 250px;
+        display: block;
+    }
+    
+	.chat-column3{
+        flex: 1;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        background-color: #f8f8f8;
+        height: 550px;
+        width: 600px;
+        max-width: 60%;
+    }
 
-	#footer {
-		margin-left: 0px;
-	}
-	table {
-		width: 300px;
-	}
-	table, th {
-		border-collapse: collapse;
-		border : 1px solid black;
-	}
+    #chat_history {
+        height: 90%;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        background-color: #fff;
+        overflow-y: auto;
+    }
+
+    .direct-chat-msg {
+        margin-bottom: 10px;
+    }
+
+    .direct-chat-name {
+        font-weight: bold;
+        color: #337ab7;
+    }
+
+    .direct-chat-timestamp {
+        color: #777;
+    }
+
+    .direct-chat-img {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        margin-right: 10px;
+    }
+
+    .direct-chat-text {
+        background-color: #f2f2f2;
+        padding: 10px;
+        border-radius: 5px;
+    }
+
+    .chat-input {
+        display: flex;
+        align-items: center;
+        margin-top: 10px;
+    }
+
+    #content {
+        flex: 1;
+        height: 30px;
+        padding: 5px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        margin-right: 10px;
+    }
+
+    .btn-primary {
+        background-color: #337ab7;
+        color: #fff;
+        border: none;
+        padding: 5px 10px;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    .btn-primary:hover {
+        background-color: #286090;
+    }
+    
+    .listList{
+		flex: 1;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        background-color: #f8f8f8;
+        overflow-y: auto;
+        height: 550px;
+        max-width: 30%;
+    }
+    
+	.listList div {
+        display: block;
+    }
+	#listCss:hover{
+		cursor: pointer;
+		text-decoration: underline;
+    }
+    
 </style>
 </head>
 <body>
@@ -74,48 +146,73 @@
 <div class="wrapper">
   <div class="content-wrapper">
     <section class="content-header">
-            <h1>채팅방</h1>         
+		<h1>채팅방</h1>         
     </section>
     <br/>
     <!-- Main content -->
-    <section class="content">
-    
-    <!-- 채팅방 생성 -->
-    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#chatCreateModal" onclick="create()">채팅방 생성하기</button>
-    
-    <!-- 채팅방 초대 -->
-    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#chatInviteModal" onclick="invite()">초대하기</button>
-    
-    <!-- 채팅방 나가기 -->
-    <button class="btn btn-primary" onclick="chatRoomExit()">채팅방 나가기</button>
-    
-    
-    
-    <div id="chat_list">    
-    	<!-- 채팅방 리스트 -->
-	    <div id="chat_room"></div>
-	    
-	    <!-- 채팅방 내용 -->
-	    <div id="chat_history">
-			<div class="direct-chat-msg left">
-				<div class="direct-chat-infos clearfix">
-					<span class="direct-chat-name float-left">CEO</span>
-					<span class="direct-chat-timestamp float-right">24 July 11:05 am</span>
-				</div>
-				
-				<img class="direct-chat-img" src="dist/img/user3-128x128.jpg" alt="message user image">
-				<div class="direct-chat-text">
-						 Creator Company에 오신 것을 환영합니다 !
-				</div>
-			</div>
-		</div>
-		
-		<!-- 채팅 입력 -->
-		<input type="text" id="content" onkeydown="handleKeyDown(event)">
-		<button class="btn btn-primary" onclick="sendMessage()">전송</button>
-	</div>
+	<section class="content">
 	
-    </section>
+	
+
+    <div style="display: flex;">
+        <!-- 채팅방 생성 -->
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#chatCreateModal" onclick="create()">채팅방 생성하기</button>
+		&nbsp;
+        <!-- 채팅방 초대 -->
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#chatInviteModal" onclick="invite()">초대하기</button>
+		&nbsp;
+        <!-- 채팅방 나가기 -->
+        <button class="btn btn-primary" onclick="chatRoomExit()">채팅방 나가기</button>
+    </div>
+	<br/>
+
+<div id="chat_list">    
+    <div class="chat-list">
+    
+    	<div class="listList">
+	        <div class="chat-column1">
+	            <!-- 채팅방 목록 -->
+	            <div style="color: #337ab7;">채팅방 목록</div>
+	            <div id="chat_room"></div>
+	        </div>
+	        <br/>
+	        <div class="chat-column2">
+	            <!-- 채팅방 인원 -->
+	            <div style="color: #337ab7;">채팅방 인원</div>
+	            <div id="chat_member"></div>
+	        </div>
+		</div>
+		&nbsp;
+        <div class="chat-column3">
+            <!-- 채팅방 내용 -->
+            <div id="chat_history">
+                <div class="direct-chat-msg">
+                    <div class="direct-chat-infos clearfix">
+                        <span class="direct-chat-name float-left">CEO</span>
+                        <span class="direct-chat-timestamp float-right">24 July 11:05 am</span>
+                    </div>
+                    <img class="direct-chat-img" src="dist/img/user3-128x128.jpg" alt="message user image">
+                    <div class="direct-chat-text">
+                        Creator Company에 오신 것을 환영합니다!
+                    </div>
+                </div>
+            </div>
+            
+		    <div class="chat-input 4">
+		        <!-- 채팅 입력 -->
+		        <input type="text" id="content" onkeydown="handleKeyDown(event)">
+		        <button class="btn btn-primary" onclick="sendMessage()">전송</button>
+		    </div>            
+            
+        </div>
+    </div>
+
+
+</div>
+
+
+
+	</section>
   </div>
 </div>
 
@@ -170,7 +267,6 @@
 			</div>
 		</div>
 	</div>
-
 
 
 <!-- ./wrapper -->
@@ -306,6 +402,30 @@
 			}
 		});
 	}
+	
+	function chatMember(id) {
+		console.log('chatMember Ajax() 호출');
+		$.ajax({
+			url:'chatMember.ajax',
+			type:'post',
+			data:{'chat_room_id': id},
+			dataType:'json',
+			success:function(data){
+				console.log('chatMember.ajax : ' + data);
+				console.log('chatMember.ajax 통신 성공');
+				$('#chat_member').html('');
+				data.forEach(function(item) {
+					var content = '<div>'+item.name+" ("+item.dept_name+')</div>';
+					$('#chat_member').append(content);
+				});
+			},
+			error:function(e){
+				console.log('chatList.ajax 통신 실패');
+				console.log(e);
+			}
+		});
+	}
+	
 		
 	function chatOpen(id) {
 		chat_room_id = id;
@@ -320,6 +440,7 @@
 			dataType:'json',
 			success:function(data){
 				chatHistory(data);
+				chatMember(chat_room_id);
 			},
 			error:function(e){
 				console.log(e); 
@@ -366,21 +487,22 @@
 	}	
 	
 	function chatHistory(data) {
+		chatMember(chat_room_id);
 		data.forEach(function(item) {
 			var content = '';
 			
 			if("${sessionScope.id}" == item.send_id) {
 				console.log('나' + item.send_id);
-				content+='<div class="direct-chat-msg">';
-				content+='<div class="direct-chat-infos clearfix">';
-				content+='<span class="direct-chat-name float-left">'+item.name+' ('+item.dept_name+')'+'</span>';
-				content+='<span class="direct-chat-timestamp float-right">'+item.send_time+'</span>';
-			}else {
-				console.log('상대' + item.send_id);
-				content+='<div class="direct-chat-msg right">';
+				content+='<div class="direct-chat-msg right" style="margin-left: 100px;">';
 				content+='<div class="direct-chat-infos clearfix">';
 				content+='<span class="direct-chat-name float-right">'+item.name+' ('+item.dept_name+')'+'</span>';
 				content+='<span class="direct-chat-timestamp float-left">'+item.send_time+'</span>';
+			}else {
+				console.log('상대' + item.send_id);
+				content+='<div class="direct-chat-msg" style="margin-right: 100px;">';
+				content+='<div class="direct-chat-infos clearfix">';
+				content+='<span class="direct-chat-name float-left">'+item.name+' ('+item.dept_name+')'+'</span>';
+				content+='<span class="direct-chat-timestamp float-right">'+item.send_time+'</span>';
 			}
 			
 			content+='</div>';
@@ -388,8 +510,15 @@
 			content+='<div class="direct-chat-text">'+item.content+'</div></div>';			
 
 			$('#chat_history').append(content);
+			
 		});
-	}	
+
+		var chatHistory = document.getElementById("chat_history");
+		chatHistory.scrollTop = chatHistory.scrollHeight;
+		
+	}
+	
+	
 	
 	
 	function sendMessage(event) {
