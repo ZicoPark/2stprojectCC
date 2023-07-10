@@ -17,7 +17,6 @@ public interface ProjectDAO {
 
 	ArrayList<ProjectDTO> ProjectList();
 
-	ArrayList<ProjectDTO> ProjectDetail(String id);
 
 	void addContributor(String contributorId, String project_id);
 
@@ -53,7 +52,7 @@ public interface ProjectDAO {
 
 	ArrayList<ProjectDTO> replyLoad(String id);
 
-	int replyDel(String commentId);
+	int replyDel(String id);
 
 
 

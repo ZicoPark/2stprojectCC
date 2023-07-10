@@ -150,7 +150,7 @@ public class MemberController {
        logger.info("로그인 세션 : "+session.getAttribute("id"));
        
        if(session.getAttribute("id") != null) {
-        	MemberDTO dto = memberservice.userInfo(session.getAttribute("id"));             
+        	MemberDTO dto = memberservice.userInfo(String.valueOf(session.getAttribute("id")));             
         	model.addAttribute("member",dto);
             page = "userInfo";
        } 
@@ -158,47 +158,49 @@ public class MemberController {
     }
 	
 	@RequestMapping(value = "/userinfoupdate.go")
-    public String userInfoUpdatego(@RequestParam String id, HttpSession session, Model model) {
-		
-		logger.info("마이페이지 수정요청");
-		String page = "userinfo";
-		String loginId = null;
+	public String userInfoUpdatego(@RequestParam String id, HttpSession session, Model model) {
+	    logger.info("마이페이지 수정요청");
+	    logger.info("uuid : " + id);
+	    String page = "userinfo";
+	    String loginId = null;
 	    
-		if(session.getAttribute("id")!=null) {
-			loginId = (String) session.getAttribute("id");
-			if(loginId.equals(id)) {
-				
-			}
-	        MemberDTO dto = memberservice.userInfo(id);
-	        logger.info("수정 서비스 들어가기 전");
-	        if(dto != null) {
-	            page = "userInfoUpdate";
-	            model.addAttribute("member", dto);
-	        }    
+	    if (session.getAttribute("id") != null) {
+	        loginId = (String) session.getAttribute("id");
+	        if (loginId.equals(id)) {
+	            MemberDTO dto = memberservice.userInfo(id);
+	            logger.info("수정 서비스 들어가기 전");
+	            if (dto != null) {
+	                page = "userInfoUpdate";
+	                model.addAttribute("member", dto);
+	            }
+	        }
 	    }
-		return page;
-	}	    
+	    return page;
+	} 
 
 	
 	
 	@RequestMapping(value="/userinfoupdate.do", method = RequestMethod.POST)
-	public String userInfoUpdate(MultipartFile[] file, @RequestParam HashMap<String, String> params, @RequestParam ArrayList<String> deletedFiles, 	HttpSession session, Model model) {
-		
-		logger.info("마이페이지 수정");
-		String page = "redirect:/userinfo.go";
+	public String userInfoUpdate(MultipartFile[] file, @RequestParam HashMap<String, String> params, @RequestParam ArrayList<String> deletedFiles, HttpSession session, Model model) {
+	    logger.info("마이페이지 수정");
+	    String page = "redirect:/userinfo.go";
 	    String loginId = null;
 	    int id;
-
+	    logger.info("session loginId : " + session.getAttribute("id"));
 	    if (session.getAttribute("id") != null) {
-	        loginId = (String) session.getAttribute("id");
-	        if (loginId.equals(params.get("user_id"))) {
-	            id = memberservice.userInfoUpdate(file, params, deletedFiles);
-	            page = "redirect:/userinfo.do?id=" + id;
+	    	logger.info("params : " + params);
+	    	
+	        logger.info("params-id : " + params.get("id"));
+	    	loginId = (String) session.getAttribute("id");
+	        
+	        if (loginId.equals(params.get("id"))) {
+	        	logger.info("file : " + file);
+	            memberservice.userInfoUpdate(file, params, deletedFiles);
+	            page = "redirect:/userinfo.do";
 	        }
 	    }
 
 	    return page;
-	
 	}
 	
 	
@@ -229,6 +231,9 @@ public class MemberController {
 		
 		return new ResponseEntity<Resource>(body, header, HttpStatus.OK);
 	}
+	
+	
+	
 
 	
 }
