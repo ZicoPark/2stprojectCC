@@ -227,6 +227,7 @@ $(document).ready(function() {
 	        
 	        $('.commentReply'+comment_id).find('.deleteButton').click(function() {
 	            var commentId = $(this).data('comment-id');
+	            console.log(commentId);
 	            deleteComment(commentId);
 	          });   
 	        

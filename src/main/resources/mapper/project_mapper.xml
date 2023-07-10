@@ -30,7 +30,7 @@
 
 
 	<select id="getUserIdsByProjectId" resultType="java.lang.String">
-	        SELECT member.user_id
+	        SELECT member.name
 	        FROM project
 	        INNER JOIN contributor ON project.id = contributor.project_id
 	        INNER JOIN member ON contributor.member_id = member.id
@@ -146,7 +146,7 @@
 	</insert>
 	
 	<select id="replyLoad" resultType="kr.co.cc.project.dto.ProjectDTO" parameterType="String">
-		SELECT cr.*,(select m.name from member m where m.id = cr.member_id ) as name 
+		SELECT cr.*,(select m.name from member m where m.id = cr.member_id ) as name
 		FROM comment_reply cr WHERE coment_id=#{comment_id}
 	</select>	
 	
