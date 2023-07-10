@@ -76,8 +76,9 @@
 				      <td>${noticeBoard.name}(${noticeBoard.user_id})</td>
 				      <td>${noticeBoard.create_at.substring(0, 10)}</td>
 				      <td>${noticeBoard.hit}</td>              
-<%-- 				      <td><a href="noticeBoardDel.do?id=${noticeBoard.id}">삭제</a></td> --%>
-				   </tr>
+ 				      
+         <td><a href="noticeBoardDel.do?id=${noticeBoard.id}">삭제</a></td>
+      </tr>
 				</c:forEach>
          </tbody>
       </table>
