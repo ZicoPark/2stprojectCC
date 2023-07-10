@@ -91,11 +91,11 @@
             <div class="card-header">
               <h3 class="card-title">보낸쪽지함</h3>
 
-    	<br>
-    	<div class="float-right">
-		<div class="search-container">
-	    <input type="text" id="searchInput" placeholder="제목 또는 작성자를 입력">
-	    <button id="searchButton"><alt="Search">검색</button>
+		<div class="input-group" style="width: 30%;">
+	    <input type="search" class="form-control form-control-lg" id="searchInput" placeholder="제목 또는 작성자를 입력" style="font-size: 13px;">
+	    <div class="input-group-append">
+	    <button id="searchButton" class="btn btn-lg btn-default"><alt="Search"><i class="fa fa-search"></i></button>
+	    </div>
 		</div>
 		<input type ="text" id="adminchk" value= "${loginid}" hidden />${loginid}
               <!-- /.card-tools -->
@@ -236,24 +236,26 @@ function listPrint(list){
 	   	var totalItems = list.length;
 		var isAdmin = document.getElementById('adminchk')    // 서버에서 가져온 관리자 여부 값
 		
-	   	list.forEach(function(item){
-	      // 배열 요소들 반복문 실행 -> 행 구성 + 데이터 추가 
-	      content +='<tr>';
-	      content += '<td class="checkbox"><input type="checkbox" name="Rowcheck" value="' + item.id + '"></td>';
-	      content += '<td>' + count-- + '</td>'; // 번호를 반대로 표시
-	      content +='<td>'+item.to_name +'</td>';
-	      content +='<td><a href="msSendDetail.do?id=' + item.id + '">'+item.title +'</a></td>';
-	      if(item.read_chk == true){
-	    	  content +='<td id="read_chk"> ' + '읽음' + '</td>';
-	      } else {
-	    	  content +='<td id="read_chk"> ' + '안읽음' + '</td>';
-	      }
-	      content +='<td>'+ item.send_at +'</td>';
-	      
-	    
-	      content +='</tr>';
-	      
-	   });
+		if (list.length === 0) {
+			  content += '<tr><td colspan="6">쪽지가 존재하지 않습니다.</td></tr>';
+			} else {
+			  list.forEach(function(item) {
+			    // 배열 요소들 반복문 실행 -> 행 구성 + 데이터 추가
+			    content += '<tr>';
+			    content += '<td class="checkbox"><input type="checkbox" name="Rowcheck" value="' + item.id + '"></td>';
+			    content += '<td>' + count-- + '</td>'; // 번호를 반대로 표시
+			    content += '<td>' + item.to_name + '</td>';
+			    content += '<td><a href="msSendDetail.do?id=' + item.id + '">' + item.title + '</a></td>';
+			    if (item.read_chk == true) {
+			      content += '<td id="read_chk">읽음</td>';
+			    } else {
+			      content += '<td id="read_chk">안읽음</td>';
+			    }
+			    content += '<td>' + item.send_at + '</td>';
+			    content += '</tr>';
+			  });
+			}
+
 	   
 	   // list 요소의 내용 지우고 추가 - 페이징 처리 
 	   $('#list').empty();
@@ -314,25 +316,28 @@ function deleteValue(){
 	      valueArr.push($(this).val());
 	    });
 		
-		$.ajax({
-		    url :'msSelectDelete',                    // 전송 URL
-		    type : 'POST',                // GET or POST 방식
-		    traditional : true,
-		    data : {
-		    	valueArr : valueArr        // 보내고자 하는 data 변수 설정
-		    },
-            success: function(jdata){
-                if(jdata = 1) {
-                    alert("쪽지가 삭제되었습니다.");
-                    location.replace("msSendList.go")
-                }
-                else{
-                    alert("블라인드 처리 실패");
-                }
-            }
-		});
-		
-
+	    if(chk){
+			$.ajax({
+			    url :'msSelectDelete',                    // 전송 URL
+			    type : 'POST',                // GET or POST 방식
+			    traditional : true,
+			    data : {
+			    	valueArr : valueArr        // 보내고자 하는 data 변수 설정
+			    },
+	            success: function(jdata){
+	                if(jdata = 1) {
+	                    alert("쪽지가 삭제되었습니다.");
+	                    location.replace("msSendList.go");
+	                }
+	                else{
+	                    alert("블라인드 처리 실패");
+	                }
+	            }
+			});
+			
+	}else{
+		alert("삭제가 취소되었습니다.")
+	}
 		
 	}
 }

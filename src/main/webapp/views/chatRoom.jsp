@@ -151,9 +151,6 @@
     <br/>
     <!-- Main content -->
 	<section class="content">
-	
-	
-
     <div style="display: flex;">
         <!-- 채팅방 생성 -->
         <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#chatCreateModal" onclick="create()">채팅방 생성하기</button>
@@ -166,49 +163,47 @@
     </div>
 	<br/>
 
-<div id="chat_list">    
-    <div class="chat-list">
-    
-    	<div class="listList">
-	        <div class="chat-column1">
-	            <!-- 채팅방 목록 -->
-	            <div style="color: #337ab7;">채팅방 목록</div>
-	            <div id="chat_room"></div>
+	<div id="chat_list">    
+	    <div class="chat-list">
+	    
+	    	<div class="listList">
+		        <div class="chat-column1">
+		            <!-- 채팅방 목록 -->
+		            <div style="color: #337ab7;"><b>채팅방 목록</b></div>
+		            <div id="chat_room"></div>
+		        </div>
+		        <br/>
+		        <div class="chat-column2">
+		            <!-- 채팅방 인원 -->
+		            <div style="color: #337ab7;"><b>채팅방 인원</b></div>
+		            <div id="chat_member"></div>
+		        </div>
+			</div>
+			&nbsp;
+	        <div class="chat-column3">
+	            <!-- 채팅방 내용 -->
+	            <div id="chat_history">
+	                <div class="direct-chat-msg" style="margin-right: 100px;">
+	                    <div class="direct-chat-infos clearfix">
+	                        <span class="direct-chat-name float-left">CEO</span>
+	                        <span class="direct-chat-timestamp float-right">24 July 11:05 am</span>
+	                    </div>
+	                    <img class="direct-chat-img" src="dist/img/user3-128x128.jpg" alt="message user image">
+	                    <div class="direct-chat-text">
+	                        Creator Company에 오신 것을 환영합니다!
+	                    </div>
+	                </div>
+	            </div>
+	            
+			    <div class="chat-input 4">
+			        <!-- 채팅 입력 -->
+			        <input type="text" id="content" onkeydown="handleKeyDown(event)">
+			        <button class="btn btn-primary" onclick="sendMessage()">전송</button>
+			    </div>            
+	            
 	        </div>
-	        <br/>
-	        <div class="chat-column2">
-	            <!-- 채팅방 인원 -->
-	            <div style="color: #337ab7;">채팅방 인원</div>
-	            <div id="chat_member"></div>
-	        </div>
-		</div>
-		&nbsp;
-        <div class="chat-column3">
-            <!-- 채팅방 내용 -->
-            <div id="chat_history">
-                <div class="direct-chat-msg" style="margin-right: 100px;">
-                    <div class="direct-chat-infos clearfix">
-                        <span class="direct-chat-name float-left">CEO</span>
-                        <span class="direct-chat-timestamp float-right">24 July 11:05 am</span>
-                    </div>
-                    <img class="direct-chat-img" src="dist/img/user3-128x128.jpg" alt="message user image">
-                    <div class="direct-chat-text">
-                        Creator Company에 오신 것을 환영합니다!
-                    </div>
-                </div>
-            </div>
-            
-		    <div class="chat-input 4">
-		        <!-- 채팅 입력 -->
-		        <input type="text" id="content" onkeydown="handleKeyDown(event)">
-		        <button class="btn btn-primary" onclick="sendMessage()">전송</button>
-		    </div>            
-            
-        </div>
-    </div>
-
-
-</div>
+	    </div>
+	</div>
 
 
 
@@ -232,10 +227,8 @@
 				</div>	
 				
 				<div class="input-container modal-footer">
-					<span>
-						<input type="text" placeholder="채팅방 이름을 적어주세요" id="chat-room-name">
-						<button type="button" id="send-button-create" class="send-button-create">채팅방 생성하기</button>
-					</span>
+					<input type="text" placeholder="채팅방 이름을 적어주세요 !" id="chat-room-name" class="form-control" style="width: 60%;">
+					<button type="button" id="send-button-create" class="send-button-create btn btn-primary" style="width: 30%;">채팅방 생성하기</button>
 				</div>
 			
 			</div>
@@ -248,7 +241,7 @@
 			<div class="modal-content">
 					
 				<div class="user-container modal-header">
-					<label class="modal-title" id="staticBackdropLabel" for="nickname">대화명</label>
+					<label class="modal-title" id="staticBackdropLabel" for="nickname">초대하기</label>
 					<span id="nickname" ></span>
 					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 				</div>
@@ -260,7 +253,7 @@
 				
 				<div class="input-container modal-footer">
 					<span>
-						<button type="button" id="send-button-invite" class="send-button-invite">초대하기</button>
+						<button type="button" id="send-button-invite" class="send-button-invite btn btn-primary">초대하기</button>
 					</span>
 				</div>
 			
@@ -308,7 +301,7 @@
 				console.log(data);
 				 $('.chatting-list-create').html('');
 		         $('.chatting-list-invite').html('');
-				var content =  '<table><tr><th><input type="checkbox" name="member_all"></th><th>이름</th><th>부서</th></tr>';
+				var content =  '<table class="table table-bordered"><tr><th><input type="checkbox" name="member_all"></th><th>이름</th><th>부서</th></tr>';
 				data.forEach(function(item) {
 					if(item.id == "${sessionScope.id}") {
 						content+='';
@@ -585,7 +578,7 @@
 				console.log(data);
 				$('.chatting-list-create').html('');
 				$('.chatting-list-invite').html('');
-				var content =  '<table><tr><th><input type="checkbox" name="member_all"></th><th>이름</th><th>부서</th></tr>';
+				var content =  '<table class="table table-bordered"><tr><th><input type="checkbox" name="member_all"></th><th>이름</th><th>부서</th></tr>';
 				data.forEach(function(item) {
 					if(item.id == "${sessionScope.id}") {
 						content+='';
@@ -619,6 +612,8 @@
 
 	$('#send-button-invite').click(function() {
 		var member_id_array = [];
+		var member_name_array = [];
+		
 		if($('input:checkbox[name="id"]:checked').length == 0) {
 			alert('한명 이상의 사원을 선택해주세요 !');
 		}else {
@@ -626,6 +621,8 @@
 				if($(this).is(":checked")==true){
 					console.log("member_id_array : " + $(this).val());
 					member_id_array.push($(this).val());
+					var itemName = $(this).closest('tr').find('th:eq(1)').text();
+	                member_name_array.push(itemName);
 				}
 			});
 			member_id_array.push("${sessionScope.id}");
@@ -642,7 +639,7 @@
 				success:function(data){
 					console.log(data);
 	                console.log('inviteChatroom.ajax () 성공');
-	                $('#content').val("채팅방에 사원을 초대하였습니다. 확인해주세요.");
+	                $('#content').val("채팅방에 사원을 초대하였습니다 : " + member_name_array);
 					sendMessage("");
 				},
 				error:function(e){

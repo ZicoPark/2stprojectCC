@@ -91,7 +91,7 @@ public class ProjectController {
 	    String loginId = (String) session.getAttribute("id");
 	    HashMap<String, Object> map = new HashMap<String, Object>();
 	    
-	    ArrayList<ProjectDTO> detailList = service.detail(id);
+	   
 
 	    ArrayList<HashMap<String, String>> commentList = new ArrayList<HashMap<String,String>>();
 	    commentList = service.getAllComment(id);
@@ -270,12 +270,11 @@ public class ProjectController {
 		
 		@PostMapping(value="/replyDel.ajax")
 		@ResponseBody
-		public HashMap<String, Object> replyDel(@RequestParam String commentId) {
+		public int replyDel(@RequestParam String id) {
 
-		    logger.info("comment_id : " + commentId);    
-		    int row = service.replyDel(commentId);
+		    logger.info("comment_id : " + id);    
 		    
-		    return null;
+		    return service.replyDel(id);
 
 		}
 

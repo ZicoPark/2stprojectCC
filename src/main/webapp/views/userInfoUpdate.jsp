@@ -35,20 +35,22 @@
     </section>
     <!-- Main content -->
     <section class="content">
-    	<form method="post" action="userinfoupdate.do" enctype="multipart/form-data">
+		<form method="post" action="userinfoupdate.do" enctype="multipart/form-data">
       <table class="table table-bordered table-hover dataTable dtr-inline">
          <tr> 
-      		<th rowspan="10">
-				<c:choose>
-			        <c:when test="${not empty member.photoName}">
-			            <img width="500" height="500" src="photoView.do?path=${member.photoName}">
-			        </c:when>
-			        <c:otherwise>
-			            <img width="500" height="500" src="img/cc.png" />
-			        </c:otherwise>
-			    </c:choose>
-			    <input type="file" name="attachment" multiple="multiple" onchange="displayFileNames(event)" id="fileInput">
-			    <input type="text" name="deletedFiles" id="deletedFiles">
+         	<th rowspan="11" style="width: 500px;">
+				<div style="display: flex; align-items: center; justify-content: center; height: 90%; flex-direction: column;">
+				  <c:choose>
+				    <c:when test="${not empty member.photoName}">
+				      <img src="photoView.do?path=${member.photoName}" style="max-width: 90%; max-height: 90%;" id="preview">
+				    </c:when>
+				    <c:otherwise>
+				      <img src="img/cc.png" style="max-width: 100%; max-height: 80%;" id="preview">
+				    </c:otherwise>
+				  </c:choose>
+				  <input type="hidden" name="deletedFiles" id="deletedFiles">
+				  <input type="file" name="attachment" onchange="previewImage(this)" id="fileInput" style="margin-top: 10px;">
+				</div>
 			</th>
          </tr>
          <tr>
@@ -103,22 +105,25 @@
          </tr>
          <tr>
             <th>이메일</th>
-            <td><input type="email" id="email" value="${member.email}" /></td>
+            <td><input type="email" name="email" id="email" value="${member.email}" /></td>
          </tr>
          <tr>
             <th>연락처</th>
-            <td><input type="text" id="phone" value="${member.phone}" /></td>
+            <td><input type="text" name="phone" id="phone" value="${member.phone}" /></td>
+         </tr>
+        <tr>
+            <th>서명 파일 등록</th>
+            	<td>
+	            	<input type="file" name="file" multiple="multiple" onchange="previewImage1(this);">
+			  		<img id="preview1" style="max-width: 200px; max-height: 200px;" src="img/cc.png">
+            	</td>
          </tr>
 
          <tr>      
-            <th colspan="2">
+            <th colspan="4" style="text-align: center;">
                <button class="btn btn-outline-dark" type="submit" id="update">완료</button>
             </th>
         </tr>
-        <tr>
-            <th>서명 파일 등록</th>
-            <td> <input type="file" name="attachment" multiple="multiple" onchange="displayFileNames(event)" id="fileInput"></td>
-         </tr>
       </table>
     </form>
     </section>
@@ -174,6 +179,34 @@ function removeFileEvent(icon) { // this 로 받았던 아이콘을 매개변수
 	if(msg != ""){
 		alert(msg);
 	}
+	
+	function previewImage(input) {
+		  if (input.files && input.files[0]) {
+		    var reader = new FileReader();
+		    
+		    reader.onload = function(e) {
+		      $('#preview').attr('src', e.target.result);
+		    }
+		    
+		    reader.readAsDataURL(input.files[0]);
+		  } else {
+		    $('#preview').attr('src', 'img/cc.png');
+		  }
+		}
+	
+	function previewImage1(input) {
+		  if (input.files && input.files[0]) {
+		    var reader = new FileReader();
+		    
+		    reader.onload = function(e) {
+		      $('#preview1').attr('src', e.target.result);
+		    }
+		    
+		    reader.readAsDataURL(input.files[0]);
+		  } else {
+		    $('#preview1').attr('src', 'img/cc.png');
+		  }
+		}
 
 </script>
 </html>

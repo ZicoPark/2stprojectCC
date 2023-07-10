@@ -238,58 +238,56 @@ public class MemberService {
 	}
 
 
-	public MemberDTO userInfo(Object attribute) {
-		return memberdao.userInfo(attribute);
+	public MemberDTO userInfo(String id) {
+		return memberdao.userInfo(id);
 	}
 	
 	public String ori_file_name(String id) {
 		return memberdao.ori_file_name(id);
 	}
 	
-	public int userInfoUpdate(MultipartFile[] file, HashMap<String, String> params, ArrayList<String> deletedFiles) {
-		logger.info("params : "+params);
-		
-		int row = memberdao.userInfoUpdate(params);
-		logger.info("update row: " + row);
-		String id = params.get("id");
-		String page = row>0 ? "redirect:/userinfo.go?id="+id : "redirect:/userinfo.go";
-		
-		logger.info("서비스 deletedFiles 있나요 : "+deletedFiles);
-		
-		if(row>0) {
-			
-			if(deletedFiles.size()>0) {
-				attachmentRemove(deletedFiles);
-			}
-			
-			for (MultipartFile filefile : file) {
-				
-				logger.info("업로드할 file 있나요? :"+!filefile.isEmpty());
-				
-				if(!filefile.isEmpty()) {
-					attachmentSave(id, filefile, "프로필사진");
-				}
-				
-				try {
-					Thread.sleep(1);
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				}
-				
-			}
-		}
-		return row;
+	public void userInfoUpdate(MultipartFile[] file, HashMap<String, String> params, ArrayList<String> deletedFiles) {
+	    logger.info("params : " + params);
+
+	    int row = memberdao.userInfoUpdate(params);
+	    logger.info("update row: " + row);
+	    String id = params.get("id");
+
+	    logger.info("서비스 deletedFiles 있나요 : " + deletedFiles);
+
+	    if (row > 0) {
+
+	        if (deletedFiles.size() > 0) {
+	            attachmentRemove(deletedFiles);
+	        }
+
+	        for (MultipartFile filefile : file) {
+
+	            logger.info("업로드할 file 있나요? :" + !filefile.isEmpty());
+
+	            if (!filefile.isEmpty()) {
+	                attachmentSave(id, filefile, "프로필사진");
+	            }
+
+	            try {
+	                Thread.sleep(1);
+	            } catch (InterruptedException e) {
+	                e.printStackTrace();
+	            }
+
+	        }
+	    }
 	}
 	
-	private void attachmentRemove(ArrayList<String> newFileName) {
+	private void attachmentRemove(ArrayList<String> newFileNames) {
 		
-		for (String FileName : newFileName) {
-			logger.info(FileName);
+		for (String newFileName : newFileNames) {
+			logger.info(newFileName );
 			File file = new File(attachmentRoot+"/"+newFileName);
 			if(file.exists()) {
 				file.delete();
 			}
-			memberdao.removeFileName(FileName);
+			memberdao.removeFileName(newFileName);
 		}
 		
 	}

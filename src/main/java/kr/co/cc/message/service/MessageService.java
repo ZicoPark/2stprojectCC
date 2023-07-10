@@ -60,11 +60,11 @@ public class MessageService {
 		
 	    if(search.equals("default") || search.equals("")) {
 	      
-	    	  total = dao.sendtotalCount();
+	    	  total = dao.sendtotalCount(loginId);
 
 	      	}else {	      
 	    	   	   
-	    	  total = dao.sendtotalCountSearch(search);
+	    	  total = dao.sendtotalCountSearch(search,loginId);
 	       }
 	    
 	    int range = total%10  == 0 ? total/10 : total/10+1;
@@ -79,12 +79,12 @@ public class MessageService {
 	      
 	      if(search.equals("default") ||search.equals("")) {
 
-	          list = dao.sendList(offset);
+	          list = dao.sendList(offset,loginId);
 	       
 	     
 	      }else {
 
-	         list = dao.sendListSearch(params);
+	         list = dao.sendListSearch(params,loginId);
 	      }
 	      		
 	      
@@ -168,12 +168,11 @@ public class MessageService {
 
 	       String idx = dto.getId();
 
-		    HashMap<String , Object> map = new HashMap<String, Object>();
+
 		    for (String recieveId : toIds) {
 		    	
 		    	msNotice(loginId,recieveId,"쪽지", idx);
 		    	
-		    	map.clear();
 			}
 	       
 	       
