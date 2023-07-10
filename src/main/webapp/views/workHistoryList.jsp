@@ -23,6 +23,7 @@
     <section class="content-header">
             <h1>근무 히스토리</h1>         
     </section>
+     <br/>
     <!-- Main content -->
     <section class="content">
     	<div class="btn-group" role="group">
@@ -30,15 +31,14 @@
 		    <button type="button" class="btn btn-danger btn-sm" onclick="location.href='timeEnd.do'">퇴근</button>&nbsp;&nbsp;
 		    <button type="button" class="btn btn-info btn-sm" onclick="location.href='workHistoryReqList.go'">수정 요청 리스트</button>
 		</div>
-		<div>
-		<br/>
+		<br/><br/>
     	<form action="historyListFind.do">
-			<input type="number" min=1 max=12 id="historyList" name="historyList"/>월
-			<button>월 검색</button>
-    	</form>
+		<div class="input-group" style="width: 20%;">		
+			<input type="number" min=1 max=12 id="historyList" name="historyList" class="form-control" placeholder="월 검색"/>
+			<button class="btn btn-primary">월 검색</button>
     	</div>
+    	</form>
 
-		<br/>
 		<br/>
     	<table class="table table-bordered">
     		<thead>

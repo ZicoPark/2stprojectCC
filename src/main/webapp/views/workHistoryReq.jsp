@@ -22,6 +22,7 @@
     <section class="content-header">
             <h1>출/퇴근 수정 페이지</h1>         
     </section>
+     <br/>
     <!-- Main content -->
     <section class="content">
     <form action="WorkChangeRequest.do">
@@ -63,7 +64,7 @@
 		<button type="submit" class="btn btn-primary">수정 신청</button>
 	</form>
 	<br/>
-	<button onclick="location.href='workHistoryList.go'" class="btn btn-secondary">돌아가기</button>
+	<button onclick="location.href='workHistoryList.go'" class="btn btn-info btn-sm">돌아가기</button>
     </section>
   </div>
 </div>

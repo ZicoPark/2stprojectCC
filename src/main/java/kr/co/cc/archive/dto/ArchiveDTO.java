@@ -15,10 +15,12 @@ public class ArchiveDTO {
 	private String user_id;
 	private String name;
 	private String dept_id;
+	private String dept_name;
 	private String ori_file_name;
 	private String classification;
 	private String identify_value;
 	private String admin_chk;
+	
 	
 	
 	
@@ -116,6 +118,12 @@ public class ArchiveDTO {
 	}
 	public void setCreate_at(Date create_at) {
 		this.create_at = create_at;
+	}
+	public String getDept_name() {
+		return dept_name;
+	}
+	public void setDept_name(String dept_name) {
+		this.dept_name = dept_name;
 	}	
 	
 }

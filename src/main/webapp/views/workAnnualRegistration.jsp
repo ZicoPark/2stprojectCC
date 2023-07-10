@@ -13,6 +13,8 @@
   <link rel="stylesheet" href="../../plugins/fontawesome-free/css/all.min.css">
   <!-- Theme style -->
   <link rel="stylesheet" href="../../dist/css/adminlte.min.css">
+  
+  
 </head>
 <body>
 <jsp:include page = "index.jsp"></jsp:include>
@@ -22,6 +24,7 @@
     <section class="content-header">
             <h1>연차/휴가 등록</h1>         
     </section>
+     <br/>
     <!-- Main content -->
     <section class="content">
     <form action="annualRegistration.do">
@@ -75,7 +78,7 @@
 		<button type="submit" class="btn btn-primary">연차/휴가 신청</button>
 	</form>
 	<br/>
-	<button onclick="location.href='workHolidayList.go'" class="btn btn-secondary">돌아가기</button>
+	<button onclick="location.href='workHolidayList.go'" class="btn btn-info btn-sm">돌아가기</button>
     </section>
   </div>
 </div>

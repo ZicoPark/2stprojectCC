@@ -7,41 +7,57 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>AdminLTE 3 | Projects</title>
 
-  <!-- Google Font: Source Sans Pro -->
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
-  <!-- Font Awesome -->
-  <link rel="stylesheet" href="../../plugins/fontawesome-free/css/all.min.css">
-  <!-- Theme style -->
-  <link rel="stylesheet" href="../../dist/css/adminlte.min.css">
+
+ <!-- CSS only -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+<!-- Tempusdominus Bootstrap 4 -->
+<link rel="stylesheet" href="plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css">
+<!-- overlayScrollbars-->
+<link rel="stylesheet" href="plugins/overlayScrollbars/css/OverlayScrollbars.min.css">
+<!-- Ionicons -->
+<link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+
+
+
+<!--  Google Font: Source Sans Pro -->
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+<!-- Font Awesome-->
+<link rel="stylesheet" href="plugins/fontawesome-free/css/all.min.css">
+<!-- Theme style-->
+<link rel="stylesheet" href="dist/css/adminlte.min.css">
+
 </head>
-<body>
-<jsp:include page = "index.jsp"></jsp:include>
+
+<body class="hold-transition sidebar-mini">
+
 <!-- Site wrapper -->
 <div class="wrapper">
+
+	<jsp:include page = "index.jsp"></jsp:include>
+	
+	
   <div class="content-wrapper">
     <section class="content-header">
             <h1>자료실</h1>         
     </section>
     <!-- Main content -->
-    
-    
-		<div class="search-container">
-	    <input type="text" id="searchInput" placeholder="제목 또는 작성자를 입력">
-	    <button id="searchButton"><alt="Search">검색</button>
-		</div>
-		<input type ="text" id="adminchk" value= "${loginid}" />${loginid}
-		
     <section class="content">
-		<table>
+      <table class="table table-bordered table-hover dataTable dtr-inline">
+    
+		<div class="input-group" style="width: 30%;">
+	    <input type="search" class="form-control form-control-lg" id="searchInput" placeholder="제목 또는 작성자를 입력" style="font-size: 13px;">
+	    <div class="input-group-append">
+	    <button id="searchButton" class="btn btn-lg btn-default"><alt="Search"><i class="fa fa-search"></i></button>
+	    </div>
+		</div>
+		<input type ="hidden" id="adminchk" value= "${loginid}" />${loginid}
+		
 			<thead> 
 				<tr> 
-					<c:if test="${loginid eq 1}">
-					<th><input type="checkbox" name="allCheck"/></th>
-					</c:if>
 					<th>번호</th>
 					<th>제목</th>
-					<th>작성자</th>
 					<th></th>
+					<th>작성자</th>
 					<th>작성일</th>
 					<th>조회수</th>
 				</tr>
@@ -142,11 +158,6 @@ function listPrint(list){
 	   	list.forEach(function(item){
 	      // 배열 요소들 반복문 실행 -> 행 구성 + 데이터 추가 
 	      content +='<tr>';
-	      if (isAdmin == 1) {
-	          content += '<td class="checkbox"><input type="checkbox" name="Rowcheck" value="' + item.id + '"></td>';
-	       } else {
-	          content += '<td></td>'; // 관리자가 아닐 경우 빈 칸으로 대체
-	       }
 
 	      content += '<td>' + count-- + '</td>'; // 번호를 반대로 표시
 	      content +='<td>'+item.category +'</td>';

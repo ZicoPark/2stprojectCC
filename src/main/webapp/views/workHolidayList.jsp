@@ -25,8 +25,7 @@
     </section>
     <br/>
     <!-- Main content -->
-    <section class="content">
-    	<br/>    	
+    <section class="content">   	
     	<table class="table table-bordered">
 	   		<thead>
 	   			<tr>
@@ -49,7 +48,7 @@
 	   	</table>
 	   	<br/>
 	   	<div class="btn-group" role="group">
-			<button type="button" class="btn btn-success btn-sm" style="width: 15%;" onclick="location.href='workAnnualRegistration.go'">연차 등록</button> 
+			<button type="button"  class="btn btn-primary" style="width: 15%;" onclick="location.href='workAnnualRegistration.go'">연차 등록</button> 
 		</div>
 	    <br/>
 	    <br/>

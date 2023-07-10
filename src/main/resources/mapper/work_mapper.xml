@@ -87,7 +87,7 @@
 			INNER JOIN member m ON w.member_id = m.id
 			INNER JOIN job_level j ON m.job_level_id = j.id
 			INNER JOIN dept d ON m.dept_id = d.id
-		WHERE w.date = (SELECT MAX(date) FROM working_hour)
+		WHERE w.date = (SELECT MAX(date) FROM working_hour where date = #{param1})
 	</select>	
 	
 	
@@ -251,6 +251,19 @@
 		on l.regist_id = m.id
 		where approval = #{param1}
 		order by start_at desc
+	</select>
+	
+	<select id="historyChange" resultType="kr.co.cc.work.dto.WorkDTO">
+		SELECT whu.date, whu.name, whu.working_hour_id, m.user_id, whu.type, whu.update_at, whu.approval, whu.reason
+		FROM working_hour_update whu
+		INNER JOIN working_hour wh ON whu.working_hour_id = wh.id
+		INNER JOIN member m ON wh.member_id = m.id
+		WHERE whu.working_hour_id IN (
+		    SELECT wh.id
+		    FROM member m
+		    INNER JOIN working_hour wh ON m.id = wh.member_id
+		) and approval = #{param1}
+		ORDER BY whu.date DESC
 	</select>
 	
 	<insert id="workHourChange">
