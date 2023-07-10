@@ -150,4 +150,9 @@ public class DocController {
 		return service.requestDocApproval(params, session);
 	}
 	
+	@RequestMapping(value="/objectionDocList.go")
+	public ModelAndView objectionDocList(HttpSession session) {
+		
+		return service.objectionDocList(session);
+	}
 }

@@ -71,6 +71,8 @@ public interface DocDAO {
 
 	int docStatusDelete(String docId);
 
+	ArrayList<HashMap<String, String>> getObjectionDocList(String loginId);
+
 	
 
 

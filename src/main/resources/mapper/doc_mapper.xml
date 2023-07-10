@@ -228,5 +228,30 @@
 	<delete id="docStatusDelete" parameterType="string">
 		DELETE FROM doc_status WHERE doc_id = #{docId}
 	</delete>
+	
+	<select id="getObjectionDocList" parameterType="string" resultType="hashmap">
+		SELECT d.id
+			, d.subject
+			, d.content
+			, d.status
+			, (SELECT m.name FROM member m WHERE m.id = d.member_id) AS create_member_name
+			, (SELECT df.name FROM doc_form df WHERE df.id = d.doc_form_id) AS doc_form_name
+			, (SELECT dp.name FROM dept dp WHERE dp.id = d.dept_id) AS production_dept_name
+			, d.job_level_name
+			, d.public_range
+			, d.create_at
+			, ds3.job_name
+			, ds3.dept_name AS approval_dept_name
+			, (SELECT a.name FROM approval a WHERE a.id = ds3.approval_id) AS approval_kind_name
+			, ds3.approval_at AS objection_at
+			, ds3.opinion
+			, (SELECT m.name FROM member m WHERE m.id = ds3.member_id) AS objection_member_name
+			FROM doc d 
+			INNER JOIN 
+				(SELECT ds.* FROM doc_status ds INNER JOIN 
+					(SELECT MIN(ds2.order_rank) FROM doc_status ds2 GROUP BY ds2.doc_id) AS ds2 
+				WHERE ds.approval = 2 GROUP BY ds.doc_id) AS ds3 
+		ON d.id = ds3.doc_id WHERE d.status = 1 AND d.member_id = #{loginId}
+	</select>
 
 </mapper>

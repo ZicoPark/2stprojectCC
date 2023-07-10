@@ -107,6 +107,7 @@ function withDraw(){
 	var docId = '${doc.id }';
 	
 	$.ajax({
+		
 		type:'post',
 		url:'docWithdraw.ajax',
 		data:{
@@ -114,7 +115,6 @@ function withDraw(){
 		},
 		dataType:'json',
 		success:function(data){
-			console.log(data);
 			alert(data.msg);
 			
 			if(data.updateRow != null){
