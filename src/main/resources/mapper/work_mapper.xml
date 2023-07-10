@@ -87,7 +87,7 @@
 			INNER JOIN member m ON w.member_id = m.id
 			INNER JOIN job_level j ON m.job_level_id = j.id
 			INNER JOIN dept d ON m.dept_id = d.id
-		WHERE w.date = (SELECT MAX(date) FROM working_hour)
+		WHERE w.date = (SELECT MAX(date) FROM working_hour where date = #{param1})
 	</select>	
 	
 	

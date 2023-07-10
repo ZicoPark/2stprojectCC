@@ -205,7 +205,8 @@ public class WorkController {
 	public ModelAndView weekListFind(@RequestParam Date date) {		
 		logger.info("weekListFind date : " + date);
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-		String week = sdf.format(date);		
+		String week = sdf.format(date);			
+		
 		return service.weekListFind(week, "");
 	}
 	
