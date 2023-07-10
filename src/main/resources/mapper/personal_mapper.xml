@@ -17,7 +17,7 @@
 	        SELECT UUID()
 	    </selectKey>
 	    INSERT INTO personal(id, member_id, title, start_at,end_at, status)
-	      VALUES(#{id}, #{member_id}, #{title}, #{start_at},#{end_at},1)
+	      VALUES(#{id}, #{member_id}, #{title}, #{start_at},#{end_at},1) 
 	</insert> 
 		
  		<select id="personalUpdate">

@@ -11,7 +11,16 @@ public class NoticeDTO {
 	private boolean status;
 	private String identify_value;
 	private Date create_at;
+	private String name;
 	
+	
+	
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
 	public String getId() {
 		return id;
 	}

@@ -5,7 +5,7 @@
 <mapper namespace="kr.co.cc.noticeBoard.dao.NoticeBoardDAO">
 
    <select id="nolist" resultType="kr.co.cc.noticeBoard.dto.NoticeBoardDTO">
-         SELECT nb.id, nb.subject, nb.create_at,nb.hit,m.name FROM notice_board nb
+         SELECT nb.id, nb.subject, nb.create_at,nb.hit, m.user_id, m.name FROM notice_board nb
 		left join `member` m on nb.member_id = m.id ORDER BY create_at DESC
    </select>
          
@@ -48,7 +48,7 @@
    
    
    <select id="nodetail" resultType="kr.co.cc.noticeBoard.dto.NoticeBoardDTO">
-      select nb.id, nb.member_id, nb.subject, nb.content, nb.hit, nb.create_at, m.name
+      select nb.id, nb.member_id, nb.subject, nb.content, nb.hit, nb.create_at, m.user_id, m.name
 		from notice_board nb
 		left join member m on nb.member_id = m.id 
 		where nb.id = #{id} 

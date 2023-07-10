@@ -32,7 +32,7 @@
 		    </tr>
 		    <tr>
 		       <th>작성자</th>
-		       <td>${detailno.name}</td>
+		       <td>${detailno.name}(${detailno.user_id})</td>
 		    </tr>
 		    <tr>
 		       <th>조회수</th>

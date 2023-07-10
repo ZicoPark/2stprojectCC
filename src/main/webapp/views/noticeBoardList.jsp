@@ -58,8 +58,8 @@
                <th>번호</th>
                <th>제목</th>
                <th>작성자</th>
-               <th>조회수</th>
                <th>작성일</th>
+               <th>조회수</th>
                <th>삭제</th>
             </tr>
          </thead>
@@ -73,9 +73,9 @@
                <tr> 
                   <td>${noticeBoard.id}</td>
                   <td><a href="noticeBoardDetail.do?id=${noticeBoard.id}">${noticeBoard.subject}</a></td>
-                  <td>${noticeBoard.name}</td>
-                  <td>${noticeBoard.hit } </td>
-                  <td>${noticeBoard.create_at }</td>
+                  <td>${noticeBoard.name}(${noticeBoard.user_id})</td>
+                  <td>${noticeBoard.create_at}</td>
+                  <td>${noticeBoard.hit } </td>              
                   <td><a href="noticeBoardDel.do?id=${noticeBoard.id}">삭제</a></td>
                </tr>
             </c:forEach>
