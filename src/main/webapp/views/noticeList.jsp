@@ -51,7 +51,7 @@
 				<c:forEach items="${list}" var="noticeList">
 					<tr>
 						<td style="text-align:center">${noticeList.type}</td>
-						<td style="text-align:center">${noticeList.identify_value}</td>
+						<td style="text-align:center"><a href="alarmDetail.do?id=${noticeList.id}">${noticeList.identify_value}</a></td>
 						<td style="text-align:center">${noticeList.name}</td>
 						<td style="text-align:center">${noticeList.create_at}</td>
 					</tr>				

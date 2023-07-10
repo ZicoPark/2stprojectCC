@@ -26,20 +26,30 @@
     	
       <table class="table table-bordered table-hover dataTable dtr-inline">
          <tr> 
-      		<th rowspan="10">
-				<img width="500" height="500" src="photoView.do?path=${member.photoName}"/>
+      		<th rowspan="10" style="width: 500px;">
+			  <div style="display: flex; align-items: center; justify-content: center; height: 100%;">
+			    <c:choose>
+			      <c:when test="${not empty member.photoName}">
+			        <img src="photoView.do?path=${member.photoName}" style="max-width: 100%; max-height: 100%;">
+			      </c:when>
+			      <c:otherwise>
+			        <img src="img/cc.png" style="max-width: 100%; max-height: 100%;">
+			      </c:otherwise>
+			    </c:choose>
+			  </div>
 			</th>
          </tr>
          <tr>
             <th>아이디</th>
             <td>
-               ${member.user_id}                    
+				<input type="hidden" name = "id" value="${member.id }"/>
+            	${member.user_id}
             </td>
          </tr>
          <tr>
             <th>비밀번호</th>
             <td>
-               ********
+               ******** &nbsp; &nbsp; &nbsp; &nbsp; 
                <button class="btn btn-outline-dark" onclick="location.href='userinfopassword.go'">비밀번호 변경</button>         
             </td>
          </tr>
@@ -56,27 +66,51 @@
          <tr>
             <th>입사일</th>               
             <td>${member.hire_at}</td>
-         </tr>     
-         <tr>
-            <th>직급</th>
-            <td>
-				<c:choose>
-					<c:when test="${member.job_level_id eq '8ade9167-1703-11ee-973f-0242ac110002'}">팀원</c:when>
-					<c:when test="${member.job_level_id eq '8bbf948d-1703-11ee-973f-0242ac110002'}">팀장</c:when>
-					<c:when test="${member.job_level_id eq '8c4e7542-1703-11ee-973f-0242ac110002'}">이사</c:when>
-					<c:when test="${member.job_level_id eq '8cdd8503-1703-11ee-973f-0242ac110002'}">사장</c:when>
-				</c:choose>
-	   	   </td>
          </tr>
+         <tr>
+		 	<th>직급</th>
+		   <td>
+			    <c:choose>
+			        <c:when test="${member.job_level_id eq '8ade9167-1703-11ee-973f-0242ac110002'}">
+			            팀원 &nbsp; &nbsp; &nbsp; &nbsp;  &nbsp;   &nbsp; 
+			            <button onclick="openPopup('/job-history?id=${member.id}')">직급 히스토리 조회</button>
+			        </c:when>
+			        <c:when test="${member.job_level_id eq '8bbf948d-1703-11ee-973f-0242ac110002'}">
+			            팀장 &nbsp; &nbsp; &nbsp; &nbsp;  &nbsp;   &nbsp; 
+			            <button onclick="openPopup('/job-history?id=${member.id}')">직급 히스토리 조회</button>
+			        </c:when>
+			        <c:when test="${member.job_level_id eq '8c4e7542-1703-11ee-973f-0242ac110002'}">
+			            이사 &nbsp; &nbsp; &nbsp; &nbsp;  &nbsp;   &nbsp; 
+			            <button onclick="openPopup('/job-history?id=${member.id}')">직급 히스토리 조회</button>
+			        </c:when>
+			        <c:when test="${member.job_level_id eq '8cdd8503-1703-11ee-973f-0242ac110002'}">
+			            사장 &nbsp; &nbsp; &nbsp; &nbsp;  &nbsp;   &nbsp; 
+			            <button onclick="openPopup('/job-history?id=${member.id}')">직급 히스토리 조회</button>
+			        </c:when>
+			    </c:choose>
+			</td>
+		</tr>
          <tr>
             <th>부서</th>
 			<td>
-				<c:choose>
-					<c:when test="${member.dept_id eq '8e5f3282-1703-11ee-973f-0242ac110002'}">총무팀</c:when>
-					<c:when test="${member.dept_id eq '8ee07433-1703-11ee-973f-0242ac110002'}">기획팀</c:when>
-					<c:when test="${member.dept_id eq '8f963853-1703-11ee-973f-0242ac110002'}">촬영팀</c:when>
-					<c:when test="${member.dept_id eq '9022f64a-1703-11ee-973f-0242ac110002'}">편집팀</c:when>
-				</c:choose>
+			    <c:choose>
+			        <c:when test="${member.dept_id eq '8e5f3282-1703-11ee-973f-0242ac110002'}">
+			            총무팀 &nbsp; &nbsp; &nbsp; &nbsp; 
+			            <button onclick="openPopup('/dept-history?id=${member.id}')">부서 히스토리 조회</button>
+			        </c:when>
+			        <c:when test="${member.dept_id eq '8ee07433-1703-11ee-973f-0242ac110002'}">
+			            기획팀 &nbsp; &nbsp; &nbsp; &nbsp; 
+			            <button onclick="openPopup('/dept-history?id=${member.id}')">부서 히스토리 조회</button>
+			        </c:when>
+			        <c:when test="${member.dept_id eq '8f963853-1703-11ee-973f-0242ac110002'}">
+			            촬영팀 &nbsp; &nbsp; &nbsp; &nbsp; 
+			            <button onclick="openPopup('/dept-history?id=${member.id}')">부서 히스토리 조회</button>
+			        </c:when>
+			        <c:when test="${member.dept_id eq '9022f64a-1703-11ee-973f-0242ac110002'}">
+			            편집팀 &nbsp; &nbsp; &nbsp; &nbsp; 
+			            <button onclick="openPopup('/dept-history?id=${member.id}')">부서 히스토리 조회</button>
+			        </c:when>
+			    </c:choose>
 			</td>
          </tr>
          <tr>
@@ -89,7 +123,7 @@
          </tr>
 
          <tr>      
-            <th colspan="4">
+            <th colspan="4" style="text-align: center;">
                <button class="btn btn-outline-dark" onclick="location.href='userinfoupdate.go'">회원정보 수정</button>
             </th>
             </tr>
@@ -108,6 +142,10 @@
 <script src="../../dist/js/demo.js"></script>
 </body>
 <script>
+
+	function openPopup(url) {
+	    window.open(url, 'popupWindow', 'width=800,height=600');
+	}
 
 	var msg = "${msg}";
 	if(msg != ""){

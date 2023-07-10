@@ -241,20 +241,124 @@ public class MemberService {
 	public MemberDTO userInfo(Object attribute) {
 		return memberdao.userInfo(attribute);
 	}
+	
+	public String ori_file_name(String id) {
+		return memberdao.ori_file_name(id);
+	}
+	
+	public int userInfoUpdate(MultipartFile[] file, HashMap<String, String> params, ArrayList<String> deletedFiles) {
+		logger.info("params : "+params);
+		
+		int row = memberdao.userInfoUpdate(params);
+		logger.info("update row: " + row);
+		String id = params.get("id");
+		String page = row>0 ? "redirect:/userinfo.go?id="+id : "redirect:/userinfo.go";
+		
+		logger.info("서비스 deletedFiles 있나요 : "+deletedFiles);
+		
+		if(row>0) {
+			
+			if(deletedFiles.size()>0) {
+				attachmentRemove(deletedFiles);
+			}
+			
+			for (MultipartFile filefile : file) {
+				
+				logger.info("업로드할 file 있나요? :"+!filefile.isEmpty());
+				
+				if(!filefile.isEmpty()) {
+					attachmentSave(id, filefile, "프로필사진");
+				}
+				
+				try {
+					Thread.sleep(1);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+				
+			}
+		}
+		return row;
+	}
+	
+	private void attachmentRemove(ArrayList<String> newFileName) {
+		
+		for (String FileName : newFileName) {
+			logger.info(FileName);
+			File file = new File(attachmentRoot+"/"+newFileName);
+			if(file.exists()) {
+				file.delete();
+			}
+			memberdao.removeFileName(FileName);
+		}
+		
+	}
+	
+	private void attachmentSave(String id, MultipartFile file, String cls) {
+		
+		String oriFileName = file.getOriginalFilename();
+		String ext = oriFileName.substring(oriFileName.lastIndexOf("."));
+		UUID uuid = UUID.randomUUID();
+		String newFileName = uuid.toString() + ext;
+		logger.info("파일 업로드 : "+oriFileName+"=>"+newFileName+"으로 변경될 예정");
+		
+		try {
+			byte[] bytes = file.getBytes();
+			Path path = Paths.get(attachmentRoot+"/"+newFileName);
+			Files.write(path, bytes);
+			logger.info(newFileName+" upload 디렉토리에 저장 완료 !");
+			
+			memberdao.userinfofileWrite(oriFileName, newFileName, cls, id);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+	}
 
-	public String userInfoUpdate(HashMap<String, String> params, MultipartFile file) {
-		String userId = params.get("userId");
-  		int row = memberdao.userInfoUpdate(params);
-  		String page = row>0 ? "redirect:/userinfo.go?userId="+userId : "redirect:/userinfo.go";
-  		logger.info("update => "+page);
+//	public String userInfoUpdate(HashMap<String, String> params, MultipartFile file) {
+//		String id = params.get("id");
+//  		int row = memberdao.userInfoUpdate(params);
+//  		String page = row>0 ? "redirect:/userinfo.go?user_id="+id : "redirect:/userinfo.go";
+//  		logger.info("update => "+page);
 //  		 if(!file.getOriginalFilename().equals("")) {
 //  			String type="fileChange";
 //  			 photoSave(file,params,type); 
 //  		 }
-  		 
-  		return page;
-	}
+//  		 
+//  		return page;
+//	}
+//	
+//	private int photoSave(MultipartFile file,HashMap<String, String> params, MemberDTO dto) {
+//	    
+//		int photoWrite = 0;
+//		
+//		if (file != null && !file.isEmpty()) {	 
+//			String userId = dto.getId();	
+//			logger.info("userId: " + userId);
+//			// 입력받은 파일 이름
+//			String oriFileName = file.getOriginalFilename();
+//			// 확장자를 추출하기 위한 과정
+//			String ext = oriFileName.substring(oriFileName.lastIndexOf("."));
+//			// 새로운 파일 이름은?
+//			UUID uuid = UUID.randomUUID();
+//			String newFileName = uuid.toString() + ext;
+//			logger.info("파일 업로드 : "+oriFileName+"=>"+newFileName+"으로 변경될 예정");
+//			String classification = "프로필사진";
+//			try {
+//			    byte[] bytes = file.getBytes();
+//			
+//			    Path path = Paths.get(attachmentRoot + "/" + newFileName);
+//			    Files.write(path, bytes);
+//			    memberdao.userfileWrite(oriFileName, newFileName, classification, userId);
+//			} catch (IOException e) {
+//			    e.printStackTrace();
+//			}
+//		}
+//		return photoWrite;
+//	 }
 
+	
+	
 	public ModelAndView departmentlist(HashMap<String, String> params) {
 		
 		logger.info("departmentlist 출력");
@@ -266,9 +370,11 @@ public class MemberService {
 	}
 
 
+
 	public MainDTO mainPage(String loginId) {
 		logger.info("멤버 컨트롤러에서 메인페이지 이동 - 서비스 ");
 		return memberdao.mainPage(loginId);
 	}
+
 
 }

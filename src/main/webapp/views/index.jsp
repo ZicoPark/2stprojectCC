@@ -115,7 +115,7 @@
       <li class="nav-item dropdown">
         <a class="nav-link" data-toggle="dropdown" href="#">
           <i class="far fa-bell"></i>
-          <span class="badge badge-warning navbar-badge">15</span>
+          <span class="badge badge-warning navbar-badge"></span>
         </a>
         <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
           <span class="dropdown-item dropdown-header">최신 알림</span>
@@ -169,8 +169,8 @@
           <img src="../../dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
         </div>
         <div class="info">
-          <a href="/userinfo.go" class="d-block">${user.id}의 MyPage</a>
-        </div>
+		  <a href="/userinfo.go" class="d-block">${user.id}의 MyPage</a>
+		</div>
       </div>
 
       <!-- SidebarSearch Form -->
@@ -533,29 +533,50 @@
     <!-- Control sidebar content goes here -->
   </aside>
   <!-- /.control-sidebar -->
-
+	<!-- <script src="../../js/websocket.js"></script> -->
 <script>
-	var socket = new WebSocket('ws://localhost/alarm'); // WebSocket 서버의 주소와 엔드포인트 경로
-	
-	socket.onopen = function(event) {
-		// WebSocket 연결이 열렸을 때 실행되는 로직을 구현합니다.
-	    console.log('websocket 연결');
-	};
 
-	socket.onmessage = function(event) {
-	    var message = event.data;
-	    console.log('message : ' + message);
-	    // WebSocket으로 수신된 메시지를 처리하는 로직을 구현합니다.
-	};
+var socket;
 
-	socket.onclose = function(event) {
-		// WebSocket 연결이 닫혔을 때 실행되는 로직을 구현합니다.
-	    console.log('websocket 종료');
-	};
+socket = new WebSocket('ws://localhost/alarm');
 
-	socket.onerror = function(error) {
-	    // WebSocket 오류 처리 로직을 구현합니다.
-	};
+socket.onopen = function(event) {
+    console.log('WebSocket 연결이 열렸습니다.');
+    $.ajax({
+		type:'post',
+		url:'alarmCount.ajax',
+		data: {
+			receive_id : '${sessionScope.id}'
+		},
+		dataType:'json',
+		success:function(data){
+			console.log(data);
+			$('.badge.badge-warning.navbar-badge').html(data);
+		},
+		error:function(e){
+			console.log(e);
+		}		
+	});
+};
+
+socket.onmessage = function(event) {
+    var message = event.data;
+    console.log('수신된 메시지: ' + message);
+    // 메시지 처리 로직 구현
+};
+
+socket.onclose = function(event) {
+    console.log('WebSocket 연결이 닫혔습니다.');
+};
+
+socket.onerror = function(error) {
+    console.error('WebSocket 오류:', error);
+};
+  
+
+
+
+
 </script>
 
 

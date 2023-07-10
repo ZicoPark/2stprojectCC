@@ -154,7 +154,8 @@ h1, h2, h3, h4, h5, h6 {
 		  <h6>프로필 사진 :</h6>
 		  &nbsp; &nbsp; &nbsp;
 		  <input type="file" name="file" multiple="multiple" onchange="previewImage(this);">
-		  <img id="preview" style="max-width: 200px; max-height: 200px;">
+		  <img id="preview" style="max-width: 200px; max-height: 200px;" src="img/cc.png">
+
 		</div>
         <div class="row">
           <div class="col-8">
@@ -295,13 +296,17 @@ h1, h2, h3, h4, h5, h6 {
 	}
 	
 	function previewImage(input) {
-	    if (input.files && input.files[0]) {
-	      var reader = new FileReader();
-	      reader.onload = function(e) {
-	        $('#preview').attr('src', e.target.result);
-	      };
-	      reader.readAsDataURL(input.files[0]);
-	    }
-	  }
+		  if (input.files && input.files[0]) {
+		    var reader = new FileReader();
+		    
+		    reader.onload = function(e) {
+		      $('#preview').attr('src', e.target.result);
+		    }
+		    
+		    reader.readAsDataURL(input.files[0]);
+		  } else {
+		    $('#preview').attr('src', 'img/cc.png');
+		  }
+		}
 </script>
 </html>

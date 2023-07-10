@@ -18,7 +18,9 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
+import org.springframework.web.socket.WebSocketSession;
 
+import kr.co.cc.alarm.config.WebSocketHandler;
 import kr.co.cc.member.dto.MemberDTO;
 import kr.co.cc.noticeBoard.dto.NoticeBoardDTO;
 import kr.co.cc.noticeBoard.service.NoticeBoardService;
@@ -28,6 +30,7 @@ public class NoticeBoardController {
 	
 	Logger logger = LoggerFactory.getLogger(getClass());
    @Autowired NoticeBoardService service;
+   
    @Value("${spring.servlet.multipart.location}") private String root;
    
 
@@ -64,7 +67,7 @@ public class NoticeBoardController {
      logger.info("params : " + params);
      logger.info("파일 : "+file);
      
-     
+    
       return service.nowrite(file, params,session,rttr);
    }
    
