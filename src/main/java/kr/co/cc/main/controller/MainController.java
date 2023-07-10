@@ -107,21 +107,19 @@ public class MainController {
 	    MainDTO mainPage = memberservice.mainPage(loginId);
 	    logger.info("mainPage: " + mainPage);
 
-	    //출퇴근
-	    MainDTO timeList = mservice.mWorkHistory(loginId);
-	    LocalDate currentDate = LocalDate.now(ZoneId.systemDefault());
-	    logger.info("오늘 날짜: " + currentDate);
-
-	    LocalDate dateValue = timeList.getDate();
-	    logger.info("날짜 조회: " + dateValue);
-
-	  
-	    if (currentDate.isEqual(dateValue)) {
-	    	String msg = (String) session.getAttribute("msg");
-	        model.addAttribute("time", timeList);
-	    } else {
-	        model.addAttribute("time", null);
-	    }
+		/*
+		 * //출퇴근 MainDTO timeList = mservice.mWorkHistory(loginId); LocalDate
+		 * currentDate = LocalDate.now(ZoneId.systemDefault()); logger.info("오늘 날짜: " +
+		 * currentDate);
+		 * 
+		 * LocalDate dateValue = timeList.getDate(); logger.info("날짜 조회: " + dateValue);
+		 * 
+		 * 
+		 * if (currentDate.isEqual(dateValue)) {
+		 * 
+		 * model.addAttribute("time", timeList); } else { model.addAttribute("time",
+		 * null); }
+		 */
 	    
 	    // 대시보드
 	    int mstotal = mservice.totalCountMs(loginId);
@@ -150,20 +148,20 @@ public class MainController {
 	public String mtimeGo(HttpSession session, Model model) {
 		formattedDateTime();
 		String id = (String) session.getAttribute("id");
-		String msg = "이미 출근을 등록하였습니다.";
+	
 		
 		int row = service.timeGoBefore(id,date);
 		logger.info("timeGoBefore row : " + row);		
 		
 		if(row==0) {
 			service.timeGo(id);
-			msg = "출근이 등록되었습니다.";
+			
 			
 			
 		}	
 		
 		
-		session.setAttribute("msg", msg);
+		
 		return "redirect:/main.go";
 
 	}
@@ -173,18 +171,18 @@ public class MainController {
 		
 		formattedDateTime();
 		String id = (String) session.getAttribute("id");
-		String msg = "출근이 등록되지 않았습니다.";
+		
 		
 		int row = service.timeGoBefore(id,date);
 		logger.info("timeGoBefore row : " + row);		
 		
 		if(row==1) {
 			service.timeEnd(id,date,time);
-			msg = "퇴근이 등록되었습니다.";
+			
 		}
 		
 	
-		session.setAttribute("msg", msg);
+		
 		return "redirect:/main.go";
 	}	
 
