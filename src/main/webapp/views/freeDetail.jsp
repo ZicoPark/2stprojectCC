@@ -256,6 +256,7 @@ function listPrint(list) {
 	    content += '<div class="comment-content">' + item.content + '</div>';
 	    content += '<div class="comment-actions">';
 	    content += '<a href="#" onclick="showEditCommentForm(this, \'' + item.id + '\', \'' + item.member_id + '\')">수정</a>';
+	    content += '<a href="replyDelete.do?id=' + item.id + '&free_board_id=' + item.free_board_id + '">삭제</a>';
 	    content += '</div>';
 	    content += '</div>';
 	  });

@@ -174,6 +174,8 @@
 <!-- AdminLTE for demo purposes -->
 <script src="../../dist/js/demo.js"></script>
 
+<script type="text/javascript" src="../../dist/js/jquery.twbsPagination.min.js"></script>
+
 <script>
 
 

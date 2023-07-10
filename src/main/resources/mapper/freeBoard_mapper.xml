@@ -111,7 +111,11 @@
 	</select>	
 	
 	
-	
+	<update id="replyDelete">
+	  UPDATE reply
+	  SET status = 0
+	  WHERE id = #{id}
+	</update>
 	
 	
 	

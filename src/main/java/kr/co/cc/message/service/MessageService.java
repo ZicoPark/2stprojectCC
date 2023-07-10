@@ -71,7 +71,7 @@ public class MessageService {
 
 	      page = page>range ? range:page;
 	      
-	      ArrayList<ArchiveDTO> list = null;
+	      ArrayList<MessageDTO> list = null;
 	      
 	      params.put("offset", offset);
 			
@@ -89,6 +89,7 @@ public class MessageService {
 	      		
 	      
 	      //logger.info("list size : "+ list.size());
+	      map.put("pages", range);
 	      map.put("list", list);
 	      map.put("currPage", page);	      
 	      map.put("loginid",loginid);
@@ -152,7 +153,7 @@ public class MessageService {
 	            }
 	        }
 	        dto.setTo_id(sb.toString());
-	        
+	         
 	        
 	        dto.setFrom_id(loginId);
 	        dto.setTitle(params.get("title"));
@@ -161,12 +162,21 @@ public class MessageService {
 	        for (String toId : toIds) {
 				dto.setTo_id(toId);
 				int row = dao.msWrite(dto);
+				
 				logger.info("insert row: " + row);
 			}
 
-	        String idx = dto.getId();
+	       String idx = dto.getId();
 
-
+		    HashMap<String , Object> map = new HashMap<String, Object>();
+		    for (String recieveId : toIds) {
+		    	
+		    	msNotice(loginId,recieveId,"쪽지", idx);
+		    	
+		    	map.clear();
+			}
+	       
+	       
 	        logger.info("idx: " + idx);
 
 	        if (file != null && !file.isEmpty()) {
@@ -187,10 +197,20 @@ public class MessageService {
 	                e.printStackTrace();
 	            }
 	        }
+	       
 
+	        
 	    return "msSendSuccess";
 	}
 
+
+
+
+	private void msNotice(String send_id, String recieveId, String type, String identifyValue) {
+		
+		
+		dao.msNotice(send_id,recieveId,type,identifyValue);
+	}
 
 
 

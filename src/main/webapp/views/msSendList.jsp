@@ -92,6 +92,7 @@
               <h3 class="card-title">보낸쪽지함</h3>
 
     	<br>
+    	<div class="float-right">
 		<div class="search-container">
 	    <input type="text" id="searchInput" placeholder="제목 또는 작성자를 입력">
 	    <button id="searchButton"><alt="Search">검색</button>
@@ -103,35 +104,15 @@
             <div class="card-body p-0">
               <div class="mailbox-controls">
                 <!-- Check all button -->
-                <input type="checkbox" name="allCheck"/><i class="far fa-square"></i>
+                <input type="checkbox" name="allCheck"/>
                 
                 <div class="btn-group">
                   <button type="button" onclick="deleteValue()" class="btn btn-default btn-sm">
                     <i class="far fa-trash-alt"></i>
                   </button>
-                  <button type="button" class="btn btn-default btn-sm">
-                    <i class="fas fa-reply"></i>
-                  </button>
-                  <button type="button" class="btn btn-default btn-sm">
-                    <i class="fas fa-share"></i>
-                  </button>
                 </div>
-                <!-- /.btn-group -->
-                <button type="button" class="btn btn-default btn-sm">
-                  <i class="fas fa-sync-alt"></i>
-                </button>
-                <div class="float-right">
-                  1-50/200
-                  <div class="btn-group">
-                    <button type="button" class="btn btn-default btn-sm">
-                      <i class="fas fa-chevron-left"></i>
-                    </button>
-                    <button type="button" class="btn btn-default btn-sm">
-                      <i class="fas fa-chevron-right"></i>
-                    </button>
-                  </div>
-                  <!-- /.btn-group -->
-                </div>
+
+
                 <!-- /.float-right -->
               </div>
               <div class="table-responsive mailbox-messages">
@@ -142,34 +123,6 @@
 
 			</tbody>
 			
-			
-                </table>
-                <!-- /.table -->
-              </div>
-              <!-- /.mail-box-messages -->
-            </div>
-            <!-- /.card-body -->
-            <div class="card-footer p-0">
-              <div class="mailbox-controls">
-                <!-- Check all button -->
-                <button type="button" class="btn btn-default btn-sm checkbox-toggle">
-                  <i class="far fa-square"></i>
-                </button>
-                <div class="btn-group">
-                  <button type="button" class="btn btn-default btn-sm">
-                    <i class="far fa-trash-alt"></i>
-                  </button>
-                  <button type="button" class="btn btn-default btn-sm">
-                    <i class="fas fa-reply"></i>
-                  </button>
-                  <button type="button" class="btn btn-default btn-sm">
-                    <i class="fas fa-share"></i>
-                  </button>
-                </div>
-                <!-- /.btn-group -->
-                <button type="button" class="btn btn-default btn-sm">
-                  <i class="fas fa-sync-alt"></i>
-                </button>
 		<tr>
            <th colspan="6" id="paging">  
              <div class="container">                  
@@ -179,6 +132,14 @@
              </div>
            </th>
          </tr>	
+			
+                </table>
+                <!-- /.table -->
+              </div>
+              <!-- /.mail-box-messages -->
+            </div>
+            <!-- /.card-body -->
+
                 <!-- /.float-right -->
               </div>
             </div>
@@ -249,10 +210,10 @@ function listCall(page){
 	         // 1. 총 페이지의 수
 	         // 2. 현재 페이지
 	         console.log(data.list); // arraylist 로 값 들어옴
-	         
+	         var currentPage = 1;
 	         // Paging Plugin (j-query의 기본기능을 가지고 만들었기 때문에  plugin)
 	         $('#pagination').twbsPagination({
-	         startPage:1, // 시작 페이지
+	         startPage:currentPage, // 시작 페이지
 	         totalPages:data.pages,// 총 페이지 수 
 	         visiblePages:5,// 보여줄 페이지
 	         onPageClick:function(event,page){ // 페이지 클릭시 동작되는 (콜백)함수
@@ -278,9 +239,7 @@ function listPrint(list){
 	   	list.forEach(function(item){
 	      // 배열 요소들 반복문 실행 -> 행 구성 + 데이터 추가 
 	      content +='<tr>';
-	      if (isAdmin == 1) {
-	          content += '<td class="checkbox"><input type="checkbox" name="Rowcheck" value="' + item.id + '"></td>';
-	       }
+	      content += '<td class="checkbox"><input type="checkbox" name="Rowcheck" value="' + item.id + '"></td>';
 	      content += '<td>' + count-- + '</td>'; // 번호를 반대로 표시
 	      content +='<td>'+item.to_name +'</td>';
 	      content +='<td><a href="msSendDetail.do?id=' + item.id + '">'+item.title +'</a></td>';

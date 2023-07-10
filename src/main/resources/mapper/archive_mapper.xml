@@ -19,6 +19,7 @@
 		FROM archive_board ab
 		JOIN member m ON ab.member_id = m.id
 		WHERE ab.status =1
+		ORDER BY ab.create_at DESC
 		LIMIT 10 OFFSET #{offset}
 	</select>	
 
@@ -27,7 +28,8 @@
 	    FROM archive_board ab
 	    JOIN member m ON ab.member_id = m.id
 	    WHERE CONCAT(ab.subject, m.name) LIKE CONCAT('%', #{search}, '%') 
-	        AND ab.status = 1
+	    AND ab.status = 1
+	    ORDER BY ab.create_at DESC
 	    LIMIT 10 OFFSET #{offset}
 	</select>
 	
@@ -53,10 +55,11 @@
 
 	<!-- 자료실 상세보기 -->
 	<select id="archivedetail" resultType="kr.co.cc.archive.dto.ArchiveDTO">
-	    select ab.id, ab.member_id, ab.category, ab.subject, ab.content, ab.hit, ab.create_at, m.dept_id, m.name
-	    from archive_board ab
-	    join member m on ab.member_id = m.id
-	    where ab.id = #{id}
+	    SELECT ab.id, ab.member_id, ab.category, ab.subject, ab.content, ab.hit, ab.create_at, m.dept_id, m.name, m.user_id, d.name AS dept_name
+	    FROM archive_board ab
+	    JOIN member m on ab.member_id = m.id
+	    JOIN dept d on m.dept_id = d.id
+	    WHERE ab.id = #{id}
 	</select>
 
 

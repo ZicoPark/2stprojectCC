@@ -49,6 +49,8 @@ public interface FreeBoardDAO {
 
 	int replyTotalCount();
 
+	boolean replyDelete(String id, String free_board_id);
+
 	
 
 
