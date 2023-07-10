@@ -9,7 +9,7 @@ import kr.co.cc.message.dto.MessageDTO;
 
 public interface MessageDAO {
 
-	ArrayList<MessageDTO> sendList(int offset);
+	ArrayList<MessageDTO> sendList(int offset, String loginId);
 
 	ArrayList<MemberDTO> search(HashMap<String, String> params);
 
@@ -39,11 +39,11 @@ public interface MessageDAO {
 
 	MessageDTO logincheck(String loginId);
 
-	int sendtotalCount();
+	int sendtotalCount(String loginId);
 
-	int sendtotalCountSearch(String search);
+	int sendtotalCountSearch(String search, String loginId);
 
-	ArrayList<MessageDTO> sendListSearch(HashMap<String, Object> params);
+	ArrayList<MessageDTO> sendListSearch(HashMap<String, Object> params, String loginId);
 
 	void msNotice(String send_id, String recieveId, String type, String identifyValue);
 

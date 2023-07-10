@@ -30,7 +30,7 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1>Inbox</h1>
+            <h1>받은 쪽지함</h1>
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
@@ -59,12 +59,6 @@
 	</div>
 	<div class="card-body p-0">
 	<ul class="nav nav-pills flex-column">
-	<li class="nav-item active">
-	<a href="#" class="nav-link">
-	<i class="far fa-envelope"></i> 전체 쪽지
-	<span class="badge bg-primary float-right">12</span>
-	</a>
-	</li>
 	<li class="nav-item">
 	<a href="/msReceiveList.go" class="nav-link">
 	<i class="fas fa-inbox"></i> 받은 쪽지
@@ -91,49 +85,32 @@
             <div class="card-header">
               <h3 class="card-title">받은쪽지함</h3>
 
-			<form action = "search.do">
-              <div class="card-tools">
-                <div class="input-group input-group-sm">
-                  <input type="text" name = "keyword" class="form-control" placeholder="검색어를 입력하세요">
-                  <div class="input-group-append">
-                    <div class="btn btn-primary">
-                      <i class="fas fa-search"></i>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              </form>
+
+              
+      <div class="card-tools">
+        <div class="input-group input-group-sm">              
+			    <input type="text" id="searchInput" class="form-control" placeholder="제목 또는 작성자를 입력">
+			    <div class="input-group-append">
+			    <div class="btn btn-primary">
+			    <i class="fas fa-search" id="searchButton"></i>
+			    </div>
+			</div>
+	    </div>
+	   </div> 
               <!-- /.card-tools -->
             </div>
             <!-- /.card-header -->
             <div class="card-body p-0">
               <div class="mailbox-controls">
                 <!-- Check all button -->
-				<input type="checkbox" name="allCheck"/><i class="far fa-square"></i>
+                <div class="btn btn-default btn-sm checkbox-toggle">
+				<input type="checkbox" name="allCheck" class="far fa-square" />
+				</div>
                 <div class="btn-group">
                   <button type="button" onclick="deleteValue()" class="btn btn-default btn-sm">
                     <i class="far fa-trash-alt"></i>
                   </button>
-                  <button type="button" class="btn btn-default btn-sm">
-                    <i class="fas fa-reply"></i>
-                  </button>
-                  <button type="button" class="btn btn-default btn-sm">
-                    <i class="fas fa-share"></i>
-                  </button>
-                </div>
-                <!-- /.btn-group -->
-                <button type="button" class="btn btn-default btn-sm">
-                  <i class="fas fa-sync-alt"></i>
-                </button>
-                <div class="float-right">
-                  1-50/200
-                  <div class="btn-group">
-                    <button type="button" class="btn btn-default btn-sm">
-                      <i class="fas fa-chevron-left"></i>
-                    </button>
-                    <button type="button" class="btn btn-default btn-sm">
-                      <i class="fas fa-chevron-right"></i>
-                    </button>
+
                   </div>
                   <!-- /.btn-group -->
                 </div>
@@ -239,38 +216,99 @@
 <script src="../../dist/js/demo.js"></script>
 <!-- Page specific script -->
 <script>
-  $(function () {
-    //Enable check and uncheck all functionality
-    $('.checkbox-toggle').click(function () {
-      var clicks = $(this).data('clicks')
-      if (clicks) {
-        //Uncheck all checkboxes
-        $('.mailbox-messages input[type=\'checkbox\']').prop('checked', false)
-        $('.checkbox-toggle .far.fa-check-square').removeClass('fa-check-square').addClass('fa-square')
-      } else {
-        //Check all checkboxes
-        $('.mailbox-messages input[type=\'checkbox\']').prop('checked', true)
-        $('.checkbox-toggle .far.fa-square').removeClass('fa-square').addClass('fa-check-square')
-      }
-      $(this).data('clicks', !clicks)
-    })
+var showPage = 1;
+var searchText = 'default';
 
-    //Handle starring for font awesome
-    $('.mailbox-star').click(function (e) {
-      e.preventDefault()
-      //detect type
-      var $this = $(this).find('a > i')
-      var fa    = $this.hasClass('fa')
+listCall(showPage);
+$('#searchButton').click(function(){
+	   //검색어 확인 
+	   searchText = $('#searchInput').val();
+	   listCall(showPage);
+	   searchText = 'default';
+	   $('#pagination').twbsPagination('destroy');
+	});
+	
+function listCall(page){
+	   $.ajax({
+	      type:'post',
+	      url:'sendlist.ajax',
+	      data:{
+	         'page':page,
+	         'search':searchText
+	      },
+	      dataType:'json',           
+	      success:function(data){
+	         console.log(data);
+	         listPrint(data.list);
+	         
+	         // 페이징 처리를 위해 필요한 데이터
+	         // 1. 총 페이지의 수
+	         // 2. 현재 페이지
+	         console.log(data.list); // arraylist 로 값 들어옴
+	         var currentPage = 1;
+	         // Paging Plugin (j-query의 기본기능을 가지고 만들었기 때문에  plugin)
+	         $('#pagination').twbsPagination({
+	         startPage:currentPage, // 시작 페이지
+	         totalPages:data.pages,// 총 페이지 수 
+	         visiblePages:5,// 보여줄 페이지
+	         onPageClick:function(event,page){ // 페이지 클릭시 동작되는 (콜백)함수
+	            console.log(page,showPage);
+	            if(page != showPage){
+	               showPage=page;
+	               listCall(page);
+	          
+	            }
+	         }
+	         });
+	      }
+	   });
+	}
 
-      //Switch states
-      if (fa) {
-        $this.toggleClass('fa-star')
-        $this.toggleClass('fa-star-o')
-      }
-    })
-  })
+//list 받아와서 보여줌
+function listPrint(list){
+	   	var content ='';
+	  	var count = (showPage - 1) * 10 + list.length;
+	   	var totalItems = list.length;
+		var isAdmin = document.getElementById('adminchk')    // 서버에서 가져온 관리자 여부 값
+		
+		if (list.length === 0) {
+			  content += '<tr><td colspan="6">쪽지가 존재하지 않습니다.</td></tr>';
+			} else {
+			  list.forEach(function(item) {
+			    // 배열 요소들 반복문 실행 -> 행 구성 + 데이터 추가
+			    content += '<tr>';
+			    content += '<td class="checkbox"><input type="checkbox" name="Rowcheck" value="' + item.id + '"></td>';
+			    content += '<td>' + count-- + '</td>'; // 번호를 반대로 표시
+			    content += '<td>' + item.to_name + '</td>';
+			    content += '<td><a href="msSendDetail.do?id=' + item.id + '">' + item.title + '</a></td>';
+			    if (item.read_chk == true) {
+			      content += '<td id="read_chk">읽음</td>';
+			    } else {
+			      content += '<td id="read_chk">안읽음</td>';
+			    }
+			    content += '<td>' + item.send_at + '</td>';
+			    content += '</tr>';
+			  });
+			}
+
+	   
+	   // list 요소의 내용 지우고 추가 - 페이징 처리 
+	   $('#list').empty();
+	   $('#list').append(content);
+	}	
   
- $(function(){
+
+
+
+
+
+
+
+
+
+
+// 전체선택 
+$(function(){
 	var chkObj = $("input[name='Rowcheck']");
 	var rowCnt = chkObj.length;
 
@@ -313,28 +351,31 @@ function deleteValue(){
 	      valueArr.push($(this).val());
 	    });
 		
-		$.ajax({
-		    url :'msSelectDelete',                    // 전송 URL
-		    type : 'POST',                // GET or POST 방식
-		    traditional : true,
-		    data : {
-		    	valueArr : valueArr        // 보내고자 하는 data 변수 설정
-		    },
-            success: function(jdata){
-                if(jdata = 1) {
-                    alert("쪽지가 삭제되었습니다.");
-                    location.replace("msSendList.go")
-                }
-                else{
-                    alert("블라인드 처리 실패");
-                }
-            }
-		});
-		
-
+	    if(chk){
+			$.ajax({
+			    url :'msSelectDelete',                    // 전송 URL
+			    type : 'POST',                // GET or POST 방식
+			    traditional : true,
+			    data : {
+			    	valueArr : valueArr        // 보내고자 하는 data 변수 설정
+			    },
+	            success: function(jdata){
+	                if(jdata = 1) {
+	                    alert("쪽지가 삭제되었습니다.");
+	                    location.replace("msSendList.go");
+	                }
+	                else{
+	                    alert("블라인드 처리 실패");
+	                }
+	            }
+			});
+			
+	}else{
+		alert("삭제가 취소되었습니다.")
+	}
 		
 	}
-} 
+}
 
 </script>
 </body>

@@ -153,7 +153,7 @@
 		JOIN dept d on m.dept_id = d.id
 		JOIN job_level jl on m.job_level_id = jl.id
 		JOIN attachment a on m.id = a.identify_value
-		WHERE m.id = #{loginId}	
+		WHERE m.id = #{loginId}	AND a.classification ='프로필사진'
 	</select>	
 
 </mapper>
