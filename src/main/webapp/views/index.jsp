@@ -226,6 +226,8 @@
 			</p>
 		</a>
 	<ul class="nav nav-treeview">
+		<hr/>
+		<span style="padding-left: 10; font-size: 20;">기안</span>
 		<li class="nav-item">
 			<a href="/docWriteForm.go" class="nav-link">
 				<i class="far fa-circle nav-icon"></i>
@@ -251,10 +253,17 @@
 			</a>
 		</li>
 		<hr/>
+		<span style="padding-left: 10; font-size: 20;">결재</span>
 		<li class="nav-item">
 			<a href="/requestDocWaitList.go" class="nav-link">
 				<i class="far fa-circle nav-icon"></i>
 				<p>결재대기함</p>
+			</a>
+		</li>
+		<li class="nav-item">
+			<a href="/requestDocCompleteList.go" class="nav-link">
+				<i class="far fa-circle nav-icon"></i>
+				<p>결재완료함</p>
 			</a>
 		</li>
 	</ul>

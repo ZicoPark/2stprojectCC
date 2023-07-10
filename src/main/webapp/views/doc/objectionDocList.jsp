@@ -32,14 +32,15 @@
 						<tr>
 							<th>문서번호</th>
 							<th>제목</th>
-							<th>결재종류</th>
-							<th>반려처리자</th>
+							<th>반려단계</th>
+							<th>처리자</th>
+							<th>반려시각</th>
 						</tr>
 					</thead>
 					<tbody>
 						<c:if test="${list.size() == 0 }">
 							<tr>
-								<td colspan="4">반려처리된 문서가 없습니다.</td>
+								<td colspan="5">반려처리된 문서가 없습니다.</td>
 							</tr>
 						</c:if>
 						<c:if test="${list.size() > 0 }">
@@ -49,6 +50,7 @@
 									<td><a href="objectionDocDetail.go?id=${i.id }">${i.subject }</a></td>
 									<td>${i.approval_kind_name }단계 반려</td>
 									<td>${i.objection_member_name }</td>
+									<td>${i.objection_at }</td>
 								</tr>
 							</c:forEach>
 						</c:if>
