@@ -783,20 +783,32 @@ public class DocService {
 		// 결재자의 도장 찍기
 		String memberStampBase64;
 		String fileName;
-		fileName = getMemberSignFilePath(memberInfo.getId());
-		String kianSign = "<span style=\"width:100px; height:100px; border:1px solid white; font-weight: bold; font-size:20px; text-align:center;\">"+memberInfo.getName()+"</span>"; // 서명이미지 파일이 없으면 그냥 멤버 이름을 넣기 때문에 멤버 이름으로 초기화한다.
-		logger.info("fileName : "+fileName); // 서명이미지가 없으면 null이 출력된다.
-		
-		if(fileName!=null) { 
-			// 서명이미지 파일이 있으면 멤버의 이미지파일을 가져와 base64로 인코딩해서 넣는다.
-			try {
-				byte[] src = FileUtils.readFileToByteArray(new File(attachmentRoot+"/"+fileName));
-				memberStampBase64 = Base64.getEncoder().encodeToString(src);
-				kianSign = "<img src=\"data:image/png;base64,"+memberStampBase64+"\" style=\"max-width: 100%;\" />"+"<span style=\"width:100px; height:100px; border:1px solid white; font-size:16px; text-align:center;\">"+memberInfo.getName()+"</span>";
-			} catch (IOException e) {
-				e.printStackTrace();
+		String kianSign;
+		if(params.get("status").equals("1")) {
+			// 결재자가 결재 했을 경우에는 서명이미지를 넣는 작업을 수행한다.
+			
+			// 서명이미지 파일이 없으면 그냥 멤버 이름을 넣기 때문에 멤버 이름으로 초기화한다.
+			kianSign = "<span style=\"width:100px; height:100px; border:1px solid white; font-weight: bold; font-size:20px; text-align:center;\">"+memberInfo.getName()+"</span>";
+			
+			// 서명이미지 파일의 이름을 DB에서 불러온다.
+			fileName = getMemberSignFilePath(memberInfo.getId());
+			logger.info("fileName : "+fileName); // 서명이미지가 없으면 null이 출력된다.
+			
+			if(fileName!=null) { 
+				// 서명이미지 파일이 있으면 멤버의 이미지파일을 가져와 base64로 인코딩해서 넣는다.
+				try {
+					byte[] src = FileUtils.readFileToByteArray(new File(attachmentRoot+"/"+fileName));
+					memberStampBase64 = Base64.getEncoder().encodeToString(src);
+					kianSign = "<img src=\"data:image/png;base64,"+memberStampBase64+"\" style=\"max-width: 100%;\" />"+"<span style=\"width:100px; height:100px; border:1px solid white; font-size:16px; text-align:center;\">"+memberInfo.getName()+"</span>";
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				
 			}
 			
+		}else {
+			// 결재자가 반려했을 때(2)는 결재선 도장 칸에 반려라는 문구를 넣는다.
+			kianSign = "<span style=\"width:100px; height:100px; border:1px solid white; font-weight: bold; font-size:20px; text-align:center;\">"+"반려"+"</span>";
 		}
 		
 		String oriContent = docDTO.getContent();
@@ -818,6 +830,19 @@ public class DocService {
 		
 		// 마지막으로 doc_status 테이블에 update를 한다.
 		dao.requestDocApproval(params);
+		
+		return mav;
+	}
+
+	public ModelAndView objectionDocList(HttpSession session) {
+
+		ModelAndView mav = new ModelAndView("/doc/objectionDocList");
+		
+		String loginId = (String) session.getAttribute("id");
+		
+		ArrayList<HashMap<String, String>> objectionDocList = dao.getObjectionDocList(loginId);
+
+		mav.addObject("list", objectionDocList);
 		
 		return mav;
 	}

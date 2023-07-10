@@ -136,15 +136,6 @@ public class WorkService {
 		return mav;
 	}
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 
 	public void workWorn(HashMap<String, Object> params) {
 		dao.workWorn(params);
@@ -314,6 +305,10 @@ public class WorkService {
 
 	public ArrayList<WorkDTO> approvalChange(String approval) {
 		return dao.approvalChange(approval);
+	}
+
+	public ArrayList<WorkDTO> historyChange(String historyChange) {
+		return dao.historyChange(historyChange);
 	}
 
 

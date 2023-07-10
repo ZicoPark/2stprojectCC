@@ -36,11 +36,18 @@
     				<th>요청 시간</th>
     				<th>요청 유형</th>
     				<th>요청 사유</th>
-    				<th>처리 상태</th>
+    				<th>
+    					처리 상태
+    					<select id="historyChange">
+    						<option value="0">대기</option>
+    						<option value="1">승인</option>
+    						<option value="2">반려</option>
+    					</select>
+    				</th>
     				<th>승인/반려</th>			
     			</tr>    		
     		</thead>
-    		<tbody>
+    		<tbody id="historyBody">
     			<c:if test="${dto eq null}">
 					<tr>
 						<th colspan="4">근태 수정 요청 사항이 없습니다.</th>
@@ -86,5 +93,65 @@
 	if(msg != ""){
 		alert(msg);
 	}
+	
+	$('#historyChange').on('change', function(e){
+		   var historyChange = $('#historyChange').val();      
+		   console.log("historyChange ? " + historyChange);      
+		   $.ajax({
+		      type: 'get'
+		      ,url: 'historyChange.ajax'
+		      ,data:{'historyChange':historyChange}
+		      ,dataType:'json'
+		      ,success:function(data){		         
+		         if(data != ""){
+		        	 historyDraw(data.list);
+		         } else {
+		            alert('오류가 발생하였습니다.');
+		         }
+		      }
+		      ,error:function(e){
+		         console.log(e);
+		      }
+		   });
+	})
+	
+	function historyDraw(list) {
+	    console.log("list : " + list);
+	    var content = '';
+	    if (list.length > 0) {
+	        console.log("list if : " + list);
+	        list.forEach(function (item, index) {
+	            content += '<tr>';
+	            content += '<td>' + item.date + '</td>';
+	            content += '<td>' + item.name + '</td>';
+	            content += '<td>' + item.user_id + '</td>';
+	            content += '<td>' + item.update_at + '</td>';
+	            content += '<td>' + item.type + '</td>';
+	            content += '<td>' + item.reason + '</td>';
+	
+	            if (item.approval == 0) {
+	                content += '<td>대기</td>';
+	            } else if (item.approval == 1) {
+	                content += '<td>승인</td>';
+	            } else if (item.approval == 2) {
+	                content += '<td>반려</td>';
+	            }
+	
+	            content += '<td>';
+	            content += '<div class="btn-group" role="group">';
+	            content += '<button type="button" class="btn btn-success btn-sm" onclick="location.href=\'WorkChangeAdmin.do?approval=1&working_hour_id=' + item.working_hour_id + '&type=' + item.type + '&update_at=' + item.update_at + '\'">승인</button>';
+	            content += '<button type="button" class="btn btn-danger btn-sm" onclick="location.href=\'WorkChangeAdmin.do?approval=2&working_hour_id=' + item.working_hour_id + '&type=' + item.type + '&update_at=' + item.update_at + '\'">반려</button>';
+	            content += '</div>';
+	            content += '</td>';
+	
+	            content += '</tr>';
+	        });
+	        console.log("list forEach : " + content);
+	    } else {
+	        content = '<tr><th colspan="8">검색 조건에 맞는 결과가 없습니다.</th></tr>';
+	    }
+	    $('#historyBody').empty();
+	    $('#historyBody').append(content);
+	}	
 </script>
 </html>
