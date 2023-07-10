@@ -71,6 +71,14 @@ public interface DocDAO {
 
 	int docStatusDelete(String docId);
 
+	ArrayList<HashMap<String, String>> getObjectionDocList(String loginId);
+
+	HashMap<String, String> objectionDocDetail(String docId);
+
+	ArrayList<HashMap<String, String>> getDocStatusList(String docId);
+
+	String getNextApprovalMemberId(String docId);
+
 	
 
 

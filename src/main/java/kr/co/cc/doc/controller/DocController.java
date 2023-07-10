@@ -150,4 +150,28 @@ public class DocController {
 		return service.requestDocApproval(params, session);
 	}
 	
+	@RequestMapping(value="/objectionDocList.go")
+	public ModelAndView objectionDocList(HttpSession session) {
+		
+		return service.objectionDocList(session);
+	}
+	
+	@RequestMapping(value="/objectionDocDetail.go")
+	public ModelAndView objectionDocDetail(@RequestParam String id, HttpSession session) {
+		
+		return service.objectionDocDetail(id, session);
+	}
+	
+	@RequestMapping(value="/rewriteDoc.ajax")
+	@ResponseBody
+	public HashMap<String, Object> rewriteDoc(@RequestParam HashMap<String, String> params, HttpSession session){
+		
+		return service.rewriteDoc(params, session);
+	}
+	
+	
+	
+	
+	
+	
 }

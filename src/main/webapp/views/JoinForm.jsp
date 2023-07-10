@@ -153,7 +153,7 @@ h1, h2, h3, h4, h5, h6 {
 		<div class="input-group mb-3">
 		  <h6>프로필 사진 :</h6>
 		  &nbsp; &nbsp; &nbsp;
-		  <input type="file" name="file" multiple="multiple" onchange="previewImage(this);">
+		  <input type="file" name="file" onchange="previewImage(this);">
 		  <img id="preview" style="max-width: 200px; max-height: 200px;" src="img/cc.png">
 
 		</div>

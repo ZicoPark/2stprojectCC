@@ -24,7 +24,7 @@
 	<div class="wrapper">
 		<div class="content-wrapper">
 			<section class="content-header">
-				<h1>결재요청문서</h1>
+				<h1>반려된 문서</h1>
 			</section>
 			<!-- Main content -->
 			<section class="content">
@@ -44,21 +44,14 @@
 					부서별공개
 				</c:if>
 				<br>
-				결재단계 : ${doc. approval_kind_name}대기 중
+				반려 단계 : ${doc. approval_kind_name} 단계 반려
 				<br>
 				처리자 : ${doc.approval_member_job_name } ${doc.approval_member_name }
 				<br>
-				읽음여부 : 
-				<c:if test="${doc.read_chk eq true }">
-					읽음
-				</c:if>
-				<c:if test="${doc.read_chk eq false }">
-					안읽음
-				</c:if>
 				<br>
 				문서종류 : <input type="text" value="${doc.doc_form_name }" readonly="readonly"/>
 				<br>
-				<input type="button" value="문서회수" onclick="withDraw()"/>
+				<input type="button" value="재작성" onclick="rewriteDoc()"/>
 				<div id="div_editor">
 					<!-- 에디터 안에 들어갈 자리 -->
 				</div>
@@ -73,7 +66,7 @@
 						</div>
 					</c:forEach>
 				</c:if>
-				<input type="button" onclick="location.href='/requestDocList.go'" value="리스트"/>
+				<input type="button" onclick="location.href='/objectionDocList.go'" value="리스트"/>
 			</section>
 		</div>
 	</div>
@@ -101,24 +94,29 @@ var content = document.getElementById('content').value;
 editor.setHTMLCode(content); // editor에 내용 넣기
 editor.setReadOnly();
 
-function withDraw(){
+function rewriteDoc(){
 	
-// 비동기방식으로 withDrawChk와 읽은시간을 가져온다.
-	var docId = '${doc.id }';
+	var subject = '${doc.subject}';
+	// content는 위에 선언됨.
+	var status = 2; // 임시저장문서로 만들거니까 status는 2로 고정한다.
+	// member_id는 세션으로 받아오기
+	var docFormId = '${doc.doc_form_id}';
+	// deptId는 memberInfo에서 받아온다.
+	// jobLevelName는 memberInfo에서 받아온다.
+	var publicRange = '${doc.public_range}';
+	
+	var params = {subject, content, status, docFormId, publicRange};
 	
 	$.ajax({
 		
 		type:'post',
-		url:'docWithdraw.ajax',
-		data:{
-			docId:docId
-		},
+		url:'rewriteDoc.ajax',
+		data:params,
 		dataType:'json',
 		success:function(data){
-			alert(data.msg);
 			
-			if(data.updateRow != null){
-				location.href='/tempDocList.go';
+			if(data.updateRow != null && data.docId != null){
+				location.href='tempDocUpdateForm.go?id='+data.docId;
 			}
 		},
 		error:function(e){
