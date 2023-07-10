@@ -60,18 +60,18 @@ public class MessageService {
 		
 	    if(search.equals("default") || search.equals("")) {
 	      
-	    	  total = dao.sendtotalCount();
+	    	  total = dao.sendtotalCount(loginId);
 
 	      	}else {	      
 	    	   	   
-	    	  total = dao.sendtotalCountSearch(search);
+	    	  total = dao.sendtotalCountSearch(search,loginId);
 	       }
 	    
 	    int range = total%10  == 0 ? total/10 : total/10+1;
 
 	      page = page>range ? range:page;
 	      
-	      ArrayList<ArchiveDTO> list = null;
+	      ArrayList<MessageDTO> list = null;
 	      
 	      params.put("offset", offset);
 			
@@ -79,16 +79,17 @@ public class MessageService {
 	      
 	      if(search.equals("default") ||search.equals("")) {
 
-	          list = dao.sendList(offset);
+	          list = dao.sendList(offset,loginId);
 	       
 	     
 	      }else {
 
-	         list = dao.sendListSearch(params);
+	         list = dao.sendListSearch(params,loginId);
 	      }
 	      		
 	      
 	      //logger.info("list size : "+ list.size());
+	      map.put("pages", range);
 	      map.put("list", list);
 	      map.put("currPage", page);	      
 	      map.put("loginid",loginid);
@@ -152,7 +153,7 @@ public class MessageService {
 	            }
 	        }
 	        dto.setTo_id(sb.toString());
-	        
+	         
 	        
 	        dto.setFrom_id(loginId);
 	        dto.setTitle(params.get("title"));
@@ -161,12 +162,20 @@ public class MessageService {
 	        for (String toId : toIds) {
 				dto.setTo_id(toId);
 				int row = dao.msWrite(dto);
+				
 				logger.info("insert row: " + row);
 			}
 
-	        String idx = dto.getId();
+	       String idx = dto.getId();
 
 
+		    for (String recieveId : toIds) {
+		    	
+		    	msNotice(loginId,recieveId,"쪽지", idx);
+		    	
+			}
+	       
+	       
 	        logger.info("idx: " + idx);
 
 	        if (file != null && !file.isEmpty()) {
@@ -187,10 +196,20 @@ public class MessageService {
 	                e.printStackTrace();
 	            }
 	        }
+	       
 
+	        
 	    return "msSendSuccess";
 	}
 
+
+
+
+	private void msNotice(String send_id, String recieveId, String type, String identifyValue) {
+		
+		
+		dao.msNotice(send_id,recieveId,type,identifyValue);
+	}
 
 
 

@@ -655,13 +655,67 @@ public class DocService {
 		return mav;
 	}
 	
-	public HashMap<String, Object> docWithDraw(String docId) {
+	public HashMap<String, Object> docWithdraw(String docId) {
+		
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		
 		// 회수기능을 위해 order_rank가 0인 결재자의 읽음 여부를 withdrawChk라는 이름으로 가져온다.
-		String withDrawChk = dao.getWithDrawChk(docId);
+		// 최초 결재자의 읽음 여부 체크
+		String firstReadChk = dao.getFirstReadChk(docId);
 		
+		if(firstReadChk.equals("1")) {
+			// 첫번째 결재자가 읽었을 때
+			
+			String msg = "첫번째 결재자가 읽은 문서는 회수가 불가능합니다.";
+			map.put("msg", msg);
+			
+		}else {
+			// 첫번째 결재자가 읽지 않았을 때 테이블 결재선 삭제, 문서 도장라인 삭제한다.
+			HashMap<String, String> docMap = new HashMap<String, String>();
+			docMap.put("id", docId);
+			
+			// 테이블 결재선부터 삭제한다.
+			int deleteRow = dao.docStatusDelete(docId);
+			
+			if(deleteRow>0) {
+				
+				// 해당 문서를 불러온다.
+				DocDTO docDTO = dao.getWritedDoc(docId);
+				logger.info("doc content : "+docDTO.getContent());
+				
+				String oriContent = docDTO.getContent();
+				
+				// 결재선 도장 라인 잘라서 가져온다.
+				String oriLine = oriContent.substring(oriContent.indexOf("<div class=\"flex-container\" style=\"display: flex;\">"), oriContent.indexOf("<p style=\"text-align: center; \">"));
+				logger.info("oriLine : "+oriLine);
+				
+				// 기본값 도장 라인으로 대체한다.
+				String newLine = 
+						"<div class=\"flex-container\" style=\"display: flex;\">\r\n" + 
+						"<div style=\"width:100px; float:left;\">\r\n" + 
+						"<div class=\"approvalName \" style=\"width:100px; height:25px; border:1px solid black; font-size: 16px; text-align : center; background-color:lightgray;\">기안</div>\r\n" + 
+						"<div class=\"approvalSign \" style=\"width:100px; height:75px; border:1px solid black; font-size: 16px; color: rgb(255, 0, 0); font-style: italic; text-align : center;\">(기안 서명)</div>\r\n" + 
+						"<div class=\"approvalDate \" style=\"width:100px; height:25px; border:1px solid black; font-size: 16px; color: rgb(255, 0, 0); font-style: italic; text-align : center;\">(결재일)</div>\r\n" + 
+						"</div>\r\n" + 
+						"</div>";
+				
+				String lineWritedContent = docFormUpdate(oriContent, oriLine, newLine);
+				docMap.put("afterContent", lineWritedContent);
+				docMap.put("status", "2");
+				
+				int updateRow = dao.docUpdate(docMap);
+				
+				if(updateRow>0) {
+					String msg = updateRow+"개의 문서가 정상적으로 회수되었습니다. 임시저장함으로 이동합니다.";
+					map.put("msg", msg);
+					map.put("updateRow", updateRow);
+				}
+				
+			}
+
+		}
 		
-		
-		return null;
+		return map;
 	}
 
 	public ModelAndView requestDocWaitList(HttpSession session) {
@@ -729,20 +783,32 @@ public class DocService {
 		// 결재자의 도장 찍기
 		String memberStampBase64;
 		String fileName;
-		fileName = getMemberSignFilePath(memberInfo.getId());
-		String kianSign = "<span style=\"width:100px; height:100px; border:1px solid white; font-weight: bold; font-size:20px; text-align:center;\">"+memberInfo.getName()+"</span>"; // 서명이미지 파일이 없으면 그냥 멤버 이름을 넣기 때문에 멤버 이름으로 초기화한다.
-		logger.info("fileName : "+fileName); // 서명이미지가 없으면 null이 출력된다.
-		
-		if(fileName!=null) { 
-			// 서명이미지 파일이 있으면 멤버의 이미지파일을 가져와 base64로 인코딩해서 넣는다.
-			try {
-				byte[] src = FileUtils.readFileToByteArray(new File(attachmentRoot+"/"+fileName));
-				memberStampBase64 = Base64.getEncoder().encodeToString(src);
-				kianSign = "<img src=\"data:image/png;base64,"+memberStampBase64+"\" style=\"max-width: 100%;\" />"+"<span style=\"width:100px; height:100px; border:1px solid white; font-size:16px; text-align:center;\">"+memberInfo.getName()+"</span>";
-			} catch (IOException e) {
-				e.printStackTrace();
+		String kianSign;
+		if(params.get("status").equals("1")) {
+			// 결재자가 결재 했을 경우에는 서명이미지를 넣는 작업을 수행한다.
+			
+			// 서명이미지 파일이 없으면 그냥 멤버 이름을 넣기 때문에 멤버 이름으로 초기화한다.
+			kianSign = "<span style=\"width:100px; height:100px; border:1px solid white; font-weight: bold; font-size:20px; text-align:center;\">"+memberInfo.getName()+"</span>";
+			
+			// 서명이미지 파일의 이름을 DB에서 불러온다.
+			fileName = getMemberSignFilePath(memberInfo.getId());
+			logger.info("fileName : "+fileName); // 서명이미지가 없으면 null이 출력된다.
+			
+			if(fileName!=null) { 
+				// 서명이미지 파일이 있으면 멤버의 이미지파일을 가져와 base64로 인코딩해서 넣는다.
+				try {
+					byte[] src = FileUtils.readFileToByteArray(new File(attachmentRoot+"/"+fileName));
+					memberStampBase64 = Base64.getEncoder().encodeToString(src);
+					kianSign = "<img src=\"data:image/png;base64,"+memberStampBase64+"\" style=\"max-width: 100%;\" />"+"<span style=\"width:100px; height:100px; border:1px solid white; font-size:16px; text-align:center;\">"+memberInfo.getName()+"</span>";
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				
 			}
 			
+		}else {
+			// 결재자가 반려했을 때(2)는 결재선 도장 칸에 반려라는 문구를 넣는다.
+			kianSign = "<span style=\"width:100px; height:100px; border:1px solid white; font-weight: bold; font-size:20px; text-align:center;\">"+"반려"+"</span>";
 		}
 		
 		String oriContent = docDTO.getContent();
@@ -764,6 +830,19 @@ public class DocService {
 		
 		// 마지막으로 doc_status 테이블에 update를 한다.
 		dao.requestDocApproval(params);
+		
+		return mav;
+	}
+
+	public ModelAndView objectionDocList(HttpSession session) {
+
+		ModelAndView mav = new ModelAndView("/doc/objectionDocList");
+		
+		String loginId = (String) session.getAttribute("id");
+		
+		ArrayList<HashMap<String, String>> objectionDocList = dao.getObjectionDocList(loginId);
+
+		mav.addObject("list", objectionDocList);
 		
 		return mav;
 	}

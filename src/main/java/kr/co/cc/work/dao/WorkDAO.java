@@ -4,6 +4,7 @@ package kr.co.cc.work.dao;
 
 
 import java.sql.Time;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -37,7 +38,7 @@ public interface WorkDAO {
 
 	int workHistoryChange_end(String working_hour_id, Time update_time);
 
-	ArrayList<WorkDTO> workDailyList();
+	ArrayList<WorkDTO> workDailyList(LocalDate currentDate);
 
 	ArrayList<WorkDTO> dailyListFind(String formattedDate);
 
@@ -95,6 +96,8 @@ public interface WorkDAO {
 	void workHourChange(String regist_id, String name, String start_at, String end_at);
 
 	ArrayList<WorkDTO> historyListFind(String value, String id);
+
+	ArrayList<WorkDTO> historyChange(String historyChange);
 
 
 

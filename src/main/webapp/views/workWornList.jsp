@@ -26,7 +26,6 @@
     <br/>
     <!-- Main content -->
     <section class="content">
-    	<br/>
     	<table class="table table-bordered">
 	   		<thead>
 	   			<tr>
@@ -58,13 +57,14 @@
 	    <br/>
 	    <b>근태 경고 내역</b>
 	    <div class="input-group" style="width: 20%;">
-		    <select id="wornFind1">
+		    <select id="wornFind1" class="form-control">
 		    	<option value="name">이름</option>
 		    	<option value="member_id">아이디</option>
 		    </select>	    
 			<input type="text" id="wornFind2" value="" class="form-control"/>
 			<button class="btn btn-primary" onclick="wornListFind()">검색</button>	
     	</div>
+    	<br/>
 	   	<table class="table table-bordered">
 	   		<thead>
 	   			<tr>

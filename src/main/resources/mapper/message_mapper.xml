@@ -6,15 +6,15 @@
 
 	<select id="sendtotalCount" parameterType="String" resultType ="int">
 		SELECT COUNT (ms.id) FROM message ms
-		JOIN member m on  ms.from_id = m.id
-		WHERE m.id = #{id} AND ms.del_chk = 0 ORDER BY ms.id DESC
+		JOIN member m on ms.from_id = m.id
+		WHERE m.id = #{loginId} AND ms.del_chk = 0
 	</select>
 
 	<select id="sendtotalCountSearch" parameterType="String" resultType ="int">
 		SELECT COUNT (ms.id) FROM message ms
 		JOIN member m ON ms.from_id = m.id
 		JOIN member m1 on ms.to_id = m1.id
-		WHERE ms.title = #{search} OR m1.name = #{search}
+		WHERE m.id = #{loginId} AND ms.del_chk = 0 AND ms.title = #{search} OR m1.name = #{search}
 	</select>	
 
 	<!-- 보낸 쪽지함 -->
@@ -23,7 +23,8 @@
 		FROM message ms 
 		JOIN member m on ms.from_id = m.id 
 		JOIN member m1 on ms.to_id = m1.id
-		WHERE m.id = #{id} AND ms.del_chk = 0 
+		WHERE m.id = #{loginId} AND ms.del_chk = 0 
+		ORDER BY send_at DESC
 		LIMIT 10 OFFSET #{offset}
 	</select>
 
@@ -34,6 +35,7 @@
 		JOIN member m1 on ms.to_id = m1.id
 	    WHERE CONCAT(ms.title, m1.name) LIKE CONCAT('%', #{search}, '%') 
 	    AND ms.del_chk = 0
+	    ORDER BY send_at DESC
 	    LIMIT 10 OFFSET #{offset}
 	</select>
 	
@@ -43,7 +45,10 @@
 		FROM message ms JOIN member m WHERE ms.to_id = m.id and m.id = #{id} AND ms.del_chk = 0 AND ms.read_chk = 0 ORDER BY id DESC 
 	</select>	
 
-
+	<insert id="msNotice" parameterType="string">
+		INSERT INTO notice(send_id, receive_id, type, identify_value) 
+			VALUES(#{send_id}, #{recieveId}, #{type}, #{identifyValue})
+	</insert>
 
 
 

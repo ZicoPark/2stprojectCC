@@ -26,11 +26,10 @@
     <br/>
     <!-- Main content -->
     <section class="content">
-    <br/>
-    	<div>
+    	<div class="input-group" style="width: 20%;">
     	<form action="holidayListFind.do">
-			<input type="number" max=12 id="holidayList" name="holidayList" value=""/>
-			<button>월 검색</button>
+			<input type="number" class="form-control" max=12 id="holidayList" name="holidayList" value=""/>
+			<button class="btn btn-primary">월 검색</button>
     	</form>
     	</div>
     	<table class="table table-bordered">
@@ -58,8 +57,8 @@
 	    				<td>${holiday.end_date}</td>
 	    				<td>${holiday.use_cnt}</td>
 	    				<td>
-	    					<button type="button" class="btn btn-block btn-outline-success btn-lg" onclick="location.href='workAnnualApproval.do?id=${holiday.id}&type=${holiday.type}&approval=1'">승인</button>
-	    					<button type="button" class="btn btn-block btn-outline-success btn-lg" onclick="location.href='workAnnualApproval.do?id=${holiday.id}&type=${holiday.type}&approval=2'">반려</button>
+	    					<button type="button" class="btn btn-success btn-sm" onclick="location.href='workAnnualApproval.do?id=${holiday.id}&type=${holiday.type}&approval=1'">승인</button>
+	    					<button type="button" class="btn btn-danger btn-sm" onclick="location.href='workAnnualApproval.do?id=${holiday.id}&type=${holiday.type}&approval=2'">반려</button>
 	    				</td>
 
 	    			</tr>

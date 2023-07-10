@@ -72,19 +72,19 @@
 		   <td>
 			    <c:choose>
 			        <c:when test="${member.job_level_id eq '8ade9167-1703-11ee-973f-0242ac110002'}">
-			            팀원 &nbsp; &nbsp; &nbsp; &nbsp;  &nbsp;   &nbsp; 
+			            팀원 &nbsp; &nbsp; &nbsp; &nbsp;  &nbsp;   &nbsp; &nbsp;
 			            <button onclick="openPopup('/job-history?id=${member.id}')">직급 히스토리 조회</button>
 			        </c:when>
 			        <c:when test="${member.job_level_id eq '8bbf948d-1703-11ee-973f-0242ac110002'}">
-			            팀장 &nbsp; &nbsp; &nbsp; &nbsp;  &nbsp;   &nbsp; 
+			            팀장 &nbsp; &nbsp; &nbsp; &nbsp;  &nbsp;   &nbsp; &nbsp;
 			            <button onclick="openPopup('/job-history?id=${member.id}')">직급 히스토리 조회</button>
 			        </c:when>
 			        <c:when test="${member.job_level_id eq '8c4e7542-1703-11ee-973f-0242ac110002'}">
-			            이사 &nbsp; &nbsp; &nbsp; &nbsp;  &nbsp;   &nbsp; 
+			            이사 &nbsp; &nbsp; &nbsp; &nbsp;  &nbsp;   &nbsp; &nbsp;
 			            <button onclick="openPopup('/job-history?id=${member.id}')">직급 히스토리 조회</button>
 			        </c:when>
 			        <c:when test="${member.job_level_id eq '8cdd8503-1703-11ee-973f-0242ac110002'}">
-			            사장 &nbsp; &nbsp; &nbsp; &nbsp;  &nbsp;   &nbsp; 
+			            사장 &nbsp; &nbsp; &nbsp; &nbsp;  &nbsp;   &nbsp; &nbsp;
 			            <button onclick="openPopup('/job-history?id=${member.id}')">직급 히스토리 조회</button>
 			        </c:when>
 			    </c:choose>
@@ -124,7 +124,7 @@
 
          <tr>      
             <th colspan="4" style="text-align: center;">
-               <button class="btn btn-outline-dark" onclick="location.href='userinfoupdate.go'">회원정보 수정</button>
+               <button class="btn btn-outline-dark" onclick="location.href='userinfoupdate.go?id=${member.id}'">회원정보 수정</button>
             </th>
             </tr>
       </table>

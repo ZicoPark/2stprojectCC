@@ -26,23 +26,14 @@
     <br/>
     <!-- Main content -->
     <section class="content">
-    <br/>
-    	<div>
     	<form action="holidayListFind.do">
-			<input type="number" min=1 max=12 id="holidayList" name="holidayList"/>월
-			<button>월 검색</button>
-    	</form>
+    	<div class="input-group" style="width: 20%;">
+			<input type="number" class="form-control" min=1 max=12 id="holidayList" name="holidayList" placeholder="월 검색"/>
+			<button class="btn btn-primary">월 검색</button>
     	</div>
-    	<div style="text-align: right;">
-    		<form action="giveAnnualLeave_id.do">
-    			<input type="text" name="galId" placeholder="연차 등록할 아이디를 입력해주세요.">
-		        <button>연차 등록</button>
-		    </form>
-    		<br/>
-		    <form action="giveAnnualLeave.do">
-		        <button>모든 사원 연차 초기화</button>
-		    </form>
-		</div>
+    	</form>
+    	<br/>
+		
     	<table class="table table-bordered">
     		<thead>
     			<tr>
@@ -93,6 +84,18 @@
 				</c:forEach>				
     		</tbody>    	
     	</table>
+
+   		<form action="giveAnnualLeave_id.do">
+   			<div class="input-group" style="width: 30%;">
+   			<input type="text" name="galId" placeholder="연차 등록할 아이디를 입력해주세요." class="form-control">
+	        <button class="btn btn-primary">연차 등록</button>
+	        </div>
+	    </form>
+   		<br/>
+	    <form action="giveAnnualLeave.do">
+	        <button class="btn btn-primary">모든 사원 연차 초기화</button>
+	    </form>
+	    
     </section>
   </div>
 </div>

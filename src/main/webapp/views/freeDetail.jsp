@@ -242,29 +242,30 @@ function listCall(page){
 
 
 function listPrint(list) {
-     var content = '';
-     var count = (showPage - 1) * 10 + list.length;
-     var totalItems = list.length;
-     var isAdmin = document.getElementById('adminchk'); // 서버에서 가져온 관리자 여부 값
-     
-     list.forEach(function(item) {
-       content += '<div class="comment">';
-       content += '<div class="comment-header">';
-       content += '<span class="username">' + item.name + ' (' + item.user_id + ')</span>';
-       content += '<span class="description">' + item.create_at + '</span>';
-       content += '</div>';
-       content += '<div class="comment-content">' + item.content + '</div>';
-       content += '<div class="comment-actions">';
-       content += '<a href="#" onclick="showEditCommentForm(this, \'' + item.id + '\', \'' + item.member_id + '\')">수정</a>';
-       content += '<a href="replyDelete.do?id=' + item.id + '&free_board_id=' + item.free_board_id + '">삭제</a>';
-       content += '</div>';
-       content += '</div>';
-     });
-     
-     // list 요소의 내용 지우고 추가 - 페이징 처리
-     $('#list').empty();
-     $('#list').append(content);
-   }
+	  var content = '';
+	  var count = (showPage - 1) * 10 + list.length;
+	  var totalItems = list.length;
+	  var isAdmin = document.getElementById('adminchk'); // 서버에서 가져온 관리자 여부 값
+	  
+	  list.forEach(function(item) {
+	    content += '<div class="comment">';
+	    content += '<div class="comment-header">';
+	    content += '<span class="username">' + item.name + ' (' + item.user_id + ')</span>';
+	    content += '<span class="description">' + item.create_at + '</span>';
+	    content += '</div>';
+	    content += '<div class="comment-content">' + item.content + '</div>';
+	    content += '<div class="comment-actions">';
+	    content += '<a href="#" onclick="showEditCommentForm(this, \'' + item.id + '\', \'' + item.member_id + '\')">수정</a>';
+	    content += '<a href="replyDelete.do?id=' + item.id + '&free_board_id=' + item.free_board_id + '">삭제</a>';
+	    content += '</div>';
+	    content += '</div>';
+	  });
+	  
+	  // list 요소의 내용 지우고 추가 - 페이징 처리
+	  $('#list').empty();
+	  $('#list').append(content);
+	}
+
 
 
 
