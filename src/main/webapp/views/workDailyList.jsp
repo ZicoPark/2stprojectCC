@@ -26,7 +26,6 @@
     <br/>
     <!-- Main content -->
     <section class="content">
-    <br/>
     	<div class="input-group" style="width: 20%;">
 		    <input type="date" id="dailyList" name="dailyList" class="form-control" value=""/>
 		    <button class="btn btn-primary" onclick="daliyListFind()">검색</button>	
