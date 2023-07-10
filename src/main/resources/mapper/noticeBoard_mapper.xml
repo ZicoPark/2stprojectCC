@@ -89,7 +89,7 @@
    </select>
    
    <delete id="del">
-      DELETE FROM notice_board WHERE id = #{param1}
+      DELETE FROM notice_board WHERE id = #{id}
    </delete>
 
    <select id="nlist" resultType="kr.co.cc.noticeBoard.dto.NoticeBoardDTO">

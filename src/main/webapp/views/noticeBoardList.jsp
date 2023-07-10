@@ -60,7 +60,7 @@
                <th>작성자</th>
                <th>작성일</th>
                <th>조회수</th>
-               <th>삭제</th>
+<!--                <th>삭제</th> -->
             </tr>
          </thead>
          <tbody>
@@ -69,16 +69,16 @@
                   <th colspan="6">등록된 글이 없습니다.</th>
                </tr>
             </c:if>
-            <c:forEach items="${list}" var="noticeBoard">
-               <tr> 
-                  <td>${noticeBoard.id}</td>
-                  <td><a href="noticeBoardDetail.do?id=${noticeBoard.id}">${noticeBoard.subject}</a></td>
-                  <td>${noticeBoard.name}(${noticeBoard.user_id})</td>
-                  <td>${noticeBoard.create_at}</td>
-                  <td>${noticeBoard.hit } </td>              
-                  <td><a href="noticeBoardDel.do?id=${noticeBoard.id}">삭제</a></td>
-               </tr>
-            </c:forEach>
+				<c:forEach items="${list}" var="noticeBoard" varStatus="loop">
+				   <tr> 
+				      <td>${list.size() - loop.index}</td>
+				      <td><a href="noticeBoardDetail.do?id=${noticeBoard.id}">${noticeBoard.subject}</a></td>
+				      <td>${noticeBoard.name}(${noticeBoard.user_id})</td>
+				      <td>${noticeBoard.create_at.substring(0, 10)}</td>
+				      <td>${noticeBoard.hit}</td>              
+<%-- 				      <td><a href="noticeBoardDel.do?id=${noticeBoard.id}">삭제</a></td> --%>
+				   </tr>
+				</c:forEach>
          </tbody>
       </table>
       <button class="btn btn-block btn-outline-success btn-lg" onclick="location.href='noticeBoardWrite.go'">글 작성</button>

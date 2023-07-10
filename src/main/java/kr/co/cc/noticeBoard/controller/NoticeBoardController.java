@@ -135,6 +135,9 @@ public class NoticeBoardController {
 //      return page;
 //   }
    
+   
+   
+   
    @RequestMapping(value="/noticeBoardDel.do", method=RequestMethod.GET)
    public ModelAndView del(@RequestParam String id) {
       
@@ -149,17 +152,7 @@ public class NoticeBoardController {
       return mav;
    }
    
-//   // 읽사
-//   
-//   @RequestMapping(value="/noticeList.go")
-//   public String nList(Model model) {      
-//      logger.info("start");
-//      
-//      ArrayList<NoticeBoardDTO> list = service.nlist();
-//       model.addAttribute("list", list);
-//      
-//      return "noticeList";
-//   }
+   
 
         
 }

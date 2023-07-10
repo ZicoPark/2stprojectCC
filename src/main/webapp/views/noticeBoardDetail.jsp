@@ -97,6 +97,9 @@
 		    <tr>
 		       <th colspan="2">    
 		           <input type="button" class="btn btn-block btn-outline-success btn-lg"  onclick="location.href='./noticeBoard.go'" value="돌아가기" />
+<%-- 		           <c:if test="${loginId eq noticeBoard.member_id}"> --%>
+		           		<input type="button"  class="btn btn-block btn-outline-success btn-lg" onclick="location.href='/noticeBoardDel.do?id=${noticeBoard.id}'"value="삭제" />
+<%-- 		       		</c:if> --%>
 		       </th>            
 		   	</tr>         
     	</table>
