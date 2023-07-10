@@ -74,7 +74,7 @@
 						<tr>
 							<td style="text-align:center">${noticeList.type}</td>
 							<td style="text-align:center"><a href="alarmDetail.do?id=${noticeList.id}">${noticeList.identify_value}</a></td>
-							<td style="text-align:center">${noticeList.name}</td>
+							<td style="text-align:center">${noticeList.name}(${noticeList.user_id})</td>
 							<td style="text-align:center">${noticeList.create_at}</td>
 						</tr>				
 					</c:forEach>
@@ -109,7 +109,7 @@
 						<tr>
 							<td style="text-align:center">${noticeList.type}</td>
 							<td style="text-align:center"><a href="alarmDetail.do?id=${noticeList.id}">${noticeList.identify_value}</a></td>
-							<td style="text-align:center">${noticeList.name}</td>
+							<td style="text-align:center">${noticeList.name}(${noticeList.user_id})</td>
 							<td style="text-align:center">${noticeList.create_at}</td>
 						</tr>				
 					</c:forEach>

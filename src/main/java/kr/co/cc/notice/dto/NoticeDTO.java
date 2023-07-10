@@ -12,9 +12,16 @@ public class NoticeDTO {
 	private String identify_value;
 	private Date create_at;
 	private String name;
+	private String user_id;
 	
 	
 	
+	public String getUser_id() {
+		return user_id;
+	}
+	public void setUser_id(String user_id) {
+		this.user_id = user_id;
+	}
 	public String getName() {
 		return name;
 	}
