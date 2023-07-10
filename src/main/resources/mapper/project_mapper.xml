@@ -53,13 +53,6 @@
 		    GROUP BY p.id, p.name, p.create_at, p.step
 		</select>
 
-	
-		<select id="ProjectDetail" parameterType="String" resultType="kr.co.cc.project.dto.ProjectDTO">
-		    SELECT c.id, c.project_id, m.user_id, c.content, c.status, c.create_at, c.step, c.status
-		    FROM comment c
-		    JOIN member m ON c.member_id = m.id
-		    WHERE c.project_id = #{id};
-		</select>
 
 		<insert
 		 id="commentWrite" 
@@ -127,7 +120,7 @@
 	<select id="getAllComment" parameterType="string" resultType="hashmap">
 		select c.id AS comment_id
 			, c.project_id 
-			, (select m.user_id from member m where m.id = c.member_id) AS member_id
+			, (select m.name from member m where m.id = c.member_id) AS name
 			, c.content 
 			, DATE_FORMAT(c.create_at, '%Y-%m-%d %T') AS create_at
 			, c.step 
@@ -152,7 +145,7 @@
 	
 	<delete id="replyDel" parameterType="java.lang.String">
 	  DELETE FROM comment_reply
-	  WHERE coment_id = #{commentId}
+	  WHERE id = #{param1}
 	</delete>																
 </mapper>
 

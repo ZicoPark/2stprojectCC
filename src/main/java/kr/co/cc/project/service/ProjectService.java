@@ -57,10 +57,6 @@ public class ProjectService {
 		return dao.ProjectList();
 	}
 
-	public ArrayList<ProjectDTO> detail(String id) {
-		logger.info("detail for id: {}", id);
-		return dao.ProjectDetail(id);
-	}
 
 	public String insert(MultipartFile[] attachment, HashMap<String, String> params, HttpSession session, Model model) {
 		String id = (String) session.getAttribute("id");
@@ -184,9 +180,9 @@ public class ProjectService {
 	}
 
 
-	public int replyDel(String commentId) {
+	public int replyDel(String id) {
 		
-		int row = dao.replyDel(commentId);
+		int row = dao.replyDel(id);
 		return  row;
 	}
 

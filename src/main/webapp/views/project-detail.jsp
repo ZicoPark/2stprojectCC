@@ -48,6 +48,7 @@
           <h3 class="card-title">Projects Detail</h3>
 
           <div class="card-tools">
+          
            <a href="projectInsert.go?id=${project_id}" class="btn btn-sm btn-primary"><i class="fas fa-edit"></i>추가</a>
            <a href="projectDel.do?id=${project_id}" class="btn btn-danger btn-sm">철회</a>
                           				
@@ -57,7 +58,6 @@
             <button type="button" class="btn btn-tool" data-card-widget="remove" title="Remove">
               <i class="fas fa-times"></i>
             </button>
-
           </div>
         </div>
 
@@ -123,7 +123,7 @@ $(document).ready(function() {
 	          html += '<div class="user-block">';
 	          html += '<img class="img-circle img-bordered-sm" src="../../dist/img/user1-128x128.jpg" alt="user image">';
 	          html += '<span class="username">';
-	          html += '<a href="#">' + detail.member_id + '</a>';
+	          html += '<a href="#">' + detail.name + '</a>';
 	          html += '</span>';
 	          html += '<span class="description">' + detail.create_at + '</span>';
 	          html += '</div>';
@@ -218,7 +218,8 @@ $(document).ready(function() {
 	          commentHtml += '<div>' + item.content + '</div>';
 	          commentHtml += '<div>' + item.create_at + '</div>';
 	          if (item.member_id === loginId) {
-	              commentHtml += '<button class="deleteButton" data-comment-id="' + item.comment_id + '">삭제</button>';
+	        	  commentHtml += '<button class="deleteButton btn btn-danger btn-sm" data-reply-id="' + item.id + '" data-comment-id="' + item.coment_id + '"><i class="far fa-trash-alt"></i> 삭제</button>';
+
 	          }  
 	          commentHtml += '<hr>';
 
@@ -226,9 +227,11 @@ $(document).ready(function() {
 	        });
 	        
 	        $('.commentReply'+comment_id).find('.deleteButton').click(function() {
-	            var commentId = $(this).data('comment-id');
-	            console.log(commentId);
-	            deleteComment(commentId);
+	            var reply_id = $(this).data('reply-id');  
+	            var comment_id = $(this).data('comment-id');
+	            console.log(reply_id);
+	            console.log(comment_id);
+	            deleteComment(reply_id, comment_id);
 	          });   
 	        
 	      },
@@ -238,19 +241,22 @@ $(document).ready(function() {
 	    });
 	  }
 	  
-	  function deleteComment(commentId) {
+	  function deleteComment(reply_id, comment_id) {
+		  console.log('comment_id : ' + comment_id);
+		  console.log('reply_id : ' + reply_id);
 		  $.ajax({
 		    url: 'replyDel.ajax', // 삭제 요청을 보낼 URL
 		    method: "POST",
 		    dataType: "json",
 		    data: {
-		      'commentId': commentId
+		      'id': reply_id
 		    },
 		    success: function(data) {
-		      console.log("댓글 삭제 요청이 성공적으로 완료되었습니다.");
+		    	alert("댓글 삭제 요청이 성공적으로 완료되었습니다.");
+		    	getComments(comment_id);
 		    },
 		    error: function(data) {
-		      console.log("댓글 삭제 요청이 실패했습니다.");
+		    	alert("댓글 삭제 요청이 실패했습니다.");
 		    }
 		  });
 		}

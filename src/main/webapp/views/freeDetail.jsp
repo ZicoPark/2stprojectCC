@@ -76,86 +76,86 @@
 
             <div class="card-footer bg-white">
               <ul class="mailbox-attachments d-flex align-items-stretch clearfix">
-			  	<c:if test="${detailFile.size() == 0 }">
-					<div>첨부파일 없음.</div>
-				</c:if>       
-				<c:if test="${detailFile.size() > 0 }">
-					<c:forEach items="${detailFile}" var="i">
+              <c:if test="${detailFile.size() == 0 }">
+               <div>첨부파일 없음.</div>
+            </c:if>       
+            <c:if test="${detailFile.size() > 0 }">
+               <c:forEach items="${detailFile}" var="i">
                   <div class="mailbox-attachment-info">
                     <a class="mailbox-attachment-name"><i class="fas fa-paperclip"></i> &nbsp ${i.ori_file_name}</a>
-					&nbsp &nbsp
+               &nbsp &nbsp
                     <a href="msdownload.do?path=${i.id}" class="btn btn-default btn-sm float-right"><i class="fas fa-cloud-download-alt"></i></a>
                     
                   </div>
 
-            	</c:forEach>
-			</c:if>
+               </c:forEach>
+         </c:if>
               </ul>
             </div>
             <!-- /.card-footer -->
-			<div class="card-footer">
-			  <div class="float-right">
-			    <c:if test="${loginid.admin_chk eq 1 or loginId eq detailms.member_id}">
-			      <button type="button" class="btn btn-default" onclick="location.href='msDelete.do?id=${detailms.id}'"><i class="far fa-trash-alt"></i></button>
-			      <button type="button" onclick="location.href='/archiveUpdate.go?id=${detailms.id}&member_id=${detailms.member_id}'" class="btn btn-default"> 수정</button>
-			    </c:if>
-			    
-			    <button type="button" onclick="location.href='/archiveBoard.go'" class="btn btn-default"> 목록</button>
-			  </div>
-			</div>
+         <div class="card-footer">
+           <div class="float-right">
+             <c:if test="${loginid.admin_chk eq 1 or loginId eq detailms.member_id}">
+               <button type="button" class="btn btn-default" onclick="location.href='msDelete.do?id=${detailms.id}'"><i class="far fa-trash-alt"></i></button>
+               <button type="button" onclick="location.href='/archiveUpdate.go?id=${detailms.id}&member_id=${detailms.member_id}'" class="btn btn-default"> 수정</button>
+             </c:if>
+             
+             <button type="button" onclick="location.href='/archiveBoard.go'" class="btn btn-default"> 목록</button>
+           </div>
+         </div>
 
-			<!-- 댓글 -->
-	
-			<hr />
-				
-<!-- 				<li>
-				        <div>
-				            <p>첫번째 댓글 작성자</p>
-				            <p>첫번째 댓글</p>
-				        </div>
-				    </li>
-				    <li>
-				        <div>
-				            <p>두번째 댓글 작성자</p>
-				            <p>두번째 댓글</p>
-				        </div>
-				    </li>
-				    <li>
-				        <div>
-				            <p>세번째 댓글 작성자</p>
-				            <p>세번째 댓글</p>
-				        </div>
-				    </li>-->
-
-
-			<div>
-			
-			    <form method="post" action="replyWrite.do">
-			    
-			        <p>
-			            <label>댓글 작성자</label> <input type="text" name="member_id" value="${loginId}">
-			        </p>
-			        <p>
-			            <textarea rows="5" cols="50" name="content"></textarea>
-			        </p>
-			        <p>
-			        	<input id = "hi" type="hidden" name="free_board_id" value="${detailms.id}">
-			            <button type="submit">댓글 작성</button>
-			        </p>
-			    </form>
-			    
-			</div>
-			
-		<!-- 댓글 목록/ 댓글 수정 -->
-				
-		<table>	 
-			
-			
-			<tbody id="list">
-						
+         <!-- 댓글 -->
+   
+         <hr />
+            
+<!--             <li>
+                    <div>
+                        <p>첫번째 댓글 작성자</p>
+                        <p>첫번째 댓글</p>
+                    </div>
+                </li>
+                <li>
+                    <div>
+                        <p>두번째 댓글 작성자</p>
+                        <p>두번째 댓글</p>
+                    </div>
+                </li>
+                <li>
+                    <div>
+                        <p>세번째 댓글 작성자</p>
+                        <p>세번째 댓글</p>
+                    </div>
+                </li>-->
 
 
-		<tr>
+         <div>
+         
+             <form method="post" action="replyWrite.do">
+             
+                 <p>
+                     <label>댓글 작성자</label> <input type="text" name="member_id" value="${loginId}">
+                 </p>
+                 <p>
+                     <textarea rows="5" cols="50" name="content"></textarea>
+                 </p>
+                 <p>
+                    <input id = "hi" type="hidden" name="free_board_id" value="${detailms.id}">
+                     <button type="submit">댓글 작성</button>
+                 </p>
+             </form>
+             
+         </div>
+         
+      <!-- 댓글 목록/ 댓글 수정 -->
+            
+      <table>    
+         
+         
+         <tbody id="list">
+                  
+
+
+      <tr>
            <th colspan="6" id="paging">  
              <div class="container">                  
                <nav aria-label="Page navigation">
@@ -163,12 +163,12 @@
                </nav>
              </div>
            </th>
-         </tr>	
-			
-		</table>	
+         </tr>   
+         
+      </table>   
 
 
-			<!-- 댓글 끝 -->
+         <!-- 댓글 끝 -->
             </div>
             <!-- /.card-footer -->
           </div>
@@ -201,121 +201,122 @@ var free_board_id = $('#hi').val();
 
 listCall(showPage);
 
-	
+   
 function listCall(page){
-	   $.ajax({
-	      type:'post',
-	      url:'replyList.ajax',
-	      data:{
-	         'page':page,
-	         'free_board_id': free_board_id
-	      },
-	      dataType:'json',           
-	      success:function(data){
-	         console.log(data);
-	         listPrint(data.list);
-	         
-	         // 페이징 처리를 위해 필요한 데이터
-	         // 1. 총 페이지의 수
-	         // 2. 현재 페이지
-	         console.log(data.list); // arraylist 로 값 들어옴
-	         
-	         // Paging Plugin (j-query의 기본기능을 가지고 만들었기 때문에  plugin)
-	         $('#pagination').twbsPagination({
-	         startPage:1, // 시작 페이지
-	         totalPages:data.pages,// 총 페이지 수 
-	         visiblePages:5,// 보여줄 페이지
-	         onPageClick:function(event,page){ // 페이지 클릭시 동작되는 (콜백)함수
-	            console.log(page,showPage);
-	            if(page != showPage){
-	               showPage=page;
-	               listCall(page);
-	          
-	            }
-	         }
-	         });
-	      }
-	   });
-	}
+      $.ajax({
+         type:'post',
+         url:'replyList.ajax',
+         data:{
+            'page':page,
+            'free_board_id': free_board_id
+         },
+         dataType:'json',           
+         success:function(data){
+            console.log(data);
+            listPrint(data.list);
+            
+            // 페이징 처리를 위해 필요한 데이터
+            // 1. 총 페이지의 수
+            // 2. 현재 페이지
+            console.log(data.list); // arraylist 로 값 들어옴
+            
+            // Paging Plugin (j-query의 기본기능을 가지고 만들었기 때문에  plugin)
+            $('#pagination').twbsPagination({
+            startPage:1, // 시작 페이지
+            totalPages:data.pages,// 총 페이지 수 
+            visiblePages:5,// 보여줄 페이지
+            onPageClick:function(event,page){ // 페이지 클릭시 동작되는 (콜백)함수
+               console.log(page,showPage);
+               if(page != showPage){
+                  showPage=page;
+                  listCall(page);
+             
+               }
+            }
+            });
+         }
+      });
+   }
 
 
 
 
 function listPrint(list) {
-	  var content = '';
-	  var count = (showPage - 1) * 10 + list.length;
-	  var totalItems = list.length;
-	  var isAdmin = document.getElementById('adminchk'); // 서버에서 가져온 관리자 여부 값
-	  
-	  list.forEach(function(item) {
-	    content += '<div class="comment">';
-	    content += '<div class="comment-header">';
-	    content += '<span class="username">' + item.name + ' (' + item.user_id + ')</span>';
-	    content += '<span class="description">' + item.create_at + '</span>';
-	    content += '</div>';
-	    content += '<div class="comment-content">' + item.content + '</div>';
-	    content += '<div class="comment-actions">';
-	    content += '<a href="#" onclick="showEditCommentForm(this, \'' + item.id + '\', \'' + item.member_id + '\')">수정</a>';
-	    content += '</div>';
-	    content += '</div>';
-	  });
-	  
-	  // list 요소의 내용 지우고 추가 - 페이징 처리
-	  $('#list').empty();
-	  $('#list').append(content);
-	}
+     var content = '';
+     var count = (showPage - 1) * 10 + list.length;
+     var totalItems = list.length;
+     var isAdmin = document.getElementById('adminchk'); // 서버에서 가져온 관리자 여부 값
+     
+     list.forEach(function(item) {
+       content += '<div class="comment">';
+       content += '<div class="comment-header">';
+       content += '<span class="username">' + item.name + ' (' + item.user_id + ')</span>';
+       content += '<span class="description">' + item.create_at + '</span>';
+       content += '</div>';
+       content += '<div class="comment-content">' + item.content + '</div>';
+       content += '<div class="comment-actions">';
+       content += '<a href="#" onclick="showEditCommentForm(this, \'' + item.id + '\', \'' + item.member_id + '\')">수정</a>';
+       content += '<a href="replyDelete.do?id=' + item.id + '&free_board_id=' + item.free_board_id + '">삭제</a>';
+       content += '</div>';
+       content += '</div>';
+     });
+     
+     // list 요소의 내용 지우고 추가 - 페이징 처리
+     $('#list').empty();
+     $('#list').append(content);
+   }
 
 
 
 function showEditCommentForm(element, replyId, memberId) {
-	console.log("안녕");
+   console.log("안녕");
   if ('${sessionScope.id}' == memberId) {
-	    var tdElement = $(element).parent(); // <td> 요소 선택
-	    var trElement = $(tdElement).parent(); // <tr> 요소 선택
+       var tdElement = $(element).parent(); // <td> 요소 선택
+       var trElement = $(tdElement).parent(); // <tr> 요소 선택
 
-	    var currentContent = $(trElement).find('.comment-content').text(); // 현재 댓글 내용 가져오기
-	    var textareaElement = $('<textarea rows="3" cols="55" class="form-control rounded-0"></textarea>').val(currentContent); // 새로운 textarea 요소 생성 및 현재 댓글 내용 삽입
+       var currentContent = $(trElement).find('.comment-content').text(); // 현재 댓글 내용 가져오기
+       var textareaElement = $('<textarea rows="3" cols="55" class="form-control rounded-0"></textarea>').val(currentContent); // 새로운 textarea 요소 생성 및 현재 댓글 내용 삽입
 
-	    // 기존 댓글 내용 숨기고 textarea 표시
-	    $(trElement).find('.comment-content').hide().after(textareaElement);
-	    $(element).hide();
+       // 기존 댓글 내용 숨기고 textarea 표시
+       $(trElement).find('.comment-content').hide().after(textareaElement);
+       $(element).hide();
 
-	    // 수정 완료 버튼 추가
-	    var buttonElement = $('<button type="button" class="btn btn-info btn-flat">완료</button>').click(function() {
-	      var modifiedContent = $(textareaElement).val(); // 수정된 댓글 내용 가져오기	
-	
-	  	if('${sessionScope.id}' == memberId) {
-			$.ajax({
-				url:'commentUpdate.ajax',
-				type:'post',
-				data:{
-					'content': currentContent,
-					'id' : replyId
-				},
-				dataType:'json',
-				success:function(data){
-					console.log(data);
-					
-					
-				},
-				error:function(e){
-					console.log(e);
-				}
-			});
-			
-		}
-	    
-	  	$(trElement).find('.comment-content').text(modifiedContent).show()
-	      // textarea와 버튼 요소 제거
-	      $(textareaElement).remove();
-	      $(buttonElement).remove();
-	      $(element).show();
-	    });
+       // 수정 완료 버튼 추가
+       var buttonElement = $('<button type="button" class="btn btn-info btn-flat">완료</button>').click(function() {
+         var modifiedContent = $(textareaElement).val(); // 수정된 댓글 내용 가져오기   
+   
+        if('${sessionScope.id}' == memberId) {
+         $.ajax({
+            url:'commentUpdate.ajax',
+            type:'post',
+            data:{
+               'content': currentContent,
+               'id' : replyId
+            },
+            dataType:'json',
+            success:function(data){
+               console.log(data);
+               
+               
+            },
+            error:function(e){
+               console.log(e);
+            }
+         });
+         
+      }
+       
+        $(trElement).find('.comment-content').text(modifiedContent).show()
+         // textarea와 버튼 요소 제거
+         $(textareaElement).remove();
+         $(buttonElement).remove();
+         $(element).show();
+       });
 
-	    $(trElement).append(buttonElement);
-	    
+       $(trElement).append(buttonElement);
+       
   }
-	      
+         
 }
   
 
