@@ -73,7 +73,7 @@
   		UPDATE member SET password = #{password} WHERE user_id = #{user_id}
 	</update>
 	
-	<select id="userInfo" resultType="kr.co.cc.member.dto.MemberDTO">
+	<select id="userInfo" resultType="kr.co.cc.member.dto.MemberDTO" parameterType="String">
 	  SELECT m.*,
 	         a.id AS photoName,
 	         a.ori_file_name,
@@ -81,17 +81,17 @@
 	         a.identify_value
 	  FROM member m
 	  LEFT JOIN attachment a ON m.id = a.identify_value AND a.classification = '프로필사진'
-	  WHERE m.id = #{param1}
+	  WHERE m.id = #{id}
 	</select>
 	
 	<update id="userInfoUpdate" parameterType="hashmap">
-		UPDATE member SET
-			name= #{name}
-			,job_level_id = #{job_level_id}
-			,dept_id = #{dept_id}
-			,email = #{email}
-			,phone = #{phone}
-		WHERE id = #{id}
+		  UPDATE member SET
+			    name = #{name},
+			    job_level_id = #{job_level_id},
+			    dept_id = #{dept_id},
+			    email = #{email},
+			    phone = #{phone}
+		  WHERE id = #{id}
 	</update>
 	
 	<delete id="removeFileName" parameterType="String">

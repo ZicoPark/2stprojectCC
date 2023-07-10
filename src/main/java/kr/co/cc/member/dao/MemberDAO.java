@@ -28,7 +28,7 @@ public interface MemberDAO {
 
 	ArrayList<MemberDTO> departmentlist(HashMap<String, String> params);
 	
-	MemberDTO userInfo(Object attribute);
+	MemberDTO userInfo(String id);
 
 	void userfileWrite(String oriFileName, String newFileName, String classification, String userId);
 
