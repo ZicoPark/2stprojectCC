@@ -55,11 +55,11 @@
             <!-- /.card-header -->
             <div class="card-body p-0">
               <div class="mailbox-read-info">
-                문서번호 ${detailms.id} <br>
+               
 				분류 ${detailms.category}
                 <h6>
                   <span class="mailbox-read-time float-right"> 
-                  작성자 ${detailms.name} < ${detailms.dept_id} > <br>
+                  작성자 ${detailms.name} < ${detailms.user_id } > ${detailms.dept_name}  <br>
                   작성일  &nbsp ${detailms.create_at}
                   &nbsp &nbsp 조회수 &nbsp ${detailms.hit}
                   </span></h6>

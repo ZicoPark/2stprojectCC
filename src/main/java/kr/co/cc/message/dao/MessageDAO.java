@@ -9,7 +9,7 @@ import kr.co.cc.message.dto.MessageDTO;
 
 public interface MessageDAO {
 
-	ArrayList<ArchiveDTO> sendList(int offset);
+	ArrayList<MessageDTO> sendList(int offset);
 
 	ArrayList<MemberDTO> search(HashMap<String, String> params);
 
@@ -43,7 +43,9 @@ public interface MessageDAO {
 
 	int sendtotalCountSearch(String search);
 
-	ArrayList<ArchiveDTO> sendListSearch(HashMap<String, Object> params);
+	ArrayList<MessageDTO> sendListSearch(HashMap<String, Object> params);
+
+	void msNotice(String send_id, String recieveId, String type, String identifyValue);
 
 
 

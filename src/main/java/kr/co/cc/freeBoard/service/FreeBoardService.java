@@ -234,6 +234,12 @@ public class FreeBoardService {
 		
 			return map;
 		}
+
+		public boolean replyDelete(String id, String free_board_id) {
+			logger.info("freeboard 댓글 삭제 요청"); 
+			return dao.replyDelete(id,free_board_id);
+			
+		}
 	
 	
 	

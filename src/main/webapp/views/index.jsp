@@ -156,7 +156,7 @@
   <!-- Main Sidebar Container -->
   <aside class="main-sidebar sidebar-dark-primary elevation-4 bg-white">
     <!-- Brand Logo -->
-    <a href="/main.go" class="brand-link">
+    <a onclick="goMyMainPage(${user.id})" class="brand-link">
       <img src="../../dist/img/KakaoTalk_20230613_164257782.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-10" style="opacity: .8">
       <span class="brand-text font-weight-light">CreatorCompany</span>
     </a>
@@ -581,6 +581,10 @@ socket.onerror = function(error) {
 };
   
 
+function goMyMainPage(userId) {
+	console.log(userId);
+	  window.location.href = "/main.go?id=" + userId;
+	}
 
 
 

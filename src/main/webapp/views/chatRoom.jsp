@@ -162,7 +162,7 @@
         <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#chatInviteModal" onclick="invite()">초대하기</button>
 		&nbsp;
         <!-- 채팅방 나가기 -->
-        <button class="btn btn-primary" onclick="chatRoomExit()">채팅방 나가기</button>
+        <button class="btn btn-info btn-sm" onclick="chatRoomExit()">채팅방 나가기</button>
     </div>
 	<br/>
 
@@ -186,7 +186,7 @@
         <div class="chat-column3">
             <!-- 채팅방 내용 -->
             <div id="chat_history">
-                <div class="direct-chat-msg">
+                <div class="direct-chat-msg" style="margin-right: 100px;">
                     <div class="direct-chat-infos clearfix">
                         <span class="direct-chat-name float-left">CEO</span>
                         <span class="direct-chat-timestamp float-right">24 July 11:05 am</span>
