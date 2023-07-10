@@ -155,7 +155,12 @@ public class FreeBoardController {
 	
 	
 	// 댓글 삭제
-	
+    @RequestMapping(value = "/replyDelete.do")
+    public String replyDelete(String id, String free_board_id) throws Exception {
+    	
+    	service.replyDelete(id,free_board_id);
+       return "redirect:/freedetail.do?id="+free_board_id;
+    }	
 
 	
 }
