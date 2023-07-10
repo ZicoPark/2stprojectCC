@@ -655,13 +655,67 @@ public class DocService {
 		return mav;
 	}
 	
-	public HashMap<String, Object> docWithDraw(String docId) {
+	public HashMap<String, Object> docWithdraw(String docId) {
+		
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		
 		// 회수기능을 위해 order_rank가 0인 결재자의 읽음 여부를 withdrawChk라는 이름으로 가져온다.
-		String withDrawChk = dao.getWithDrawChk(docId);
+		// 최초 결재자의 읽음 여부 체크
+		String firstReadChk = dao.getFirstReadChk(docId);
 		
+		if(firstReadChk.equals("1")) {
+			// 첫번째 결재자가 읽었을 때
+			
+			String msg = "첫번째 결재자가 읽은 문서는 회수가 불가능합니다.";
+			map.put("msg", msg);
+			
+		}else {
+			// 첫번째 결재자가 읽지 않았을 때 테이블 결재선 삭제, 문서 도장라인 삭제한다.
+			HashMap<String, String> docMap = new HashMap<String, String>();
+			docMap.put("id", docId);
+			
+			// 테이블 결재선부터 삭제한다.
+			int deleteRow = dao.docStatusDelete(docId);
+			
+			if(deleteRow>0) {
+				
+				// 해당 문서를 불러온다.
+				DocDTO docDTO = dao.getWritedDoc(docId);
+				logger.info("doc content : "+docDTO.getContent());
+				
+				String oriContent = docDTO.getContent();
+				
+				// 결재선 도장 라인 잘라서 가져온다.
+				String oriLine = oriContent.substring(oriContent.indexOf("<div class=\"flex-container\" style=\"display: flex;\">"), oriContent.indexOf("<p style=\"text-align: center; \">"));
+				logger.info("oriLine : "+oriLine);
+				
+				// 기본값 도장 라인으로 대체한다.
+				String newLine = 
+						"<div class=\"flex-container\" style=\"display: flex;\">\r\n" + 
+						"<div style=\"width:100px; float:left;\">\r\n" + 
+						"<div class=\"approvalName \" style=\"width:100px; height:25px; border:1px solid black; font-size: 16px; text-align : center; background-color:lightgray;\">기안</div>\r\n" + 
+						"<div class=\"approvalSign \" style=\"width:100px; height:75px; border:1px solid black; font-size: 16px; color: rgb(255, 0, 0); font-style: italic; text-align : center;\">(기안 서명)</div>\r\n" + 
+						"<div class=\"approvalDate \" style=\"width:100px; height:25px; border:1px solid black; font-size: 16px; color: rgb(255, 0, 0); font-style: italic; text-align : center;\">(결재일)</div>\r\n" + 
+						"</div>\r\n" + 
+						"</div>";
+				
+				String lineWritedContent = docFormUpdate(oriContent, oriLine, newLine);
+				docMap.put("afterContent", lineWritedContent);
+				docMap.put("status", "2");
+				
+				int updateRow = dao.docUpdate(docMap);
+				
+				if(updateRow>0) {
+					String msg = updateRow+"개의 문서가 정상적으로 회수되었습니다. 임시저장함으로 이동합니다.";
+					map.put("msg", msg);
+					map.put("updateRow", updateRow);
+				}
+				
+			}
+
+		}
 		
-		
-		return null;
+		return map;
 	}
 
 	public ModelAndView requestDocWaitList(HttpSession session) {

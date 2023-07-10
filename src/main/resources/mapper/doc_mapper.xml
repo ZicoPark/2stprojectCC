@@ -102,11 +102,24 @@
 	</delete>
 
 	<update id="docUpdate" parameterType="hashmap">
-		UPDATE doc SET subject = #{subject}
-			, content = #{afterContent}
-			, status = #{status}
-			, public_range = #{publicRange} 
-			, create_date = #{docUpdateTime} 
+		UPDATE doc 
+		<set>
+			<if test="subject != null">
+				subject = #{subject},
+			</if>
+			<if test="afterContent != null">
+				content = #{afterContent},
+			</if>
+			<if test="status != null">
+				status = #{status},
+			</if>
+			<if test="publicRange != null">
+				public_range = #{publicRange},
+			</if>
+			<if test="docUpdateTime != null">
+				create_date = #{docUpdateTime},
+			</if>	
+		</set>
 		WHERE id = #{id}
 	</update>
 	
@@ -150,7 +163,7 @@
 		WHERE d.id = #{docId} AND d.status = 1 AND ds.approval = 0
 	</select>
 	
-	<select id="getWithDrawChk" resultType="string">
+	<select id="getFirstReadChk" resultType="string">
 		SELECT ds.read_chk FROM doc_status ds WHERE ds.doc_id = #{docId} AND ds.order_rank = 0
 	</select>
 	
@@ -212,5 +225,8 @@
 		AND ds.order_rank = (SELECT MIN(ds2.order_rank) FROM doc_status ds2 WHERE ds2.doc_id = #{docId} AND ds2.member_id = #{loginId} AND ds2.approval=0)
 	</update>
 	
+	<delete id="docStatusDelete" parameterType="string">
+		DELETE FROM doc_status WHERE doc_id = #{docId}
+	</delete>
 
 </mapper>

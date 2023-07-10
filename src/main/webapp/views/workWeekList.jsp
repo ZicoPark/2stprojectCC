@@ -26,13 +26,12 @@
     <br/>
     <!-- Main content -->
     <section class="content">
-    <br/>
 	    <form action="weekListFind.do">
 		    <div class="input-group" style="width: 20%;">
 		    	<input type="date" id="date" name="date" class="form-control"/>
 		    	<button class="btn btn-primary">검색</button><br/>
 		    </div>
-				검색을 원하시는 주의 <b>월요일</b>을 선택해주세요. (해당 주의 월요일 ~ 금요일이 검색됩니다.)		
+				검색을 원하시는 주의 날짜를 선택해주세요. (해당 주의 월요일 ~ 금요일이 검색됩니다.)		
 	    </form>
 	<table class="table table-bordered">    	
    		<thead>
@@ -50,7 +49,7 @@
    		<tbody id="weekListId">
    			<c:if test="${dto.size()<1}">
 				<tr>
-					<th colspan="6">검색을 원하시는 주의 <b>월요일</b>을 선택해주세요. (해당 주의 월요일 ~ 금요일이 검색됩니다.)</th>
+					<th colspan="6">검색을 원하시는 주의 날짜를 선택해주세요. (해당 주의 월요일 ~ 금요일이 검색됩니다.)</th>
 				</tr>
 			</c:if>   		
     		<c:forEach items="${dto}" var="work">

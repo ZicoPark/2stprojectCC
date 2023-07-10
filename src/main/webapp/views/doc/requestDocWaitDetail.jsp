@@ -4,10 +4,17 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Creator Company</title>
 <link rel="stylesheet" href="/richtexteditor/rte_theme_default.css" />
-
 <script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
+
+<!-- Google Font: Source Sans Pro -->
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+<!-- Font Awesome -->
+<link rel="stylesheet" href="../../plugins/fontawesome-free/css/all.min.css">
+<!-- Theme style -->
+<link rel="stylesheet" href="../../dist/css/adminlte.min.css">
 <style>
 .modal {
 	position: absolute;
@@ -142,6 +149,13 @@ textarea {
 		</div>
 	</div>
 </body>
+<!-- Bootstrap 4 -->
+<script src="../../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<!-- AdminLTE App -->
+<script src="../../dist/js/adminlte.min.js"></script>
+<!-- AdminLTE for demo purposes -->
+<script src="../../dist/js/demo.js"></script>
+
 <script type="text/javascript" src="/richtexteditor/rte.js"></script>  
 <script type="text/javascript" src='/richtexteditor/plugins/all_plugins.js'></script>
 <script>

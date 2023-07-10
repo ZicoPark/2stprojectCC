@@ -4,8 +4,10 @@ package kr.co.cc.work.service;
 
 
 import java.sql.Time;
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.Month;
+import java.time.temporal.TemporalAdjusters;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -101,7 +103,8 @@ public class WorkService {
 
 	public ModelAndView workDailyList() {		
 		ModelAndView mav = new ModelAndView("workDailyList");
-		ArrayList<WorkDTO> dto = dao.workDailyList();
+		LocalDate currentDate = LocalDate.now();
+		ArrayList<WorkDTO> dto = dao.workDailyList(currentDate);
 		mav.addObject("dto",dto);
 		return mav;
 	}
@@ -120,15 +123,28 @@ public class WorkService {
 			mav.addObject("week", week);
 			mav.addObject("dto",dto);			
 		} else {
-			mav.addObject("msg","검색을 원하시는 주의 월요일을 선택해주세요.");
-		}
+	        LocalDate date = LocalDate.parse(week);
+	        LocalDate monday = date.with(TemporalAdjusters.previous(DayOfWeek.MONDAY));
+	        String previousWeek = monday.toString();
+	        
+	        ArrayList<WorkDTO> dto = dao.weekListFind(previousWeek);
+	        mav.addObject("week", previousWeek);
+	        mav.addObject("dto", dto);    
+	    }
 		
-		if(!msg.equals("")) {
-			mav.addObject("msg",msg);
-		}
 		
 		return mav;
 	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 
 	public void workWorn(HashMap<String, Object> params) {
 		dao.workWorn(params);

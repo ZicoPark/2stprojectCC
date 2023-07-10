@@ -125,11 +125,11 @@ public class DocController {
 		return service.requestDocDetail(id);
 	}
 	
-	@RequestMapping(value="/docWithDraw.ajax")
+	@RequestMapping(value="/docWithdraw.ajax")
 	@ResponseBody
-	public HashMap<String, Object> docWithDraw(@RequestParam String docId){
+	public HashMap<String, Object> docWithdraw(@RequestParam String docId){
 		
-		return service.docWithDraw(docId);
+		return service.docWithdraw(docId);
 	}
 	
 	@RequestMapping(value="/requestDocWaitList.go")
