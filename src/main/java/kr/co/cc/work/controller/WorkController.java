@@ -255,8 +255,10 @@ public class WorkController {
 	}
 	
 	@GetMapping(value="/workWeekList.go")
-	public String workWeekList() {
-		return "workWeekList";
+	public ModelAndView workWeekList() {
+		LocalDate currentDate = LocalDate.now();
+		String week = currentDate.toString();
+		return service.weekListFind(week, "");
 	}
 	
 	@GetMapping(value="/workWornList.go")
@@ -393,8 +395,20 @@ public class WorkController {
 			map.put("list", dto);
 			logger.info("wornListFind dto : " + dto);
 		}
-		return map;
+		return map;		
+	}
+	
+	@GetMapping(value="/historyChange.ajax")
+	@ResponseBody
+	public HashMap<String, Object> historyChange(@RequestParam String historyChange){
+		HashMap<String, Object> map = new HashMap<String, Object>();		
+		ArrayList<WorkDTO> dto = service.historyChange(historyChange);	
 		
+		if(dto!=null) {
+			map.put("list", dto);
+			logger.info("historyChange dto : " + dto);
+		}
+		return map;		
 	}
 	
 	

@@ -97,6 +97,8 @@ public interface WorkDAO {
 
 	ArrayList<WorkDTO> historyListFind(String value, String id);
 
+	ArrayList<WorkDTO> historyChange(String historyChange);
+
 
 
 

@@ -25,6 +25,7 @@
     </section>
     <br/>
     <!-- Main content -->
+    <section class="content">
     	<form action="holidayListFind.do">
     	<div class="input-group" style="width: 20%;">
 			<input type="number" class="form-control" min=1 max=12 id="holidayList" name="holidayList" placeholder="월 검색"/>

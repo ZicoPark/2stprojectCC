@@ -253,6 +253,19 @@
 		order by start_at desc
 	</select>
 	
+	<select id="historyChange" resultType="kr.co.cc.work.dto.WorkDTO">
+		SELECT whu.date, whu.name, whu.working_hour_id, m.user_id, whu.type, whu.update_at, whu.approval, whu.reason
+		FROM working_hour_update whu
+		INNER JOIN working_hour wh ON whu.working_hour_id = wh.id
+		INNER JOIN member m ON wh.member_id = m.id
+		WHERE whu.working_hour_id IN (
+		    SELECT wh.id
+		    FROM member m
+		    INNER JOIN working_hour wh ON m.id = wh.member_id
+		) and approval = #{param1}
+		ORDER BY whu.date DESC
+	</select>
+	
 	<insert id="workHourChange">
 		INSERT INTO working_hour (id, member_id, name, date, time_go, time_end)
 		SELECT uuid(), #{regist_id}, #{name}, date_range.date, '09:00:00', '18:00:00'
