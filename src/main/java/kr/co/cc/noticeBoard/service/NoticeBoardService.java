@@ -15,12 +15,17 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.kafka.KafkaProperties.Admin;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.socket.WebSocketSession;
 
+import kr.co.cc.admin.dao.AdminDAO;
+import kr.co.cc.admin.dto.AdminDTO;
 import kr.co.cc.alarm.config.WebSocketHandler;
 import kr.co.cc.archive.dto.ArchiveDTO;
+import kr.co.cc.member.dto.MemberDTO;
 import kr.co.cc.noticeBoard.dao.NoticeBoardDAO;
 import kr.co.cc.noticeBoard.dto.NoticeBoardDTO;
 
@@ -29,10 +34,15 @@ import kr.co.cc.noticeBoard.dto.NoticeBoardDTO;
 public class NoticeBoardService {
 
    @Autowired NoticeBoardDAO dao;
+   @Autowired AdminDAO adao;
    @Value("${spring.servlet.multipart.location}") private String root;
    
-   private WebSocketHandler handler = null;
    
+   
+   private WebSocketHandler handler = null;
+  
+   
+   @Autowired
    public NoticeBoardService(WebSocketHandler handler) {
 	   this.handler = handler;
    }
@@ -121,13 +131,29 @@ public class NoticeBoardService {
 	            e.printStackTrace();
 	        }
 	    }
-	  
-	    //notiNotice(dto.getId(), approvalMemberId, "공지사항", docId);
+	    
+	    ArrayList<MemberDTO> list = dao.memberAll();
+	    logger.info("size() :" +list.size());
+	    
+	    HashMap<String , Object> map = new HashMap<String, Object>();
+	    for (MemberDTO mdto : list) {
+	    	map.put("send_id", loginId);
+	    	map.put("receive_id", mdto.getId());
+	    	map.put("identify_value", idx);
+	    	dao.insertNotice(map);
+	    	
+	    	map.clear();
+		}
+	    
+	 
 	    handler.sendAlarm("알림이 왔습니다");
+	    
 	    page = "redirect:/noticeBoardDetail.do?id=" + idx ;
 	
 	    return page;
 	}
+	
+
    
 //   private void fileSave(int idx, MultipartFile photo) {
 //	// 1. 파일을 C:/img/upload/ 에 저장

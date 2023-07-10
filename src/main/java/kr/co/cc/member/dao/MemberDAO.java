@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import kr.co.cc.main.dto.MainDTO;
 import kr.co.cc.member.dto.MemberDTO;
 
 
@@ -20,17 +21,29 @@ public interface MemberDAO {
 	
 	MemberDTO getUserInfoPW(HashMap<String, String> params);
 
-	MemberDTO userInfo(Object attribute);
 
 	boolean updateTemporaryPassword(MemberDTO userInfoPW);
 
 	String loginid(String user_id);
 
 	ArrayList<MemberDTO> departmentlist(HashMap<String, String> params);
+	
+	MemberDTO userInfo(Object attribute);
 
 	void userfileWrite(String oriFileName, String newFileName, String classification, String userId);
 
+
+	String ori_file_name(String id);
+
 	int userInfoUpdate(HashMap<String, String> params);
+
+
+	void removeFileName(String fileName);
+
+	void userinfofileWrite(String oriFileName, String newFileName, String cls, String id);
+
+	MainDTO mainPage(String loginId);
+
 
 
 

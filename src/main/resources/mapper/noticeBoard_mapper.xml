@@ -95,5 +95,13 @@
    <select id="nlist" resultType="kr.co.cc.noticeBoard.dto.NoticeBoardDTO">
       SELECT name, id from member 
    </select>
-
+	
+	<select id="memberAll" resultType="kr.co.cc.member.dto.MemberDTO">
+		SELECT id FROM member;
+	</select>
+	
+	<insert id="insertNotice" parameterType="hashmap">
+		INSERT INTO notice(send_id, receive_id,type,status,identify_value)
+		VALUES(#{send_id},#{receive_id},'공지사항',0,#{identify_value});
+	</insert>
 </mapper>

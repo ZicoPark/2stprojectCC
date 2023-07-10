@@ -31,6 +31,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
+import kr.co.cc.main.dto.MainDTO;
 
 import kr.co.cc.member.dao.MemberDAO;
 import kr.co.cc.member.dto.MemberDTO;
@@ -63,11 +64,20 @@ public class MemberController {
 		return memberservice.join(params, file,dto);
 	}
 	
-	// 로그인 성공시 가는 메인페이지
-	@RequestMapping(value="/main.go")
-	public String main(Model model) {
-		return "workHistoryList";
-	}
+	/*
+	 * // 로그인 성공시 가는 메인페이지
+	 * 
+	 * @RequestMapping(value="/main.go") public String main(Model model, HttpSession
+	 * session) {
+	 * 
+	 * String loginId = (String) session.getAttribute("id"); MainDTO mainPage =
+	 * memberservice.mainPage(loginId); logger.info("mainPage : "+mainPage);
+	 * 
+	 * 
+	 * model.addAttribute("main",mainPage);
+	 * 
+	 * return "mainTest"; }
+	 */
 	
 	// 아이디 중복 체크
 	@RequestMapping(value = "/idChk.ajax", method = RequestMethod.POST)
@@ -109,11 +119,14 @@ public class MemberController {
 		String page = "Login";
 		
 		if (memberservice.login(user_id,password,id) == true){
-			page = "redirect:/main.go";
 			id = memberservice.loginid(user_id);
 			session.setAttribute("id", id);
 			session.setAttribute("user_id", user_id);
 			logger.info("id : " + id + "/ " + "user_id : " + user_id + "/ " + "password  : " + password);
+			
+			page = "redirect:/main.go?id="+id;
+			
+			
 		}else {
 			model.addAttribute("msg", "아이디 또는 비밀번호를 확인해주세요");
 		}
@@ -145,28 +158,46 @@ public class MemberController {
     }
 	
 	@RequestMapping(value = "/userinfoupdate.go")
-    public String userInfoUpdate(HttpSession session, Model model) {
-  	  
-  	String page = "redirect:/";		
-		MemberDTO dto = memberservice.userInfo(session.getAttribute("id"));
-		if(dto != null) {
-			page = "userInfoUpdate";
-			model.addAttribute("member", dto);
-		}				
+    public String userInfoUpdatego(@RequestParam String id, HttpSession session, Model model) {
+		
+		logger.info("마이페이지 수정요청");
+		String page = "userinfo";
+		String loginId = null;
+	    
+		if(session.getAttribute("id")!=null) {
+			loginId = (String) session.getAttribute("id");
+			if(loginId.equals(id)) {
+				
+			}
+	        MemberDTO dto = memberservice.userInfo(id);
+	        logger.info("수정 서비스 들어가기 전");
+	        if(dto != null) {
+	            page = "userInfoUpdate";
+	            model.addAttribute("member", dto);
+	        }    
+	    }
 		return page;
-	}
+	}	    
+
 	
 	
 	@RequestMapping(value="/userinfoupdate.do", method = RequestMethod.POST)
-	public String userInfoUpdate(HttpSession session, @RequestParam HashMap<String, String> params, Model model, MultipartFile file) {
+	public String userInfoUpdate(MultipartFile[] file, @RequestParam HashMap<String, String> params, @RequestParam ArrayList<String> deletedFiles, 	HttpSession session, Model model) {
 		
-		logger.info("params : "+params);
-		String path = memberservice.userInfoUpdate(params,file);
-		//String loginPhotoName = memberservice.findPhotoName(params.get("userId"));
-	  
-		//session.setAttribute("loginPhotoName", loginPhotoName);
- 
-	return path;
+		logger.info("마이페이지 수정");
+		String page = "redirect:/userinfo.go";
+	    String loginId = null;
+	    int id;
+
+	    if (session.getAttribute("id") != null) {
+	        loginId = (String) session.getAttribute("id");
+	        if (loginId.equals(params.get("user_id"))) {
+	            id = memberservice.userInfoUpdate(file, params, deletedFiles);
+	            page = "redirect:/userinfo.do?id=" + id;
+	        }
+	    }
+
+	    return page;
 	
 	}
 	

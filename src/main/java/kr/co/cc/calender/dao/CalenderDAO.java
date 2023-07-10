@@ -6,7 +6,7 @@ import kr.co.cc.calender.dto.CalenderDTO;
 
 public interface CalenderDAO {
 
-	ArrayList<CalenderDTO> CalenderList();
+	ArrayList<CalenderDTO> CalenderList(String loginId);
 
 	ArrayList<CalenderDTO> CalenderListSave(String event);
 

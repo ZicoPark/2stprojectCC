@@ -1,13 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>AdminLTE 3 | Read Mail</title>
+  <title>CreatorCompany</title>
 
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
@@ -98,9 +96,10 @@
 			<div class="card-footer">
 			  <div class="float-right">
 			    <c:if test="${loginid.admin_chk eq 1 or loginId eq detailms.member_id}">
-			      <button type="button" onclick="location.href='/archivedelete.do?id=${detailms.id}&member_id=${detailms.member_id}'" class="btn btn-default"> 삭제</button>
+			      <button type="button" class="btn btn-default" onclick="location.href='msDelete.do?id=${detailms.id}'"><i class="far fa-trash-alt"></i></button>
 			      <button type="button" onclick="location.href='/archiveUpdate.go?id=${detailms.id}&member_id=${detailms.member_id}'" class="btn btn-default"> 수정</button>
 			    </c:if>
+			    
 			    <button type="button" onclick="location.href='/archiveBoard.go'" class="btn btn-default"> 목록</button>
 			  </div>
 			</div>
@@ -140,33 +139,33 @@
 			            <textarea rows="5" cols="50" name="content"></textarea>
 			        </p>
 			        <p>
-			        	<input type="hidden" name="free_board_id" value="${detailms.id}">
+			        	<input id = "hi" type="hidden" name="free_board_id" value="${detailms.id}">
 			            <button type="submit">댓글 작성</button>
 			        </p>
 			    </form>
 			    
 			</div>
-
-
-				 
-			<ul>
-				<c:forEach items="${reply}" var="reply">
-				<li>
-					<div>
-						<p>${reply.name} ( ${reply.user_id} ) / <fmt:formatDate value="${reply.create_at}" type="both" dateStyle="short" timeStyle="short" /></p>
-						<p>${reply.content }</p>
-						
-						<p>
-							<a href="#" onclick="editComment(${reply.id})">수정</a> / <a href="">삭제</a>
-						
-						</p>
-						
-						<hr />
-					</div>
-				</li>	
-				</c:forEach>
-			</ul>
 			
+		<!-- 댓글 목록/ 댓글 수정 -->
+				
+		<table>	 
+			
+			
+			<tbody id="list">
+						
+
+
+		<tr>
+           <th colspan="6" id="paging">  
+             <div class="container">                  
+               <nav aria-label="Page navigation">
+                 <ul class="pagination justify-content-center" id="pagination"></ul>
+               </nav>
+             </div>
+           </th>
+         </tr>	
+			
+		</table>	
 
 
 			<!-- 댓글 끝 -->
@@ -191,40 +190,137 @@
 <script src="../../dist/js/adminlte.min.js"></script>
 <!-- AdminLTE for demo purposes -->
 <script src="../../dist/js/demo.js"></script>
+
+<script type="text/javascript" src="../../dist/js/jquery.twbsPagination.min.js"></script>
 </body>
 
 <script>
 
-$.ajax({
-    type: "GET",
-    url: "./comment.edit.ajax.html?comment_no=" + comment_no,
-    dataType: "text",
-    contentType: "application/x-www-form-urlencoded;charset=UTF-8",
-    success: function(data) {
-        $('#edit-comment' + comment_no).html(data);
-        $('#edit-comment' + comment_no).css('display', 'block');
-    },
-    error: function(xhr, status, error) {
-        console.log(error); // 오류 메시지 출력
-    }
-});
+var showPage = 1;
+var free_board_id = $('#hi').val();
 
-function editComment(comment_no) {
-    $('#comment' + comment_no).css('display', 'none');
+listCall(showPage);
 
-    $.ajax({
-        type: "GET",
-        url: "./comment.edit.ajax.html?comment_no=" + comment_no,
-        dataType: "text",
-        contentType: "application/x-www-form-urlencoded;charset=UTF-8",
-        success: function(data) {
-            $('#edit-comment' + comment_no).html(data);
-            $('#edit-comment' + comment_no).css('display', 'block');
-        },
-        error: function(xhr, status, error) {
-            console.log(error); // 오류 메시지 출력
-        }
-    });
+	
+function listCall(page){
+	   $.ajax({
+	      type:'post',
+	      url:'replyList.ajax',
+	      data:{
+	         'page':page,
+	         'free_board_id': free_board_id
+	      },
+	      dataType:'json',           
+	      success:function(data){
+	         console.log(data);
+	         listPrint(data.list);
+	         
+	         // 페이징 처리를 위해 필요한 데이터
+	         // 1. 총 페이지의 수
+	         // 2. 현재 페이지
+	         console.log(data.list); // arraylist 로 값 들어옴
+	         
+	         // Paging Plugin (j-query의 기본기능을 가지고 만들었기 때문에  plugin)
+	         $('#pagination').twbsPagination({
+	         startPage:1, // 시작 페이지
+	         totalPages:data.pages,// 총 페이지 수 
+	         visiblePages:5,// 보여줄 페이지
+	         onPageClick:function(event,page){ // 페이지 클릭시 동작되는 (콜백)함수
+	            console.log(page,showPage);
+	            if(page != showPage){
+	               showPage=page;
+	               listCall(page);
+	          
+	            }
+	         }
+	         });
+	      }
+	   });
+	}
+
+
+
+
+function listPrint(list) {
+	  var content = '';
+	  var count = (showPage - 1) * 10 + list.length;
+	  var totalItems = list.length;
+	  var isAdmin = document.getElementById('adminchk'); // 서버에서 가져온 관리자 여부 값
+	  
+	  list.forEach(function(item) {
+	    content += '<div class="comment">';
+	    content += '<div class="comment-header">';
+	    content += '<span class="username">' + item.name + ' (' + item.user_id + ')</span>';
+	    content += '<span class="description">' + item.create_at + '</span>';
+	    content += '</div>';
+	    content += '<div class="comment-content">' + item.content + '</div>';
+	    content += '<div class="comment-actions">';
+	    content += '<a href="#" onclick="showEditCommentForm(this, \'' + item.id + '\', \'' + item.member_id + '\')">수정</a>';
+	    content += '</div>';
+	    content += '</div>';
+	  });
+	  
+	  // list 요소의 내용 지우고 추가 - 페이징 처리
+	  $('#list').empty();
+	  $('#list').append(content);
+	}
+
+
+
+function showEditCommentForm(element, replyId, memberId) {
+	console.log("안녕");
+  if ('${sessionScope.id}' == memberId) {
+	    var tdElement = $(element).parent(); // <td> 요소 선택
+	    var trElement = $(tdElement).parent(); // <tr> 요소 선택
+
+	    var currentContent = $(trElement).find('.comment-content').text(); // 현재 댓글 내용 가져오기
+	    var textareaElement = $('<textarea rows="3" cols="55" class="form-control rounded-0"></textarea>').val(currentContent); // 새로운 textarea 요소 생성 및 현재 댓글 내용 삽입
+
+	    // 기존 댓글 내용 숨기고 textarea 표시
+	    $(trElement).find('.comment-content').hide().after(textareaElement);
+	    $(element).hide();
+
+	    // 수정 완료 버튼 추가
+	    var buttonElement = $('<button type="button" class="btn btn-info btn-flat">완료</button>').click(function() {
+	      var modifiedContent = $(textareaElement).val(); // 수정된 댓글 내용 가져오기	
+	
+	  	if('${sessionScope.id}' == memberId) {
+			$.ajax({
+				url:'commentUpdate.ajax',
+				type:'post',
+				data:{
+					'content': currentContent,
+					'id' : replyId
+				},
+				dataType:'json',
+				success:function(data){
+					console.log(data);
+					
+					
+				},
+				error:function(e){
+					console.log(e);
+				}
+			});
+			
+		}
+	    
+	  	$(trElement).find('.comment-content').text(modifiedContent).show()
+	      // textarea와 버튼 요소 제거
+	      $(textareaElement).remove();
+	      $(buttonElement).remove();
+	      $(element).show();
+	    });
+
+	    $(trElement).append(buttonElement);
+	    
+  }
+	      
 }
+  
+
+
+
+
 </script>
 </html>

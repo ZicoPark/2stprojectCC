@@ -74,21 +74,30 @@
 		select name from member where id = #{param1}
 	</select>
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	<insert id="exitMessage" parameterType="hashmap">
-		INSERT INTO chat(send_id, chat_room_id,content,blind,is_notice)
-		VALUES(#{user_id},#{chat_room_id}, CONCAT(#{user_id},'님이 퇴장하셨습니다.'), false, true)
-	</insert>
-	
-	<select id="chatRoomInfo" parameterType="String" resultType="kr.co.cc.chat.dto.ChatDTO">
-		SELECT * FROM chat_room_info
-		WHERE chat_room_info=#{chat_room_info}
+	<select id="memberList" resultType="kr.co.cc.chat.dto.MemberDTO">
+		SELECT m.id, m.name, d.name as dept_name
+		from member m inner join dept d 
+		on m.dept_id = d.id
+		WHERE m.id NOT IN (
+			SELECT member_id
+			FROM chat_room_info
+			WHERE chat_room_id = #{param1}
+		)
 	</select>
+	
+	<select id="chatMember">
+	SELECT m.id, m.name, d.name as dept_name
+	FROM member m
+	INNER JOIN dept d 
+	ON m.dept_id = d.id
+	WHERE m.id IN (
+	    SELECT member_id
+	    FROM chat_room_info
+	    WHERE chat_room_id = #{param1}  AND state = 'in'
+	)
+	</select>
+	
+
+	
+
 </mapper>

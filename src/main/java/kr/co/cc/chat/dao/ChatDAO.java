@@ -31,14 +31,16 @@ public interface ChatDAO {
 	
 	void insert_chat(String chat_room_id);
 	
-	
+	ArrayList<MemberDTO> memberList(String chat_room_id);
+
+	ArrayList<ChatDTO> chatMember(String chat_room_id);
 	
 	
 	
 
-	int exitMessage(HashMap<String, Object> params);
 
-	ArrayList<ChatDTO> chatRoomInfo(String chat_room_id);
+	
+
 
 	
 

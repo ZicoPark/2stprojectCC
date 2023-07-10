@@ -74,21 +74,39 @@
 	</update>
 	
 	<select id="userInfo" resultType="kr.co.cc.member.dto.MemberDTO">
-		SELECT m.*
-			, a.id as photoName 
-			, a.ori_file_name 
-			, a.classification 
-			, a.identify_value 
-			FROM member m inner join attachment a on m.id = a.identify_value 
-		WHERE a.classification = '프로필사진' and m.id = #{param1}
+	  SELECT m.*,
+	         a.id AS photoName,
+	         a.ori_file_name,
+	         a.classification,
+	         a.identify_value
+	  FROM member m
+	  LEFT JOIN attachment a ON m.id = a.identify_value AND a.classification = '프로필사진'
+	  WHERE m.id = #{param1}
 	</select>
 	
 	<update id="userInfoUpdate" parameterType="hashmap">
-		UPDATE user SET 
-			,password = #{password}
+		UPDATE member SET
+			name= #{name}
+			,job_level_id = #{job_level_id}
+			,dept_id = #{dept_id}
 			,email = #{email}
-		WHERE userId = #{userId}
+			,phone = #{phone}
+		WHERE id = #{id}
 	</update>
+	
+	<delete id="removeFileName" parameterType="String">
+		DELETE FROM attachment WHERE id = #{fileName} AND classification = '프로필사진'
+	</delete>
+	
+	<insert id="userinfofileWrite">
+		INSERT INTO attachment(ori_file_name, id, classification, identify_value)
+			VALUES(#{param1}, #{param2}, #{param3}, #{param4})
+	</insert>
+	
+	
+	
+	
+	
 	
 <select id="departmentlist" resultType="kr.co.cc.member.dto.MemberDTO" parameterType="hashmap">
   SELECT * FROM member
@@ -128,5 +146,14 @@
 </select>
 	
 	
+	
+	<select id="mainPage" parameterType="kr.co.cc.main.dto.MainDTO">
+		SELECT m.id AS m_id , d.id AS d_id , jl.id AS jl_id, m.user_id , m.name AS m_name , d.name AS d_name , jl.name AS jl_name, a.id AS a_id
+		from member m
+		JOIN dept d on m.dept_id = d.id
+		JOIN job_level jl on m.job_level_id = jl.id
+		JOIN attachment a on m.id = a.identify_value
+		WHERE m.id = #{loginId}	
+	</select>	
 
 </mapper>

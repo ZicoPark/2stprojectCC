@@ -6,6 +6,7 @@ import java.util.HashMap;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.TextMessage;
@@ -17,7 +18,8 @@ import org.springframework.web.socket.handler.TextWebSocketHandler;
 public class WebSocketHandler extends TextWebSocketHandler {
 
 	//세션 리스트
-    private ArrayList<WebSocketSession> sessionList = new ArrayList<WebSocketSession>();
+    protected ArrayList<WebSocketSession> sessionList = new ArrayList<WebSocketSession>();
+    
     //세션과 유저 매핑
     private HashMap<String, Object> userMap = new HashMap<String, Object>();
 
@@ -29,7 +31,13 @@ public class WebSocketHandler extends TextWebSocketHandler {
     @Override
     public void afterConnectionEstablished(WebSocketSession session) throws Exception { // 개인에 대한 웹소켓 session id 부여해줌 (로그인 세션이랑 다른 개념)
         sessionList.add(session);
-        logger.info("{} 연결됨", session.getId()); 
+        logger.info("{} 연결됨", session.getId());
+        
+        for(WebSocketSession sess : sessionList) {
+			logger.info("현재 연결된 세션 : " + sess.getId());
+        }
+        
+        logger.info("size () : " + sessionList.size());
     }
 
     //클라이언트가 웹소켓 서버로 메시지를 전송했을 때 실행
@@ -69,7 +77,10 @@ public class WebSocketHandler extends TextWebSocketHandler {
 	}
 	
 	public void sendAlarm(String msg) {
+		
 		logger.info("msg :" + msg);
+		logger.info("size () : " + sessionList.size());
+		
 		for (WebSocketSession sess : sessionList) {
             logger.info("보내야 될사람 : " + sess.getId());
             try {
@@ -80,4 +91,10 @@ public class WebSocketHandler extends TextWebSocketHandler {
 			}
         }
 	}
+	
+	public void connect() {
+		
+	}
+	
+	
 }

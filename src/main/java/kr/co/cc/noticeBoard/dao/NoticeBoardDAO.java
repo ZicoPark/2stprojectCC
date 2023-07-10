@@ -1,7 +1,9 @@
 package kr.co.cc.noticeBoard.dao;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
+import kr.co.cc.member.dto.MemberDTO;
 import kr.co.cc.noticeBoard.dto.NoticeBoardDTO;
 
 public interface NoticeBoardDAO {
@@ -28,13 +30,17 @@ public interface NoticeBoardDAO {
 
    int write(NoticeBoardDTO dto);
 
-ArrayList<NoticeBoardDTO> relist();
-
-ArrayList<NoticeBoardDTO> rlist(String id);
-
-int rcount(String loginId, String id);
-
-void getinfo(String loginId, String id);
+	ArrayList<NoticeBoardDTO> relist();
+	
+	ArrayList<NoticeBoardDTO> rlist(String id);
+	
+	int rcount(String loginId, String id);
+	
+	void getinfo(String loginId, String id);
+	
+	ArrayList<MemberDTO> memberAll();
+	
+	int insertNotice(HashMap<String, Object> map);
 
    
 
