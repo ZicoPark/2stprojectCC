@@ -46,7 +46,7 @@
     
 
 		<select id="ProjectList" resultType="kr.co.cc.project.dto.ProjectDTO">
-		    SELECT p.id, p.name,p.member_id, m.user_id AS member_id, p.create_at, p.step, p.del_chk, GROUP_CONCAT(c.member_id SEPARATOR ',') AS contributors
+		    SELECT p.id, p.name,p.member_id, p.public_range, m.user_id AS member_id, p.create_at, p.step, p.del_chk, GROUP_CONCAT(c.member_id SEPARATOR ',') AS contributors
 		    FROM project p
 		    LEFT JOIN contributor c ON p.id = c.project_id
 		    LEFT JOIN member m ON c.member_id = m.id

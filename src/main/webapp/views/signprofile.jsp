@@ -48,8 +48,8 @@
 				      <img src="img/cc.png" style="max-width: 100%; max-height: 80%;" id="preview">
 				    </c:otherwise>
 				  </c:choose>
-				  <input type="button" name="deletedFiles" id="deletedFiles">
-				  <input type="file" name="file" onchange="previewImage(this)" id="fileInput" style="margin-top: 10px;">
+				  <input type="hidden" name="deletedFiles" id="deletedFiles">
+				  <input type="file" name="attachment" onchange="previewImage(this)" id="fileInput" style="margin-top: 10px;">
 				</div>
 			</th>
          </tr>
@@ -61,26 +61,7 @@
                ${member.user_id}                
             </td>
          </tr>
-         <tr>
-            <th>비밀번호</th>
-            <td>
-               ********                             
-            </td>
-         </tr>
-         <tr>
-            <th>이름</th>
-            <td>
-               <input type="text" name="name" id="name" value="${member.name}" />               
-            </td>            
-         </tr>
-         <tr>
-            <th>생년월일</th>               
-            <td>${member.birth_at}</td>
-         </tr>
-         <tr>
-            <th>입사일</th>               
-            <td>${member.hire_at}</td>
-         </tr>     
+         
          <tr>
             <th>직급</th>
             <td>
@@ -103,14 +84,14 @@
       	    	</select>
 			</td>
          </tr>
-         <tr>
-            <th>이메일</th>
-            <td><input type="email" name="email" id="email" value="${member.email}" /></td>
+        <tr>
+            <th>서명 파일 등록</th>
+            	<td>
+	            	<input type="file" name="signfile" onchange="previewImage1(this);">
+			  		<img id="preview1" style="max-width: 200px; max-height: 200px;" src="img/cc.png">
+            	</td>
          </tr>
-         <tr>
-            <th>연락처</th>
-            <td><input type="text" name="phone" id="phone" value="${member.phone}" /></td>
-         </tr>
+
          <tr>      
             <th colspan="4" style="text-align: center;">
                <button class="btn btn-outline-dark" type="submit" id="update">완료</button>
@@ -172,18 +153,20 @@ function removeFileEvent(icon) { // this 로 받았던 아이콘을 매개변수
 		alert(msg);
 	}
 	
-	function previewImage(input) {
+	
+	function previewImage1(input) {
 		  if (input.files && input.files[0]) {
 		    var reader = new FileReader();
 		    
 		    reader.onload = function(e) {
-		      $('#preview').attr('src', e.target.result);
+		      $('#preview1').attr('src', e.target.result);
 		    }
 		    
 		    reader.readAsDataURL(input.files[0]);
 		  } else {
-		    $('#preview').attr('src', 'img/cc.png');
+		    $('#preview1').attr('src', 'img/cc.png');
 		  }
 		}
+
 </script>
 </html>

@@ -95,14 +95,17 @@
 	</update>
 	
 	<delete id="removeFileName" parameterType="String">
-		DELETE FROM attachment WHERE id = #{fileName} AND classification = '프로필사진'
+	  DELETE FROM attachment WHERE id = #{fileName} AND classification = '프로필사진'
 	</delete>
-	
+		
 	<insert id="userinfofileWrite">
 		INSERT INTO attachment(ori_file_name, id, classification, identify_value)
 			VALUES(#{param1}, #{param2}, #{param3}, #{param4})
 	</insert>
 	
+	<delete id="removeProfilePicture" parameterType="String">
+    DELETE FROM attachment WHERE identify_value = #{identify_value} AND classification = '프로필사진'
+	</delete>
 	
 	
 	
