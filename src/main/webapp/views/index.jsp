@@ -261,7 +261,7 @@
 			</a>
 		</li>
 		<li class="nav-item">
-			<a href="/requestDocCompleteList.go" class="nav-link">
+			<a href="/completeDocList.go" class="nav-link">
 				<i class="far fa-circle nav-icon"></i>
 				<p>결재완료함</p>
 			</a>

@@ -79,6 +79,8 @@ public interface DocDAO {
 
 	String getNextApprovalMemberId(String docId);
 
+	ArrayList<HashMap<String, String>> getCompleteDocList(String loginId);
+
 	
 
 

@@ -66,6 +66,7 @@
 						</div>
 					</c:forEach>
 				</c:if>
+				<input type="button" onclick="docStatusHistory()" value="결재상세보기"/>
 				<input type="button" onclick="location.href='/objectionDocList.go'" value="리스트"/>
 			</section>
 		</div>
