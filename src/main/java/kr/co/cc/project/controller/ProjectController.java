@@ -71,10 +71,12 @@ public class ProjectController {
 	
 	@RequestMapping(value = "projectDetail.go")
 	public String projectList(HttpSession session, Model model, @RequestParam String id) {
+		
 		String page = "redirect:/";
 		
 		if(session.getAttribute("id") != null) {
-			   page = "project-detail";
+			String loginId = (String) session.getAttribute("id");
+			page = service.getMemberList(loginId, id);
 			   model.addAttribute("project_id",id);
 		   }
 		

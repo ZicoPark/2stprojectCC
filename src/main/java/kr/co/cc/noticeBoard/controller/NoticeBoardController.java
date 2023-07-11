@@ -135,6 +135,9 @@ public class NoticeBoardController {
 //      return page;
 //   }
    
+   
+   
+   
    @RequestMapping(value="/noticeBoardDel.do", method=RequestMethod.GET)
    public ModelAndView del(@RequestParam String id) {
       
@@ -149,17 +152,28 @@ public class NoticeBoardController {
       return mav;
    }
    
-//   // 읽사
-//   
-//   @RequestMapping(value="/noticeList.go")
-//   public String nList(Model model) {      
-//      logger.info("start");
-//      
-//      ArrayList<NoticeBoardDTO> list = service.nlist();
-//       model.addAttribute("list", list);
-//      
-//      return "noticeList";
-//   }
+   
+   
+//	@RequestMapping(value = "/noticeBoardDel.do", method = RequestMethod.GET)
+//	public String del(Model model, HttpSession session, @RequestParam HashMap<String, String> params) {
+//		
+//		String page = "redirect:/noticeBoard.go";
+//		
+//		String member_id = params.get("member_id");
+//		
+//		if(session.getAttribute("loginId")!=null) {//로그인 상태에서
+//			if(session.getAttribute("loginId").equals(member_id)) {// 작성자와 세션 아이디가 일치할 때
+//				
+//				String id = params.get("id");
+//				service.del(id);
+//				page = "redirect:/noticeBoard.go";
+//			}else {
+//				logger.info("세션 아이디 아님");
+//			}
+//		}
+//		return page;
+//	}	
+   
 
         
 }
