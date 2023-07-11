@@ -38,12 +38,14 @@ public interface MemberDAO {
 	int userInfoUpdate(HashMap<String, String> params);
 
 
-	void removeFileName(String fileName);
 
 	void userinfofileWrite(String oriFileName, String newFileName, String cls, String id);
 
 	MainDTO mainPage(String loginId);
 
+	int removeProfilePicture(String identify_value);
+
+	int removeFileName(String fileName);
 
 
 
