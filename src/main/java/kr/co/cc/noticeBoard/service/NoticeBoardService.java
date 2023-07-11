@@ -42,7 +42,7 @@ public class NoticeBoardService {
    private WebSocketHandler handler = null;
   
    
-   @Autowired
+   @Autowired // 얘가 있어서 다 똑같은게 됨
    public NoticeBoardService(WebSocketHandler handler) {
 	   this.handler = handler;
    }

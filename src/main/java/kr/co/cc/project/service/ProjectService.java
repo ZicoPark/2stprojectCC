@@ -57,10 +57,6 @@ public class ProjectService {
 		return dao.ProjectList();
 	}
 
-	public ArrayList<ProjectDTO> detail(String id) {
-		logger.info("detail for id: {}", id);
-		return dao.ProjectDetail(id);
-	}
 
 	public String insert(MultipartFile[] attachment, HashMap<String, String> params, HttpSession session, Model model) {
 		String id = (String) session.getAttribute("id");
@@ -184,10 +180,25 @@ public class ProjectService {
 	}
 
 
-	public int replyDel(String commentId) {
+	public int replyDel(String id) {
 		
-		int row = dao.replyDel(commentId);
+		int row = dao.replyDel(id);
 		return  row;
+	}
+
+
+	public String getMemberList(String loginId, String projectId) {
+		
+		String page = "redirect:/projects.go";
+		
+		int contributorChk = dao.contributorChk(loginId, projectId);
+		int createMemberChk = dao.createMemberChk(loginId, projectId);
+		
+		if(contributorChk>0||createMemberChk>0) {
+				page = "project-detail";
+		}
+		
+		return page;
 	}
 
 

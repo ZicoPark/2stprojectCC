@@ -70,14 +70,21 @@ public class ProjectController {
 
 	
 	@RequestMapping(value = "projectDetail.go")
-	public String projectList(HttpSession session, Model model, @RequestParam String id) {
-		String page = "redirect:/";
+	public String projectList(HttpSession session, Model model, @RequestParam String id, @RequestParam int public_range) {
 		
-		if(session.getAttribute("id") != null) {
-			   page = "project-detail";
-			   model.addAttribute("project_id",id);
-		   }
+		String page = "redirect:/projects.go";
 		
+		if(public_range == 0) {
+			if(session.getAttribute("id") != null) {
+				String loginId = (String) session.getAttribute("id");
+				page = service.getMemberList(loginId, id);
+				   model.addAttribute("project_id",id);
+				   session.setAttribute("msg", "일부 공개 프로젝트 입니다.");
+			   }
+		}else {
+			page = "project-detail";
+			model.addAttribute("project_id",id);
+		}
 		return page;
 	}
 	
@@ -91,7 +98,7 @@ public class ProjectController {
 	    String loginId = (String) session.getAttribute("id");
 	    HashMap<String, Object> map = new HashMap<String, Object>();
 	    
-	    ArrayList<ProjectDTO> detailList = service.detail(id);
+	   
 
 	    ArrayList<HashMap<String, String>> commentList = new ArrayList<HashMap<String,String>>();
 	    commentList = service.getAllComment(id);
@@ -270,12 +277,11 @@ public class ProjectController {
 		
 		@PostMapping(value="/replyDel.ajax")
 		@ResponseBody
-		public HashMap<String, Object> replyDel(@RequestParam String commentId) {
+		public int replyDel(@RequestParam String id) {
 
-		    logger.info("comment_id : " + commentId);    
-		    int row = service.replyDel(commentId);
+		    logger.info("comment_id : " + id);    
 		    
-		    return null;
+		    return service.replyDel(id);
 
 		}
 
