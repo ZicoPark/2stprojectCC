@@ -21,7 +21,7 @@
 
 
   <!-- Content Wrapper. Contains page content -->
-  <div class="content-wrapper">
+  <div class="content-wrapper" style="max-width: 1000px; margin: 0 auto;">
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <div class="container-fluid">
@@ -129,10 +129,16 @@ $(document).ready(function() {
 	          html += '</div>';
 	          html += '<p>' + detail.content + '</p>';
 	          if (detail.attachment_id != null) {
-	        	html += '<div class="mailbox-attachment-info">';
-	        	html += '<a class="mailbox-attachment-name"><i class="fas fa-paperclip"></i> &nbsp;' + detail.ori_file_name + '</a>';
-	        	html += '<a href="attachmentDownload.do?id=' + detail.attachment_id + '" class="btn btn-default btn-sm"><i class="fas fa-cloud-download-alt"></i></a>';
-	        	html += '</div>';
+	        	  if (detail.ori_file_name.endsWith('.mp4') || detail.ori_file_name.endsWith('.avi') || detail.ori_file_name.endsWith('.mov')) {
+	        		    html += '<div class="mailbox-attachment-info">';
+	        		    html += '<video controls width="320" height="240">';
+	        		    html += '<source src="attachmentDownload.do?id=' + detail.attachment_id + '" type="video/mp4">';
+	        		    html += '브라우저가 비디오를 지원하지 않습니다.';
+	        		    html += '</video>';
+	        		    html += '<a class="mailbox-attachment-name"><i class="fas fa-paperclip"></i> &nbsp;' + detail.ori_file_name + '</a>';
+	        		    html += '<a href="attachmentDownload.do?id=' + detail.attachment_id + '" class="btn btn-default btn-sm"><i class="fas fa-cloud-download-alt"></i></a>';
+	        		    html += '</div>';
+	        		  }
 	      
 	          }
 	          html += '</div>';
