@@ -103,7 +103,7 @@
 										<td class="project-state"><span
 											class="badge badge-success">${project.step}</span></td>
 										<td class="project-actions text-right">
-										<a href="projectDetail.go?id=${project.id}" class="btn btn-primary btn-sm view-btn"> 
+										<a href="projectDetail.go?id=${project.id}&public_range=${project.public_range}" class="btn btn-primary btn-sm view-btn"> 
 											<i class="fas fa-folder"> </i> 상세보기
 										</a>                            
 										<c:if test="${sessionScope.id eq project.member_id}">
@@ -181,7 +181,7 @@
 										<td class="project-state"><span
 											class="badge badge-success">${project.step}</span></td>
 										<td class="project-actions text-right">
-										<a href="projectDetail.go?id=${project.id}" class="btn btn-primary btn-sm view-btn"> 
+										<a href="projectDetail.go?id=${project.id}&public_range=${project.public_range}" class="btn btn-primary btn-sm view-btn">
 											<i class="fas fa-folder"> </i> 상세보기
 										</a>                            
 										<c:if test="${sessionScope.id eq project.member_id}">

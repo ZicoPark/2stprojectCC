@@ -5,11 +5,12 @@
 <mapper namespace="kr.co.cc.notice.dao.NoticeDAO">
 
 	<select id="nlist" resultType="kr.co.cc.notice.dto.NoticeDTO">
-	<!-- 	SELECT notice.type, notice.identify_value, notice.send_id, notice.create_at, m.name  FROM notice left join `member` m on notice.send_id = m.id WHERE notice.status =0;
-	 -->
-	 
-	 select type, identify_value, send_id, create_at from notice WHERE notice.status =0;
-	</select>
+	 	SELECT notice.type, notice.identify_value, notice.send_id, notice.create_at, m.user_id, m.name
+		FROM notice
+		LEFT JOIN member m ON notice.send_id = m.id
+		WHERE notice.status = 0
+	 	GROUP by notice.identify_value
+	 </select>
 
 
 </mapper>

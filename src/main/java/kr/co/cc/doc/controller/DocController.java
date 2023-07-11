@@ -169,7 +169,11 @@ public class DocController {
 		return service.rewriteDoc(params, session);
 	}
 	
-	
+	@RequestMapping(value="/completeDocList.go")
+	public ModelAndView completeDocList(HttpSession session) {
+		
+		return service.completeDocList(session);
+	}
 	
 	
 	

@@ -830,10 +830,15 @@ public class DocService {
 		
 		// 마지막으로 doc_status 테이블에 update를 한다.
 		dao.requestDocApproval(params);
-		
+// ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////		
 		// 다음 타자에게 결재 알림을 보낸다.
-		String nextApprovalMemberId = dao.getNextApprovalMemberId(params.get("docId"));
-		docNotice(docDTO.getMember_id(), nextApprovalMemberId, "전자결재", params.get("docId"));
+//		String nextApprovalMemberId = dao.getNextApprovalMemberId(params.get("docId"));
+		
+//		logger.info("nextApprovalMemberId : "+nextApprovalMemberId);
+		
+//		docNotice(docDTO.getMember_id(), nextApprovalMemberId, "전자결재", params.get("docId"));
+		
+		
 		
 		return mav;
 	}
@@ -940,6 +945,18 @@ public class DocService {
 		map.put("docId", docId);
 		
 		return map;
+	}
+
+	public ModelAndView completeDocList(HttpSession session) {
+		
+		ModelAndView mav = new ModelAndView("/doc/completeDocList");
+		String loginId = (String) session.getAttribute("id");
+		
+		ArrayList<HashMap<String, String>> docList = dao.getCompleteDocList(loginId);
+		
+		mav.addObject("list", docList);
+		
+		return mav;
 	}
 
 

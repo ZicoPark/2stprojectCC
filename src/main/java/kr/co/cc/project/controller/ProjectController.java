@@ -70,14 +70,21 @@ public class ProjectController {
 
 	
 	@RequestMapping(value = "projectDetail.go")
-	public String projectList(HttpSession session, Model model, @RequestParam String id) {
-		String page = "redirect:/";
+	public String projectList(HttpSession session, Model model, @RequestParam String id, @RequestParam int public_range) {
 		
-		if(session.getAttribute("id") != null) {
-			   page = "project-detail";
-			   model.addAttribute("project_id",id);
-		   }
+		String page = "redirect:/projects.go";
 		
+		if(public_range == 0) {
+			if(session.getAttribute("id") != null) {
+				String loginId = (String) session.getAttribute("id");
+				page = service.getMemberList(loginId, id);
+				   model.addAttribute("project_id",id);
+				   session.setAttribute("msg", "일부 공개 프로젝트 입니다.");
+			   }
+		}else {
+			page = "project-detail";
+			model.addAttribute("project_id",id);
+		}
 		return page;
 	}
 	
