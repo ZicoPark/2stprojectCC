@@ -294,8 +294,14 @@
 		WHERE ds.doc_id = #{docId}
 	</select>
 	
+	<select id="getNextApprovalMemberRow" parameterType="string" resultType="int">
+		SELECT count(ds.member_id) FROM doc_status ds WHERE ds.doc_id = #{docId} 
+			AND ds.order_rank = (SELECT MIN(ds.order_rank) FROM doc_status ds WHERE ds.doc_id = #{docId} AND ds.approval = 0)
+	</select>
+	
 	<select id="getNextApprovalMemberId" parameterType="string" resultType="string">
-SELECT member_id FROM doc_status WHERE doc_id = #{docId}
+		SELECT ds.member_id FROM doc_status ds WHERE ds.doc_id = #{docId} 
+			AND ds.order_rank = (SELECT MIN(ds.order_rank) FROM doc_status ds WHERE ds.doc_id = #{docId} AND ds.approval = 0)
 	</select>
 	
 	<select id="getCompleteDocList" parameterType="string" resultType="hashmap">
@@ -321,6 +327,30 @@ SELECT member_id FROM doc_status WHERE doc_id = #{docId}
 					(SELECT MAX(ds2.order_rank) FROM doc_status ds2 GROUP BY ds2.doc_id) AS ds2 
 				WHERE ds.approval = 1 GROUP BY ds.doc_id) AS ds3 
 		ON d.id = ds3.doc_id WHERE d.status = 1 AND ds3.member_id = #{loginId}
+	</select>
+	
+	<select id="completeDocDetail" parameterType="string" resultType="hashmap">
+		SELECT d.id
+			, d.subject
+			, d.content
+			, d.status
+			, d.doc_form_id
+			, d.dept_id
+			, d.public_range
+			, (SELECT dp.name FROM dept dp WHERE dp.id = d.dept_id) AS production_dept_name
+			, d.job_level_name
+			, (SELECT m.name FROM member m WHERE m.id = d.member_id) AS create_member_name
+			, ds.member_id 
+			, (SELECT df.name FROM doc_form df WHERE df.id = d.doc_form_id) AS doc_form_name
+			, DATE_FORMAT(d.create_at, '%Y-%m-%d %T') AS create_at
+			, (SELECT a.name FROM approval a WHERE a.id = ds.approval_id) AS approval_kind_name
+			, ds.job_name AS approval_member_job_name
+			, (SELECT m.name FROM member m WHERE m.id = ds.member_id) AS approval_member_name
+			, ds.read_chk
+			, ds.approval
+			FROM doc d 
+			INNER JOIN doc_status ds ON d.id = ds.doc_id and ds.member_id = #{loginId}
+		WHERE d.id = #{docId} AND d.status = 1
 	</select>
 	
 </mapper>
