@@ -199,8 +199,8 @@ public class NoticeBoardService {
 	}
    
    public int del(String id) {
-      
-      return dao.del(id);
+      dao.noticeDel(id); // 서비스에만 알림 제거 추가해주면 됨
+      return dao.noticeBoardDel(id);
    }
 
 

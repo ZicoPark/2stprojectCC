@@ -88,9 +88,14 @@
       WHERE identify_value = #{id}
    </select>
    
-   <delete id="del">
+   <delete id="noticeBoardDel">
       DELETE FROM notice_board WHERE id = #{id}
    </delete>
+   
+   <delete id="noticeDel">
+      DELETE FROM notice WHERE identify_value = #{id}
+   </delete>
+   
 
    <select id="nlist" resultType="kr.co.cc.noticeBoard.dto.NoticeBoardDTO">
       SELECT name, id from member 
