@@ -6,6 +6,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.UUID;
 
 import javax.servlet.http.HttpSession;
@@ -84,7 +85,7 @@ public class MessageService {
 	     
 	      }else {
 
-	         list = dao.sendListSearch(params,loginId);
+	         list = dao.sendListSearch(params);
 	      }
 	      		
 	      
@@ -294,6 +295,12 @@ public class MessageService {
 		public String selectFile(String id) {
 			
 			return dao.selectFile(id);
+		}
+
+
+		public List<HashMap<String, Object>> memberByDept(String dept) {
+
+			return dao.MemberByDept(dept);
 		}
 
 

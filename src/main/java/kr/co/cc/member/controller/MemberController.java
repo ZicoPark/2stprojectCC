@@ -64,6 +64,12 @@ public class MemberController {
 		return memberservice.join(params, file,dto);
 	}
 	
+//	@RequestMapping(value="/profile.do")
+//	public String profile(MultipartFile file) {
+//		logger.info("file : " + file);
+//		return memberservice.profile(file);
+//	}
+	
 	/*
 	 * // 로그인 성공시 가는 메인페이지
 	 * 
@@ -181,7 +187,7 @@ public class MemberController {
 	
 	
 	@RequestMapping(value="/userinfoupdate.do", method = RequestMethod.POST)
-	public String userInfoUpdate(MultipartFile[] file, @RequestParam HashMap<String, String> params, @RequestParam ArrayList<String> deletedFiles, HttpSession session, Model model) {
+	public String userInfoUpdate(MultipartFile file,@RequestParam HashMap<String, String> params, HttpSession session, Model model) {
 	    logger.info("마이페이지 수정");
 	    String page = "redirect:/userinfo.go";
 	    String loginId = null;
@@ -195,13 +201,14 @@ public class MemberController {
 	        
 	        if (loginId.equals(params.get("id"))) {
 	        	logger.info("file : " + file);
-	            memberservice.userInfoUpdate(file, params, deletedFiles);
-	            page = "redirect:/userinfo.do";
+	            memberservice.userInfoUpdate(file, params);
+	            page = "redirect:/userinfo.go";
 	        }
 	    }
-
 	    return page;
 	}
+	
+	
 	
 	
 	// 부서 리스트

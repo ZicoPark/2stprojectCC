@@ -2,6 +2,7 @@ package kr.co.cc.message.dao;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import kr.co.cc.archive.dto.ArchiveDTO;
 import kr.co.cc.member.dto.MemberDTO;
@@ -43,9 +44,13 @@ public interface MessageDAO {
 
 	int sendtotalCountSearch(String search, String loginId);
 
-	ArrayList<MessageDTO> sendListSearch(HashMap<String, Object> params, String loginId);
+	ArrayList<MessageDTO> sendListSearch(String search, String loginId);
 
 	void msNotice(String send_id, String recieveId, String type, String identifyValue);
+
+	ArrayList<MessageDTO> sendListSearch(HashMap<String, Object> params);
+
+	List<HashMap<String, Object>> MemberByDept(String dept);
 
 
 

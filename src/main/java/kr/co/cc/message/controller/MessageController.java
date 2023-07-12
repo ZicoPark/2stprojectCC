@@ -51,8 +51,20 @@ public class MessageController {
 
 		model.addAttribute("dept",dept);
 		model.addAttribute("DeptList", DeptList);
-		return new ModelAndView("MessageWriteForm");
+		return new ModelAndView("MessageWriteForm2");
 	}
+	
+	// 부서 선택시 사원 표시
+	@RequestMapping(value="/MemberByDept.ajax")
+	@ResponseBody
+	public List<HashMap<String, Object>> memberByDept(@RequestParam String dept) {
+	    logger.info("부서 선택 사원");
+	    logger.info("dept deptName: " + dept);
+	    return service.memberByDept(dept);
+	}
+
+	
+	
 	//주소록 사원 선택값 보내기
 	@RequestMapping(value = "/chk.send")
 	public String sendMemberajax(@RequestParam("valueArr") String[] valueArr, Model model) throws Exception {

@@ -33,7 +33,8 @@
 		FROM message ms 
 		JOIN member m on ms.from_id = m.id 
 		JOIN member m1 on ms.to_id = m1.id
-	    WHERE CONCAT(ms.title, m1.name) LIKE CONCAT('%', #{search}, '%') 
+	    WHERE 
+	    CONCAT(ms.title, m1.name) LIKE CONCAT('%', #{search}, '%') 
 	    AND ms.del_chk = 0
 	    ORDER BY send_at DESC
 	    LIMIT 10 OFFSET #{offset}
@@ -143,7 +144,12 @@
 	</select>
 	
 	
-	
+	<select id="MemberByDept">
+		SELECT m.id, m.name, m.user_id
+		FROM member m
+		JOIN dept d ON m.dept_id = d.id
+		WHERE d.name = #{dept}
+	</select>	
 	
 	
 	

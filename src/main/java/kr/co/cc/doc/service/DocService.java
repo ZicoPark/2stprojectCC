@@ -831,10 +831,17 @@ public class DocService {
 		// 마지막으로 doc_status 테이블에 update를 한다.
 		dao.requestDocApproval(params);
 		
-		// 다음 타자에게 결재 알림을 보낸다.
-		String nextApprovalMemberId = dao.getNextApprovalMemberId(params.get("docId"));
-		docNotice(docDTO.getMember_id(), nextApprovalMemberId, "전자결재", params.get("docId"));
+// ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////		
 		
+		// 다음 타자에게 결재 알림을 보낸다.
+		int nextApprovalMemberRow = dao.getNextApprovalMemberRow(params.get("docId"));
+		
+		if(nextApprovalMemberRow>0) {
+			String nextApprovalMemberId = dao.getNextApprovalMemberId(params.get("docId"));
+			logger.info("nextApprovalMemberId : "+nextApprovalMemberId);
+			docNotice(docDTO.getMember_id(), nextApprovalMemberId, "전자결재", params.get("docId"));
+		}
+
 		return mav;
 	}
 
@@ -940,6 +947,38 @@ public class DocService {
 		map.put("docId", docId);
 		
 		return map;
+	}
+
+	public ModelAndView completeDocList(HttpSession session) {
+		
+		ModelAndView mav = new ModelAndView("/doc/completeDocList");
+		String loginId = (String) session.getAttribute("id");
+		
+		ArrayList<HashMap<String, String>> docList = dao.getCompleteDocList(loginId);
+		
+		mav.addObject("list", docList);
+		
+		return mav;
+	}
+
+	public ModelAndView completeDocDetail(String docId, HttpSession session) {
+
+		ModelAndView mav = new ModelAndView("/doc/completeDocDetail");
+		String loginId = (String) session.getAttribute("id");
+		
+		// 문서의 정보 불러오기
+		HashMap<String, String> docMap = dao.completeDocDetail(docId, loginId);
+		mav.addObject("doc", docMap);
+		
+		// 문서의 결재 정보를 불러오기
+		ArrayList<HashMap<String, String>> docStatusList = dao.getDocStatusList(docId);
+		mav.addObject("docStatusList", docStatusList);
+		
+		// 문서의 첨부파일 불러오기
+		ArrayList<AttachmentDTO> attachmentList = dao.getAttachmentList(docId);
+		mav.addObject("attachmentList", attachmentList);
+		
+		return mav;
 	}
 
 

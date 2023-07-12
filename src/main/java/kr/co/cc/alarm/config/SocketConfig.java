@@ -7,7 +7,7 @@ import org.springframework.web.socket.config.annotation.WebSocketConfigurer;
 import org.springframework.web.socket.config.annotation.WebSocketHandlerRegistry;
 
 // 웹소켓 설정 파일
-@Configuration
+@Configuration // 빈(일종의 객체) 생성
 @EnableWebSocket
 public class SocketConfig implements WebSocketConfigurer {
 	

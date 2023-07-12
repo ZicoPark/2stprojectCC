@@ -187,6 +187,21 @@ public class ProjectService {
 	}
 
 
+	public String getMemberList(String loginId, String projectId) {
+		
+		String page = "redirect:/projects.go";
+		
+		int contributorChk = dao.contributorChk(loginId, projectId);
+		int createMemberChk = dao.createMemberChk(loginId, projectId);
+		
+		if(contributorChk>0||createMemberChk>0) {
+				page = "project-detail";
+		}
+		
+		return page;
+	}
+
+
 
 
 

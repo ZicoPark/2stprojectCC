@@ -54,6 +54,10 @@ public interface ProjectDAO {
 
 	int replyDel(String id);
 
+	int contributorChk(String loginId, String projectId);
+
+	int createMemberChk(String loginId, String projectId);
+
 
 
 
