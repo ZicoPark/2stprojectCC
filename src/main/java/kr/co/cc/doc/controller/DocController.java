@@ -175,6 +175,11 @@ public class DocController {
 		return service.completeDocList(session);
 	}
 	
+	@RequestMapping(value="/completeDocDetail.go")
+	public ModelAndView completeDocDetail(@RequestParam String id, HttpSession session) {
+		
+		return service.completeDocDetail(id, session);
+	}
 	
 	
 	

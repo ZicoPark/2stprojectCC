@@ -55,7 +55,7 @@
 									<td>${i.production_dept_name }</td>
 									<td>${i.create_member_name }</td>
 									<td>${i.create_at }</td>
-									<td>${i.approval_kind_name }</td>
+									<td>${i.approval_kind_name } 완료</td>
 									<td>${i.approval_at }</td>
 								</tr>
 							</c:forEach>
