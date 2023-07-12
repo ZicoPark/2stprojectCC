@@ -434,6 +434,7 @@
 			success:function(data){
 				chatHistory(data);
 				chatMember(chat_room_id);
+				chatListAjax();
 			},
 			error:function(e){
 				console.log(e); 
