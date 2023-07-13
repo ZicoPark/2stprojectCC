@@ -20,7 +20,7 @@
   <link rel="stylesheet" href="../../dist/css/adminlte.min.css">
 </head>
 <body class="hold-transition sidebar-mini">
-<jsp:include page = "../index.jsp"></jsp:include>
+<jsp:include page = "index.jsp"></jsp:include>
 <div class="wrapper">
 
   <!-- Content Wrapper. Contains page content -->

@@ -30,9 +30,9 @@
 
 <body class="hold-transition sidebar-mini">
 
+<jsp:include page = "index.jsp"></jsp:include>
 <!-- Site wrapper -->
 <div class="wrapper">
-<jsp:include page = "../index.jsp"></jsp:include>
     <section class="content">
       <div class="row">
 	<!-- row 밑에  -->

@@ -27,7 +27,7 @@
 </head>
 
 <body class="hold-transition sidebar-mini">
-<jsp:include page = "../index.jsp"></jsp:include>jsp:include>
+<jsp:include page = "index.jsp"></jsp:include>
 <div class="wrapper">
   <!-- Navbar -->
   
