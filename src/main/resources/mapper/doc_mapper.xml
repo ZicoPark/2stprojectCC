@@ -387,7 +387,8 @@
 			, DATE_FORMAT(ds.approval_at, '%Y-%m-%d %T') AS approval_at
 			, ds.opinion
 			, MAX(ds.order_rank) FROM doc d 
-			INNER JOIN doc_status ds ON d.id=ds.doc_id  
+			INNER JOIN doc_status ds ON d.id=ds.doc_id 
+			INNER JOIN (SELECT ds2.doc_id, MAX(ds2.order_rank) AS max_order_rank FROM doc_status ds2 GROUP BY ds2.doc_id) AS ds2 ON d.id = ds2.doc_id AND ds.order_rank = ds2.max_order_rank
 			WHERE d.dept_id = #{deptId} AND d.status = 1 AND ds.approval = 1 
 		<if test="opt.equals('searchSubject')">
 			AND d.subject LIKE (CONCAT('%',#{text},'%')) 
