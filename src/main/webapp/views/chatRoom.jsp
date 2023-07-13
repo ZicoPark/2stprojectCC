@@ -434,6 +434,7 @@
 			success:function(data){
 				chatHistory(data);
 				chatMember(chat_room_id);
+				chatListAjax();
 			},
 			error:function(e){
 				console.log(e); 
@@ -579,7 +580,7 @@
 				$('.chatting-list-create').html('');
 				$('.chatting-list-invite').html('');
 				var content =  '<table class="table table-bordered"><tr><th><input type="checkbox" name="member_all"></th><th>이름</th><th>부서</th></tr>';
-				data.forEach(function(item) {
+				data.forEach(function(item) { 
 					if(item.id == "${sessionScope.id}") {
 						content+='';
 					}else {

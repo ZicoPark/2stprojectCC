@@ -1,5 +1,9 @@
 package kr.co.cc.alarm.service;
 
+import java.util.HashMap;
+
+import javax.servlet.http.HttpSession;
+
 import org.mybatis.spring.annotation.MapperScan;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,5 +23,10 @@ public class AlarmService {
 	public int alarmCount(String receive_id) {
 		return dao.alarmCount(receive_id);
 	}
+
+//	public HashMap<String, Object> alarmList(HttpSession session, HashMap<String, Object> params) {
+//		// TODO Auto-generated method stub
+//		return null;
+//	}
 
 }
