@@ -120,7 +120,7 @@ public class ArchiveController {
 		logger.info("게시글 수정 하겠습니다");
 		String page = "redirect:/archiveBoard.go";
 		String loginId = null;
-		int id;
+		String id;
 		logger.info("remove File : "+deletedFiles);
 		if(session.getAttribute("id")!=null) {//로그인 상태이고 글 작성자와 동일하면
 			loginId = (String) session.getAttribute("id");
@@ -128,7 +128,8 @@ public class ArchiveController {
 				logger.info("컨트롤러 params : "+params);
 				logger.info("attachment : "+attachment);
 				logger.info("removeFile : "+deletedFiles);
-				id = service.archiveUpdate(attachment, params,deletedFiles);
+				service.archiveUpdate(attachment, params,deletedFiles);
+				id =params.get("id");
 				page = "redirect:/archivedetail.do?id="+id;
 			}
 		}		

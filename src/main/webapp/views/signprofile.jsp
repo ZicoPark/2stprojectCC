@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>회원 정보 수정</title>
+  <title>서명 이미지 등록</title>
 
 <script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
   <!-- Google Font: Source Sans Pro -->
@@ -31,65 +31,26 @@
 <div class="wrapper">
   <div class="content-wrapper">
     <section class="content-header">
-    	<h1>마이 페이지 수정</h1>         
+    	<h1>서명 이미지 등록</h1>         
     </section>
     <!-- Main content -->
     <section class="content">
-		<form method="post" action="userinfoupdate.do" enctype="multipart/form-data">
+		<form method="post" action="signprofilechange.do" enctype="multipart/form-data">
       <table class="table table-bordered table-hover dataTable dtr-inline">
-         <tr> 
-         	<th rowspan="11" style="width: 500px;">
-				<div style="display: flex; align-items: center; justify-content: center; height: 90%; flex-direction: column;">
+         <input type="hidden" name = "id" value="${sessionScope.id}"/>
+        <tr>
+            <div style="display: flex; align-items: center; justify-content: center; height: 90%; flex-direction: column;">
 				  <c:choose>
 				    <c:when test="${not empty member.photoName}">
 				      <img src="photoView.do?path=${member.photoName}" style="max-width: 90%; max-height: 90%;" id="preview">
 				    </c:when>
 				    <c:otherwise>
-				      <img src="img/cc.png" style="max-width: 100%; max-height: 80%;" id="preview">
+				      <img src="img/cc.png" style="max-width: 100%; max-height: 80%;" id="preview1">
 				    </c:otherwise>
 				  </c:choose>
-				  <input type="hidden" name="deletedFiles" id="deletedFiles">
-				  <input type="file" name="attachment" onchange="previewImage(this)" id="fileInput" style="margin-top: 10px;">
-				</div>
-			</th>
-         </tr>
-         <tr>
-            <th>아이디</th>
-            <td>
-               <input type="hidden" name = "id" value="${member.id }"/>
-               
-               ${member.user_id}                
-            </td>
-         </tr>
-         
-         <tr>
-            <th>직급</th>
-            <td>
-			<select name="job_level_id" id="job_level_id">
-				<option value="8ade9167-1703-11ee-973f-0242ac110002">팀원</option>
-				<option value="8bbf948d-1703-11ee-973f-0242ac110002">팀장</option>
-				<option value="8c4e7542-1703-11ee-973f-0242ac110002">이사</option>
-				<option value="8cdd8503-1703-11ee-973f-0242ac110002">사장</option>
-			</select>
-	   	   </td>
-         </tr>
-         <tr>
-            <th>부서</th>
-            <td>
-				<select name="dept_id" id="dept_id">
-		          	<option value="8e5f3282-1703-11ee-973f-0242ac110002">총무팀</option>
-				  	<option value="8ee07433-1703-11ee-973f-0242ac110002">기획팀</option>
-				  	<option value="8f963853-1703-11ee-973f-0242ac110002">촬영팀</option>
-				  	<option value="9022f64a-1703-11ee-973f-0242ac110002">편집팀</option>
-      	    	</select>
-			</td>
-         </tr>
-        <tr>
-            <th>서명 파일 등록</th>
-            	<td>
-	            	<input type="file" name="signfile" onchange="previewImage1(this);">
-			  		<img id="preview1" style="max-width: 200px; max-height: 200px;" src="img/cc.png">
-            	</td>
+
+				  <input type="file" name="signprofile" onchange="previewImage1(this)" id="fileInput" style="margin-top: 10px;">
+			</div>
          </tr>
 
          <tr>      

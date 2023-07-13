@@ -19,6 +19,17 @@
   <!-- Theme style -->
   <link rel="stylesheet" href="../../dist/css/adminlte.min.css">
 </head>
+
+<style>
+
+  
+   .date {
+    color: rgb(52 58 64 / 91%);
+    font-size: 14px;
+	text-align: right;
+  }  
+
+</style>
 <body class="hold-transition sidebar-mini">
 <jsp:include page = "index.jsp"></jsp:include>
 <div class="wrapper">
@@ -30,12 +41,12 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1>Inbox</h1>
+
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="#">Home</a></li>
-              <li class="breadcrumb-item active">Inbox</li>
+              <li class="breadcrumb-item active">보낸쪽지함</li>
             </ol>
           </div>
         </div>
@@ -50,7 +61,7 @@
 	<a href="/msWrite.go" class="btn btn-primary btn-block mb-3">쪽지 작성</a>
 	<div class="card">
 	<div class="card-header">
-	<h3 class="card-title">보관함</h3>
+	<h3 class="card-title">쪽지</h3>
 	<div class="card-tools">
 	<button type="button" class="btn btn-tool" data-card-widget="collapse">
 	<i class="fas fa-minus"></i>
@@ -76,7 +87,7 @@
 	</a>
 	</li>
 	<li class="nav-item">
-	<a href="#" class="nav-link">
+	<a href="/msRemoveList.go" class="nav-link">
 	<i class="far fa-trash-alt"></i> 휴지통
 	</a>
 	</li>
@@ -89,14 +100,20 @@
         <div class="col-md-9">
           <div class="card card-primary card-outline">
             <div class="card-header">
-              <h3 class="card-title">보낸쪽지함</h3>
+              <h4 class="card-title">보낸쪽지함</h4>
 
-		<div class="input-group" style="width: 30%;">
-	    <input type="search" class="form-control form-control-lg" id="searchInput" placeholder="제목 또는 작성자를 입력" style="font-size: 13px;">
-	    <div class="input-group-append">
-	    <button id="searchButton" class="btn btn-lg btn-default"><alt="Search"><i class="fa fa-search"></i></button>
+      <div class="card-tools">
+        <div class="input-group input-group-sm">              
+			    <input type="text" id="searchInput" class="form-control" placeholder="제목 또는 작성자를 입력">
+			    <div class="input-group-append">
+			    <div class="btn btn-primary">
+			    <i class="fas fa-search" id="searchButton"></i>
+			    </div>
+			</div>
 	    </div>
-		</div>
+	   </div> 
+	   
+	   
 		<input type ="text" id="adminchk" value= "${loginid}" hidden />${loginid}
               <!-- /.card-tools -->
             </div>
@@ -104,13 +121,19 @@
             <div class="card-body p-0">
               <div class="mailbox-controls">
                 <!-- Check all button -->
-                <input type="checkbox" name="allCheck"/>
-                
+                <div class="btn btn-default btn-sm checkbox-toggle">
+				<input type="checkbox" name="allCheck" class="far fa-square" />
+				</div>
                 <div class="btn-group">
                   <button type="button" onclick="deleteValue()" class="btn btn-default btn-sm">
                     <i class="far fa-trash-alt"></i>
                   </button>
+
+                  </div>
+                  <!-- /.btn-group -->
                 </div>
+                <!-- /.float-right -->
+ 
 
 
                 <!-- /.float-right -->
@@ -143,13 +166,12 @@
                 <!-- /.float-right -->
               </div>
             </div>
+    </section>
           </div>
           <!-- /.card -->
         </div>
         <!-- /.col -->
-      </div>
       <!-- /.row -->
-    </section>
     <!-- /.content -->
   </div>
   <!-- /.content-wrapper -->
@@ -162,7 +184,6 @@
     <!-- Control sidebar content goes here -->
   </aside>
   <!-- /.control-sidebar -->
-</div>
 <!-- ./wrapper -->
 
 <!-- jQuery -->
@@ -240,23 +261,35 @@ function listPrint(list){
 			  content += '<tr><td colspan="6">쪽지가 존재하지 않습니다.</td></tr>';
 			} else {
 			  list.forEach(function(item) {
+			    var sendAt = new Date(item.send_at);
+			    var currentDate = new Date();
+
+			    var formattedDate;  
 			    // 배열 요소들 반복문 실행 -> 행 구성 + 데이터 추가
 			    content += '<tr>';
 			    content += '<td class="checkbox"><input type="checkbox" name="Rowcheck" value="' + item.id + '"></td>';
-			    content += '<td>' + count-- + '</td>'; // 번호를 반대로 표시
-			    content += '<td>' + item.to_name + '</td>';
-			    content += '<td><a href="msSendDetail.do?id=' + item.id + '">' + item.title + '</a></td>';
-			    if (item.read_chk == true) {
-			      content += '<td id="read_chk">읽음</td>';
-			    } else {
-			      content += '<td id="read_chk">안읽음</td>';
-			    }
-			    content += '<td>' + item.send_at + '</td>';
-			    content += '</tr>';
+			    content += '<td class="' + (item.read_chk == 0 ? 'read' : 'Noread') + '">' + item.to_name + '</td>';
+
+			    content += '<td><a href="msSendDetail.do?id=' + item.id + '"';
+			    content += ' class="' + (item.read_chk == 0 ? 'read' : 'Noread') + '">';
+			    content += item.title + '</a></td>';
+			    
+			    
+			    if (
+		  	      sendAt.getDate() === currentDate.getDate() &&
+		  	      sendAt.getMonth() === currentDate.getMonth() &&
+		  	      sendAt.getFullYear() === currentDate.getFullYear()
+		  	    ) {
+		  	      formattedDate = sendAt.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
+		  	    } else {
+		  	      formattedDate = sendAt.toLocaleDateString('ko-KR', { year: '2-digit', month: '2-digit', day: '2-digit' });
+		  	    }
+		  	    content += '<td class="date">' + formattedDate + '</td>';
+		  	    content += '</tr>';
 			  });
 			}
 
-	   
+		
 	   // list 요소의 내용 지우고 추가 - 페이징 처리 
 	   $('#list').empty();
 	   $('#list').append(content);

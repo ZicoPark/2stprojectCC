@@ -23,6 +23,18 @@
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
 		
+
+		<!-- 통계 -->
+	    <dependency>
+	      <groupId>com.google.apis</groupId>
+	      <artifactId>google-api-services-youtubeAnalytics</artifactId>
+	      <version>v2-rev20210510-2.0.0</version>
+	    </dependency>
+
+
+		
+		
+		
 		<!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-websocket -->
          <!-- 채팅 -->
          <dependency>
@@ -41,6 +53,12 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-security</artifactId>
+		</dependency>
+		
+		<dependency>
+		    <groupId>commons-fileupload</groupId>
+		    <artifactId>commons-fileupload</artifactId>
+		    <version>1.4</version>
 		</dependency>
 		
 		<!-- commons-io base64 인코딩을 위해 필요함. -->
