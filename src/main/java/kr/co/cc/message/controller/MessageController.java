@@ -200,6 +200,7 @@ public class MessageController {
 	public HashMap<String, Object> msSendList(@RequestParam HashMap<String, Object> params,HttpSession session) {
 		logger.info("보낸 쪽지함 이동");
 
+	
 		return service.sendList(session,params);
 	}	
 	
@@ -208,10 +209,21 @@ public class MessageController {
 	@RequestMapping(value="/msReceiveList.go")
 	public String msReceiveList(Model model,HttpSession session) {
 		logger.info("받은 쪽지함 이동");
-		ArrayList<MessageDTO> receiveList = service.receiveList(session);
-		model.addAttribute("list", receiveList);
+
 		return "msReceiveList";
+	}
+	
+	// 받은 쪽지함 리스트 
+	@RequestMapping(value="/receivelist.ajax")
+	@ResponseBody
+	public HashMap<String, Object> msReceiveList(@RequestParam HashMap<String, Object> params,HttpSession session) {
+		logger.info("보낸 쪽지함 이동");
+
+		return service.receiveList(session,params);
 	}	
+	
+	
+	
 
 	// 휴지통 이동
 	@RequestMapping(value="/msRemoveList.go")

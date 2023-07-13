@@ -9,12 +9,18 @@
 
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+ 
+  <link rel="stylesheet" href="../../plugins/bootstrap4-duallistbox/bootstrap-duallistbox.min.css">
   <!-- Font Awesome -->
   <link rel="stylesheet" href="../../plugins/fontawesome-free/css/all.min.css">
   <!-- Theme style -->
   <link rel="stylesheet" href="../../dist/css/adminlte.min.css">
   <!-- summernote -->
   <link rel="stylesheet" href="../../plugins/summernote/summernote-bs4.min.css">
+  
+  
+  
+  
   
  <style>
   .table-wrapper {
@@ -23,11 +29,64 @@
   .table-wrapper table {
     flex-grow: 1;
   }
+
+
+  .hidden-option {
+  display: none;
+}
+  .dept-container {
+    display: flex;
+  }
+  
+    .dept-item {
+    padding-right: 10px;
+  }
+  
+    span.info {
+    display: none;
+  }
+  
+/*   	.chat-column1{
+	    flex: 1;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        background-color: white;
+        overflow-y: auto;
+        height: 250px;
+        
+    }
+    
+	.chat-column2{
+		flex: 1;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        background-color: white;
+        overflow-y: auto;
+        height: 250px;
+        display: block;
+    }
+    
+     .listList{
+		flex: 1;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        background-color: #f8f8f8;
+        overflow-y: auto;
+        height: 550px;
+        max-width: 30%;
+    }
+    
+	.listList div {
+        display: block;
+    }    */
 </style> 
 </head>
 
 <body class="hold-transition sidebar-mini">
-<jsp:include page = "index.jsp"></jsp:include>
+<jsp:include page = "../index.jsp"></jsp:include>
 <div class="wrapper">
   <!-- Navbar -->
   
@@ -122,51 +181,88 @@
 					<div class="modal-body">
 					  <!-- 모달 내용 추가 -->
 					  <div class="table-wrapper">
-					    <table>
-					      <thead>
-					        <tr>
-					          <td>
-					            <input type="checkbox" id="allCheck" name="allCheck" onclick="toggleAllCheckboxes()" hidden/>
-					            <label for="allCheck">전체</label>
-					          </td>
-					        </tr>
-					        
-					        <select id="deptList" name="name" onchange="updateDeptList()">
-					          <option value="default">--</option>
-					          <c:forEach items="${dept}" var="i">
-					            <option value="${i.name}">${i.name}</option>
-					          </c:forEach>
-					        </select>
-					                        
-					      </thead>
-					    </table>
-					
-					    <table>
-					      <tbody id="deptTableBody">
-					        <c:forEach items="${DeptList}" var="dept">
-					          <tr>
-					            <td class="checkbox"><input type="checkbox" name="Rowcheck" value="${dept.id}"></td>
-					            <td>${dept.dept_name}</td>
-					            <td>${dept.member_name}</td>
-					          </tr>
-					        </c:forEach>
-					      </tbody>
-					    </table>
-					  </div>
-					</div>
-				      
-							<!-- 모달 푸터 -->
-						<div class="modal-footer">
-						  <button id="blindBtn" type="button" onclick="selectValues()" data-dismiss="modal">선택</button>
-						  <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
-						</div>
+	 
+	 
+	 
+<%-- 	    	<div class="listList">
+		        <div class="chat-column1">
+		            
+		            <div style="color: #337ab7;"><b>부서 목록</b></div>
+		            	<c:forEach items="${dept}" var="i">
+					      <div onclick="selectMember(this.getAttribute('value'))" value="${i.name}">${i.name}</div>
+
+					    </c:forEach>
+		            <div id="chat_room"></div>
+
+		        </div>
+		        <br/>
+		        <div class="chat-column2">
+		            <!-- 부서 사원 -->
+		            <div style="color: #337ab7;"><b>사원</b></div>
+		            <div id="dept_member"></div>
+		        </div>
+        
+			</div> --%>
 
 
+
+
+
+        <div class="card card-default">
+          <div class="card-header">
+            <h3 class="card-title">주소록</h3>
+
+            <div class="card-tools">
+              <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                <i class="fas fa-minus"></i>
+              </button>
+              <button type="button" class="btn btn-tool" data-card-widget="remove">
+                <i class="fas fa-times"></i>
+              </button>
+            </div>
+          </div>
+          <!-- /.card-header -->
+          <div class="card-body">
+            <div class="row">
+              <div class="col-12">
+                <div class="form-group">
+                  <label>		            
+                  <div style="color: #337ab7;"><b>부서 목록</b></div>
+                  <div class="dept-container">
+	            	<c:forEach items="${dept}" var="i">
+				      <div class="dept-item" onclick="selectMember(this.getAttribute('value'))" value="${i.name}">${i.name}</div>
+				    </c:forEach>
 				    </div>
-				  </div>
-				</div>   
-			
-			
+				  </label>
+                  <select class="duallistbox" multiple="multiple">
+				
+                  </select>
+                </div>
+                <!-- /.form-group -->
+              </div>
+              <!-- /.col -->
+            </div>
+            <!-- /.row -->
+          </div>
+          <!-- /.card-body -->
+			<div class="card-footer d-flex justify-content-center">
+			  <button id="blindBtn" class="btn btn-primary" type="button" onclick="selectValues()" data-dismiss="modal">선택</button> &nbsp &nbsp
+			  <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
+			</div>
+
+        </div>
+
+			<!-- 모달 푸터 -->
+		<div class="modal-footer">
+
+		</div>
+
+
+		    </div>
+		  </div>
+		</div>   
+	</div>
+	</div>
 				
 			 <input type="text" class="form-control" name="title" maxlength="19"  placeholder="제목을 입력하세요">
 			
@@ -232,25 +328,74 @@
 <script src="../../dist/js/adminlte.min.js"></script>
 <!-- Summernote -->
 <script src="../../plugins/summernote/summernote-bs4.min.js"></script>
-<!-- AdminLTE for demo purposes -->
-<script src="../../dist/js/demo.js"></script>
+
+
+<script src="../../plugins/bootstrap4-duallistbox/jquery.bootstrap-duallistbox.min.js"></script>
+
 <!-- Page specific script -->
 <script>
+
+$('.duallistbox').bootstrapDualListbox();
+
+/*
+$(function () {
+    
+})
+*/
+var sessionId = "${sessionScope.id}";
+
+
   $(function () {
     //Add text editor
     $('#compose-textarea').summernote()
   })
   
   
+  
+$("select[name=_helper1]").change(function(){
+  console.log($(this).val()); 
+  console.log($("select[name=_helper1] option:selected").text());
+});
+  
+  
+  
+// 부서 선택시 사원 설정
+function selectMember(deptName) {
+  console.log(deptName);
+  console.log('MemberByDept.ajax 호출');
+  $.ajax({
+    url: "MemberByDept.ajax",
+    type: "POST",
+    async: false,
+    data: {
+      'dept': deptName
+    },
+    dataType: "json",
+    success: function(data) {
+      console.log('MemberByDept.ajax 통신 성공');
 
-function toggleAllCheckboxes() {
-  var checkboxes = document.querySelectorAll('input[type="checkbox"][name="Rowcheck"]');
-  var allCheck = document.getElementById('allCheck');
+      $('.duallistbox option').css('display', 'none'); // 전체 옵션을 숨김 처리
+      $('.duallistbox option[data-sortindex]').css('display', 'block'); // data-sortindex 속성을 가진 옵션들을 보이도록 설정
 
-  for (var i = 0; i < checkboxes.length; i++) {
-    checkboxes[i].checked = allCheck.checked;
-  }
+      data.forEach(function(item) {
+        var content = '<option value="' + item.id + '">' + item.member_name + " (" + item.user_id + ')</option>';
+
+        if (item.dept_name === deptName) {
+          $('.duallistbox').append(content); // 선택한 부서에 해당하는 옵션만 보여줌
+          
+        }
+      });
+
+      console.log('도달');
+      // 새로고침해서 새로 불러오기 ! 
+      $('.duallistbox').bootstrapDualListbox('refresh', true);
+    },
+    error: function() {
+      console.log("사원 불러오기에 실패했습니다.");
+    }
+  });
 }
+
   
   
   function goBack() {
@@ -258,9 +403,9 @@ function toggleAllCheckboxes() {
 }
   
 $(function(){
-	var chkObj = $("input[name='Rowcheck']");
+	var chkObj = $('.duallistbox option[data-sortindex]');
 	var rowCnt = chkObj.length;
-
+	console.log(rowCnt);
 	  
 	  $("input[name='allCheck']").click(function(){
 	    var chk_listArr = $("input[name='Rowcheck']"); 
@@ -269,6 +414,7 @@ $(function(){
 	    }
 	  });
 	  $("input[name='Rowcheck']").click(function(){
+		  console.log(chkObj)
 	    if($("input[name='Rowcheck']:checked").length == rowCnt){ 
 	      $("input[name='allCheck']")[0].checked = true;
 	    }
@@ -285,7 +431,7 @@ $(function(){
 		  var valueArr2 = [];
 		  
 		  
-		  var chklist = $("input[name='Rowcheck']:checked"); // 선택된 체크박스 요소들을 가져옴
+		  var chklist = $('.duallistbox option[data-sortindex]'); // 선택된 애들 가져옴
 
 		  if (chklist.length === 0) {
 		    alert("선택된 사원이 없습니다.");
@@ -299,10 +445,11 @@ $(function(){
 		      valueArr.push($(this).val());
 		    });
 		    
-		    chklist.each(function () {
-		        var memberName = $(this).closest('tr').find('td:nth-child(3)').text();
-		        valueArr2.push(memberName);
-		    });
+		    chklist.each(function() {
+		    	  var memberName = $(this).closest('option').text().trim();
+		    	  valueArr2.push(memberName);
+		    	});
+
 	    
 		    
 		    console.log(valueArr);

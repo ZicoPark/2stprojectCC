@@ -42,15 +42,49 @@
 	</select>
 	
 	<!-- 받은 쪽지함 -->
-	<select id="receiveList" resultType="kr.co.cc.message.dto.MessageDTO">
-		SELECT ms.id , ms.from_id , ms.to_id , ms.title , ms.send_at , ms.read_chk ,ms.del_chk 
-		FROM message ms JOIN member m WHERE ms.to_id = m.id and m.id = #{id} AND ms.del_chk = 0 AND ms.read_chk = 0 ORDER BY id DESC 
+	<select id="receivetotalCount" parameterType="String" resultType ="int">
+		SELECT COUNT (ms.id) FROM message ms
+		JOIN member m on ms.to_id = m.id
+		WHERE ms.to_id = #{loginId} AND ms.del_chk = 0
+	</select>
+
+	<select id="receivetotalCountSearch" parameterType="String" resultType ="int">
+		SELECT COUNT (ms.id) FROM message ms
+		JOIN member m ON ms.to_id = m.id
+		JOIN member m1 on ms.from_id = m1.id
+		WHERE ms.to_id = #{loginId} AND ms.del_chk = 0 AND CONCAT(ms.title, m1.name) LIKE CONCAT('%', #{search}, '%') 
 	</select>	
 
-	<insert id="msNotice" parameterType="string">
-		INSERT INTO notice(send_id, receive_id, type, identify_value) 
-			VALUES(#{send_id}, #{recieveId}, #{type}, #{identifyValue})
-	</insert>
+	<!-- 받은 쪽지함 -->
+	<select id="receiveList" resultType="kr.co.cc.message.dto.MessageDTO">
+		SELECT ms.id , ms.to_id ,m1.name AS to_name, m.name AS from_name , ms.title , ms.send_at ,m.admin_chk, ms.read_chk ,ms.del_chk 
+		FROM message ms 
+		JOIN member m on ms.to_id = m.id 
+		JOIN member m1 on ms.from_id = m1.id
+		WHERE m.id = #{loginId} AND ms.del_chk = 0 
+		ORDER BY send_at DESC
+		LIMIT 10 OFFSET #{offset}
+	</select>
+
+	<select id="receiveListSearch" parameterType="hashmap" resultType="kr.co.cc.message.dto.MessageDTO">
+		SELECT ms.id , ms.to_id ,m1.name AS to_name, m.name AS from_name ,m.admin_chk, ms.title , ms.send_at , ms.read_chk ,ms.del_chk 
+		FROM message ms 
+		JOIN member m on ms.to_id = m.id 
+		JOIN member m1 on ms.from_id = m1.id
+	    WHERE 
+	    CONCAT(ms.title, m1.name) LIKE CONCAT('%', #{search}, '%') 
+	    AND ms.del_chk = 0
+	    AND ms.to_id = #{loginId}
+	    ORDER BY send_at DESC
+	    LIMIT 10 OFFSET #{offset}
+	</select>
+
+
+   <insert id="msNotice" parameterType="string">
+      INSERT INTO notice(send_id, receive_id, type, identify_value) 
+         VALUES(#{send_id}, #{recieveId}, #{type}, #{identifyValue})
+   </insert>
+
 
 
 
@@ -178,7 +212,7 @@
 	
 	
 	<select id="MemberByDept">
-		SELECT m.id, m.name, m.user_id
+		SELECT m.id, m.name AS member_name, m.user_id, d.id AS dept_id , d.name AS dept_name
 		FROM member m
 		JOIN dept d ON m.dept_id = d.id
 		WHERE d.name = #{dept}

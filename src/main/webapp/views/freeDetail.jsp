@@ -96,11 +96,13 @@
          <div class="card-footer">
            <div class="float-right">
              <c:if test="${loginid.admin_chk eq 1 or loginId eq detailms.member_id}">
-               <button type="button" class="btn btn-default" onclick="location.href='msDelete.do?id=${detailms.id}'"><i class="far fa-trash-alt"></i></button>
-               <button type="button" onclick="location.href='/archiveUpdate.go?id=${detailms.id}&member_id=${detailms.member_id}'" class="btn btn-default"> 수정</button>
+               <button type="button" class="btn btn-default" onclick="confirmDelete(event, 'freeDelete.do?id=${detailms.id}')">
+				    <i class="far fa-trash-alt"></i>
+				</button>
+               <button type="button" onclick="location.href='/freeUpdate.go?id=${detailms.id}&member_id=${detailms.member_id}'" class="btn btn-default"> 수정</button>
              </c:if>
              
-             <button type="button" onclick="location.href='/archiveBoard.go'" class="btn btn-default"> 목록</button>
+             <button type="button" onclick="location.href='/freeBoard.go'" class="btn btn-default"> 목록</button>
            </div>
          </div>
 
@@ -321,6 +323,14 @@ function showEditCommentForm(element, replyId, memberId) {
 }
   
 
+function confirmDelete(event, url) {
+    if (confirm("정말 삭제하시겠습니까?")) {
+        window.location.href = url;
+        alert("삭제 처리가 완료되었습니다.");
+    } else {
+        event.stopPropagation(); 
+    }
+}
 
 
 

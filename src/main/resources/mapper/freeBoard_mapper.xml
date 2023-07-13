@@ -44,7 +44,9 @@
 	    VALUES (#{id}, #{member_id}, #{subject}, #{content}, 0, 1)
 	</insert>
 
-
+	<update id="freeDelete">
+	  UPDATE free_board SET status = 0 WHERE id = #{id}
+	</update>
 
 	<!-- 파일 첨부 -->
 	<insert id="freefileWrite">
@@ -120,7 +122,17 @@
 	</update>
 	
 	
-	
+	<update id="freeUpdate" parameterType="hashmap">
+		UPDATE free_board SET 
+		subject = #{subject}
+		,content = #{content}
+		WHERE id = #{id}
+	</update>
+
+
+	<delete id="removeFileName" parameterType="String">
+		DELETE FROM attachment WHERE id = #{fileName} AND classification = '게시판'
+	</delete>	
 	
 	
 	

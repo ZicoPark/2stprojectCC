@@ -42,8 +42,17 @@
 
 <div class="card card-primary card-outline">
 <div class="card-body box-profile">
+<div style="display: flex; align-items: center; justify-content: center; height: 100%;">
+ <c:choose>
+   <c:when test="${not empty member.photoName}">
+     <img src="photoView.do?path=${member.photoName}" class="profile-user-img img-fluid img-circle" id="preview" style= "height: 130px; width: 130px;">
+   </c:when>
+   <c:otherwise>
+     <img class="profile-user-img img-fluid img-circle" src="img/cc.png" id="preview" style= "height: 130px; width: 130px;">
+   </c:otherwise>
+ </c:choose>
+</div>
 <div class="text-center">
-<img class="profile-user-img img-fluid img-circle" src="C:/upload/${main.a_id}">
 </div>
 <h3 class="profile-username text-center">${main.m_name }</h3>
 <p class="text-muted text-center">${main.d_name} /  ${main.jl_name}</p>

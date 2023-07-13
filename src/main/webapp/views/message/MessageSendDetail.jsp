@@ -16,7 +16,7 @@
   <link rel="stylesheet" href="../../dist/css/adminlte.min.css">
 </head>
 <body class="hold-transition sidebar-mini">
-<jsp:include page = "index.jsp"></jsp:include>
+<jsp:include page = "../index.jsp"></jsp:include>:include>
 <div class="wrapper">
   <!-- Navbar -->
   
@@ -28,12 +28,12 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1>Compose</h1>
+            <h1>보낸쪽지함</h1>
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="#">Home</a></li>
-              <li class="breadcrumb-item active">Compose</li>
+              <li class="breadcrumb-item active">보낸쪽지함</li>
             </ol>
           </div>
         </div>
@@ -49,7 +49,7 @@
 	<a href="/msWrite.go" class="btn btn-primary btn-block mb-3">쪽지 작성</a>
 	<div class="card">
 	<div class="card-header">
-	<h3 class="card-title">보관함</h3>
+	<h3 class="card-title">쪽지</h3>
 	<div class="card-tools">
 	<button type="button" class="btn btn-tool" data-card-widget="collapse">
 	<i class="fas fa-minus"></i>
@@ -84,11 +84,11 @@
 	
 	</div>
 	</div> 
-	<!-- col-md-9 위에  --> 
+	<!-- col-md-9 위에  -->
         <div class="col-md-9">
           <div class="card card-primary card-outline">
             <div class="card-header">
-              <h3 class="card-title">받은쪽지함 상세보기</h3>
+              
 
               <div class="card-tools">
                 <a href="#" class="btn btn-tool" title="Previous"><i class="fas fa-chevron-left"></i></a>
@@ -98,11 +98,16 @@
             <!-- /.card-header -->
             <div class="card-body p-0">
               <div class="mailbox-read-info">
-                <h5>${detailms.title}</h5>
-                <h6>From: ${detailms.from_id} ${detailms.name}
-                  <span class="mailbox-read-time float-right">${detailms.send_at}</span></h6>
-              </div>
-     
+              	<h5>${detailms.title}</h5>
+                <div>
+                  <h6>From: ${detailms.name} < ${detailms.from_id} > 
+                    <span class="badge badge-success">${detailms.dept_id}</span>
+                 
+                  	<span class="mailbox-read-time float-right">${detailms.send_at}</span>
+                   </h6>
+                 </div>
+                </div>
+
               </div>
               <!-- /.mailbox-controls -->
               <div class="mailbox-read-message">
@@ -112,31 +117,27 @@
             </div>
             <!-- /.card-body -->
     
-
-            <div class="card-footer bg-white">
-              <ul class="mailbox-attachments d-flex align-items-stretch clearfix">
-                <li>
-                  <span class="mailbox-attachment-icon"><i class="far fa-file-pdf"></i></span>
-
+				<c:if test="${detailFile.size() > 0 }">
+					<c:forEach items="${detailFile}" var="i">
                   <div class="mailbox-attachment-info">
-                    <a class="mailbox-attachment-name"><i class="fas fa-paperclip"></i> ${detailFile}</a>
-                        <span class="mailbox-attachment-size clearfix mt-1">
-                          
-                          <a href="msdownload.do?path=${detailFile}" class="btn btn-default btn-sm float-right"><i class="fas fa-cloud-download-alt"></i></a>
-                        </span>
+                    <a class="mailbox-attachment-name"><i class="fas fa-paperclip"></i> &nbsp ${i.ori_file_name}</a>
+					&nbsp &nbsp
+                    <a href="msdownload.do?path=${i.id}"><i class="fas fa-cloud-download-alt"></i></a>
+                    
                   </div>
-                </li>
-              </ul>
-            </div>
+
+            	</c:forEach>
+			</c:if>
+
+
+ 
 
             <!-- /.card-footer -->
             <div class="card-footer">
               <div class="float-right">
-                <button type="button" onclick="location.href='./msReply.go?to_id=${detailms.from_id}'"><i class="fas fa-reply"></i> 답장</button>
-                <button type="button" onclick="location.href='/msReceiveList.go'" class="btn btn-default"> 목록</button>
-              </div>
               <button type="button" class="btn btn-default" onclick="location.href='msDelete.do?id=${detailms.id}'"><i class="far fa-trash-alt"></i></button>
-              <button type="button" class="btn btn-default"><i class="fas fa-print"></i> Print</button>
+                <button type="button" onclick="location.href='/msSendList.go'" class="btn btn-default"> 목록</button>
+ 			</div>
             </div>
             <!-- /.card-footer -->
           </div>
@@ -172,5 +173,14 @@
 <script src="../../dist/js/adminlte.min.js"></script>
 <!-- AdminLTE for demo purposes -->
 <script src="../../dist/js/demo.js"></script>
+
+<script type="text/javascript" src="../../dist/js/jquery.twbsPagination.min.js"></script>
+
+<script>
+
+
+
+</script>
+
 </body>
 </html>
