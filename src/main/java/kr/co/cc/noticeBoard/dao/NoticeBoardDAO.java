@@ -22,7 +22,7 @@ public interface NoticeBoardDAO {
    
    ArrayList<String> noDetailFile(String id);
    
-   int del(String id);
+   int noticeBoardDel(String id);
 
    void noticeFile(String fileName, String newFileName, String classification, String id);
 
@@ -41,6 +41,8 @@ public interface NoticeBoardDAO {
 	ArrayList<MemberDTO> memberAll();
 	
 	int insertNotice(HashMap<String, Object> map);
+
+	int noticeDel(String id);
 
    
 

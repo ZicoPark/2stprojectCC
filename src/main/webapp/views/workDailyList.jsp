@@ -60,7 +60,9 @@
 	    				<td>${workList.date}</td>
 	    				<td>${workList.time_go}</td>    				
 	    				<td>${workList.time_end}</td>
-	    				<td>${String.format('%.1f', (workList.time_end.time - workList.time_go.time) / (1000.0 * 60 * 60))}</td>
+	    				<td>
+	    					${String.format('%.1f', (workList.time_end.time - workList.time_go.time) / (1000.0 * 60 * 60))}
+	    				</td> 
 	    			</tr>
 				</c:forEach>
 				

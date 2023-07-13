@@ -49,9 +49,8 @@
 
       <!-- Messages Dropdown Menu -->
       <li class="nav-item dropdown">
-        <a class="nav-link" data-toggle="dropdown" href="/chatRoom.go">
+        <a class="nav-link" href="chatRoom.go">
           <i class="far fa-comments"></i>
-          <span class="badge badge-danger navbar-badge">숫자</span>
         </a>
         <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
           <a href="#" class="dropdown-item">
@@ -84,6 +83,8 @@
               </div>
             </div>
             <!-- Message End -->
+            
+            
           </a>
           <div class="dropdown-divider"></div>
           <a href="#" class="dropdown-item">
@@ -120,20 +121,28 @@
         <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
           <span class="dropdown-item dropdown-header">최신 알림</span>
           <div class="dropdown-divider"></div>
+          
+          
           <a href="#" class="dropdown-item">
             <i class="fas fa-envelope mr-2"></i> 쪽지
             <span class="float-right text-muted text-sm">3 mins</span>
           </a>
-          <div class="dropdown-divider"></div>
+          
+          
+          <!-- <div class="dropdown-divider"></div>
           <a href="#" class="dropdown-item">
             <i class="fas fa-users mr-2"></i> 공지사항
             <span class="float-right text-muted text-sm">12 hours</span>
           </a>
-          <div class="dropdown-divider"></div>
+          <div class="dropdown-divider"></div>      
           <a href="#" class="dropdown-item">
             <i class="fas fa-file mr-2"></i> 전자결재 
             <span class="float-right text-muted text-sm">2 days</span>
-          </a>
+          </a>  -->
+          
+         
+          
+          
           <div class="dropdown-divider"></div>
           <a href="notice.go" class="dropdown-item dropdown-footer">알림 더보기</a>
         </div>
@@ -573,7 +582,40 @@ socket.onopen = function(event) {
 		dataType:'json',
 		success:function(data){
 			console.log(data);
+			
 			$('.badge.badge-warning.navbar-badge').html(data);
+		},
+		error:function(e){
+			console.log(e);
+		}		
+	});
+};
+
+
+ socket.onopen = function(event) {
+    console.log('WebSocket 연결이 열렸습니다.');
+    $.ajax({
+		type:'post',
+		url:'alarmList.ajax',
+		data: {
+			receive_id : '${sessionScope.id}'
+		},
+		dataType:'json',
+		success:function(data){
+			console.log(data);
+			var content = '';
+			data.forEach(function(item) {
+				content += '<tr>';
+				content += '<td>' + item.type + '</td>';
+				content += '<td>' + item.identify_value + '</td>';
+				content += '<td>' + item.name + '</td>';
+				content += '<td><input type="hidden" id="' + item.id + '"></td>';
+				content += '</tr>';
+			});
+			
+			// HTML에 알림 목록 추가
+			//$('#notification-table').append(content);
+
 		},
 		error:function(e){
 			console.log(e);
