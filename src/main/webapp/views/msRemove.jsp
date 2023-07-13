@@ -30,7 +30,7 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1>받은 쪽지함</h1>
+            <h1>휴지통</h1>
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
@@ -59,6 +59,12 @@
 	</div>
 	<div class="card-body p-0">
 	<ul class="nav nav-pills flex-column">
+	<li class="nav-item active">
+	<a href="#" class="nav-link">
+	<i class="far fa-envelope"></i> 전체 쪽지
+	<span class="badge bg-primary float-right">12</span>
+	</a>
+	</li>
 	<li class="nav-item">
 	<a href="/msReceiveList.go" class="nav-link">
 	<i class="fas fa-inbox"></i> 받은 쪽지
@@ -83,119 +89,71 @@
         <div class="col-md-9">
           <div class="card card-primary card-outline">
             <div class="card-header">
-              <h3 class="card-title">받은쪽지함</h3>
+              <h3 class="card-title">휴지통</h3>
 
-
-              
-      <div class="card-tools">
-        <div class="input-group input-group-sm">              
-			    <input type="text" id="searchInput" class="form-control" placeholder="제목 또는 작성자를 입력">
-			    <div class="input-group-append">
-			    <div class="btn btn-primary">
-			    <i class="fas fa-search" id="searchButton"></i>
-			    </div>
-			</div>
+		<div class="input-group" style="width: 30%;">
+	    <input type="search" class="form-control form-control-lg" id="searchInput" placeholder="제목 또는 작성자를 입력" style="font-size: 13px;">
+	    <div class="input-group-append">
+	    <button id="searchButton" class="btn btn-lg btn-default"><alt="Search"><i class="fa fa-search"></i></button>
 	    </div>
-	   </div> 
+		</div>
+		<input type ="text" id="adminchk" value= "${loginid}" hidden />${loginid}
               <!-- /.card-tools -->
             </div>
             <!-- /.card-header -->
             <div class="card-body p-0">
               <div class="mailbox-controls">
                 <!-- Check all button -->
-                <div class="btn btn-default btn-sm checkbox-toggle">
-				<input type="checkbox" name="allCheck" class="far fa-square" />
-				</div>
+                <input type="checkbox" name="allCheck"/>
+                
                 <div class="btn-group">
                   <button type="button" onclick="deleteValue()" class="btn btn-default btn-sm">
                     <i class="far fa-trash-alt"></i>
                   </button>
-
-                  </div>
-                  <!-- /.btn-group -->
                 </div>
+
+
                 <!-- /.float-right -->
               </div>
               <div class="table-responsive mailbox-messages">
                 <table class="table table-hover table-striped">
-                  <tbody>
-                  <c:forEach items = "${list}" var="item">
-                  <tr>
-					<td class="checkbox"><input type="checkbox" name="Rowcheck" value="${item.id}"></td>
-                    <td class="mailbox-star"><a href="#"><i class=""></i></a></td>
-                    <td class="mailbox-name"><a href="read-mail.html">${item.from_id}</a></td>
-                    <td class="mailbox-subject"><a href="msRcDetail.do?id=${item.id}">${item.title}</a></td>
-                    
+                                    
+				
+				<tbody id="list">
 
-				    <td class="mailbox-attachment">
-						<c:if test="${item.read_chk}">읽음</c:if><c:if test="${!item.read_chk}">안읽음</c:if>
-				    </td>
-				    <td class="mailbox-date">
-				   	 ${item.send_at}
-				    </td>
-
-
-				    
-                  </tr>
-				</c:forEach>
-                  </tbody>
+			</tbody>
+			
+		<tr>
+           <th colspan="6" id="paging">  
+             <div class="container">                  
+               <nav aria-label="Page navigation">
+                 <ul class="pagination justify-content-center" id="pagination"></ul>
+               </nav>
+             </div>
+           </th>
+         </tr>	
+			
                 </table>
                 <!-- /.table -->
               </div>
               <!-- /.mail-box-messages -->
             </div>
             <!-- /.card-body -->
-            <div class="card-footer p-0">
-              <div class="mailbox-controls">
-                <!-- Check all button -->
-                <button type="button" class="btn btn-default btn-sm checkbox-toggle">
-                  <i class="far fa-square"></i>
-                </button>
-                <div class="btn-group">
-                  <button type="button" class="btn btn-default btn-sm">
-                    <i class="far fa-trash-alt"></i>
-                  </button>
-                  <button type="button" class="btn btn-default btn-sm">
-                    <i class="fas fa-reply"></i>
-                  </button>
-                  <button type="button" class="btn btn-default btn-sm">
-                    <i class="fas fa-share"></i>
-                  </button>
-                </div>
-                <!-- /.btn-group -->
-                <button type="button" class="btn btn-default btn-sm">
-                  <i class="fas fa-sync-alt"></i>
-                </button>
-                <div class="float-right">
-                  1-50/200
-                  <div class="btn-group">
-                    <button type="button" class="btn btn-default btn-sm">
-                      <i class="fas fa-chevron-left"></i>
-                    </button>
-                    <button type="button" class="btn btn-default btn-sm">
-                      <i class="fas fa-chevron-right"></i>
-                    </button>
-                  </div>
-                  <!-- /.btn-group -->
-                </div>
+
                 <!-- /.float-right -->
               </div>
             </div>
           </div>
           <!-- /.card -->
+    </section>
         </div>
         <!-- /.col -->
       </div>
       <!-- /.row -->
-    </section>
     <!-- /.content -->
-  </div>
   <!-- /.content-wrapper -->
   <footer class="main-footer">
-    <div class="float-right d-none d-sm-block">
-      <b>Version</b> 3.2.0
-    </div>
-    <strong>Copyright &copy; 2014-2021 <a href="https://adminlte.io">AdminLTE.io</a>.</strong> All rights reserved.
+ 
   </footer>
 
   <!-- Control Sidebar -->
@@ -203,7 +161,7 @@
     <!-- Control sidebar content goes here -->
   </aside>
   <!-- /.control-sidebar -->
-</div>
+
 <!-- ./wrapper -->
 
 <!-- jQuery -->
@@ -215,7 +173,13 @@
 <!-- AdminLTE for demo purposes -->
 <script src="../../dist/js/demo.js"></script>
 <!-- Page specific script -->
+
+<script type="text/javascript" src="../../dist/js/jquery.twbsPagination.min.js"></script>
+
+</body>
+
 <script>
+
 var showPage = 1;
 var searchText = 'default';
 
@@ -229,9 +193,12 @@ $('#searchButton').click(function(){
 	});
 	
 function listCall(page){
+	
+	console.log("휴지통 ajax 요청");
+	
 	   $.ajax({
 	      type:'post',
-	      url:'sendlist.ajax',
+	      url:'msRemovelist.ajax',
 	      data:{
 	         'page':page,
 	         'search':searchText
@@ -277,15 +244,9 @@ function listPrint(list){
 			  list.forEach(function(item) {
 			    // 배열 요소들 반복문 실행 -> 행 구성 + 데이터 추가
 			    content += '<tr>';
-			    content += '<td class="checkbox"><input type="checkbox" name="Rowcheck" value="' + item.id + '"></td>';
-			    content += '<td>' + count-- + '</td>'; // 번호를 반대로 표시
-			    content += '<td>' + item.to_name + '</td>';
+			    content += '<td><input type="hidden" value="' + item.id + '"></td>';
+			    content += '<td>' + item.name + '</td>';
 			    content += '<td><a href="msSendDetail.do?id=' + item.id + '">' + item.title + '</a></td>';
-			    if (item.read_chk == true) {
-			      content += '<td id="read_chk">읽음</td>';
-			    } else {
-			      content += '<td id="read_chk">안읽음</td>';
-			    }
 			    content += '<td>' + item.send_at + '</td>';
 			    content += '</tr>';
 			  });
@@ -303,80 +264,9 @@ function listPrint(list){
 
 
 
-
-
-
-
-// 전체선택 
-$(function(){
-	var chkObj = $("input[name='Rowcheck']");
-	var rowCnt = chkObj.length;
-
-	  
-	  $("input[name='allCheck']").click(function(){
-	    var chk_listArr = $("input[name='Rowcheck']"); // 체크박스의 name 속성을 "Rowcheck"로 수정
-	    for (var i=0; i<chk_listArr.length; i++){
-	      chk_listArr[i].checked = this.checked;
-	    }
-	  });
-	  $("input[name='Rowcheck']").click(function(){
-	    if($("input[name='Rowcheck']:checked").length == rowCnt){ // 체크박스의 name 속성을 "Rowcheck"로 수정
-	      $("input[name='allCheck']")[0].checked = true;
-	    }
-	    else{
-	      $("input[name='allCheck']")[0].checked = false;
-	    }
-	  });
-	});
-
-
-
-
-
-function deleteValue(){
-   // Controller로 보내고자 하는 URL (.dh부분은 자신이 설정한 값으로 변경해야됨)
-	  var valueArr = []; // 빈 배열로 초기화
-
-	  var slist = $("input[name='Rowcheck']:checked"); // 선택된 체크박스 요소들을 가져옴
-
-	  if (slist.length === 0) {
-	    alert("선택된 글이 없습니다.");
-	    return; // 함수 종료
-	  }
-    else{
-		var chk = confirm("정말로 삭제하시겠습니까? 삭제 후에는 복구가 불가능합니다.");	
-		
-	    // 선택된 체크박스의 값을 valueArr 배열에 추가
-	    slist.each(function () {
-	      valueArr.push($(this).val());
-	    });
-		
-	    if(chk){
-			$.ajax({
-			    url :'msSelectDelete',                    // 전송 URL
-			    type : 'POST',                // GET or POST 방식
-			    traditional : true,
-			    data : {
-			    	valueArr : valueArr        // 보내고자 하는 data 변수 설정
-			    },
-	            success: function(jdata){
-	                if(jdata = 1) {
-	                    alert("쪽지가 삭제되었습니다.");
-	                    location.replace("msSendList.go");
-	                }
-	                else{
-	                    alert("블라인드 처리 실패");
-	                }
-	            }
-			});
-			
-	}else{
-		alert("삭제가 취소되었습니다.")
-	}
-		
-	}
-}
+   
+  
 
 </script>
-</body>
+
 </html>

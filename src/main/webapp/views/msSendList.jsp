@@ -76,7 +76,7 @@
 	</a>
 	</li>
 	<li class="nav-item">
-	<a href="#" class="nav-link">
+	<a href="/msRemoveList.go" class="nav-link">
 	<i class="far fa-trash-alt"></i> 휴지통
 	</a>
 	</li>
@@ -145,11 +145,10 @@
             </div>
           </div>
           <!-- /.card -->
+    </section>
         </div>
         <!-- /.col -->
-      </div>
       <!-- /.row -->
-    </section>
     <!-- /.content -->
   </div>
   <!-- /.content-wrapper -->
@@ -162,7 +161,6 @@
     <!-- Control sidebar content goes here -->
   </aside>
   <!-- /.control-sidebar -->
-</div>
 <!-- ./wrapper -->
 
 <!-- jQuery -->
@@ -243,14 +241,13 @@ function listPrint(list){
 			    // 배열 요소들 반복문 실행 -> 행 구성 + 데이터 추가
 			    content += '<tr>';
 			    content += '<td class="checkbox"><input type="checkbox" name="Rowcheck" value="' + item.id + '"></td>';
-			    content += '<td>' + count-- + '</td>'; // 번호를 반대로 표시
-			    content += '<td>' + item.to_name + '</td>';
-			    content += '<td><a href="msSendDetail.do?id=' + item.id + '">' + item.title + '</a></td>';
 			    if (item.read_chk == true) {
 			      content += '<td id="read_chk">읽음</td>';
 			    } else {
 			      content += '<td id="read_chk">안읽음</td>';
 			    }
+			    content += '<td>' + item.to_name + '</td>';
+			    content += '<td><a href="msSendDetail.do?id=' + item.id + '">' + item.title + '</a></td>';
 			    content += '<td>' + item.send_at + '</td>';
 			    content += '</tr>';
 			  });

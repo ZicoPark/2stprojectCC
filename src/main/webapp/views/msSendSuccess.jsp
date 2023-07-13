@@ -68,7 +68,7 @@
 	</a>
 	</li>
 	<li class="nav-item">
-	<a href="#" class="nav-link">
+	<a href="/msRemoveList.go" class="nav-link">
 	<i class="far fa-trash-alt"></i> 휴지통
 	</a>
 	</li>

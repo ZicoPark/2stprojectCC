@@ -9,12 +9,18 @@
 
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+ 
+  <link rel="stylesheet" href="../../plugins/bootstrap4-duallistbox/bootstrap-duallistbox.min.css">
   <!-- Font Awesome -->
   <link rel="stylesheet" href="../../plugins/fontawesome-free/css/all.min.css">
   <!-- Theme style -->
   <link rel="stylesheet" href="../../dist/css/adminlte.min.css">
   <!-- summernote -->
   <link rel="stylesheet" href="../../plugins/summernote/summernote-bs4.min.css">
+  
+  
+  
+  
   
  <style>
   .table-wrapper {
@@ -25,7 +31,7 @@
   }
   
   
-  	.chat-column1{
+/*   	.chat-column1{
 	    flex: 1;
         padding: 10px;
         border: 1px solid #ccc;
@@ -60,7 +66,7 @@
     
 	.listList div {
         display: block;
-    }   
+    }    */
 </style> 
 </head>
 
@@ -124,7 +130,7 @@
 	</a>
 	</li>
 	<li class="nav-item">
-	<a href="#" class="nav-link">
+	<a href="/msRemoveList.go" class="nav-link">
 	<i class="far fa-trash-alt"></i> 휴지통
 	</a>
 	</li>
@@ -163,36 +169,83 @@
 	 
 	 
 	 
-	    	<div class="listList">
+<%-- 	    	<div class="listList">
 		        <div class="chat-column1">
 		            
 		            <div style="color: #337ab7;"><b>부서 목록</b></div>
 		            	<c:forEach items="${dept}" var="i">
-					      <div onclick="chatMember(this.getAttribute('value'))" value="${i.name}">${i.name}</div>
+					      <div onclick="selectMember(this.getAttribute('value'))" value="${i.name}">${i.name}</div>
 
 					    </c:forEach>
 		            <div id="chat_room"></div>
+
 		        </div>
 		        <br/>
 		        <div class="chat-column2">
-		            <!-- 채팅방 인원 -->
+		            <!-- 부서 사원 -->
 		            <div style="color: #337ab7;"><b>사원</b></div>
-		            <div id="chat_member"></div>
+		            <div id="dept_member"></div>
 		        </div>
-			</div>
-				      
-							<!-- 모달 푸터 -->
-						<div class="modal-footer">
-						  <button id="blindBtn" type="button" onclick="selectValues()" data-dismiss="modal">선택</button>
-						  <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
-						</div>
+        
+			</div> --%>
 
 
-				    </div>
-				  </div>
-				</div>   
-			</div>
-			</div>
+
+
+
+        <div class="card card-default">
+          <div class="card-header">
+            <h3 class="card-title">주소록</h3>
+
+            <div class="card-tools">
+              <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                <i class="fas fa-minus"></i>
+              </button>
+              <button type="button" class="btn btn-tool" data-card-widget="remove">
+                <i class="fas fa-times"></i>
+              </button>
+            </div>
+          </div>
+          <!-- /.card-header -->
+          <div class="card-body">
+            <div class="row">
+              <div class="col-12">
+                <div class="form-group">
+                  <label>		            
+                  <div style="color: #337ab7;"><b>부서 목록</b></div>
+	            	<c:forEach items="${dept}" var="i">
+				      <div onclick="selectMember(this.getAttribute('value'))" value="${i.name}">${i.name}</div>
+				    </c:forEach>
+				  </label>
+                  <select class="duallistbox" multiple="multiple">
+
+                  </select>
+                </div>
+                <!-- /.form-group -->
+              </div>
+              <!-- /.col -->
+            </div>
+            <!-- /.row -->
+          </div>
+          <!-- /.card-body -->
+          <div class="card-footer">
+            Visit <a href="https://github.com/istvan-ujjmeszaros/bootstrap-duallistbox#readme">Bootstrap Duallistbox</a> for more examples and information about
+            the plugin.
+          </div>
+        </div>
+
+			<!-- 모달 푸터 -->
+		<div class="modal-footer">
+		  <button id="blindBtn" type="button" onclick="selectValues()" data-dismiss="modal">선택</button>
+		  <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
+		</div>
+
+
+		    </div>
+		  </div>
+		</div>   
+	</div>
+	</div>
 				
 			 <input type="text" class="form-control" name="title" maxlength="19"  placeholder="제목을 입력하세요">
 			
@@ -258,11 +311,20 @@
 <script src="../../dist/js/adminlte.min.js"></script>
 <!-- Summernote -->
 <script src="../../plugins/summernote/summernote-bs4.min.js"></script>
-<!-- AdminLTE for demo purposes -->
-<script src="../../dist/js/demo.js"></script>
+
+
+<script src="../../plugins/bootstrap4-duallistbox/jquery.bootstrap-duallistbox.min.js"></script>
+
 <!-- Page specific script -->
 <script>
 
+$('.duallistbox').bootstrapDualListbox();
+
+/*
+$(function () {
+    
+})
+*/
 var sessionId = "${sessionScope.id}";
 
 
@@ -273,36 +335,55 @@ var sessionId = "${sessionScope.id}";
   
   
   
+$("select[name=_helper1]").change(function(){
+  console.log($(this).val()); 
+  console.log($("select[name=_helper1] option:selected").text());
+});
+  
   
   
 // 부서 선택시 사원 설정
-function chatMember(deptName) {
+function selectMember(deptName) {
 	  
 	  console.log(deptName);
-	  
+	  //$('#dept_member').empty();
 	  console.log('MemberByDept.ajax 호출');
 	  $.ajax({
 		  url: "MemberByDept.ajax",
 		  type: "POST",
+		  async : false,
 		  data: {
 		    'dept' : deptName
 		  },
 		  dataType: "json",
-		  success: function(data) {
-			console.log(' 통신 성공');
-			$('#chat_member').html('');
-				
-			data.forEach(function(item) {
-				var content = '<div><input type="checkbox" name="Rowcheck" value="' + item.id + '">' + item.name + " (" + item.user_id + ')</div>';
-				$('#chat_member').append(content);
-			});
-		},			
-			  
-			  
-		  error: function() {
-		    console.log("사원 불러오기에 실패했습니다.");
-		  }
-		});
+		    success: function(data) {
+		        console.log('MemberByDept.ajax 통신 성공');
+
+		        // 기존 오른쪽 박스의 선택한 값들을 유지하기 위해 가져옴
+		        var selectedValues = $('.duallistbox').val();
+
+		        // 왼쪽 박스에 새로운 값들을 설정
+		        $('.duallistbox').empty();
+		        data.forEach(function(item) {
+		          var content = '<option value="' + item.id + '">' + item.name + " (" + item.user_id + ')</option>';
+		          $('.duallistbox').append(content);
+		        });
+
+		        // 오른쪽 박스에 선택한 값들을 설정
+		        $('.duallistbox').val(selectedValues);
+		      },
+		      error: function() {
+		        console.log("사원 불러오기에 실패했습니다.");
+		      }
+		    });	
+
+	  console.log('도달');
+	  //$('.duallistbox').destroy();
+	  //$('.duallistbox').refresh(true);
+	  // 포폴에 꼭쓸거 admin lte3 듀얼리스트 박스에서 이런 내용은 없었지만 사이트에 들어가서 공부를 해서 고쳐냈습니다
+	  
+	  $('.duallistbox').bootstrapDualListbox('refresh', true);
+	  
   }
   
   
@@ -313,17 +394,6 @@ function chatMember(deptName) {
   
   
   
-  
-  
-
-function toggleAllCheckboxes() {
-  var checkboxes = document.querySelectorAll('input[type="checkbox"][name="Rowcheck"]');
-  var allCheck = document.getElementById('allCheck');
-
-  for (var i = 0; i < checkboxes.length; i++) {
-    checkboxes[i].checked = allCheck.checked;
-  }
-}
   
   
   function goBack() {

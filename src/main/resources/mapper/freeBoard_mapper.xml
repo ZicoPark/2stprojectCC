@@ -9,11 +9,13 @@
 	</select>
 
 	<select id="totalCountSearch" parameterType="String" resultType ="int">
-		SELECT COUNT (id) FROM free_board WHERE subject = #{search} OR member_id = #{search}
+		SELECT COUNT (fb.id) FROM free_board fb
+		JOIN member m ON fb.member_id = m.id
+		WHERE CONCAT(fb.subject, m.user_id) LIKE CONCAT('%', #{search}, '%') AND fb.status = 1
 	</select>	
 
 	<select id="freelist" resultType="kr.co.cc.freeBoard.dto.FreeBoardDTO">
-		SELECT fb.id, m.user_id, fb.subject, fb.hit, fb.create_at
+		SELECT fb.id, m.user_id, fb.subject, fb.hit, fb.create_at, m.name
 		FROM free_board fb
 		JOIN member m ON fb.member_id = m.id
 		WHERE fb.status =1
@@ -21,11 +23,11 @@
 	</select>	
 
 	<select id="freelistSearch" parameterType="hashmap" resultType="kr.co.cc.freeBoard.dto.FreeBoardDTO">
-	    SELECT fb.id, m.user_id, fb.subject, fb.hit, fb.create_at
+	    SELECT fb.id, m.user_id, fb.subject, fb.hit, fb.create_at, m.name
 	    FROM free_board fb
 	    JOIN member m ON fb.member_id = m.id
 	    WHERE CONCAT(fb.subject, m.user_id) LIKE CONCAT('%', #{search}, '%') 
-	        AND fb.status = 1
+	    AND fb.status = 1
 	    LIMIT 10 OFFSET #{offset}
 	</select>
 

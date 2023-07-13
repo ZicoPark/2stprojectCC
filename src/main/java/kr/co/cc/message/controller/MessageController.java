@@ -213,6 +213,22 @@ public class MessageController {
 		return "msReceiveList";
 	}	
 
+	// 휴지통 이동
+	@RequestMapping(value="/msRemoveList.go")
+	public String msRemoveList() {
+		logger.info("휴지통 이동");
+		return "msRemove";
+	}		
+	
+	// 휴지통 리스트 
+	@RequestMapping(value="/msRemovelist.ajax")
+	@ResponseBody
+	public HashMap<String, Object> msRemovelist(@RequestParam HashMap<String, Object> params,HttpSession session) {
+		logger.info("휴지통 리스트 ajax");
+		logger.info("휴지통 params :"+params);
+		return service.msRemovelist(session,params);
+	}		
+	
 	// 답장 작성 페이지 이동
 	@RequestMapping(value = "/msReply.go")
 	public ModelAndView msReplyForm(Model model, @RequestParam("to_id") String fromId) {

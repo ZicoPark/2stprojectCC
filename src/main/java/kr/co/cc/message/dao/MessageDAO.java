@@ -44,13 +44,20 @@ public interface MessageDAO {
 
 	int sendtotalCountSearch(String search, String loginId);
 
-	ArrayList<MessageDTO> sendListSearch(String search, String loginId);
+	ArrayList<MessageDTO> sendListSearch(HashMap<String, Object> params);
 
 	void msNotice(String send_id, String recieveId, String type, String identifyValue);
 
-	ArrayList<MessageDTO> sendListSearch(HashMap<String, Object> params);
 
 	List<HashMap<String, Object>> MemberByDept(String dept);
+
+	int msremovetotalCount(String loginId);
+
+	int msremoveCountSearch(String search, String loginId);
+
+	ArrayList<MessageDTO> msremovedList(int offset, String loginId);
+
+	ArrayList<MessageDTO> msremoveListSearch(HashMap<String, Object> params);
 
 
 
