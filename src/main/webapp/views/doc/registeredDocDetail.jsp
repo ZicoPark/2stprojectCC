@@ -24,7 +24,7 @@
 	<div class="wrapper">
 		<div class="content-wrapper">
 			<section class="content-header">
-				<h1>반려된 문서</h1>
+				<h1>결재한 문서</h1>
 			</section>
 			<!-- Main content -->
 			<section class="content">
@@ -43,10 +43,6 @@
 				<c:if test="${doc.public_range eq 'dept' }">
 					부서별공개
 				</c:if>
-				<br>
-				반려 단계 : ${doc. approval_kind_name} 단계 반려
-				<br>
-				처리자 : ${doc.approval_member_job_name } ${doc.approval_member_name }
 				<br>
 				<br>
 				문서종류 : <input type="text" value="${doc.doc_form_name }" readonly="readonly"/>

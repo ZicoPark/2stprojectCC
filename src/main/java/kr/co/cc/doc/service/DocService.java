@@ -831,10 +831,17 @@ public class DocService {
 		// 마지막으로 doc_status 테이블에 update를 한다.
 		dao.requestDocApproval(params);
 		
-		// 다음 타자에게 결재 알림을 보낸다.
-		String nextApprovalMemberId = dao.getNextApprovalMemberId(params.get("docId"));
-		docNotice(docDTO.getMember_id(), nextApprovalMemberId, "전자결재", params.get("docId"));
+// ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////		
 		
+		// 다음 타자에게 결재 알림을 보낸다.
+		int nextApprovalMemberRow = dao.getNextApprovalMemberRow(params.get("docId"));
+		
+		if(nextApprovalMemberRow>0) {
+			String nextApprovalMemberId = dao.getNextApprovalMemberId(params.get("docId"));
+			logger.info("nextApprovalMemberId : "+nextApprovalMemberId);
+			docNotice(docDTO.getMember_id(), nextApprovalMemberId, "전자결재", params.get("docId"));
+		}
+
 		return mav;
 	}
 
@@ -940,6 +947,128 @@ public class DocService {
 		map.put("docId", docId);
 		
 		return map;
+	}
+
+	public ModelAndView completeDocList(HttpSession session) {
+		
+		ModelAndView mav = new ModelAndView("/doc/completeDocList");
+		String loginId = (String) session.getAttribute("id");
+		
+		ArrayList<HashMap<String, String>> docList = dao.getCompleteDocList(loginId);
+		
+		mav.addObject("list", docList);
+		
+		return mav;
+	}
+
+	public ModelAndView completeDocDetail(String docId, HttpSession session) {
+
+		ModelAndView mav = new ModelAndView("/doc/completeDocDetail");
+		String loginId = (String) session.getAttribute("id");
+		
+		// 문서의 정보 불러오기
+		HashMap<String, String> docMap = dao.completeDocDetail(docId, loginId);
+		mav.addObject("doc", docMap);
+		
+		// 문서의 결재 정보를 불러오기
+		ArrayList<HashMap<String, String>> docStatusList = dao.getDocStatusList(docId);
+		mav.addObject("docStatusList", docStatusList);
+		
+		// 문서의 첨부파일 불러오기
+		ArrayList<AttachmentDTO> attachmentList = dao.getAttachmentList(docId);
+		mav.addObject("attachmentList", attachmentList);
+		
+		return mav;
+	}
+
+	public ModelAndView registeredDocList(HttpSession session) {
+
+		ModelAndView mav = new ModelAndView("/doc/registeredDocList");
+		
+		ArrayList<HashMap<String, String>> deptList = dao.getDeptList();
+		mav.addObject("deptList", deptList);
+		
+		// 세션에서 로그인 정보 모두 가져오기
+		String loginId = (String) session.getAttribute("id");
+		MemberDTO memberInfo = dao.getMemberInfo(loginId);
+		
+		String deptId = memberInfo.getDept_id();
+		mav.addObject("deptId", deptId);
+		
+		return mav;
+	}
+
+	public HashMap<String, Object> registeredDocListCall(HashMap<String, String> params, HttpSession session) {
+
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		
+		// 세션에서 로그인 id 값을 가져오기
+		String loginId = (String) session.getAttribute("id");
+
+		// params에서 값 꺼내오기
+		String deptId = params.get("deptId");
+		String opt = params.get("opt");
+		String text = params.get("text");
+		
+		// 페이징 관련
+		int page = Integer.parseInt(params.get("page"));
+		int cnt = 10;
+		
+		int offset = cnt*(page-1);
+		
+		int total = dao.totalCount(deptId, opt, text);
+		int range = total%cnt == 0 ? total/cnt : (total/cnt)+1;
+		logger.info("전체 게시물 수 :"+total);
+		logger.info("총 페이지 수 :"+range);
+		
+		page = page > range ? range : page;
+		map.put("currPage", page);
+		map.put("pages", range);
+		
+		ArrayList<HashMap<String, String>> docList = dao.getRegisteredDocList(loginId, deptId, opt, text, cnt, offset);
+		map.put("docList", docList);
+		
+		return map;
+	}
+
+	public ModelAndView registeredDocDetail(String docId, HttpSession session) {
+
+		ModelAndView mav = new ModelAndView("/doc/registeredDocDetail");
+		String loginId = (String) session.getAttribute("id");
+		
+		// 문서의 정보 불러오기
+		HashMap<String, String> docMap = dao.registeredDocDetail(docId);
+		mav.addObject("doc", docMap);
+		
+		// 세션에서 로그인한 사람의 정보 모두 가져오기
+		MemberDTO memberInfo = dao.getMemberInfo(loginId);		
+		
+		// 문서의 결재 정보를 불러오기
+		ArrayList<HashMap<String, String>> docStatusList = dao.getDocStatusList(docId);
+		mav.addObject("docStatusList", docStatusList);
+		
+		// 문서의 첨부파일 불러오기
+		ArrayList<AttachmentDTO> attachmentList = dao.getAttachmentList(docId);
+		mav.addObject("attachmentList", attachmentList);
+		
+		if(docMap.get("public_range").equals("all")) {
+			// 문서의 공개범위가 all 일 때 - 그대로 실행
+
+		}else {
+			// 문서의 공개범위가 dept 일 때
+			
+			if(docMap.get("dept_id").equals(memberInfo.getDept_id())) {
+				// 문서의 생산부서와 로그인 멤버의 부서가 같을 때
+				
+			}else {
+				// 문서의 생산부서와 로그인 멤버의 부서가 다를 때
+				mav = new ModelAndView("redirect:/registeredDocList.go");
+				mav.addObject("msg", "접근 권한이 없습니다.");
+			}
+			
+		}
+		
+		return mav;
 	}
 
 

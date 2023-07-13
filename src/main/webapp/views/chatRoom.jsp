@@ -167,7 +167,7 @@
 	    <div class="chat-list">
 	    
 	    	<div class="listList">
-		        <div class="chat-column1">
+		        <div id="chat-column1" class="chat-column1">
 		            <!-- 채팅방 목록 -->
 		            <div style="color: #337ab7;"><b>채팅방 목록</b></div>
 		            <div id="chat_room"></div>
@@ -372,7 +372,20 @@
 		console.log(member_id_array);
 	});		
 	
-	chatListAjax()
+	var scrollPosition = 0;
+	chatListAjax();
+	setInterval(function() {
+	    chatListAjax();
+	}, 5000);
+
+	function chatListAjax() {
+	    scrollPosition = $('#chat-column1').scrollTop();
+	    chatListAjax();	    
+	    $('#chat-column1').scrollTop(scrollPosition);
+	}
+	
+	
+	
 	function chatListAjax() {
 		console.log('chatListAjax() 호출');
 		$.ajax({
@@ -434,6 +447,7 @@
 			success:function(data){
 				chatHistory(data);
 				chatMember(chat_room_id);
+				chatListAjax();
 			},
 			error:function(e){
 				console.log(e); 
@@ -467,20 +481,20 @@
 	        		success:function(data){
 	        			console.log(data);
 	        			$('#chat_history').html('');
-	        			chatHistory(data);
-	        			
+	        			chatHistory(data);      			
 	        		},
 	        		error:function(e){
 	        			console.log(e);
 	        		}
 	        	});
-	            // 메시지 처리 로직 추가
 	        });
 	    });
 	}	
 	
 	function chatHistory(data) {
 		chatMember(chat_room_id);
+		chatListAjax();
+		
 		data.forEach(function(item) {
 			var content = '';
 			
@@ -579,7 +593,7 @@
 				$('.chatting-list-create').html('');
 				$('.chatting-list-invite').html('');
 				var content =  '<table class="table table-bordered"><tr><th><input type="checkbox" name="member_all"></th><th>이름</th><th>부서</th></tr>';
-				data.forEach(function(item) {
+				data.forEach(function(item) { 
 					if(item.id == "${sessionScope.id}") {
 						content+='';
 					}else {

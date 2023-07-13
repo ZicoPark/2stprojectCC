@@ -29,8 +29,12 @@ import kr.co.cc.chat.service.ChatService;
 public class ChatController {
 	
 	private final SimpMessagingTemplate template;	
+	
+	
 	Logger logger = LoggerFactory.getLogger(getClass());	
 	@Autowired ChatService service;	
+	
+	
 	public ChatController(SimpMessagingTemplate template) {
 		this.template = template;
 	}
@@ -103,6 +107,9 @@ public class ChatController {
 	@MessageMapping(value="/chat/sendMessage")
 	public void sendMessage(@PathVariable String chat_room_id, @Payload ChatDTO dto
 			,SimpMessageHeaderAccessor headerAccessor) {
+		
+		// @Payload 어노테이션을 통해 메시지의 페이로드를 ChatDTO 객체로 수신하고, SimpMessageHeaderAccessor를 통해 WebSocket 메시지의 헤더에 접근
+		
 		logger.info("session id : " + headerAccessor.getSessionId());
 		logger.info("dto : " + dto.getChat_room_id());
 		logger.info("dto : " + dto.getSend_id());
@@ -111,6 +118,10 @@ public class ChatController {
 		logger.info("template : " + template);
 		
 		service.chatStored(dto);
+		
+		// SimpMessagingTemplate을 사용하여 메시지를 특정 주제(destination)에게 전송하는 역할
+		// 첫 번째 매개변수는 메시지를 전송할 주제(destination)이고, 두 번째 매개변수는 전송할 메시지 데이터
+		
 		template.convertAndSend("/sub/chat/"+ dto.getChat_room_id(), dto);
 	}
 	

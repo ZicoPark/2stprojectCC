@@ -24,6 +24,17 @@
   <!-- Theme style -->
   <link rel="stylesheet" href="../../dist/css/adminlte.min.css">
 </head>
+<style>
+    .type-notice {
+        color: red;
+    }
+    .type-approval {
+        color: blue;
+    }
+    .type-message {
+        color: green;
+    }
+</style>
 <body>
 <jsp:include page = "index.jsp"></jsp:include>
 <!-- Site wrapper -->
@@ -54,68 +65,125 @@
          
          
          
-         <div class="card-body p-0">
-			<table class="table table-striped">
-				<thead>
-					<tr>
-						<th style="text-align:center">분류</th>
-						<th style="text-align:center">알림 제목</th>
-						<th style="text-align:center">발신인</th>
-						<th style="text-align:center">날짜</th>
-					</tr>
-				</thead>
-			<tbody>
-			 	<c:if test="${list eq null}">
-					<tr>
-						<th colspan="5" style="text-align:center">알림이 없습니다.</th>
-					</tr>
-				</c:if>
-					<c:forEach items="${list}" var="noticeList">
-						<tr>
-							<td style="text-align:center">${noticeList.type}</td>
-							<td style="text-align:center"><a href="alarmDetail.do?id=${noticeList.id}">${noticeList.identify_value}</a></td>
-							<td style="text-align:center">${noticeList.name}(${noticeList.user_id})</td>
-							<td style="text-align:center">${noticeList.create_at}</td>
-						</tr>				
-					</c:forEach>
-				</tbody>
-			  </table>
-			</div>       
+        <div class="card-body p-0">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th style="text-align:center">분류</th>
+                <th style="text-align:center">알림 제목</th>
+                <th style="text-align:center">발신인</th>
+                <th style="text-align:center">날짜</th>
+            </tr>
+        </thead>
+        <tbody>
+            <c:if test="${list eq null}">
+                <tr>
+                    <th colspan="5" style="text-align:center">알림이 없습니다.</th>
+                </tr>
+            </c:if>
+			<c:forEach items="${list}" var="noticeList">
+			    <tr>
+			        <td style="text-align:center">
+			            <c:set var="typeClass" value="" />
+			            <c:choose>
+			                <c:when test="${noticeList.type eq '공지사항'}">
+			                    <c:set var="typeClass" value="type-notice" />
+			                </c:when>
+			                <c:when test="${noticeList.type eq '전자결재'}">
+			                    <c:set var="typeClass" value="type-approval" />
+			                </c:when>
+			                <c:when test="${noticeList.type eq '쪽지'}">
+			                    <c:set var="typeClass" value="type-message" />
+			                </c:when>
+			            </c:choose>
+			            <span class="${typeClass}">${noticeList.type}</span>
+			        </td>
+			        <td style="text-align:center">
+			            <c:choose>
+			                <c:when test="${noticeList.type eq '공지사항'}">
+			                    <a href="noticeBoardDetail.do?id=${noticeList.identify_value}">${noticeList.subject}</a>
+			                </c:when>
+			                <c:when test="${noticeList.type eq '전자결재'}">
+			                    <a href="requestDocWaitDetail.go?id=${noticeList.identify_value}">${noticeList.doc_subject}</a>
+			                </c:when>
+			                <c:when test="${noticeList.type eq '쪽지'}">
+			                    <a href="msRcDetail.do?id=${noticeList.identify_value}">${noticeList.title}</a>
+			                </c:when>
+<%-- 			                <c:otherwise>
+			                    <a href="alarmDetail.do?id=${noticeList.identify_value}">${noticeList.identify_value}</a>
+			                </c:otherwise> --%>
+			            </c:choose>
+			        </td>
+			        <td style="text-align:center">${noticeList.name}(${noticeList.user_id})</td>
+			        <td style="text-align:center">${noticeList.create_at}</td>
+			    </tr>
+			</c:forEach>
+        </tbody>
+    </table>
+</div>
   
   
          
          </div>
         <div class="tab-pane fade active show" id="custom-tabs-one-profile" role="tabpanel" aria-labelledby="custom-tabs-one-profile-tab">
         
-        
-        
-                 <div class="card-body p-0">
-			<table class="table table-striped">
-				<thead>
-					<tr>
-						<th style="text-align:center">분류</th>
-						<th style="text-align:center">알림 제목</th>
-						<th style="text-align:center">발신인</th>
-						<th style="text-align:center">날짜</th>
-					</tr>
-				</thead>
-			<tbody>
-			 	<c:if test="${list eq null}">
-					<tr>
-						<th colspan="5" style="text-align:center">알림이 없습니다.</th>
-					</tr>
-				</c:if>
-					<c:forEach items="${list}" var="noticeList">
-						<tr>
-							<td style="text-align:center">${noticeList.type}</td>
-							<td style="text-align:center"><a href="alarmDetail.do?id=${noticeList.id}">${noticeList.identify_value}</a></td>
-							<td style="text-align:center">${noticeList.name}(${noticeList.user_id})</td>
-							<td style="text-align:center">${noticeList.create_at}</td>
-						</tr>				
-					</c:forEach>
-				</tbody>
-			  </table>
-			</div>
+ 
+              <div class="card-body p-0">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th style="text-align:center">분류</th>
+                <th style="text-align:center">알림 제목</th>
+                <th style="text-align:center">발신인</th>
+                <th style="text-align:center">날짜</th>
+            </tr>
+        </thead>
+       <tbody>
+			<c:if test="${list eq null}">
+			    <tr>
+			        <th colspan="5" style="text-align:center">알림이 없습니다.</th>
+			    </tr>
+			</c:if>
+			<c:forEach items="${list}" var="noticeList">
+			    <tr>
+			        <td style="text-align:center">
+			            <c:set var="typeClass" value="" />
+			            <c:choose>
+			                <c:when test="${noticeList.type eq '공지사항'}">
+			                    <c:set var="typeClass" value="type-notice" />
+			                </c:when>
+			                <c:when test="${noticeList.type eq '전자결재'}">
+			                    <c:set var="typeClass" value="type-approval" />
+			                </c:when>
+			                <c:when test="${noticeList.type eq '쪽지'}">
+			                    <c:set var="typeClass" value="type-message" />
+			                </c:when>
+			            </c:choose>
+			            <span class="${typeClass}">${noticeList.type}</span>
+			        </td>
+			        <td style="text-align:center">
+			            <c:choose>
+			                <c:when test="${noticeList.type eq '공지사항'}">
+			                    <a href="noticeBoardDetail.do?id=${noticeList.identify_value}">${noticeList.subject}</a>
+			                </c:when>
+			                <c:when test="${noticeList.type eq '전자결재'}">
+			                    <a href="requestDocWaitDetail.go?id=${noticeList.identify_value}">${noticeList.doc_subject}</a>
+			                </c:when>
+			                <c:when test="${noticeList.type eq '쪽지'}">
+			                    <a href="msRcDetail.do?id=${noticeList.identify_value}">${noticeList.title}</a>
+			                </c:when>
+<%-- 			                <c:otherwise>
+			                    <a href="alarmDetail.do?id=${noticeList.identify_value}">${noticeList.identify_value}</a>
+			                </c:otherwise> --%>
+			            </c:choose>
+			        </td>
+			        <td style="text-align:center">${noticeList.name}(${noticeList.user_id})</td>
+			        <td style="text-align:center">${noticeList.create_at}</td>
+			    </tr>
+			</c:forEach>
+        </tbody>
+    </table>
+</div>
         
         
         
@@ -158,3 +226,12 @@
 <script>
 </script>
 </html>
+
+
+
+
+
+
+
+
+
