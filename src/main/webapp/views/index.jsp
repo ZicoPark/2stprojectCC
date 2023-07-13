@@ -21,6 +21,22 @@
       <li class="nav-item d-none d-sm-inline-block">
         <a href="#" class="nav-link">Contact</a>
       </li>
+      
+      
+      
+      <li class="nav-item d-none d-sm-inline-block">
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#chatModal" onclick="create()">채팅방 생성하기</button>
+      </li>
+      
+      
+      <div class="modal fade" id="chatModal" data-bs-backdrop="static" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+		<jsp:include page = "chatRoomModal.jsp"></jsp:include>
+	  </div>
+      
+      
+      
+      
+      
     </ul>
 
     <!-- Right navbar links -->
@@ -49,6 +65,9 @@
 
       <!-- Messages Dropdown Menu -->
       <li class="nav-item dropdown">
+      
+      
+      
         <a class="nav-link" href="chatRoom.go">
           <i class="far fa-comments"></i>
         </a>
