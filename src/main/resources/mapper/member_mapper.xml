@@ -94,9 +94,6 @@
 		  WHERE id = #{id}
 	</update>
 	
-	<delete id="removeFileName" parameterType="String">
-	  DELETE FROM attachment WHERE id = #{fileName} AND classification = '프로필사진'
-	</delete>
 		
 	<insert id="userinfofileWrite">
 		INSERT INTO attachment(ori_file_name, id, classification, identify_value)
@@ -106,6 +103,35 @@
 	<delete id="removeProfilePicture" parameterType="String">
     DELETE FROM attachment WHERE identify_value = #{identify_value} AND classification = '프로필사진'
 	</delete>
+	
+	<delete id="removeFileName" parameterType="String">
+	  DELETE FROM attachment WHERE id = #{fileName} AND classification = '프로필사진'
+	</delete>
+	
+	
+	
+	<delete id="removesignProfilePicture" parameterType="String">
+	    DELETE FROM attachment WHERE identify_value = #{identify_value} AND classification = '서명이미지'
+	</delete>
+	
+	<update id="signprofileUpdate" parameterType="String">
+	    UPDATE attachment SET 
+	    	ori_file_name = #{ori_file_name},
+	    	classification = '서명이미지', 
+	    	id = #{id}  
+	    WHERE identify_value = #{identify_value}
+	</update>
+	
+	<select id="signInfo" resultType="kr.co.cc.member.dto.MemberDTO" parameterType="String">
+		 SELECT m.*,
+		         a.id AS photoName,
+		         a.ori_file_name,
+		         a.classification,
+		         a.identify_value
+		 FROM member m
+		 LEFT JOIN attachment a ON m.id = a.identify_value AND a.classification = '서명이미지'
+		 WHERE m.id = #{id}
+	</select>
 	
 	
 	
