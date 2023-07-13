@@ -49,9 +49,8 @@
 
       <!-- Messages Dropdown Menu -->
       <li class="nav-item dropdown">
-        <a class="nav-link" data-toggle="dropdown" href="/chatRoom.go">
+        <a class="nav-link" href="chatRoom.go">
           <i class="far fa-comments"></i>
-          <span class="badge badge-danger navbar-badge">숫자</span>
         </a>
         <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
           <a href="#" class="dropdown-item">
