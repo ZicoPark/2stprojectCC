@@ -272,20 +272,7 @@ public class MemberService {
 	    }
 	}
 	
-//
-//	private void attachmentRemove(ArrayList<String> deletedFiles) {
-//	    for (String id : deletedFiles) {
-//	        logger.info(id);
-//	        String fileName = memberdao.removeProfilePicture(id);
-//	        if (fileName != null) {
-//	            File file = new File(attachmentRoot + "/" + fileName);
-//	            if (file.exists()) {
-//	                file.delete();
-//	            }
-//	            memberdao.removeFileName(fileName);
-//	        }
-//	    }
-//	}
+	
 	
 	private void attachmentSave(String id, MultipartFile file, String cls) {
 	    String oriFileName = file.getOriginalFilename();
@@ -305,6 +292,52 @@ public class MemberService {
 	        e.printStackTrace();
 	    }
 	}
+	
+	public void signprofile(MultipartFile file, String id) {
+	    logger.info("id : " + id);
+	    
+	    if (file != null) { // file이 null이 아닌지 확인
+	        int row = memberdao.signprofileUpdate(id);
+	        logger.info("update row: " + row);
+
+	        if (row > 0) {
+	            logger.info("업로드할 file 있나요? :" + !file.isEmpty());
+
+	            if (!file.isEmpty()) {
+	                // 기존 서명 이미지를 데이터베이스에서 삭제합니다.
+	                memberdao.removesignProfilePicture(id);
+	               
+	               attachmentSave(id, file, "서명이미지");
+	            }
+	            try {
+	                Thread.sleep(1);
+	            } catch (InterruptedException e) {
+	                e.printStackTrace();
+	            }
+	        }
+	    }
+	}
+	
+	public MemberDTO signinfo(String id) {
+		return memberdao.signInfo(id);
+	}
+	
+//
+//	private void attachmentRemove(ArrayList<String> deletedFiles) {
+//	    for (String id : deletedFiles) {
+//	        logger.info(id);
+//	        String fileName = memberdao.removeProfilePicture(id);
+//	        if (fileName != null) {
+//	            File file = new File(attachmentRoot + "/" + fileName);
+//	            if (file.exists()) {
+//	                file.delete();
+//	            }
+//	            memberdao.removeFileName(fileName);
+//	        }
+//	    }
+//	}
+	
+
 
 //	public String userInfoUpdate(HashMap<String, String> params, MultipartFile file) {
 //		String id = params.get("id");
@@ -366,6 +399,12 @@ public class MemberService {
 		logger.info("멤버 컨트롤러에서 메인페이지 이동 - 서비스 ");
 		return memberdao.mainPage(loginId);
 	}
+
+
+
+
+
+
 
 
 //	public String profile(MultipartFile file) {

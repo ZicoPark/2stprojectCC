@@ -46,6 +46,13 @@ public interface MemberDAO {
 	int removeProfilePicture(String identify_value);
 
 	int removeFileName(String fileName);
+	
+
+	void removesignProfilePicture(String id);
+
+	int signprofileUpdate(String id);
+
+	MemberDTO signInfo(String id);
 
 
 
