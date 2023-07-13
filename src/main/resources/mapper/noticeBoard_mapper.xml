@@ -109,4 +109,10 @@
 		INSERT INTO notice(send_id, receive_id,type,status,identify_value)
 		VALUES(#{send_id},#{receive_id},'공지사항',0,#{identify_value});
 	</insert>
+	
+	<update id="readNotice" parameterType="String">
+		UPDATE notice set status = 1
+		WHERE identify_value=#{id}
+		AND receive_id=#{loginId}
+	</update>
 </mapper>

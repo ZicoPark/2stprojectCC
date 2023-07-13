@@ -8,4 +8,8 @@ public interface NoticeDAO {
 
 	ArrayList<NoticeDTO> nlist();
 
+	ArrayList<NoticeDTO> nonReadAlarm(String loginId);
+
+	ArrayList<NoticeDTO> readAlarm(String loginId);
+
 }
