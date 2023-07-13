@@ -40,7 +40,7 @@
  <div class="row">
 <div class="col-md-3">
 
-<div class="card card-primary card-outline">
+<div class="card card-primary card-outline" style="border-top : 3px solid #20c997!important">
 <div class="card-body box-profile">
 <div style="display: flex; align-items: center; justify-content: center; height: 100%;">
  <c:choose>
@@ -59,16 +59,18 @@
 <ul class="list-group list-group-unbordered mb-3">
 <li class="list-group-item">
     <b>출근시간</b>
-    <a class="float-right">
-        ${time == null ? "출근 전입니다." : time.time_go}
-    </a>
+<a class="float-right" style=" FONT-SIZE: 13PX; COLOR: GREEN;">
+    ${timeList.time_go}
+</a>
+
 </li>
 <li class="list-group-item">
     <b>퇴근시간</b>
-    <a class="float-right">
-        ${time == null ? "" : time.time_end}
+    <a class="float-right" style=" FONT-SIZE: 13PX; COLOR: RED;">
+        ${timeList.time_end}
     </a>
 </li>
+
 
 
 <li class="list-group-item">
@@ -83,7 +85,7 @@
 
 
 <div class="card card-primary">
-<div class="card-header">
+<div class="card-header" style=" background-color: #20c997!important;">
 <h3 class="card-title">DashBoard</h3>
 </div>
 
