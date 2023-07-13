@@ -226,6 +226,12 @@
 			</p>
 		</a>
 	<ul class="nav nav-treeview">
+			<li class="nav-item">
+			<a href="/registeredDocList.go" class="nav-link">
+				<i class="far fa-circle nav-icon"></i>
+				<p>등록문서함</p>
+			</a>
+		</li>
 		<hr/>
 		<span style="padding-left: 10; font-size: 20;">기안</span>
 		<li class="nav-item">
