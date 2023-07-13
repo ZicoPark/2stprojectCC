@@ -1,15 +1,14 @@
 package kr.co.cc.calender.service;
 
+import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.ArrayList;
-
-import javax.servlet.http.HttpSession;
 
 import org.mybatis.spring.annotation.MapperScan;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.servlet.ModelAndView;
 
 import kr.co.cc.calender.dao.CalenderDAO;
 import kr.co.cc.calender.dto.CalenderDTO;
@@ -21,19 +20,23 @@ public class CalenderService {
 	@Autowired CalenderDAO dao;
 	Logger logger = LoggerFactory.getLogger(getClass());
 	
-	public ModelAndView CalenderList(HttpSession session) {
-		ModelAndView mav = new ModelAndView("CalenderList");
-		String loginId = (String) session.getAttribute("member_id");
-		ArrayList<CalenderDTO> list = dao.CalenderList(loginId);
-		mav.addObject("list",list);
-		return mav;
+	public ArrayList<CalenderDTO> CalenderList(String id) {
+		return dao.CalenderList(id);
 	}
 
-	public ModelAndView CalenderListSave(String event) {
-		ModelAndView mav = new ModelAndView("CalenderList");
-		ArrayList<CalenderDTO> list =dao.CalenderListSave(event);
-		mav.addObject("list",list);
-		return mav;
+	public void CalenderListDrop(String id, String member_id, String title, String content, String color,
+			Timestamp create_at, Timestamp start_at, Timestamp end_at) {
+		dao.CalenderListDrop(id,member_id,title,content,color,create_at,start_at,end_at);
+		
 	}
+
+	public void CalenderListDelete(String eventId) {
+		dao.CalenderListDelete(eventId);
+	}
+
+
+
+
+
 
 }

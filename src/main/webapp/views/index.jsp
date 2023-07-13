@@ -49,9 +49,8 @@
 
       <!-- Messages Dropdown Menu -->
       <li class="nav-item dropdown">
-        <a class="nav-link" data-toggle="dropdown" href="/chatRoom.go">
+        <a class="nav-link" href="chatRoom.go">
           <i class="far fa-comments"></i>
-          <span class="badge badge-danger navbar-badge">숫자</span>
         </a>
         <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
           <a href="#" class="dropdown-item">
@@ -176,10 +175,10 @@
       <!-- Sidebar user (optional) -->
       <div class="user-panel mt-3 pb-3 mb-3 d-flex">
         <div class="image">
-          <img src="../../dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
+          <img src="../../dist/img/CC.png" class="img-circle elevation-2">
         </div>
-        <div class="info">
-		  <a href="/userinfo.go" class="d-block">${user.id}의 MyPage</a>
+        <div class="info" style="text-align: center;">
+		  <a href="/userinfo.go" class="d-block">마이페이지</a>
 		</div>
       </div>
 
@@ -236,6 +235,12 @@
 			</p>
 		</a>
 	<ul class="nav nav-treeview">
+			<li class="nav-item">
+			<a href="/registeredDocList.go" class="nav-link">
+				<i class="far fa-circle nav-icon"></i>
+				<p>등록문서함</p>
+			</a>
+		</li>
 		<hr/>
 		<span style="padding-left: 10; font-size: 20;">기안</span>
 		<li class="nav-item">
@@ -369,9 +374,10 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="/userinfo.go" class="nav-link">
+
+                <a href="/signprofile.go" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
-                  <p>마이페이지</p>
+                  <p>서명 이미지 등록</p>
                 </a>
               </li>
               <li class="nav-item">

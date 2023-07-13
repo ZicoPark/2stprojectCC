@@ -31,35 +31,35 @@
 <div class="wrapper">
   <div class="content-wrapper">
     <section class="content-header">
-    	<h1>서명 이미지 등록</h1>         
+    	<h1>서명 이미지</h1>         
     </section>
     <!-- Main content -->
     <section class="content">
-		<form method="post" action="signprofilechange.do" enctype="multipart/form-data">
+
       <table class="table table-bordered table-hover dataTable dtr-inline">
          <input type="hidden" name = "id" value="${sessionScope.id}"/>
         <tr>
-            <div style="display: flex; align-items: center; justify-content: center; height: 90%; flex-direction: column;">
-				  <c:choose>
-				    <c:when test="${not empty member.photoName}">
-				      <img src="photoView.do?path=${member.photoName}" style="max-width: 90%; max-height: 90%;" id="preview">
-				    </c:when>
-				    <c:otherwise>
-				      <img src="img/cc.png" style="max-width: 100%; max-height: 80%;" id="preview1">
-				    </c:otherwise>
-				  </c:choose>
 
-				  <input type="file" name="signprofile" onchange="previewImage1(this)" id="fileInput" style="margin-top: 10px;">
-			</div>
+            <div style="display: flex; align-items: center; justify-content: center; height: 100%;">
+			    <c:choose>
+			      <c:when test="${not empty member.photoName}">
+			        <img src="photoView.do?path=${member.photoName}" style="max-width: 100%; max-height: 100%;">
+			      </c:when>
+			      <c:otherwise>
+			        <img src="img/cc.png" style="max-width: 100%; max-height: 100%;">
+			      </c:otherwise>
+			    </c:choose>
+			  </div>
+
          </tr>
 
          <tr>      
             <th colspan="4" style="text-align: center;">
-               <button class="btn btn-outline-dark" type="submit" id="update">완료</button>
+               <button class="btn btn-outline-dark" onclick="location.href='signprofilechange.go?id=${member.id}'">서명 등록 및 수정</button>
             </th>
         </tr>
       </table>
-    </form>
+
     </section>
   </div>
 </div>
