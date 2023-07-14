@@ -8,6 +8,11 @@
 	    color: white;
 	}
 </style>
+
+<!-- jQuery -->
+<script src="../../plugins/jquery/jquery.min.js"></script>
+
+
   <!-- Navbar -->
   <nav class="main-header navbar navbar-expand navbar-white navbar-light">
     <!-- Left navbar links -->
@@ -125,6 +130,9 @@
           <span class="dropdown-item dropdown-header">최신 알림</span>
           <div class="dropdown-divider"></div>
           
+	          <div id="list">
+	          
+	          </div>
           
           <a href="#" class="dropdown-item">
             <i class="fas fa-envelope mr-2"></i> 쪽지
@@ -597,13 +605,16 @@ socket.onopen = function(event) {
 	});
 };
 
-/* 
-function nonReadAlarm() {
+alarmList(); // 무조건 한 번 호출해야 페이지 이동때마다 뜸
+ 
+function alarmList() {
 	$.ajax({
 		url:'alarmList.ajax',
 		type:'post',
 		async: false,
-		data:{loginId : '${sessionScope.id}'},
+		data:{
+			loginId : '${sessionScope.id}'
+		},
 		dataType:'json',
 		success:function(data){
 			console.log('아작스 통신 성공');
@@ -613,26 +624,6 @@ function nonReadAlarm() {
 				content +='<tr><th colspan="5" style="text-align:center">새 알림이 없습니다.</th></tr>'
 			}else {
 				data.forEach(function(item) {
-					/* content += '<tr><td style="text-align:center">';
-					if(item.type == '공지사항') {
-						console.log('공지사항 if문 진입');
-						content += '<span class="type-notice">'+item.type+'</span></td><td style="text-align:center">';
-						content += '<a href="noticeBoardDetail.do?type=alarm&id='+item.identify_value+'">'+item.subject+'</a>';
-					}else if(item.type == '전자결재') {
-						console.log('전자결재 if문 진입');
-						content += '<span class="type-approval">'+item.type+'</span></td><td style="text-align:center">';
-						content += '<a href="requestDocWaitDetail.go?id='+item.identify_value+'">'+item.doc_subject+'</a>';
-					}else if(item.type == '쪽지') {
-						console.log('쪽지 if문 진입');
-						content += '<span class="type-message">'+item.type+'</span></td><td style="text-align:center">';
-						content += '<a href="msRcDetail.do?id='+item.identify_value+'">'+item.title+'</a>';
-					}
-					content+='</td>';
-					content += '<td style="text-align:center">'+item.name+'('+item.user_id+')</td>';
-				    content += '</tr>'; 
-				    
-				    
-				    
 				    content += '<a href="#" class="dropdown-item">';
 				    if (item.type === '쪽지') {
 				      content += '<i class="fas fa-envelope mr-2"></i> 쪽지';
@@ -641,13 +632,10 @@ function nonReadAlarm() {
 				    } else if (item.type === '전자결재') {
 				      content += '<i class="fas fa-file-signature mr-2"></i> 전자결재';
 				    }
-				    content += '<span class="float-right text-muted text-sm">' + item.time + '</span>';
+				    content += '<span class="float-right text-muted text-sm">' +item.type+ '</span>';
 				    content += '</a>';
-				    content += '<td style="text-align:center">' + item.name + '(' + item.user_id + ')</td>';
-				    
-				    
-				    
-				    
+				    content += '<span style="text-align:center">' + item.name + '(' + item.user_id + ')</span>'; 
+
 				});
 			}
 			
@@ -660,7 +648,7 @@ function nonReadAlarm() {
 	});
 	console.log('아작스 다음');
 } 
-*/
+
 
 socket.onmessage = function(event) {
     var message = event.data;

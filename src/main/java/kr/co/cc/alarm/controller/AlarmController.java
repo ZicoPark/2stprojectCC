@@ -1,5 +1,6 @@
 package kr.co.cc.alarm.controller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import javax.servlet.http.HttpSession;
@@ -15,6 +16,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import kr.co.cc.alarm.service.AlarmService;
+import kr.co.cc.notice.dto.NoticeDTO;
+import kr.co.cc.notice.service.NoticeService;
+import kr.co.cc.noticeBoard.service.NoticeBoardService;
 
 
 @Controller
@@ -23,6 +27,7 @@ public class AlarmController {
 	Logger logger = LoggerFactory.getLogger(getClass());
 	
 	@Autowired AlarmService service;
+	@Autowired NoticeService nService;
 	
 	@PostMapping(value="/alarmCount.ajax")
 	@ResponseBody
@@ -31,10 +36,10 @@ public class AlarmController {
 		return service.alarmCount(receive_id);
 	}
 	
-//	@RequestMapping(value="/alarmList.ajax", method = RequestMethod.POST)
-//	@ResponseBody
-//	  public HashMap<String, Object> list(HttpSession session, @RequestParam HashMap<String, Object> params){
-//	    logger.info("알림 리스트 호출");
-//	       return service.alarmList(session, params);
-//	    }	
+	@RequestMapping(value="/alarmList.ajax", method = RequestMethod.POST)
+	@ResponseBody
+	 public ArrayList<NoticeDTO> alarmList(@RequestParam String loginId) {
+		   logger.info("readAlarm 통신");
+	      return nService.readAlarm(loginId);
+	   }
 }
