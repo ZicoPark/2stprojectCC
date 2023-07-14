@@ -29,5 +29,12 @@
          SELECT nb.id, nb.subject, nb.create_at ,m.name FROM notice_board nb
 		left join member m on nb.member_id = m.id ORDER BY create_at DESC limit 5
    	</select>
+   	
+	<update id="updateTodo">
+	   UPDATE personal
+	   SET status = CASE WHEN status = 0 THEN 1 ELSE 0 END
+	   WHERE id = #{todoId}
+	</update>
+
 
 </mapper>
