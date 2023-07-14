@@ -49,6 +49,9 @@
 
       <!-- Messages Dropdown Menu -->
       <li class="nav-item dropdown">
+      
+      
+      
         <a class="nav-link" href="chatRoom.go">
           <i class="far fa-comments"></i>
         </a>
@@ -566,6 +569,8 @@
   </aside>
   <!-- /.control-sidebar -->
 	<!-- <script src="../../js/websocket.js"></script> -->
+	
+
 <script>
 
 var socket;
