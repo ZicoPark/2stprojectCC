@@ -14,6 +14,12 @@ public interface CalenderDAO {
 
 	void CalenderListDelete(String eventId);
 
+	void CalenderListResize(String id, Timestamp start_at, Timestamp end_at);
+
+	void CalenderListEventDrop(String id, Timestamp start_at, Timestamp end_at);
+
+
+
 	
 
 
