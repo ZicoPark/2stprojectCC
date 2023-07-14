@@ -597,7 +597,7 @@ socket.onopen = function(event) {
 	});
 };
 
-
+/* 
 function nonReadAlarm() {
 	$.ajax({
 		url:'alarmList.ajax',
@@ -629,7 +629,7 @@ function nonReadAlarm() {
 					}
 					content+='</td>';
 					content += '<td style="text-align:center">'+item.name+'('+item.user_id+')</td>';
-				    content += '</tr>'; */
+				    content += '</tr>'; 
 				    
 				    
 				    
@@ -659,8 +659,8 @@ function nonReadAlarm() {
 		}
 	});
 	console.log('아작스 다음');
-}
-
+} 
+*/
 
 socket.onmessage = function(event) {
     var message = event.data;

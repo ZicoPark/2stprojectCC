@@ -171,7 +171,7 @@
 						}
 						content+='</td>';
 						content += '<td style="text-align:center">'+item.name+'('+item.user_id+')</td>';
-				        content += '<td style="text-align:center">'+item.create_at+'</td>';
+				        content += '<td style="text-align:center">'+item.create_at.substring(0,10)+'</td>';
 					    content += '</tr>';
 					});
 				}
@@ -215,7 +215,7 @@
 						}
 						content+='</td>';
 						content += '<td style="text-align:center">'+item.name+'('+item.user_id+')</td>';
-				        content += '<td style="text-align:center">'+item.create_at+'</td>';
+				        content += '<td style="text-align:center">'+item.create_at.substring(0,10)+'</td>';
 					    content += '</tr>';
 					});
 				}
