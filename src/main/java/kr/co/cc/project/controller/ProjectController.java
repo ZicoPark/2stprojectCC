@@ -28,6 +28,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import kr.co.cc.chat.dto.MemberDTO;
+import kr.co.cc.chat.service.ChatService;
 import kr.co.cc.project.dto.ProjectDTO;
 import kr.co.cc.project.service.ProjectService;
 
@@ -38,6 +40,7 @@ public class ProjectController {
 	@Value("${spring.servlet.multipart.location}") private String root;
 	
 	@Autowired ProjectService service;
+ 
 
 	@GetMapping(value="/projects.go")
 	public String projectsGo(Model model, HttpSession session) {
@@ -49,11 +52,11 @@ public class ProjectController {
 	    ArrayList<ProjectDTO> list = service.list();
 	    logger.info("list cnt : " + list.size());
 	 
-	    for (ProjectDTO project : list) {    	
+	    for (ProjectDTO project : list) {
 	        List<String> userIds = service.getUserIdsByProjectId(project.getId());
 	        project.setUserIds(userIds);
 	    }
-	   
+
 	    model.addAttribute("list", list);
 	    model.addAttribute("id", loginId);
 	    logger.info("loginid : " + loginId);
@@ -68,6 +71,14 @@ public class ProjectController {
 	}
 
 
+	@PostMapping(value="/pjMemberListAll.ajax")
+	@ResponseBody
+	public ArrayList<ProjectDTO> memberListAll() {
+		logger.info("/memberListAll.ajax");
+		return service.memberListAll();
+	}
+	
+	
 	
 	@RequestMapping(value = "projectDetail.go")
 	public String projectList(HttpSession session, Model model, @RequestParam String id, @RequestParam int public_range) {
@@ -140,7 +151,7 @@ public class ProjectController {
 	        
 
 
-	        String memberIdsString = params.get("member_id");
+	        String memberIdsString = params.get("user_id");
 
 	        if (memberIdsString != null) {
 	            String[] memberIds = memberIdsString.split(",");
@@ -186,9 +197,10 @@ public class ProjectController {
 	    String id = (String) session.getAttribute("id");
 	    logger.info("loginId"+id);
 
+	     
 	    ProjectDTO dto = new ProjectDTO();
 	    dto.setName(params.get("name"));
-	    dto.setPublic_range(Integer.valueOf(params.get("public_range")));
+	    dto.setPublic_range(params.get("public_range"));
 	    dto.setStart_at(params.get("start_at"));
 	    dto.setEnd_at(params.get("end_at"));
 
@@ -214,11 +226,13 @@ public class ProjectController {
 		String memberId = (String) session.getAttribute("id");
 		
 		String user_id = service.getMemberById(memberId);
+		String  public_range = service.getRange(id);
+		
+		
 		model.addAttribute("user_id", user_id);
-
 		model.addAttribute("member_id", memberId);
-		logger.info("왜 안될까요?"+id);
 		model.addAttribute("project_id",id);
+		model.addAttribute("public_range",public_range);
 			
 		return "projectInsert";
 	}

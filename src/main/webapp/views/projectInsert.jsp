@@ -48,8 +48,9 @@
 			<input type="hidden" name="project_id" value="${project_id}" />
 			<input type="hidden" name="user_id" value="${user_id}" />
 			<input type="hidden" name="member_id" value="${member_id}" />
+			<input type="hidden" name="public_range" value="${public_range}" />
 				<section class="content">
-					<div class="row">
+					<div class="row justify-content-center">
 						<div class="col-md-6">
 							<div class="card card-primary">
 								<div class="card-header">
@@ -82,7 +83,6 @@
 										<div class="col-sm-6">
 											<label for="inputStep">단계</label> <select id="inputStep"
 												class="form-control custom-select" name="step">
-												<option selected disabled>선택해 주세요</option>
 												<option value="촬영">촬영</option>
 												<option value="편집">편집</option>
 												<option value="검토">검토</option>
@@ -92,7 +92,6 @@
 										<div class="col-sm-6">
 											<label for="inputStatus">상태</label> <select id="inputStatus"
 												class="form-control custom-select" name="status">
-												<option selected disabled>선택해 주세요</option>
 												<option value="준비중">준비중</option>
 												<option value="진행중">진행중</option>
 												<option value="완료">완료</option>
@@ -105,15 +104,15 @@
 
 							</div>
 							<!-- /.card-body -->
+		<div class="row">
+			<div class="col-12">
+				<a href="projects.go" class="btn btn-secondary">취소</a> 
+				<input type="button"  onclick="okay()" value="업무등록" class="btn btn-success float-right">
+			</div>
+		</div>
 						</div>
 						<!-- /.card -->
 					</div>
-		<div class="row">
-			<div class="col-12">
-				<a href="projects.go" class="btn btn-secondary">Cancel</a> 
-				<input type="submit" value="업무등록" class="btn btn-success float-right">
-			</div>
-		</div>
 		</div>
 		</section>
 		</form>
@@ -146,5 +145,18 @@
 	<script src="../../dist/js/adminlte.min.js"></script>
 	<!-- AdminLTE for demo purposes -->
 	<script src="../../dist/js/demo.js"></script>
+	<script>
+	function okay() {
+	    console.log('저장');
+
+	    if ($('#inputStep').val() == "") {
+	       alert("단계를 선택해주세요");
+	    }else if($('#inputStatus').val() == ""){
+	    	alert("상태를 선택해주세요");
+	    }else {
+	       $('form').submit();
+	    }
+	 }
+	</script>
 </body>
 </html>

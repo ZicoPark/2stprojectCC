@@ -28,18 +28,23 @@
 	    )
 	</insert>
 
+	<select id="memberListAll" resultType="kr.co.cc.project.dto.ProjectDTO">
+		SELECT m.id, m.name, m.user_id, d.name as dept_name
+		from member m inner join dept d 
+		on m.dept_id = d.id
+	</select>
 
 	<select id="getUserIdsByProjectId" resultType="java.lang.String">
-	        SELECT member.name
-	        FROM project
-	        INNER JOIN contributor ON project.id = contributor.project_id
-	        INNER JOIN member ON contributor.member_id = member.id
-	        WHERE project.id = #{id}
+	        SELECT m.name
+	        FROM project p
+	        INNER JOIN contributor c ON p.id = c.project_id
+	        INNER JOIN member m ON c.member_id = m.id
+	        WHERE p.id = #{id}
     </select>
     
     <select id="getUserId" resultType="java.lang.String">
         SELECT user_id
-        FROM member
+        FROM member m
         WHERE id = #{memberId}
     </select>
     
@@ -156,7 +161,12 @@
 	<select id="createMemberChk" parameterType="string" resultType="int">
 		SELECT COUNT(p.member_id) FROM project p 
 			WHERE p.member_id = #{loginId} AND p.id = #{projectId}
-	</select>										
+	</select>		
+			
+	<select id="getRange" parameterType="string" resultType="string">
+		SELECT public_range FROM project p 
+			WHERE id = #{id}
+	</select>									
 </mapper>
 
 
