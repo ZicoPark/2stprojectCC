@@ -30,8 +30,9 @@ public class AdminController {
 	
 	// 관리사 사원 상세보기
 	@RequestMapping(value = "/AdminMemberDetail.go")
-	public ModelAndView AdminMemberDetail(@RequestParam ("id") String user_id) {
-		return service.AdminMemberDetail(user_id);
+	public ModelAndView AdminMemberDetail(@RequestParam ("id") String id) {
+		logger.info("아이디확인 : "+id);
+		return service.AdminMemberDetail(id);
 	}
 	
 	// 사원리스트 검색

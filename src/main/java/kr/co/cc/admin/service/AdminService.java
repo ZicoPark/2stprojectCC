@@ -16,6 +16,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import kr.co.cc.admin.dao.AdminDAO;
 import kr.co.cc.admin.dto.AdminDTO;
+import kr.co.cc.member.dto.MemberDTO;
 
 @Service
 @MapperScan(value = {"kr.co.cc.admin.dao"})
@@ -45,12 +46,14 @@ public class AdminService {
 		return mav;
 	}
 
-	public ModelAndView AdminMemberDetail(String user_id) {
-		// logger.info("MemberId : "+user_id);
+	public ModelAndView AdminMemberDetail(String id) {
+		//logger.info("Member uuid : "+id);
 		ModelAndView mav = new ModelAndView("AdminMemberDetail");
-		AdminDTO detail = dao.AdminMemberDetail(user_id);
+		AdminDTO detail = dao.AdminMemberDetail(id);
+		AdminDTO dto = dao.AdminMemberDetailPhoto(id);
 		// logger.info("디테일확인 : "+detail);
 		mav.addObject("detail", detail);
+		mav.addObject("member",dto);
 		return mav;
 	}
 	

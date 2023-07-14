@@ -15,7 +15,7 @@
 			FROM member
 			JOIN dept ON member.dept_id = dept.id
 			JOIN job_level ON member.job_level_id = job_level.id
-		WHERE user_id = #{user_id}
+		WHERE member.id = #{id}
 	</select>
 	
 	<update id="MemberUpdate" parameterType="kr.co.cc.admin.dto.AdminDTO">
@@ -71,6 +71,17 @@
 	<delete id="MemberONOFFDelete">
 		DELETE FROM member WHERE id = #{id}
 	</delete>
+	
+	<select id="AdminMemberDetailPhoto" resultType="kr.co.cc.admin.dto.AdminDTO">
+	  SELECT m.*,
+	         a.id AS photoName,
+	         a.ori_file_name,
+	         a.classification,
+	         a.identify_value
+	  FROM member m
+	  LEFT JOIN attachment a ON m.id = a.identify_value AND a.classification = '프로필사진'
+	  WHERE m.id = #{id}
+	</select>
 
 	
 </mapper>
