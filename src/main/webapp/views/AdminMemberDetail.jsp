@@ -57,13 +57,24 @@
     	<!-- Main content -->
 	    <section class="content">
 	    	<form action="MemberUpdate.go" method="post">
-	    		<input type="hidden" name="id" value="${detail.user_id}">
+	    		<input type="hidden" name="id" value="${detail.id}">
 				<table class="table table-bordered">
 					<tr>
-						<th>사진</th>
+						<th>프로필 사진</th>
 					</tr>
 					<tr>
-						<td>사진 넣어야함</td>
+						<th rowspan="10" style="width: 500px;">
+							<div style="display: flex; align-items: center; justify-content: center; height: 100%;">
+								<c:choose>
+									<c:when test="${not empty member.photoName}">
+										<img src="photoView.do?path=${member.photoName}" style="max-width: 100%; max-height: 100%;">
+									</c:when>
+									<c:otherwise>
+										<img src="img/cc.png" style="max-width: 100%; max-height: 100%;">
+									</c:otherwise>
+								</c:choose>
+							</div>
+						</th>
 					</tr>
 				</table>
 				<table class="table table-bordered">
@@ -90,9 +101,8 @@
 							    <option value="1">관리자</option>
 							</select>
 						</td>
-						<td>직급 기록 : <a href="#">직급 기록 연결해야함</a></td>
-						<td>부서 기록 : <a href="#">부서 기록 연결해야함</a></td>
-						<td>근태 기록 : <a href="#">근태 기록 연결해야함</a></td>
+						<td>일별 근태 기록 : <a href="workDailyList.go">일별 근태 기록</a></td>
+						<td>주별 근태 기록 : <a href="workWeekList.go">주별 근태 기록</a></td>
 					</tr>
 				</table>
 				<table class="table table-bordered">
