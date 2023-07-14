@@ -6,7 +6,6 @@ package kr.co.cc.freeBoard.dao;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import kr.co.cc.archive.dto.ArchiveDTO;
 import kr.co.cc.freeBoard.dto.FreeBoardDTO;
 
 
@@ -50,6 +49,12 @@ public interface FreeBoardDAO {
 	int replyTotalCount();
 
 	boolean replyDelete(String id, String free_board_id);
+
+	boolean freeDelete(String id);
+
+	void removeFileName(String fileName);
+
+	int freeUpdate(HashMap<String, String> params);
 
 	
 

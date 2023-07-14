@@ -49,7 +49,7 @@
 	<a href="/msWrite.go" class="btn btn-primary btn-block mb-3">쪽지 작성</a>
 	<div class="card">
 	<div class="card-header">
-	<h3 class="card-title">보관함</h3>
+	<h3 class="card-title">쪽지</h3>
 	<div class="card-tools">
 	<button type="button" class="btn btn-tool" data-card-widget="collapse">
 	<i class="fas fa-minus"></i>
@@ -75,7 +75,7 @@
 	</a>
 	</li>
 	<li class="nav-item">
-	<a href="#" class="nav-link">
+	<a href="/msRemoveList.go" class="nav-link">
 	<i class="far fa-trash-alt"></i> 휴지통
 	</a>
 	</li>
@@ -88,17 +88,13 @@
         <div class="col-md-9">
           <div class="card card-primary card-outline">
             <div class="card-header">
-              <h3 class="card-title">받은쪽지함 상세보기</h3>
+			<h5>${detailms.title}</h5>
 
-              <div class="card-tools">
-                <a href="#" class="btn btn-tool" title="Previous"><i class="fas fa-chevron-left"></i></a>
-                <a href="#" class="btn btn-tool" title="Next"><i class="fas fa-chevron-right"></i></a>
-              </div>
             </div>
             <!-- /.card-header -->
             <div class="card-body p-0">
               <div class="mailbox-read-info">
-                <h5>${detailms.title}</h5>
+                
                 <h6>From: ${detailms.from_id} ${detailms.name}
                   <span class="mailbox-read-time float-right">${detailms.send_at}</span></h6>
               </div>

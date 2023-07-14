@@ -30,6 +30,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 import kr.co.cc.main.dto.MainDTO;
 
@@ -208,7 +209,65 @@ public class MemberController {
 	    return page;
 	}
 	
+	@RequestMapping(value = "/signprofile.go")
+	public String signprofilego(HttpSession session, Model model) {
+
+	    logger.info("서명이미지 페이지이동");
+	    logger.info("로그인 세션 : "+session.getAttribute("id"));
+
+	    String page = "login";
+	    String loginId = null;
+	    
+		if(session.getAttribute("id") != null) {
+			MemberDTO dto = memberservice.signinfo(String.valueOf(session.getAttribute("id")));             
+			model.addAttribute("member",dto);
+			page = "signprofilego";
+		} 
+	       return page;
+	}
 	
+	@RequestMapping(value = "/signprofilechange.go")
+	public String signprofilechangego(@RequestParam String id, HttpSession session, Model model) {
+	    logger.info("서명이미지 등록시작");
+	    logger.info("uuid : " + id);
+	    String page = "signprofilego";
+	    String loginId = null;
+	    
+	    if (session.getAttribute("id") != null) {
+	        loginId = (String) session.getAttribute("id");
+	        if (loginId.equals(id)) {
+	        	MemberDTO dto = memberservice.signinfo(String.valueOf(session.getAttribute("id"))); 
+	            logger.info("등록 서비스 들어가기 전");
+	            if (dto != null) {
+	                page = "signprofile";
+	                model.addAttribute("member", dto);
+	            }
+	        }
+	    }
+	    return page;
+	} 
+	
+	@RequestMapping(value="/signprofilechange.do")
+	public String signprofilechange(HttpServletRequest request, HttpSession session, Model model) {  
+	   
+	    logger.info("서명 이미지 등록");
+	    String page = "signprofilego";
+	    String loginId = null;
+	    String id = request.getParameter("id");
+	    logger.info("session loginId : " + session.getAttribute("id"));
+	    if (session.getAttribute("id") != null) {
+	        logger.info("params-id : " + id);
+	        loginId = (String) session.getAttribute("id");
+	        
+
+	            MultipartFile file = ((MultipartHttpServletRequest) request).getFile("signprofile");
+	            logger.info("file : " + file);
+	            memberservice.signprofile(file, id);
+	            page = "redirect:/signprofile.go";
+	 
+	    }
+	    return page;
+	}
 	
 	
 	// 부서 리스트

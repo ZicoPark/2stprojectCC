@@ -14,6 +14,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -61,6 +62,9 @@ public class NoticeBoardController {
    
 
    
+   
+   
+   
    @RequestMapping(value = "/noticeBoardWrite.do", method = RequestMethod.POST)
    public String nowrite(MultipartFile file, @RequestParam HashMap<String, String> params, HttpSession session, RedirectAttributes rttr) {
    
@@ -71,9 +75,19 @@ public class NoticeBoardController {
       return service.nowrite(file, params,session,rttr);
    }
    
+   
+   
+   
+   
    @RequestMapping(value="/noticeBoardDetail.do")
-   public String nodetail(Model model, @RequestParam String id, HttpSession session){
+   public String nodetail(Model model, @RequestParam String id, @RequestParam String type ,HttpSession session){
       
+	   logger.info("type : " + type);
+	   
+	   if(type.equals("alarm")) {
+		   service.readNotice(id, String.valueOf(session.getAttribute("id")));
+	   }
+	   
       logger.info("nodetail : " + id);
       
       NoticeBoardDTO detailno = service.nodetail(id, "detail");
@@ -152,28 +166,7 @@ public class NoticeBoardController {
       return mav;
    }
    
-   
-   
-//	@RequestMapping(value = "/noticeBoardDel.do", method = RequestMethod.GET)
-//	public String del(Model model, HttpSession session, @RequestParam HashMap<String, String> params) {
-//		
-//		String page = "redirect:/noticeBoard.go";
-//		
-//		String member_id = params.get("member_id");
-//		
-//		if(session.getAttribute("loginId")!=null) {//로그인 상태에서
-//			if(session.getAttribute("loginId").equals(member_id)) {// 작성자와 세션 아이디가 일치할 때
-//				
-//				String id = params.get("id");
-//				service.del(id);
-//				page = "redirect:/noticeBoard.go";
-//			}else {
-//				logger.info("세션 아이디 아님");
-//			}
-//		}
-//		return page;
-//	}	
-   
+  
 
         
 }
