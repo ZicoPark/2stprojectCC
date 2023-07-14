@@ -175,7 +175,28 @@ public class DocController {
 		return service.completeDocList(session);
 	}
 	
+	@RequestMapping(value="/completeDocDetail.go")
+	public ModelAndView completeDocDetail(@RequestParam String id, HttpSession session) {
+		
+		return service.completeDocDetail(id, session);
+	}
 	
+	@RequestMapping(value="/registeredDocList.go")
+	public ModelAndView registeredDocList(HttpSession session) {
+		
+		return service.registeredDocList(session);
+	}
 	
+	@RequestMapping(value="/registeredDocList.ajax")
+	@ResponseBody
+	public HashMap<String, Object> registeredDocListCall(@RequestParam HashMap<String, String> params, HttpSession session){
+		
+		return service.registeredDocListCall(params, session);
+	}
 	
+	@RequestMapping(value="/registeredDocDetail.go")
+	public ModelAndView registeredDocDetail(@RequestParam String id, HttpSession session) {
+		
+		return service.registeredDocDetail(id, session);
+	}
 }

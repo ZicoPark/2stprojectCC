@@ -148,7 +148,7 @@ public class NoticeBoardService {
 	 
 	    handler.sendAlarm("알림이 왔습니다");
 	    
-	    page = "redirect:/noticeBoardDetail.do?id=" + idx ;
+	    page = "redirect:/noticeBoardDetail.do?type=list&id=" + idx ;
 	
 	    return page;
 	}
@@ -199,8 +199,8 @@ public class NoticeBoardService {
 	}
    
    public int del(String id) {
-      
-      return dao.del(id);
+      dao.noticeDel(id); // 서비스에만 알림 제거 추가해주면 됨
+      return dao.noticeBoardDel(id);
    }
 
 
@@ -222,6 +222,14 @@ public class NoticeBoardService {
 	public void getinfo(String loginId, String id) {
 		dao.getinfo(loginId, id);
 	}
+
+
+	public void readNotice(String id, String loginId) {
+		dao.readNotice(id, loginId);
+	}
+
+
+	
 
 
 //   //읽사

@@ -39,16 +39,16 @@
       <table class="table table-bordered table-hover dataTable dtr-inline">
          <tr> 
          	<th rowspan="11" style="width: 500px;">
-				<div style="display: flex; align-items: center; justify-content: center; height: 90%; flex-direction: column;">
+				<div style="display: flex; align-items: center; justify-content: center; height: 100%; flex-direction: column;">
 				  <c:choose>
 				    <c:when test="${not empty member.photoName}">
-				      <img src="photoView.do?path=${member.photoName}" style="max-width: 90%; max-height: 90%;" id="preview">
+				      <img src="photoView.do?path=${member.photoName}" style="max-width: 100%; max-height: 100%;" id="preview">
 				    </c:when>
 				    <c:otherwise>
-				      <img src="img/cc.png" style="max-width: 100%; max-height: 80%;" id="preview">
+				      <img src="img/cc.png" style="max-width: 100%; max-height: 100%;" id="preview">
 				    </c:otherwise>
 				  </c:choose>
-				  <input type="button" name="deletedFiles" id="deletedFiles">
+				  <input type="hidden" name="deletedFiles" id="deletedFiles">
 				  <input type="file" name="file" onchange="previewImage(this)" id="fileInput" style="margin-top: 10px;">
 				</div>
 			</th>

@@ -41,6 +41,125 @@ public class MessageService {
 	}
 
 	
+	public HashMap<String, Object> msRemovelist(HttpSession session, HashMap<String, Object> params) {
+		
+		int page = Integer.parseInt(String.valueOf(params.get("page")));
+	    String search = String.valueOf(params.get("search"));
+	    String loginId = (String) session.getAttribute("id");
+	    MessageDTO loginid = dao.logincheck(loginId);
+	    
+	    HashMap<String, Object> map = new HashMap<String, Object>();
+
+	    int offset = 10*(page-1);	    
+		
+	    logger.info("offset : " + offset);
+	    
+	    logger.info("params : " + params);
+	    
+	    int total = 0;	    
+		
+	    if(search.equals("default") || search.equals("")) {
+	      
+	    	  total = dao.msremovetotalCount(loginId);
+
+	      	}else {	      
+	    	   	   
+	    	  total = dao.msremoveCountSearch(search,loginId);
+	       }
+	    
+	    int range = total%10  == 0 ? total/10 : total/10+1;
+
+	      page = page>range ? range:page;
+	      
+	      ArrayList<MessageDTO> list = null;
+	      
+	      params.put("offset", offset);
+	      
+	      params.put("loginId", loginId);
+			
+	      logger.info("user search:"+search);
+	      
+	      if(search.equals("default") ||search.equals("")) {
+
+	          list = dao.msremovedList(offset,loginId);
+	       
+	     
+	      }else {
+
+	         list = dao.msremoveListSearch(params);
+	      }
+	      		
+	      
+	      //logger.info("list size : "+ list.size());
+	      map.put("pages", range);
+	      map.put("list", list);
+	      map.put("currPage", page);	      
+	      map.put("loginid",loginid);
+
+	
+		return map;
+	}
+	
+	
+	public HashMap<String, Object> receiveList(HttpSession session, HashMap<String, Object> params) {
+		
+		int page = Integer.parseInt(String.valueOf(params.get("page")));
+	    String search = String.valueOf(params.get("search"));
+	    String loginId = (String) session.getAttribute("id");
+	    MessageDTO loginid = dao.logincheck(loginId);
+	    
+	    HashMap<String, Object> map = new HashMap<String, Object>();
+
+	    int offset = 10*(page-1);	    
+		
+	    logger.info("offset : " + offset);
+	    
+	    logger.info("params : " + params);
+	    
+	    int total = 0;	    
+		
+	    if(search.equals("default") || search.equals("")) {
+	      
+	    	  total = dao.receivetotalCount(loginId);
+
+	      	}else {	      
+	    	   	   
+	    	  total = dao.receivetotalCountSearch(search,loginId);
+	       }
+	    
+	    int range = total%10  == 0 ? total/10 : total/10+1;
+
+	      page = page>range ? range:page;
+	      
+	      ArrayList<MessageDTO> list = null;
+	      
+	      params.put("offset", offset);
+	      
+	      params.put("loginId", loginId);
+			
+	      logger.info("user search:"+search);
+	      
+	      if(search.equals("default") ||search.equals("")) {
+
+	          list = dao.receiveList(offset,loginId);
+	       
+	     
+	      }else {
+	    	  logger.info("params : " + params);
+	         list = dao.receiveListSearch(params);
+	      }
+	      		
+	      
+	      //logger.info("list size : "+ list.size());
+	      map.put("pages", range);
+	      map.put("list", list);
+	      map.put("currPage", page);	      
+	      map.put("loginid",loginid);
+
+	
+		return map;
+
+	}
 	
 	public HashMap<String, Object> sendList(HttpSession session, HashMap<String, Object> params) {
 		
@@ -75,6 +194,8 @@ public class MessageService {
 	      ArrayList<MessageDTO> list = null;
 	      
 	      params.put("offset", offset);
+	      
+	      params.put("loginId", loginId);
 			
 	      logger.info("user search:"+search);
 	      
@@ -84,7 +205,7 @@ public class MessageService {
 	       
 	     
 	      }else {
-
+	    	  logger.info("params : " + params);
 	         list = dao.sendListSearch(params);
 	      }
 	      		
@@ -125,10 +246,6 @@ public class MessageService {
 
 
 
-	public ArrayList<MessageDTO> receiveList(HttpSession session) {
-		String id = (String) session.getAttribute("id");
-		return dao.receiveList(id);
-	}
 
 
 	public boolean msDelete(String id) {
@@ -302,6 +419,9 @@ public class MessageService {
 
 			return dao.MemberByDept(dept);
 		}
+
+
+
 
 
 

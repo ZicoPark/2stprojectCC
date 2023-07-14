@@ -9,4 +9,11 @@
 		WHERE receive_id = #{receive_id}
 	</select>
 	
+<!-- 	<select id="alarmList" resultType="kr.co.cc.alaram.dto.AlarmDTO">
+		SELECT notice.type, notice.identify_value, notice.send_id, notice.create_at, m.user_id, m.name
+		FROM notice
+		LEFT JOIN member m ON notice.send_id = m.id
+		WHERE notice.status = 0
+	</select> -->
+	
 </mapper>

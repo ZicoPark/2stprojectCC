@@ -76,10 +76,26 @@ public interface DocDAO {
 	HashMap<String, String> objectionDocDetail(String docId);
 
 	ArrayList<HashMap<String, String>> getDocStatusList(String docId);
+	
+	int getNextApprovalMemberRow(String string);
 
 	String getNextApprovalMemberId(String docId);
 
 	ArrayList<HashMap<String, String>> getCompleteDocList(String loginId);
+
+	HashMap<String, String> completeDocDetail(String docId, String loginId);
+
+	ArrayList<HashMap<String, String>> getDeptList();
+
+	int totalCount(String deptId, String opt, String text);
+	
+	ArrayList<HashMap<String, String>> getRegisteredDocList(String loginId, String deptId, String opt, String text, int cnt, int offset);
+
+	HashMap<String, String> registeredDocDetail(String docId);
+
+	
+
+
 
 	
 

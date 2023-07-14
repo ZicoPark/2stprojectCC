@@ -9,6 +9,17 @@
 
   <title>AdminLTE 3 | Projects</title>
 
+ <!-- CSS only -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+<!-- Tempusdominus Bootstrap 4 -->
+<link rel="stylesheet" href="plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css">
+<!-- overlayScrollbars-->
+<link rel="stylesheet" href="plugins/overlayScrollbars/css/OverlayScrollbars.min.css">
+<!-- Ionicons -->
+<link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+
+
+
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
   <!-- Font Awesome -->
@@ -17,8 +28,13 @@
   <link rel="stylesheet" href="../../dist/css/adminlte.min.css">
   
 </head>
+
+
 <body>
+
+
 <jsp:include page = "index.jsp"></jsp:include>
+
 <!-- Site wrapper -->
 <div class="wrapper">
   <div class="content-wrapper">
@@ -27,13 +43,15 @@
     </section>
     <!-- Main content -->
     <section class="content">
+     <table class="table table-bordered table-hover dataTable dtr-inline">
+   		
+		<div class="input-group" style="width: 30%;">
+	    <input type="search" class="form-control form-control-lg" id="searchInput" placeholder="제목 또는 작성자를 입력" style="font-size: 13px;"/>
+	    <div class="input-group-append">
+	    <button id="searchButton" class="btn btn-lg btn-default"><alt="Search"><i class="fa fa-search"></i></button>
+	    </div>
+	    </div>
     
-   		<div class="search-container">
-	    <input type="text" id="searchInput" placeholder="제목 또는 작성자를 입력">
-	    <button id="searchButton"><alt="Search">검색</button>
-		</div>
-    
-		<table class = "mokrok">
 			<thead> 
 				<tr> 
 					<th>번호</th>
@@ -141,7 +159,7 @@ function listPrint(list){
 	      content +='<tr>';
 	      content += '<td>' + count-- + '</td>'; // 번호를 반대로 표시
 	      content +='<td><a href="freedetail.do?id=' + item.id + '">'+item.subject +'</a></td>';
-	      content +='<td>'+item.user_id +'</td>';
+	      content += '<td>' + item.name + ' ( ' + item.user_id + ' ) ' + '</td>';
 	      content +='<td id="userstate">'+ item.create_at +'</td>';
 	      
 	      content +='<td id="hit"> ' + item.hit + '</td>';

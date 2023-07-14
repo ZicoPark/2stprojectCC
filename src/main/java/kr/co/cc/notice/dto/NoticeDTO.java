@@ -13,9 +13,35 @@ public class NoticeDTO {
 	private Date create_at;
 	private String name;
 	private String user_id;
+	private String subject;
+	private String title;
+	private String doc_subject;
 	
 	
 	
+	
+	
+	
+	
+	
+	public String getTitle() {
+		return title;
+	}
+	public void setTitle(String title) {
+		this.title = title;
+	}
+	public String getDoc_subject() {
+		return doc_subject;
+	}
+	public void setDoc_subject(String doc_subject) {
+		this.doc_subject = doc_subject;
+	}
+	public String getSubject() {
+		return subject;
+	}
+	public void setSubject(String subject) {
+		this.subject = subject;
+	}
 	public String getUser_id() {
 		return user_id;
 	}

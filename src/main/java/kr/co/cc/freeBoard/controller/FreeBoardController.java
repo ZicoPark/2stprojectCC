@@ -14,11 +14,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.context.annotation.RequestScope;
+
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
-import kr.co.cc.archive.dto.ArchiveDTO;
+
 import kr.co.cc.freeBoard.dto.FreeBoardDTO;
 import kr.co.cc.freeBoard.service.FreeBoardService;
 
@@ -90,6 +90,74 @@ public class FreeBoardController {
 			}	
 			return page;
 	}	
+	
+	
+	// 게시글 삭제
+    @RequestMapping(value = "/freeDelete.do")
+    public String freeDelete(String id, Model model) throws Exception {
+    	String page = "freeBoardList";
+    	service.freeDelete(id);
+
+       return page;
+    }	
+	
+    
+    // 게시글 수정
+	@RequestMapping(value="/freeUpdate.go")
+		public String freeUpdateForm(@RequestParam String id, @RequestParam String member_id, HttpSession session, Model model) {
+		logger.info("게시글 수정 요청");
+		String page = "freeBoardList";
+		String loginId = null;
+		
+		if(session.getAttribute("id")!=null) {
+			loginId = (String) session.getAttribute("id");
+			if(loginId.equals(member_id)) {
+				
+				logger.info("작성자와 세션아이디 일치함");
+				FreeBoardDTO detailms = service.freedetail(id, "update");
+				
+				if(detailms != null) {
+					ArrayList<String> detailfile = service.freeDetailFile(id);
+					
+					model.addAttribute("detailms", detailms);
+					model.addAttribute("detailfile", detailfile);
+					page = "freeUpdateForm";
+				}
+			}
+		}
+		
+		return page;		
+}	
+	
+	@RequestMapping(value = "/freeUpdate.do")
+	public String freeUpdate(MultipartFile[] attachment, @RequestParam HashMap<String, String> params, 
+								@RequestParam ArrayList<String> deletedFiles,
+								HttpSession session, Model model) {
+		
+		logger.info("게시글 수정 하겠습니다");
+		String page = "redirect:/freeBoard.go";
+		String loginId = null;
+		String id;
+		logger.info("remove File : "+deletedFiles);
+		if(session.getAttribute("id")!=null) {//로그인 상태이고 글 작성자와 동일하면
+			loginId = (String) session.getAttribute("id");
+			if(loginId.equals(params.get("member_id"))) {
+				logger.info("컨트롤러 params : "+params);
+				logger.info("attachment : "+attachment);
+				logger.info("removeFile : "+deletedFiles);
+				service.freeUpdate(attachment, params,deletedFiles);
+				id =params.get("id");
+				page = "redirect:/freedetail.do?id="+id;
+			}
+		}		
+		
+		
+	    return page;
+	}		
+	
+	
+	
+	
 	
     @RequestMapping(value="/replyList.ajax", method = RequestMethod.POST)
     @ResponseBody

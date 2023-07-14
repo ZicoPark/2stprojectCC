@@ -24,4 +24,14 @@ public class NoticeService {
 	}
 
 
+	public ArrayList<NoticeDTO> nonReadAlarm(String loginId) {
+		return dao.nonReadAlarm(loginId);
+	}
+
+
+	public ArrayList<NoticeDTO> readAlarm(String loginId) {
+		return dao.readAlarm(loginId);
+	}
+
+
 }

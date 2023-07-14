@@ -49,9 +49,8 @@
 
       <!-- Messages Dropdown Menu -->
       <li class="nav-item dropdown">
-        <a class="nav-link" data-toggle="dropdown" href="/chatRoom.go">
+        <a class="nav-link" href="chatRoom.go">
           <i class="far fa-comments"></i>
-          <span class="badge badge-danger navbar-badge">숫자</span>
         </a>
         <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
           <a href="#" class="dropdown-item">
@@ -84,6 +83,8 @@
               </div>
             </div>
             <!-- Message End -->
+            
+            
           </a>
           <div class="dropdown-divider"></div>
           <a href="#" class="dropdown-item">
@@ -120,20 +121,28 @@
         <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
           <span class="dropdown-item dropdown-header">최신 알림</span>
           <div class="dropdown-divider"></div>
+          
+          
           <a href="#" class="dropdown-item">
             <i class="fas fa-envelope mr-2"></i> 쪽지
             <span class="float-right text-muted text-sm">3 mins</span>
           </a>
-          <div class="dropdown-divider"></div>
+          
+          
+          <!-- <div class="dropdown-divider"></div>
           <a href="#" class="dropdown-item">
             <i class="fas fa-users mr-2"></i> 공지사항
             <span class="float-right text-muted text-sm">12 hours</span>
           </a>
-          <div class="dropdown-divider"></div>
+          <div class="dropdown-divider"></div>      
           <a href="#" class="dropdown-item">
             <i class="fas fa-file mr-2"></i> 전자결재 
             <span class="float-right text-muted text-sm">2 days</span>
-          </a>
+          </a>  -->
+          
+         
+          
+          
           <div class="dropdown-divider"></div>
           <a href="notice.go" class="dropdown-item dropdown-footer">알림 더보기</a>
         </div>
@@ -166,10 +175,10 @@
       <!-- Sidebar user (optional) -->
       <div class="user-panel mt-3 pb-3 mb-3 d-flex">
         <div class="image">
-          <img src="../../dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
+          <img src="../../dist/img/CC.png" class="img-circle elevation-2">
         </div>
-        <div class="info">
-		  <a href="/userinfo.go" class="d-block">${user.id}의 MyPage</a>
+        <div class="info" style="text-align: center;">
+		  <a href="/userinfo.go" class="d-block">마이페이지</a>
 		</div>
       </div>
 
@@ -226,6 +235,12 @@
 			</p>
 		</a>
 	<ul class="nav nav-treeview">
+			<li class="nav-item">
+			<a href="/registeredDocList.go" class="nav-link">
+				<i class="far fa-circle nav-icon"></i>
+				<p>등록문서함</p>
+			</a>
+		</li>
 		<hr/>
 		<span style="padding-left: 10; font-size: 20;">기안</span>
 		<li class="nav-item">
@@ -359,9 +374,10 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="/userinfo.go" class="nav-link">
+
+                <a href="/signprofile.go" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
-                  <p>마이페이지</p>
+                  <p>서명 이미지 등록</p>
                 </a>
               </li>
               <li class="nav-item">
@@ -567,12 +583,47 @@ socket.onopen = function(event) {
 		dataType:'json',
 		success:function(data){
 			console.log(data);
+			
 			$('.badge.badge-warning.navbar-badge').html(data);
 		},
 		error:function(e){
 			console.log(e);
 		}		
 	});
+};
+
+
+ socket.onopen = function(event) {
+    console.log('WebSocket 연결이 열렸습니다.');
+    /*
+    $.ajax({
+		type:'post',
+		url:'alarmList.ajax',
+		data: {
+			receive_id : '${sessionScope.id}'
+		},
+		dataType:'json',
+		success:function(data){
+			console.log(data);
+			var content = '';
+			data.forEach(function(item) {
+				content += '<tr>';
+				content += '<td>' + item.type + '</td>';
+				content += '<td>' + item.identify_value + '</td>';
+				content += '<td>' + item.name + '</td>';
+				content += '<td><input type="hidden" id="' + item.id + '"></td>';
+				content += '</tr>';
+			});
+			
+			// HTML에 알림 목록 추가
+			//$('#notification-table').append(content);
+
+		},
+		error:function(e){
+			console.log(e);
+		}		
+	});
+    */
 };
 
 socket.onmessage = function(event) {
