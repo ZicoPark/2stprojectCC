@@ -17,11 +17,20 @@ public class ChatDTO {
 	private boolean is_notice;
 	private String dept_name;
 	private int number;
+	private String profileImg;
 	
 	
 	
 	
 	
+	
+	
+	public String getProfileImg() {
+		return profileImg;
+	}
+	public void setProfileImg(String profileImg) {
+		this.profileImg = profileImg;
+	}
 	public int getNumber() {
 		return number;
 	}
