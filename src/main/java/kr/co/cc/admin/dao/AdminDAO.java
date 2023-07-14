@@ -8,7 +8,7 @@ public interface AdminDAO {
 
 	ArrayList<AdminDTO> MemberList();
 
-	AdminDTO AdminMemberDetail(String user_id);
+	AdminDTO AdminMemberDetail(String id);
 
 	void MemberUpdate(boolean admin, String dept, String job, String status);
 
@@ -19,6 +19,8 @@ public interface AdminDAO {
 	AdminDTO MemberONOFFListDetail(String id);
 
 	int MemberONOFFDelete(String id);
+
+	AdminDTO AdminMemberDetailPhoto(String id);
 
 	
 
