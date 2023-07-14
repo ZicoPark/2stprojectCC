@@ -479,7 +479,7 @@
                 </a>
               </li>
               <li class="nav-item">
-                <a href="/MemberONOFFList.go" class="nav-link">
+                <a href="MemberONOFFList.go" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>사원 승인/삭제</p>
                 </a>
