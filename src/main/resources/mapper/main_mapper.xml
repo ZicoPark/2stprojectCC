@@ -5,7 +5,11 @@
 <mapper namespace="kr.co.cc.main.dao.MainDAO">
 
 	<select id="mWorkHistory" resultType="kr.co.cc.main.dto.MainDTO">
-		SELECT * FROM working_hour WHERE member_id=#{id} ORDER BY date DESC LIMIT 1
+		SELECT id, member_id, name, date, 
+		CASE WHEN date = CURDATE() THEN time_go ELSE '출근 전입니다.' END AS time_go,
+		CASE WHEN date = CURDATE() THEN time_go ELSE '퇴근 꼭 찍어주세요!' END AS time_end
+		FROM working_hour WHERE member_id=#{id}
+		ORDER BY date DESC LIMIT 1
 	</select>
 
 	<select id="totalCountMs" resultType="int">

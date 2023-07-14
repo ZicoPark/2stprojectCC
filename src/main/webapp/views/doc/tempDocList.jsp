@@ -15,6 +15,9 @@
 <!-- Theme style -->
 <link rel="stylesheet" href="../../dist/css/adminlte.min.css">
 <style>
+th{
+	text-align: center;
+}
 </style>
 </head>
 <body>
@@ -27,26 +30,39 @@
 			</section>
 			<!-- Main content -->
 			<section class="content">
-				<table class="table table-bordered">
+				<button onclick="location.href='docWriteForm.go'" class="btn btn-primary float-right" style="margin-bottom: 10px;">
+				<i class="fas fa-plus"></i>
+				새 문서 작성
+				</button>
+				<table class="table table-bordered table-hover dataTable dtr-inline">
+					<colgroup>
+						<col width="5%"/>
+						<col width="85%"/>
+						<col width="10%"/>
+					</colgroup>
 					<thead>
 						<tr>
-							<th>문서번호</th>
-							<th>제목</th>
-							<th>삭제</th>
+							<th>순번</th>
+							<th colspan="2">제목</th>
 						</tr>
 					</thead>
 					<tbody>
 						<c:if test="${list.size() == 0 }">
 							<tr>
-								<td colspan="4">임시저장 중인 문서가 없습니다.</td>
+								<td colspan="3">임시저장 중인 문서가 없습니다.</td>
 							</tr>
 						</c:if>
 						<c:if test="${list.size() > 0 }">
 							<c:forEach items="${list }" var="i" varStatus="varStatus">
 								<tr>
-									<td>${varStatus.count }</td>
-									<td><a href="tempDocUpdateForm.go?id=${i.id }">${i.subject }</a></td>
-									<td><a href="tempDocDelete.do?id=${i.id }">삭제</a></td>
+									<td style="text-align: center;">${varStatus.count }</td>
+									<td style="text-align: left;"><a href="tempDocUpdateForm.go?id=${i.id }">${i.subject }</a></td>
+									<td style="text-align: center;">										
+										<a class="btn btn-danger btn-sm" href="tempDocDelete.do?id=${i.id }">
+                              				<i class="fas fa-trash"></i>
+                              				삭제
+                          				</a>
+									</td>
 								</tr>
 							</c:forEach>
 						</c:if>

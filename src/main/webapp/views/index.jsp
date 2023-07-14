@@ -600,6 +600,7 @@ socket.onopen = function(event) {
 
  socket.onopen = function(event) {
     console.log('WebSocket 연결이 열렸습니다.');
+    /*
     $.ajax({
 		type:'post',
 		url:'alarmList.ajax',
@@ -627,6 +628,7 @@ socket.onopen = function(event) {
 			console.log(e);
 		}		
 	});
+    */
 };
 
 socket.onmessage = function(event) {

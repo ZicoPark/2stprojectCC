@@ -18,9 +18,9 @@ public class MainDTO {
 	private String jl_name;
 	private String a_id;
 
-    private LocalDate date;
-    private Time time_go;
-    private Time time_end; 
+    private Date date;
+    private String time_go;
+    private String time_end; 
     
     
     private String working_hour_id;
@@ -33,24 +33,25 @@ public class MainDTO {
     private String total_time;
 	
 	
-	public LocalDate getDate() {
-		return date;
-	}
-	public void setDate(LocalDate date) {
-		this.date = date;
-	}
-	public Time getTime_go() {
+	public String getTime_go() {
 		return time_go;
 	}
-	public void setTime_go(Time time_go) {
+	public void setTime_go(String time_go) {
 		this.time_go = time_go;
 	}
-	public Time getTime_end() {
+	public String getTime_end() {
 		return time_end;
 	}
-	public void setTime_end(Time time_end) {
+	public void setTime_end(String time_end) {
 		this.time_end = time_end;
 	}
+	public Date getDate() {
+		return date;
+	}
+	public void setDate(Date date) {
+		this.date = date;
+	}
+
 	public String getWorking_hour_id() {
 		return working_hour_id;
 	}

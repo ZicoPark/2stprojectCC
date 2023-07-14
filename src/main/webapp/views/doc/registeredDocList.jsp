@@ -94,8 +94,9 @@ function searchDoc(){
 	var searchOpt = document.getElementById('searchOpt').value;
 	var searchText = document.getElementById('searchText').value;
 	
-	listCall(showPage, searchDeptId, searchOpt, searchText);
 	$('#pagination').twbsPagination('destroy');
+	listCall(showPage, searchDeptId, searchOpt, searchText);
+	
 }
 
 function listCall(page, deptId, opt, text){
@@ -114,12 +115,17 @@ function listCall(page, deptId, opt, text){
 		success:function(data){
 			console.log(data);
 			printList(data.docList);
+
+			var visiblePages = data.pages;
 			
+			if(data.pages>5){
+				visiblePages = 5;
+			}
 			//paging plugin
 			$('#pagination').twbsPagination({
 				startPage:data.currPage,		//시작페이지
 				totalPages:data.pages,	//총 페이지 수
-				visiblePages:5,		//보여줄 페이지 [1][2][3][4][5]
+				visiblePages:visiblePages,		//보여줄 페이지 [1][2][3][4][5]
 				onPageClick:function(event,page){//페이지 클릭 시 동작되는 콜백함수
 					console.log(event,showPage);
 					//중간정도 페이지에서 게시물 갯수를 변경하면 1페이지로 초기화되는 문제가 있다.
@@ -127,7 +133,7 @@ function listCall(page, deptId, opt, text){
 					
 					if(page != showPage){
 						showPage = page;
-						listCall(page);
+						listCall(page, deptId, opt, text);
 					}
 				}
 			});
@@ -143,21 +149,38 @@ function printList(list){
 	
 	var content = '';
 	
-	list.forEach(function(item, number){
+	console.log('list 사이즈 : '+list.length);
+	
+	if(list.length==0){
 		
 		content += '<tr>';
-		content += '<td>'+(list.length-number)+'</td>';
-		content += '<td>'+item.doc_form_name+'</td>';
-		content += '<td>'+'<a href="registeredDocDetail.go?id='+item.id+'">'+item.subject+'</a></td>';
-		content += '<td>'+item.production_dept_name+'</td>';
-		content += '<td>'+item.create_member_name+'</td>';
-		content += '<td>'+item.approval_at+'</td>';
+		content += '<td colspan="6">표시할 문서가 없습니다.</td>';
 		content += '</tr>';
 		
 		$('#list').empty();
 		$('#list').append(content);
 		
-	});
+	}else{
+		
+		list.forEach(function(item, number){
+			
+			content += '<tr>';
+			content += '<td>'+(list.length-number)+'</td>';
+			content += '<td>'+item.doc_form_name+'</td>';
+			content += '<td>'+'<a href="registeredDocDetail.go?id='+item.id+'">'+item.subject+'</a></td>';
+			content += '<td>'+item.production_dept_name+'</td>';
+			content += '<td>'+item.create_member_name+'</td>';
+			content += '<td>'+item.approval_at+'</td>';
+			content += '</tr>';
+			
+			$('#list').empty();
+			$('#list').append(content);
+			
+		});
+		
+	}
+	
+
 	
 }
 

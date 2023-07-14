@@ -118,19 +118,20 @@
 	</update>
 	
 	<select id="getAllComment" parameterType="string" resultType="hashmap">
-		select c.id AS comment_id
+		SELECT c.id AS comment_id
 			, c.project_id 
-			, (select m.name from member m where m.id = c.member_id) AS name
+			, (SELECT m.name FROM member m WHERE m.id = c.member_id) AS name
+			, (SELECT a2.id FROM attachment a2 WHERE a2.identify_value = c.member_id AND a2.classification = '프로필사진') AS member_profile_attachment_id
 			, c.content 
 			, DATE_FORMAT(c.create_at, '%Y-%m-%d %T') AS create_at
 			, c.step 
 			, c.status 
-			, a.id AS attachment_id
-			, a.ori_file_name 
-			from comment c 
-			left join attachment a on a.identify_value = c.id 
-			where c.project_id = #{projectId}
-		order by create_at ASC
+			, a.id AS comment_attachment_id
+			, a.ori_file_name AS comment_ori_file_name
+			FROM comment c 
+			LEFT JOIN attachment a ON a.identify_value = c.id AND a.classification = '프로젝트 첨부파일'
+			WHERE c.project_id = '2991a594-1edf-11ee-973f-0242ac110002'
+		ORDER BY create_at ASC
 	</select>
 	
 	<insert id="replyWrite">

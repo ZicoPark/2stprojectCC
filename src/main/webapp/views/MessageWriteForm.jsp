@@ -60,7 +60,7 @@
 	<a href="/msWrite.go" class="btn btn-primary btn-block mb-3">쪽지 작성</a>
 	<div class="card">
 	<div class="card-header">
-	<h3 class="card-title">보관함</h3>
+	<h3 class="card-title">쪽지</h3>
 	<div class="card-tools">
 	<button type="button" class="btn btn-tool" data-card-widget="collapse">
 	<i class="fas fa-minus"></i>
@@ -86,7 +86,7 @@
 	</a>
 	</li>
 	<li class="nav-item">
-	<a href="#" class="nav-link">
+	<a href="/msRemoveList.go" class="nav-link">
 	<i class="far fa-trash-alt"></i> 휴지통
 	</a>
 	</li>

@@ -44,6 +44,8 @@ public interface NoticeBoardDAO {
 
 	int noticeDel(String id);
 
+	void readNotice(String id, String loginId);
+
    
 
 
