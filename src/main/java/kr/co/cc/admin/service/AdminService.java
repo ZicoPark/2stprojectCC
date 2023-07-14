@@ -7,6 +7,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import javax.servlet.http.HttpSession;
+
 import org.mybatis.spring.annotation.MapperScan;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,7 +18,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import kr.co.cc.admin.dao.AdminDAO;
 import kr.co.cc.admin.dto.AdminDTO;
-import kr.co.cc.member.dto.MemberDTO;
 
 @Service
 @MapperScan(value = {"kr.co.cc.admin.dao"})
@@ -39,21 +40,30 @@ public class AdminService {
 	@Autowired AdminDAO dao;
 	Logger logger = LoggerFactory.getLogger(getClass());
 	
-	public ModelAndView MemberList() {
-		ModelAndView mav = new ModelAndView("AdminMemberList");
-		ArrayList<AdminDTO> list = dao.MemberList();
-		mav.addObject("list",list);
+	public ModelAndView MemberList(HttpSession session) {
+		ModelAndView mav = new ModelAndView("Login");
+		//logger.info("로그인 세션 : "+ session.getAttribute("id"));
+		String id = (String) session.getAttribute("id");
+		if(id != null) {
+			mav = new ModelAndView("AdminMemberList");
+			ArrayList<AdminDTO> list = dao.MemberList();
+			mav.addObject("list",list);
+       } 		
 		return mav;
 	}
 
-	public ModelAndView AdminMemberDetail(String id) {
+	public ModelAndView AdminMemberDetail(String id, HttpSession session) {
 		//logger.info("Member uuid : "+id);
-		ModelAndView mav = new ModelAndView("AdminMemberDetail");
-		AdminDTO detail = dao.AdminMemberDetail(id);
-		AdminDTO dto = dao.AdminMemberDetailPhoto(id);
-		// logger.info("디테일확인 : "+detail);
-		mav.addObject("detail", detail);
-		mav.addObject("member",dto);
+		ModelAndView mav = new ModelAndView("Login");
+		//logger.info("로그인 세션 : "+ session.getAttribute("id"));
+		if(session.getAttribute("id") != null) {
+			mav = new ModelAndView("AdminMemberDetail");
+			AdminDTO detail = dao.AdminMemberDetail(id);
+			AdminDTO dto = dao.AdminMemberDetailPhoto(id);
+			// logger.info("디테일확인 : "+detail);
+			mav.addObject("detail", detail);
+			mav.addObject("member",dto);
+		}
 		return mav;
 	}
 	

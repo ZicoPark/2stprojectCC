@@ -22,6 +22,12 @@ public interface AdminDAO {
 
 	AdminDTO AdminMemberDetailPhoto(String id);
 
+	/*
+	 * boolean admin_chk(String id);
+	 * 
+	 * boolean admin_chkDetail(String id);
+	 */
+
 	
 
 	

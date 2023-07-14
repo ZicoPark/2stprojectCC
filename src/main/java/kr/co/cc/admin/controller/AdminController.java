@@ -3,6 +3,7 @@ package kr.co.cc.admin.controller;
 import java.util.ArrayList;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,15 +25,15 @@ public class AdminController {
 	
 	// 관리자 사원 리스트
 	@RequestMapping(value = "/MemberList.go")
-	public ModelAndView MemberList() {
-		return service.MemberList();
+	public ModelAndView MemberList(HttpSession session) {
+		return service.MemberList(session);
 	}
 	
 	// 관리사 사원 상세보기
 	@RequestMapping(value = "/AdminMemberDetail.go")
-	public ModelAndView AdminMemberDetail(@RequestParam ("id") String id) {
+	public ModelAndView AdminMemberDetail(@RequestParam ("id") String id, HttpSession session) {
 		logger.info("아이디확인 : "+id);
-		return service.AdminMemberDetail(id);
+		return service.AdminMemberDetail(id,session);
 	}
 	
 	// 사원리스트 검색

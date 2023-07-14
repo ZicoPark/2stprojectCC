@@ -82,6 +82,17 @@
 	  LEFT JOIN attachment a ON m.id = a.identify_value AND a.classification = '프로필사진'
 	  WHERE m.id = #{id}
 	</select>
-
+	
+<!-- 	<select id="admin_chk" resultType="kr.co.cc.admin.dto.AdminDTO">
+		SELECT admin_chk
+		FROM member
+		WHERE id = #{id}
+	</select>
+	
+	<select id="admin_chkDetail" resultType="kr.co.cc.admin.dto.AdminDTO">
+		SELECT admin_chk
+		FROM member
+		WHERE id = #{id}
+	</select> -->
 	
 </mapper>
