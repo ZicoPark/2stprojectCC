@@ -1010,6 +1010,8 @@ public class DocService {
 		String opt = params.get("opt");
 		String text = params.get("text");
 		
+		logger.info("deptId : "+deptId+"opt : "+opt+"text : "+text);
+		
 		// 페이징 관련
 		int page = Integer.parseInt(params.get("page"));
 		int cnt = 10;
@@ -1018,7 +1020,13 @@ public class DocService {
 		
 		int total = dao.totalCount(deptId, opt, text);
 		int range = total%cnt == 0 ? total/cnt : (total/cnt)+1;
+		if(total==0) {
+			range = 1;
+		}
+		
+		logger.info("page :"+page);
 		logger.info("전체 게시물 수 :"+total);
+		logger.info("total%cnt :"+total%cnt);
 		logger.info("총 페이지 수 :"+range);
 		
 		page = page > range ? range : page;

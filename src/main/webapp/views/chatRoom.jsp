@@ -374,6 +374,7 @@
 	
 	var scrollPosition = 0;
 	chatListAjax();
+	
 	setInterval(function() {
 	    chatListAjax();
 	}, 5000);

@@ -121,7 +121,13 @@ $(document).ready(function() {
 	          html += '<span style="border: 1px solid red; border-radius: 5px; padding: 3px;">' + detail.status + '</span>';
 	          html += '<div class="post">';
 	          html += '<div class="user-block">';
-	          html += '<img class="img-circle img-bordered-sm" src="../../dist/img/user1-128x128.jpg" alt="user image">';
+	          
+	          if(detail.member_profile_attachment_id == null){
+	        	  html += '<img class="img-circle img-bordered-sm" src="img/cc.png" alt="user image">'; 
+	          }else{
+	        	  html += '<img class="img-circle img-bordered-sm" src="photoView.do?path='+detail.member_profile_attachment_id+'" alt="user image">';
+	          }
+	          
 	          html += '<span class="username">';
 	          html += '<a href="#">' + detail.name + '</a>';
 	          html += '</span>';

@@ -29,8 +29,22 @@
 			<!-- Main content -->
 			<section class="content">
 				<form action="docWrite.do" method="post" enctype="multipart/form-data">
-					<select id="docForm" name="docFormId" onchange="docFormListCall(this)">
-						<option value="default">--</option>
+				<div class="row">
+					<div class="col-4">
+					<button type="button" onclick="saveDoc()" class="btn btn-primary btn-block">
+						<i class="fas fa-save">
+						임시저장
+						</i>
+					</div>
+					</button>
+					<button type="button" onclick="pushDoc()" class="btn btn-primary btn-block">
+						<i class="fas fa-inbox">
+						결재신청
+						</i>
+					</button>
+				</div>	
+					<select id="docForm" name="docFormId" onchange="docFormListCall(this)" class="form-control">
+						<option value="default">양식 선택</option>
 						<c:forEach items="${docFormList}" var="i">
 							<option value="${i.id}">${i.name}</option>
 						</c:forEach>
@@ -39,7 +53,8 @@
 						<textarea id="${i.id}" hidden="true">${i.content}</textarea>
 					</c:forEach>
 					<br>
-					<select name="publicRange">
+					<select name="publicRange" class="form-control">
+						<option value="default">공개범위 선택</option>
 						<option value="all">전체</option>
 						<option value="dept">부서별</option>
 					</select>
@@ -61,17 +76,19 @@
 					<br>
 					</div>
 					<br>
-					<input type="text" name="subject" value="" placeholder="제목을 입력하세요"/>
+					<input type="text" name="subject" value="" placeholder="제목을 입력하세요" class="form-control" style="width: 100%;"/>
 					<br>
 					<div id="div_editor">
 						<!-- 에디터 안에 들어갈 자리 -->
 					</div>
 					<textarea hidden="true" id="content" name="content"></textarea>
 					<input type="hidden" id="status" name="status"/>
-					<input type="file" multiple="multiple" name="attachment"/>
-					
-					<input type="button" onclick="pushDoc()" value="제출"/>
-					<input type="button" onclick="saveDoc()" value="임시저장"/>
+					<div class="custom-file">
+						<input type="file" multiple="multiple" id="attachment" name="attachment" class="custom-file-input"/>
+						<label class="custom-file-label" for="attachment">
+						첨부파일을 선택하세요.
+						</label>
+					</div>
 				</form>
 			</section>
 		</div>
@@ -83,6 +100,8 @@
 <script src="../../dist/js/adminlte.min.js"></script>
 <!-- AdminLTE for demo purposes -->
 <script src="../../dist/js/demo.js"></script>
+<!-- bs-custom-file-input -->
+<script src="../../plugins/bs-custom-file-input/bs-custom-file-input.min.js"></script>
 
 <script type="text/javascript" src="/richtexteditor/rte.js"></script>  
 <script type="text/javascript" src='/richtexteditor/plugins/all_plugins.js'></script>
@@ -142,5 +161,8 @@ function saveDoc(){
 	
 }
 
+$(function () {
+	  bsCustomFileInput.init();
+});
 </script>
 </html>

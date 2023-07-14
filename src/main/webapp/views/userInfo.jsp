@@ -73,19 +73,15 @@
 			    <c:choose>
 			        <c:when test="${member.job_level_id eq '8ade9167-1703-11ee-973f-0242ac110002'}">
 			            팀원 &nbsp; &nbsp; &nbsp; &nbsp;  &nbsp;   &nbsp; &nbsp;
-			            <button onclick="openPopup('/job-history?id=${member.id}')">직급 히스토리 조회</button>
 			        </c:when>
 			        <c:when test="${member.job_level_id eq '8bbf948d-1703-11ee-973f-0242ac110002'}">
 			            팀장 &nbsp; &nbsp; &nbsp; &nbsp;  &nbsp;   &nbsp; &nbsp;
-			            <button onclick="openPopup('/job-history?id=${member.id}')">직급 히스토리 조회</button>
 			        </c:when>
 			        <c:when test="${member.job_level_id eq '8c4e7542-1703-11ee-973f-0242ac110002'}">
 			            이사 &nbsp; &nbsp; &nbsp; &nbsp;  &nbsp;   &nbsp; &nbsp;
-			            <button onclick="openPopup('/job-history?id=${member.id}')">직급 히스토리 조회</button>
 			        </c:when>
 			        <c:when test="${member.job_level_id eq '8cdd8503-1703-11ee-973f-0242ac110002'}">
 			            사장 &nbsp; &nbsp; &nbsp; &nbsp;  &nbsp;   &nbsp; &nbsp;
-			            <button onclick="openPopup('/job-history?id=${member.id}')">직급 히스토리 조회</button>
 			        </c:when>
 			    </c:choose>
 			</td>
@@ -96,19 +92,15 @@
 			    <c:choose>
 			        <c:when test="${member.dept_id eq '8e5f3282-1703-11ee-973f-0242ac110002'}">
 			            총무팀 &nbsp; &nbsp; &nbsp; &nbsp; 
-			            <button onclick="openPopup('/dept-history?id=${member.id}')">부서 히스토리 조회</button>
 			        </c:when>
 			        <c:when test="${member.dept_id eq '8ee07433-1703-11ee-973f-0242ac110002'}">
 			            기획팀 &nbsp; &nbsp; &nbsp; &nbsp; 
-			            <button onclick="openPopup('/dept-history?id=${member.id}')">부서 히스토리 조회</button>
 			        </c:when>
 			        <c:when test="${member.dept_id eq '8f963853-1703-11ee-973f-0242ac110002'}">
 			            촬영팀 &nbsp; &nbsp; &nbsp; &nbsp; 
-			            <button onclick="openPopup('/dept-history?id=${member.id}')">부서 히스토리 조회</button>
 			        </c:when>
 			        <c:when test="${member.dept_id eq '9022f64a-1703-11ee-973f-0242ac110002'}">
 			            편집팀 &nbsp; &nbsp; &nbsp; &nbsp; 
-			            <button onclick="openPopup('/dept-history?id=${member.id}')">부서 히스토리 조회</button>
 			        </c:when>
 			    </c:choose>
 			</td>
@@ -142,10 +134,6 @@
 <script src="../../dist/js/demo.js"></script>
 </body>
 <script>
-
-	function openPopup(url) {
-	    window.open(url, 'popupWindow', 'width=800,height=600');
-	}
 
 	var msg = "${msg}";
 	if(msg != ""){

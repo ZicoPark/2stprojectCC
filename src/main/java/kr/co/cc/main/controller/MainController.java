@@ -82,23 +82,6 @@ public class MainController {
 		return root+"/"+sub+"/"+page;
 	}
 	
-	public void formattedDateTime() {
-		long currentTimeMillis = System.currentTimeMillis();
-
-	    Calendar calendar = Calendar.getInstance();
-	    calendar.setTimeInMillis(currentTimeMillis);
-
-	    SimpleDateFormat format = new SimpleDateFormat("HH:mm:ss");
-	    String formattedTime = format.format(calendar.getTime());	    
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        String formattedDate = dateFormat.format(calendar.getTime());
-
-        logger.info(formattedDate);
-        logger.info(formattedTime);
-        
-        this.time=formattedTime;
-        this.date=formattedDate;
-	}
 	
 	// 로그인 성공시 가는 메인페이지
 	@RequestMapping(value="/main.go")
@@ -107,19 +90,11 @@ public class MainController {
 	    MainDTO mainPage = memberservice.mainPage(loginId);
 	    logger.info("mainPage: " + mainPage);
 
-		/*
-		 * //출퇴근 MainDTO timeList = mservice.mWorkHistory(loginId); LocalDate
-		 * currentDate = LocalDate.now(ZoneId.systemDefault()); logger.info("오늘 날짜: " +
-		 * currentDate);
-		 * 
-		 * LocalDate dateValue = timeList.getDate(); logger.info("날짜 조회: " + dateValue);
-		 * 
-		 * 
-		 * if (currentDate.isEqual(dateValue)) {
-		 * 
-		 * model.addAttribute("time", timeList); } else { model.addAttribute("time",
-		 * null); }
-		 */
+		
+		 //출퇴근 
+		 MainDTO timeList = mservice.mWorkHistory(loginId); 
+		 
+		
 	    
 	    // 대시보드
 	    int mstotal = mservice.totalCountMs(loginId);
@@ -130,7 +105,7 @@ public class MainController {
 	    ArrayList<NoticeBoardDTO> Nolist = mservice.noticelist();
 	    
 	    
-	    
+	    model.addAttribute("timeList", timeList);
 	    model.addAttribute("main", mainPage);
 	    model.addAttribute("ms", mstotal);
 	    model.addAttribute("doc", doctotal);
@@ -146,7 +121,7 @@ public class MainController {
 	
 	@GetMapping(value="/mtimeGo.do")
 	public String mtimeGo(HttpSession session, Model model) {
-		formattedDateTime();
+
 		String id = (String) session.getAttribute("id");
 	
 		
@@ -169,7 +144,6 @@ public class MainController {
 	@GetMapping(value="/mtimeEnd.do")
 	public String mtimeEnd(HttpSession session, Model model) {
 		
-		formattedDateTime();
 		String id = (String) session.getAttribute("id");
 		
 		
