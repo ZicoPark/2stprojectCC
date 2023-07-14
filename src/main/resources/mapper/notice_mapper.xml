@@ -5,30 +5,30 @@
 <mapper namespace="kr.co.cc.notice.dao.NoticeDAO">
 
 	<select id="nlist" resultType="kr.co.cc.notice.dto.NoticeDTO" parameterType="String">
- 	SELECT n.type, n.identify_value, n.send_id, n.create_at, m.user_id, m.name, nb.subject, d.subject AS doc_subject, message.title
-	FROM notice n
-	LEFT JOIN member m ON n.send_id = m.id
-	LEFT JOIN notice_board nb ON n.identify_value = nb.id
-	LEFT JOIN doc d ON n.identify_value = d.id
-	LEFT JOIN message ON n.identify_value = message.id
-	WHERE n.status = 0 
-	AND n.receive_id  = #{loginId}
- 	ORDER BY create_at DESC
+	 	SELECT n.type, n.identify_value, n.send_id, n.create_at, m.user_id, m.name, nb.subject, d.subject AS doc_subject, message.title
+		FROM notice n
+		LEFT JOIN member m ON n.send_id = m.id
+		LEFT JOIN notice_board nb ON n.identify_value = nb.id
+		LEFT JOIN doc d ON n.identify_value = d.id
+		LEFT JOIN message ON n.identify_value = message.id
+		WHERE n.status = 0 
+		AND n.receive_id  = #{loginId}
+	 	ORDER BY create_at DESC
 	 </select>
 
-		<select id="nonReadAlarm" resultType="kr.co.cc.notice.dto.NoticeDTO" parameterType="String">
-		 SELECT n.type, n.identify_value, n.send_id, n.create_at, m.user_id, m.name, nb.subject, d.subject AS doc_subject, message.title
-			FROM notice n
-			LEFT JOIN member m ON n.send_id = m.id
-			LEFT JOIN notice_board nb ON n.identify_value = nb.id
-			LEFT JOIN doc d ON n.identify_value = d.id
-			LEFT JOIN message ON n.identify_value = message.id
-			WHERE n.status = 0 
-			AND n.receive_id  = #{loginId}
-		 	ORDER BY create_at DESC
+	<select id="nonReadAlarm" resultType="kr.co.cc.notice.dto.NoticeDTO" parameterType="String">
+		SELECT n.type, n.identify_value, n.send_id, n.create_at, m.user_id, m.name, nb.subject, d.subject AS doc_subject, message.title
+		FROM notice n
+		LEFT JOIN member m ON n.send_id = m.id
+		LEFT JOIN notice_board nb ON n.identify_value = nb.id
+		LEFT JOIN doc d ON n.identify_value = d.id
+		LEFT JOIN message ON n.identify_value = message.id
+		WHERE n.status = 0 
+		AND n.receive_id  = #{loginId}
+		 ORDER BY create_at DESC
 	 </select>
 	 
-	 <select id="readAlarm" resultType="kr.co.cc.notice.dto.NoticeDTO">
+	 <select id="readAlarm" resultType="kr.co.cc.notice.dto.NoticeDTO" parameterType="String">
 	 	SELECT n.type, n.identify_value, n.send_id, n.create_at, m.user_id, m.name, nb.subject, d.subject AS doc_subject, message.title
 		FROM notice n
 		LEFT JOIN member m ON n.send_id = m.id
@@ -39,4 +39,5 @@
 		AND n.receive_id  = #{loginId}
 	 	ORDER BY create_at DESC
 	 </select>
+	 
 </mapper>

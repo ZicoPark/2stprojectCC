@@ -593,38 +593,69 @@ socket.onopen = function(event) {
 };
 
 
- socket.onopen = function(event) {
-    console.log('WebSocket 연결이 열렸습니다.');
-    /*
-    $.ajax({
-		type:'post',
+function nonReadAlarm() {
+	$.ajax({
 		url:'alarmList.ajax',
-		data: {
-			receive_id : '${sessionScope.id}'
-		},
+		type:'post',
+		async: false,
+		data:{loginId : '${sessionScope.id}'},
 		dataType:'json',
 		success:function(data){
+			console.log('아작스 통신 성공');
 			console.log(data);
 			var content = '';
-			data.forEach(function(item) {
-				content += '<tr>';
-				content += '<td>' + item.type + '</td>';
-				content += '<td>' + item.identify_value + '</td>';
-				content += '<td>' + item.name + '</td>';
-				content += '<td><input type="hidden" id="' + item.id + '"></td>';
-				content += '</tr>';
-			});
+			if(data.length == 0) {
+				content +='<tr><th colspan="5" style="text-align:center">새 알림이 없습니다.</th></tr>'
+			}else {
+				data.forEach(function(item) {
+					/* content += '<tr><td style="text-align:center">';
+					if(item.type == '공지사항') {
+						console.log('공지사항 if문 진입');
+						content += '<span class="type-notice">'+item.type+'</span></td><td style="text-align:center">';
+						content += '<a href="noticeBoardDetail.do?type=alarm&id='+item.identify_value+'">'+item.subject+'</a>';
+					}else if(item.type == '전자결재') {
+						console.log('전자결재 if문 진입');
+						content += '<span class="type-approval">'+item.type+'</span></td><td style="text-align:center">';
+						content += '<a href="requestDocWaitDetail.go?id='+item.identify_value+'">'+item.doc_subject+'</a>';
+					}else if(item.type == '쪽지') {
+						console.log('쪽지 if문 진입');
+						content += '<span class="type-message">'+item.type+'</span></td><td style="text-align:center">';
+						content += '<a href="msRcDetail.do?id='+item.identify_value+'">'+item.title+'</a>';
+					}
+					content+='</td>';
+					content += '<td style="text-align:center">'+item.name+'('+item.user_id+')</td>';
+				    content += '</tr>'; */
+				    
+				    
+				    
+				    content += '<a href="#" class="dropdown-item">';
+				    if (item.type === '쪽지') {
+				      content += '<i class="fas fa-envelope mr-2"></i> 쪽지';
+				    } else if (item.type === '공지사항') {
+				      content += '<i class="fas fa-bullhorn mr-2"></i> 공지사항';
+				    } else if (item.type === '전자결재') {
+				      content += '<i class="fas fa-file-signature mr-2"></i> 전자결재';
+				    }
+				    content += '<span class="float-right text-muted text-sm">' + item.time + '</span>';
+				    content += '</a>';
+				    content += '<td style="text-align:center">' + item.name + '(' + item.user_id + ')</td>';
+				    
+				    
+				    
+				    
+				});
+			}
 			
-			// HTML에 알림 목록 추가
-			//$('#notification-table').append(content);
-
+			$('#list').empty();
+			$('#list').append(content);
 		},
 		error:function(e){
 			console.log(e);
-		}		
+		}
 	});
-    */
-};
+	console.log('아작스 다음');
+}
+
 
 socket.onmessage = function(event) {
     var message = event.data;
