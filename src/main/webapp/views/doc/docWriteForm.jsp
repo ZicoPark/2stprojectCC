@@ -29,7 +29,7 @@
 			<!-- Main content -->
 			<section class="content">
 				<form action="docWrite.do" method="post" enctype="multipart/form-data">
-					<select id="docForm" name="docFormId" onchange="docFormListCall(this)">
+					<select id="docForm" name="docFormId" onchange="docFormListCall(this)" class="form-control">
 						<option value="default">--</option>
 						<c:forEach items="${docFormList}" var="i">
 							<option value="${i.id}">${i.name}</option>
@@ -39,7 +39,7 @@
 						<textarea id="${i.id}" hidden="true">${i.content}</textarea>
 					</c:forEach>
 					<br>
-					<select name="publicRange">
+					<select name="publicRange" class="form-control">
 						<option value="all">전체</option>
 						<option value="dept">부서별</option>
 					</select>
@@ -68,8 +68,12 @@
 					</div>
 					<textarea hidden="true" id="content" name="content"></textarea>
 					<input type="hidden" id="status" name="status"/>
-					<input type="file" multiple="multiple" name="attachment"/>
-					
+					<div class="custom-file">
+						<input type="file" multiple="multiple" id="attachment" name="attachment" class="custom-file-input"/>
+						<label class="custom-file-label" for="attachment">
+						첨부파일을 선택하세요.
+						</label>
+					</div>
 					<input type="button" onclick="pushDoc()" value="제출"/>
 					<input type="button" onclick="saveDoc()" value="임시저장"/>
 				</form>
