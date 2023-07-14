@@ -211,7 +211,7 @@ function deleteApproval(elem){
 function pushDoc(){
 	
 	var submitContent = editor.getHTMLCode();
-	$('textarea[name="content"]').val(submitContent);
+	$('textarea[name="afterContent"]').val(submitContent);
 	$('input[name="status"]').val('1');
 	$('form').submit();
 	
@@ -220,7 +220,7 @@ function pushDoc(){
 function saveDoc(){
 	
 	var submitContent = editor.getHTMLCode();
-	$('textarea[name="content"]').val(submitContent);
+	$('textarea[name="afterContent"]').val(submitContent);
 	$('input[name="status"]').val('2');
 	$('form').submit();
 	
