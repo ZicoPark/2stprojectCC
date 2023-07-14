@@ -141,7 +141,6 @@
 </style>
 </head>
 <body>
-<jsp:include page = "index.jsp"></jsp:include>
 <!-- Site wrapper -->
 <div class="wrapper">
   <div class="content-wrapper">
