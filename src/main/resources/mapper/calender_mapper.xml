@@ -22,4 +22,16 @@
    		DELETE FROM calender WHERE id = #{eventId}
 	</delete>
 	
+	<update id="CalenderListResize" parameterType="map">
+		UPDATE calender
+			SET start_at = #{start_at}, end_at = #{end_at}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="CalenderListEventDrop" parameterType="map">
+		UPDATE calender
+			SET start_at = #{start_at}, end_at = #{end_at}
+		WHERE id = #{id}
+	</update>
+	
 </mapper>

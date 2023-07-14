@@ -44,19 +44,23 @@
 	</select>
 	
 	<select id="chatHistory" resultType="kr.co.cc.chat.dto.ChatDTO" parameterType="String">
-		SELECT c.send_id ,c.chat_room_id ,c.content ,c.send_time ,c.blind, m.id, m.name, d.name as dept_name 
-		from `chat` c inner join `member` m on c.send_id = m.id
-		inner join dept d on m.dept_id = d.id
+		SELECT c.send_id, c.chat_room_id, c.content, c.send_time, c.blind, m.id, m.name, d.name AS dept_name, a.id AS profileImg
+		FROM `chat` c
+		INNER JOIN `member` m ON c.send_id = m.id
+		INNER JOIN dept d ON m.dept_id = d.id
+		LEFT JOIN attachment a ON m.id = a.identify_value AND a.classification = "프로필사진"
 		WHERE chat_room_id = #{chat_room_id}
-		order by c.send_time
+		ORDER BY c.send_time
 	</select>
-	
+		
 	<select id="chatLoad" parameterType="String">
-		SELECT c.send_id ,c.chat_room_id ,c.content ,c.send_time ,c.blind, m.id, m.name, d.name as dept_name 
-		from `chat` c inner join `member` m on c.send_id = m.id
-		inner join dept d on m.dept_id = d.id
+		SELECT c.send_id, c.chat_room_id, c.content, c.send_time, c.blind, m.id, m.name, d.name AS dept_name, a.id AS profileImg
+		FROM `chat` c
+		INNER JOIN `member` m ON c.send_id = m.id
+		INNER JOIN dept d ON m.dept_id = d.id
+		LEFT JOIN attachment a ON m.id = a.identify_value AND a.classification = "프로필사진"
 		WHERE chat_room_id = #{chat_room_id}
-		order by c.send_time
+		ORDER BY c.send_time
 	</select>
 	
 	<insert id="chatStored" parameterType="hashmap">

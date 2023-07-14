@@ -100,7 +100,7 @@
 							<td><span style="color: ${member.status ? 'blue' : 'red'}; display: inline-block; text-align: center; width: 100%;">${member.status ? 'Y' : 'N'}</span></td>
 							<td><span style="color: ${member.admin_chk ? 'blue' : 'red'}; display: inline-block; text-align: center; width: 100%;">${member.admin_chk ? 'Y' : 'N'}</span></td>
 							<td id="but">
-						    	<button id="btn" onclick="location.href='AdminMemberDetail.go?id=${member.user_id}'">상세보기</button>
+						    	<button id="btn" onclick="location.href='AdminMemberDetail.go?id=${member.id}'">상세보기</button>
 						    </td>
 						</tr>
 					</c:forEach>

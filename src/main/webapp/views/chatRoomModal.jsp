@@ -141,7 +141,6 @@
 </style>
 </head>
 <body>
-<jsp:include page = "index.jsp"></jsp:include>
 <!-- Site wrapper -->
 <div class="wrapper">
   <div class="content-wrapper">
@@ -514,14 +513,7 @@
 			}
 			
 			content+='</div>';
-			
-			if(item.profileImg == null || item.profileImg ==""){
-				content+='<img class="direct-chat-img" src="dist/img/user1-128x128.jpg" alt="message user image">';
-			}else{
-				content+='<img class="direct-chat-img" src="/photoView.do?path='+item.profileImg+'" alt="message user image">';				
-			}
-			
-			
+			content+='<img class="direct-chat-img" src="dist/img/user1-128x128.jpg" alt="message user image">';
 			content+='<div class="direct-chat-text">'+item.content+'</div></div>';			
 
 			$('#chat_history').append(content);

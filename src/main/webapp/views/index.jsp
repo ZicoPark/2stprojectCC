@@ -49,6 +49,9 @@
 
       <!-- Messages Dropdown Menu -->
       <li class="nav-item dropdown">
+      
+      
+      
         <a class="nav-link" href="chatRoom.go">
           <i class="far fa-comments"></i>
         </a>
@@ -479,12 +482,12 @@
                   <p>사원 리스트</p>
                 </a>
               </li>
-              <li class="nav-item">
-                <a href="/MemberONOFFList.go" class="nav-link">
+              <!-- <li class="nav-item">
+                <a href="MemberONOFFList.go" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>사원 승인/삭제</p>
                 </a>
-              </li>
+              </li> -->
               <li class="nav-item">
                 <a href="/workHistoryList_Ad.go" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
@@ -566,6 +569,8 @@
   </aside>
   <!-- /.control-sidebar -->
 	<!-- <script src="../../js/websocket.js"></script> -->
+	
+
 <script>
 
 var socket;
