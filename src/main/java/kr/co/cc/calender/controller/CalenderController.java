@@ -40,37 +40,38 @@ public class CalenderController {
 	    logger.info("id 확인 : " + id);
 	    logger.info("user_id 확인 : " + user_id);
 
-	    ModelAndView mav;
+	    ModelAndView mav = new ModelAndView("Login");
 	    ArrayList<CalenderDTO> eventList = service.CalenderList(id);
-	    if (eventList != null && !eventList.isEmpty()) {
-	        List<HashMap<String, Object>> calenderEvents = new ArrayList<>();
-	        //SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-	        for (CalenderDTO event : eventList) {
-	        	HashMap<String, Object> map = new HashMap<>();
-	        	map.put("id", event.getId());
-	        	map.put("member_id", event.getMember_id());
-	        	map.put("title", event.getTitle());
-	            map.put("content", event.getContent());
-	            map.put("color", event.getColor());
-	            //map.put("start_at", dateFormat.format(event.getStart_at()));
-	            //map.put("end_at", dateFormat.format(event.getEnd_at()));
-	            //map.put("create_at", dateFormat.format(event.getCreate_at()));
-	            map.put("start_at", event.getStart_at());
-	            map.put("end_at", event.getEnd_at());
-	            map.put("create_at", event.getCreate_at());
+	    if(session.getAttribute("id") != null) {
+	    	if (eventList != null && !eventList.isEmpty()) {
+		        List<HashMap<String, Object>> calenderEvents = new ArrayList<>();
+		        //SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		        for (CalenderDTO event : eventList) {
+		        	HashMap<String, Object> map = new HashMap<>();
+		        	map.put("id", event.getId());
+		        	map.put("member_id", event.getMember_id());
+		        	map.put("title", event.getTitle());
+		            map.put("content", event.getContent());
+		            map.put("color", event.getColor());
+		            //map.put("start_at", dateFormat.format(event.getStart_at()));
+		            //map.put("end_at", dateFormat.format(event.getEnd_at()));
+		            //map.put("create_at", dateFormat.format(event.getCreate_at()));
+		            map.put("start_at", event.getStart_at());
+		            map.put("end_at", event.getEnd_at());
+		            map.put("create_at", event.getCreate_at());
 
-	            calenderEvents.add(map);
-	            logger.info("calenderEvents 확인 : "+calenderEvents);
-	        }
-	        mav = new ModelAndView("CalenderList");
-	        ObjectMapper objectMapper = new ObjectMapper();
-	        String jsonString = objectMapper.writeValueAsString(calenderEvents);
-	        mav.addObject("json", jsonString);
-	    } else {
-	        mav = new ModelAndView("CalenderList");
-	        mav.addObject("msg", "이벤트가 없습니다.");
-	    }
-	      
+		            calenderEvents.add(map);
+		            logger.info("calenderEvents 확인 : "+calenderEvents);
+		        }
+		        mav = new ModelAndView("CalenderList");
+		        ObjectMapper objectMapper = new ObjectMapper();
+		        String jsonString = objectMapper.writeValueAsString(calenderEvents);
+		        mav.addObject("json", jsonString);
+		    } else {
+		        mav = new ModelAndView("CalenderList");
+		        mav.addObject("msg", "이벤트가 없습니다.");
+		    }
+	    }      
 	    return mav;
 	}
 	
