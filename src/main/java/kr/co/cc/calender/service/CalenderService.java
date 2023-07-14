@@ -1,6 +1,5 @@
 package kr.co.cc.calender.service;
 
-import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 
@@ -26,13 +25,23 @@ public class CalenderService {
 
 	public void CalenderListDrop(String id, String member_id, String title, String content, String color,
 			Timestamp create_at, Timestamp start_at, Timestamp end_at) {
-		dao.CalenderListDrop(id,member_id,title,content,color,create_at,start_at,end_at);
-		
+		dao.CalenderListDrop(id,member_id,title,content,color,create_at,start_at,end_at);	
 	}
 
 	public void CalenderListDelete(String eventId) {
 		dao.CalenderListDelete(eventId);
 	}
+
+	public void CalenderListResize(String id, Timestamp start_at, Timestamp end_at) {
+		dao.CalenderListResize(id,start_at,end_at);
+		
+	}
+
+	public void CalenderListEventDrop(String id, Timestamp start_at, Timestamp end_at) {
+		dao.CalenderListEventDrop(id,start_at,end_at);
+	}
+
+
 
 
 

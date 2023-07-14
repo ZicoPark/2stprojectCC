@@ -52,6 +52,16 @@
 				<div class="col-md-3">
 					<div class="sticky-top mb-3">
 						<div class="card">
+								<div class="card-header">
+									<h4 class="card-title">이벤트를 추가하고 반드시 새로고침 하세요</h4>
+								</div>
+								<div class="card-body">
+									<div class="input-group-append">
+										<button type="button" class="btn btn-primary" onclick="location.href='CalenderList.go'">새로고침</button>
+									</div>
+								</div>
+							</div>
+						<div class="card">
 							<div class="card-header">
 								<h4 class="card-title">이벤트 목록</h4>
 							</div>
@@ -181,7 +191,6 @@ $(function () {
 	      return v.toString(16);
 	    });
 	  }
-
 	  /* 외부 이벤트 초기화 */
 	  function ini_event(ele) {
 	    ele.each(function () {
@@ -253,9 +262,10 @@ $(function () {
 	      };
 	      event.push(eventObject);
 	    }
-	    console.log('start 확인 : ',event[0].start);
-	    console.log('end 확인 : ',event[0].end);
-	    console.log('event 확인 : ',event);
+	    //console.log('create 확인 : ',event[0].create);
+	    //console.log('start 확인 : ',event[0].start);
+	    //console.log('end 확인 : ',event[0].end);
+	    //console.log('event 확인 : ',event);
 
 	    calendar = new FullCalendar.Calendar(calendarEl, {
 	      headerToolbar: {
@@ -274,8 +284,8 @@ $(function () {
 	        var eventName = info.draggedEl.textContent;
 	        var time = info.date;
 	        var start = moment(time).add(9, 'hour').toDate();; // 시작 시간 (date)
-	        var end =  moment(start).add(1, 'hour').toDate(); // 종료 시간은 시작 시간으로부터 1일 후로 설정
-	        console.log(eventName + ' 일정 생성시간:  ' + eventCreationTime);
+	        var end =  moment(start).add(1, 'hour').toDate(); // 종료 시간은 시작 시간으로부터 1시간 후로 설정
+	        //console.log(eventName + ' 일정 생성시간:  ' + eventCreationTime);
 	      	//console.log('eventID : ',eventID);
 	      	//console.log('id : ',id);
 	      	//console.log('create_at',create_at);
@@ -284,7 +294,7 @@ $(function () {
 	      	//console.log('color : ',currColor);
 	      	//console.log('start : ',start);
 	      	//console.log('end : ',end);
-		      event = [];
+		    event = [];
 		      event.push({
 		          uuid: eventID,
 		          id: id,
@@ -294,9 +304,7 @@ $(function () {
 		          color: currColor,
 		          start: start,
 		          end: end,
-		        });
-		      
-
+		        });		     
 	        $.ajax({
 	          url: 'CalenderListDrop.ajax',
 	          method: 'POST',
@@ -304,20 +312,27 @@ $(function () {
 	          contentType: 'application/json',
 	          dataType: 'json',
 	          success: function (data) {
-	            console.log(data);
 	            console.log(data.status); // 출력: success
 	            console.log(data.message); // 출력: 일정이 성공적으로 생성되었습니다.
+	            //console.log('data확인 : ',data);	            
+	            //console.log('data.data[0] 확인: ', data.data[0]);
+				//calendar.removeAllEvents();
 	            var newEvent = {
-	              uuid: data.uuid,
-	              id: data.id,
-	              create_at: data.create_at,
-	              title: data.title,
-	              content: data.content,
-	              color: data.color,
-	              start: data.start,
-	              end: data.end,
+	              id: data.data[0].member_id,
+	              create_at: data.data[0].create_at,
+	              title: data.data[0].title,
+	              content: data.data[0].content,
+	              color:data. data[0].color,
+	              start: data.data[0].start_at,
+	              end: data.data[0].end_at,
+	              extendedProps: {
+	                uuid: data.data[0].id, // UUID를 extendedProps에 추가
+	              },
 	            };
-	            calendar.addEvent(newEvent);
+	            //console.log('newEvent 확인: ', newEvent);
+	            //console.log('newEvent.extendedProps.uuid 확인: ', newEvent.extendedProps.uuid);
+
+	            calendar.addEvent(newEvent).setExtendedProp('uuid', newEvent.extendedProps.uuid);
 	          },
 	          error: function (e) {
 	            console.log(e);
@@ -331,21 +346,27 @@ $(function () {
 	        }
 	      },
 	      eventDrop: function (info) {
-	        var event = info.event; // 드래그된 이벤트 객체
-	        var start = event.start; // 변경된 이벤트의 시작 시간
-	        var end = moment(start).add(86399, 'SECONDS').toDate(); // 변경된 이벤트의 종료 시간
-	        if (event.end) {
-	          var eventDuration = moment.duration(moment(event.end).diff(moment(event.start)));
-	          end = moment(start).add(eventDuration).toDate();
-	        }
+	    	  var event = info.event; // 리사이즈된 이벤트 객체
+		        var start = event.start; // 리사이즈된 이벤트의 시작 시간
+		        var end = event.end;
+		        var start_at = moment(start).add(9, 'hour').toDate();; // 시작 시간 (date)
+		        var end_at =  moment(end).add(9, 'hour').toDate(); // 종료 시간은 시작 시간으로부터 1시간 후로 설정
+		        var uuid = event.extendedProps.uuid;
+		        //console.log('이벤트 확인 : ',event);
+		        //console.log('바뀐 시작시간 : ',start);
+		        //console.log('바뀐 종료시간 : ',end);
+		        //console.log('시차 시작시간 : ',start_at);
+		        //console.log('시차 종료시간 : ',end_at);
+		        //console.log('바꾼 이벤트 아이디 : ',uuid);
 	        $.ajax({
-	          url: 'CalenderListDropsave.ajax',
+	          url: 'CalenderListEventDrop.ajax',
 	          method: 'POST',
-	          data: {
-	            title: event.title,
-	            start: start,
-	            end: end,
-	          },
+	          data: JSON.stringify({
+	              uuid: uuid,
+	              start: start_at,
+	              end: end_at
+	            }),
+	          contentType: 'application/json',
 	          dataType: 'json',
 	          success: function (data) {
 	            console.log(data);
@@ -359,14 +380,24 @@ $(function () {
 	        var event = info.event; // 리사이즈된 이벤트 객체
 	        var start = event.start; // 리사이즈된 이벤트의 시작 시간
 	        var end = event.end;
+	        var start_at = moment(start).add(9, 'hour').toDate();; // 시작 시간 (date)
+	        var end_at =  moment(end).add(9, 'hour').toDate(); // 종료 시간은 시작 시간으로부터 1시간 후로 설정
+	        var uuid = event.extendedProps.uuid;
+	        //console.log('이벤트 확인 : ',event);
+	        //console.log('바뀐 시작시간 : ',start);
+	        //console.log('바뀐 종료시간 : ',end);
+	        //console.log('시차 시작시간 : ',start_at);
+	        //console.log('시차 종료시간 : ',end_at);
+	        //console.log('바꾼 이벤트 아이디 : ',uuid);
 	        $.ajax({
 	          url: 'CalenderListResize.ajax',
 	          method: 'POST',
-	          data: {
-	            title: event.title,
-	            start: start,
-	            end: end,
-	          },
+	          data: JSON.stringify({
+	              uuid: uuid,
+	              start: start_at,
+	              end: end_at
+	            }),
+	          contentType: 'application/json',
 	          dataType: 'json',
 	          success: function (data) {
 	            console.log(data);
@@ -379,15 +410,15 @@ $(function () {
 	      eventClick: function (info) {
 	        // delete event from calendar
 	        //console.log('Event ID : ', info.event.id);
-	        console.log('Event ID:', info.event.extendedProps.uuid);
+	        //console.log('Event ID:', info.event.extendedProps.uuid);
 	        var eventId = info.event.extendedProps.uuid;
 	        $.ajax({
 	        	url: 'CalenderListDelete.ajax',
 		          method: 'POST',
 		          data: {eventId: eventId},
 		          success: function (data) {
-		            console.log(data);
-			        info.event.remove();
+		              console.log(data);
+		              info.event.remove();
 		          },
 		          error: function (e) {
 		            console.log(e);
@@ -424,7 +455,7 @@ $(function () {
 
 	    var eventName = val;
 	    eventCreationTime = new Date().toLocaleTimeString();
-	    console.log(eventName + '가 생성되었습니다. 생성 시간: ' + eventCreationTime);
+	    //console.log(eventName + '가 생성되었습니다. 생성 시간: ' + eventCreationTime);
 
 	    // 이벤트 생성
 	    var event = $('<div />');
