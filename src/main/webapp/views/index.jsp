@@ -455,9 +455,9 @@
                 </a>
               </li>
               <li class="nav-item">
-                <a href="../../index3.jsp" class="nav-link">
+                <a href="/stat.go" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
-                  <p>부제목3</p>
+                  <p>유튜브 통계</p>
                 </a>
               </li>
             </ul>
