@@ -11,7 +11,7 @@
 	<select id="totalCountSearch" parameterType="String" resultType ="int">
 		SELECT COUNT (ab.id) FROM archive_board ab
 		JOIN member m ON ab.member_id = m.id
-		WHERE ab.subject = #{search} OR m.name = #{search}
+		WHERE CONCAT(ab.subject, m.name) LIKE CONCAT('%', #{search}, '%') 
 	</select>	
 
 	<select id="archivelist" resultType="kr.co.cc.archive.dto.ArchiveDTO">

@@ -19,6 +19,22 @@
   <!-- Theme style -->
   <link rel="stylesheet" href="../../dist/css/adminlte.min.css">
 </head>
+<style>
+  .read {
+    font-weight: bold;
+  }
+  
+   .Noread {
+    color: #858585;
+
+  }
+  
+   .date {
+    color: rgb(52 58 64 / 91%);
+    font-size: 14px;
+	text-align: right;
+  }  
+</style>
 <body class="hold-transition sidebar-mini">
 <jsp:include page = "index.jsp"></jsp:include>
 <div class="wrapper">
@@ -35,7 +51,7 @@
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="#">Home</a></li>
-              <li class="breadcrumb-item active">Inbox</li>
+              <li class="breadcrumb-item active">받은쪽지함</li>
             </ol>
           </div>
         </div>
@@ -50,7 +66,7 @@
 	<a href="/msWrite.go" class="btn btn-primary btn-block mb-3">쪽지 작성</a>
 	<div class="card">
 	<div class="card-header">
-	<h3 class="card-title">보관함</h3>
+	<h3 class="card-title">쪽지</h3>
 	<div class="card-tools">
 	<button type="button" class="btn btn-tool" data-card-widget="collapse">
 	<i class="fas fa-minus"></i>
@@ -59,9 +75,15 @@
 	</div>
 	<div class="card-body p-0">
 	<ul class="nav nav-pills flex-column">
+	<li class="nav-item active">
+	<a href="#" class="nav-link">
+	<i class="far fa-envelope"></i> 전체 쪽지
+	</a>
+	</li>
 	<li class="nav-item">
 	<a href="/msReceiveList.go" class="nav-link">
 	<i class="fas fa-inbox"></i> 받은 쪽지
+	<span class="badge bg-primary float-right">12</span>
 	</a>
 	</li>
 	<li class="nav-item">
@@ -70,7 +92,7 @@
 	</a>
 	</li>
 	<li class="nav-item">
-	<a href="#" class="nav-link">
+	<a href="/msRemoveList.go" class="nav-link">
 	<i class="far fa-trash-alt"></i> 휴지통
 	</a>
 	</li>
@@ -83,13 +105,13 @@
         <div class="col-md-9">
           <div class="card card-primary card-outline">
             <div class="card-header">
-              <h3 class="card-title">받은쪽지함</h3>
+              <h4 class="card-title">받은쪽지함</h4>
 
 
               
       <div class="card-tools">
         <div class="input-group input-group-sm">              
-			    <input type="text" id="searchInput" class="form-control" placeholder="제목 또는 작성자를 입력">
+			    <input type="text" id="searchInput" class="form-control" placeholder="제목 또는 수신자를 입력">
 			    <div class="input-group-append">
 			    <div class="btn btn-primary">
 			    <i class="fas fa-search" id="searchButton"></i>
@@ -118,78 +140,35 @@
               </div>
               <div class="table-responsive mailbox-messages">
                 <table class="table table-hover table-striped">
-                  <tbody>
-                  <c:forEach items = "${list}" var="item">
-                  <tr>
-					<td class="checkbox"><input type="checkbox" name="Rowcheck" value="${item.id}"></td>
-                    <td class="mailbox-star"><a href="#"><i class=""></i></a></td>
-                    <td class="mailbox-name"><a href="read-mail.html">${item.from_id}</a></td>
-                    <td class="mailbox-subject"><a href="msRcDetail.do?id=${item.id}">${item.title}</a></td>
-                    
-
-				    <td class="mailbox-attachment">
-						<c:if test="${item.read_chk}">읽음</c:if><c:if test="${!item.read_chk}">안읽음</c:if>
-				    </td>
-				    <td class="mailbox-date">
-				   	 ${item.send_at}
-				    </td>
-
-
-				    
-                  </tr>
-				</c:forEach>
-                  </tbody>
+					<tbody id="list"></tbody>
+                  
+                  		
+          <tr>    
+           <th colspan="6" id="paging">  
+             <div class="container">                  
+               <nav aria-label="Page navigation">
+                 <ul class="pagination justify-content-center" id="pagination"></ul>
+               </nav>
+             </div>
+           </th>
+         </tr>	
+                  
                 </table>
                 <!-- /.table -->
               </div>
               <!-- /.mail-box-messages -->
             </div>
             <!-- /.card-body -->
-            <div class="card-footer p-0">
-              <div class="mailbox-controls">
-                <!-- Check all button -->
-                <button type="button" class="btn btn-default btn-sm checkbox-toggle">
-                  <i class="far fa-square"></i>
-                </button>
-                <div class="btn-group">
-                  <button type="button" class="btn btn-default btn-sm">
-                    <i class="far fa-trash-alt"></i>
-                  </button>
-                  <button type="button" class="btn btn-default btn-sm">
-                    <i class="fas fa-reply"></i>
-                  </button>
-                  <button type="button" class="btn btn-default btn-sm">
-                    <i class="fas fa-share"></i>
-                  </button>
-                </div>
-                <!-- /.btn-group -->
-                <button type="button" class="btn btn-default btn-sm">
-                  <i class="fas fa-sync-alt"></i>
-                </button>
-                <div class="float-right">
-                  1-50/200
-                  <div class="btn-group">
-                    <button type="button" class="btn btn-default btn-sm">
-                      <i class="fas fa-chevron-left"></i>
-                    </button>
-                    <button type="button" class="btn btn-default btn-sm">
-                      <i class="fas fa-chevron-right"></i>
-                    </button>
-                  </div>
-                  <!-- /.btn-group -->
-                </div>
-                <!-- /.float-right -->
-              </div>
-            </div>
+
           </div>
           <!-- /.card -->
+   		 </section>
         </div>
         <!-- /.col -->
       </div>
       <!-- /.row -->
-    </section>
     <!-- /.content -->
-  </div>
+
   <!-- /.content-wrapper -->
   <footer class="main-footer">
     <div class="float-right d-none d-sm-block">
@@ -212,8 +191,8 @@
 <script src="../../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
 <!-- AdminLTE App -->
 <script src="../../dist/js/adminlte.min.js"></script>
-<!-- AdminLTE for demo purposes -->
-<script src="../../dist/js/demo.js"></script>
+
+<script type="text/javascript" src="../../dist/js/jquery.twbsPagination.min.js"></script>
 <!-- Page specific script -->
 <script>
 var showPage = 1;
@@ -231,7 +210,7 @@ $('#searchButton').click(function(){
 function listCall(page){
 	   $.ajax({
 	      type:'post',
-	      url:'sendlist.ajax',
+	      url:'receivelist.ajax',
 	      data:{
 	         'page':page,
 	         'search':searchText
@@ -270,23 +249,33 @@ function listPrint(list){
 	  	var count = (showPage - 1) * 10 + list.length;
 	   	var totalItems = list.length;
 		var isAdmin = document.getElementById('adminchk')    // 서버에서 가져온 관리자 여부 값
-		
+
 		if (list.length === 0) {
 			  content += '<tr><td colspan="6">쪽지가 존재하지 않습니다.</td></tr>';
 			} else {
 			  list.forEach(function(item) {
-			    // 배열 요소들 반복문 실행 -> 행 구성 + 데이터 추가
+			    var sendAt = new Date(item.send_at);
+			    var currentDate = new Date();
+
+			    var formattedDate;
+
 			    content += '<tr>';
 			    content += '<td class="checkbox"><input type="checkbox" name="Rowcheck" value="' + item.id + '"></td>';
-			    content += '<td>' + count-- + '</td>'; // 번호를 반대로 표시
-			    content += '<td>' + item.to_name + '</td>';
-			    content += '<td><a href="msSendDetail.do?id=' + item.id + '">' + item.title + '</a></td>';
-			    if (item.read_chk == true) {
-			      content += '<td id="read_chk">읽음</td>';
+			    content += '<td class="' + (item.read_chk == 0 ? 'read' : 'Noread') + '">' + item.to_name + '</td>';
+			    content += '<td><a href="msRcDetail.do?id=' + item.id + '"';
+			    content += ' class="' + (item.read_chk == 0 ? 'read' : 'Noread') + '">';
+			    content += item.title + '</a></td>';
+
+			    if (
+			      sendAt.getDate() === currentDate.getDate() &&
+			      sendAt.getMonth() === currentDate.getMonth() &&
+			      sendAt.getFullYear() === currentDate.getFullYear()
+			    ) {
+			      formattedDate = sendAt.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
 			    } else {
-			      content += '<td id="read_chk">안읽음</td>';
+			      formattedDate = sendAt.toLocaleDateString('ko-KR', { year: '2-digit', month: '2-digit', day: '2-digit' });
 			    }
-			    content += '<td>' + item.send_at + '</td>';
+			    content += '<td class="date">' + formattedDate + '</td>';
 			    content += '</tr>';
 			  });
 			}

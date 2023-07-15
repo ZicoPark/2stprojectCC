@@ -72,12 +72,11 @@
 				<c:forEach items="${list}" var="noticeBoard" varStatus="loop">
 				   <tr> 
 				      <td>${list.size() - loop.index}</td>
-				      <td><a href="noticeBoardDetail.do?id=${noticeBoard.id}">${noticeBoard.subject}</a></td>
+				      <td><a href="noticeBoardDetail.do?type=list&id=${noticeBoard.id}">${noticeBoard.subject}</a></td>
 				      <td>${noticeBoard.name}(${noticeBoard.user_id})</td>
 				      <td>${noticeBoard.create_at.substring(0, 10)}</td>
 				      <td>${noticeBoard.hit}</td>              
- 				      
-         <td><a href="noticeBoardDel.do?id=${noticeBoard.id}">삭제</a></td>
+<%--  				      <td><a href="noticeBoardDel.do?id=${noticeBoard.id}">삭제</a></td> --%>
       </tr>
 				</c:forEach>
          </tbody>

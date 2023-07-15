@@ -18,7 +18,7 @@ public interface MessageDAO {
 
 	int msWrite(MessageDTO dto);
 
-	ArrayList<MessageDTO> receiveList(String id);
+
 
 	boolean msdelete(String id);
 
@@ -44,13 +44,28 @@ public interface MessageDAO {
 
 	int sendtotalCountSearch(String search, String loginId);
 
-	ArrayList<MessageDTO> sendListSearch(String search, String loginId);
+	ArrayList<MessageDTO> sendListSearch(HashMap<String, Object> params);
 
 	void msNotice(String send_id, String recieveId, String type, String identifyValue);
 
-	ArrayList<MessageDTO> sendListSearch(HashMap<String, Object> params);
 
 	List<HashMap<String, Object>> MemberByDept(String dept);
+
+	int msremovetotalCount(String loginId);
+
+	int msremoveCountSearch(String search, String loginId);
+
+	ArrayList<MessageDTO> msremovedList(int offset, String loginId);
+
+	ArrayList<MessageDTO> msremoveListSearch(HashMap<String, Object> params);
+
+	int receivetotalCount(String loginId);
+
+	int receivetotalCountSearch(String search, String loginId);
+
+	ArrayList<MessageDTO> receiveList(int offset, String loginId);
+
+	ArrayList<MessageDTO> receiveListSearch(HashMap<String, Object> params);
 
 
 

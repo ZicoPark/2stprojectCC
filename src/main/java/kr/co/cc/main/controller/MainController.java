@@ -20,12 +20,15 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import kr.co.cc.main.dto.MainDTO;
 import kr.co.cc.main.service.MainService;
 import kr.co.cc.member.service.MemberService;
 import kr.co.cc.noticeBoard.dto.NoticeBoardDTO;
+import kr.co.cc.personal.dto.PersonalDTO;
+import kr.co.cc.personal.service.PersonalService;
 import kr.co.cc.work.dto.WorkDTO;
 import kr.co.cc.work.service.WorkService;
 
@@ -35,6 +38,7 @@ public class MainController {
 	@Autowired WorkService service;	
 	@Autowired MainService mservice;
 	@Autowired MemberService memberservice;
+	@Autowired PersonalService perservice;
 	
 	Logger logger = LoggerFactory.getLogger(getClass());
 	private String time;
@@ -82,23 +86,6 @@ public class MainController {
 		return root+"/"+sub+"/"+page;
 	}
 	
-	public void formattedDateTime() {
-		long currentTimeMillis = System.currentTimeMillis();
-
-	    Calendar calendar = Calendar.getInstance();
-	    calendar.setTimeInMillis(currentTimeMillis);
-
-	    SimpleDateFormat format = new SimpleDateFormat("HH:mm:ss");
-	    String formattedTime = format.format(calendar.getTime());	    
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        String formattedDate = dateFormat.format(calendar.getTime());
-
-        logger.info(formattedDate);
-        logger.info(formattedTime);
-        
-        this.time=formattedTime;
-        this.date=formattedDate;
-	}
 	
 	// 로그인 성공시 가는 메인페이지
 	@RequestMapping(value="/main.go")
@@ -107,19 +94,11 @@ public class MainController {
 	    MainDTO mainPage = memberservice.mainPage(loginId);
 	    logger.info("mainPage: " + mainPage);
 
-		/*
-		 * //출퇴근 MainDTO timeList = mservice.mWorkHistory(loginId); LocalDate
-		 * currentDate = LocalDate.now(ZoneId.systemDefault()); logger.info("오늘 날짜: " +
-		 * currentDate);
-		 * 
-		 * LocalDate dateValue = timeList.getDate(); logger.info("날짜 조회: " + dateValue);
-		 * 
-		 * 
-		 * if (currentDate.isEqual(dateValue)) {
-		 * 
-		 * model.addAttribute("time", timeList); } else { model.addAttribute("time",
-		 * null); }
-		 */
+		
+		 //출퇴근 
+		 MainDTO timeList = mservice.mWorkHistory(loginId); 
+		 
+		
 	    
 	    // 대시보드
 	    int mstotal = mservice.totalCountMs(loginId);
@@ -127,26 +106,29 @@ public class MainController {
 	    int prtotal = mservice.totalCountPr(loginId);
 	    
 	    // 공지사항
-	    ArrayList<NoticeBoardDTO> Nolist = mservice.noticelist();
+	    ArrayList<NoticeBoardDTO> NoList = mservice.noticelist();
+	    
+	    // 개인업무관리
+	    ArrayList<PersonalDTO> PerList = perservice.list(loginId);
 	    
 	    
-	    
+	    model.addAttribute("timeList", timeList);
 	    model.addAttribute("main", mainPage);
 	    model.addAttribute("ms", mstotal);
 	    model.addAttribute("doc", doctotal);
 	    model.addAttribute("pro", prtotal);
-	    model.addAttribute("Nolist", Nolist);
-	    
+	    model.addAttribute("Nolist", NoList);
+	    model.addAttribute("PerList", PerList);
 	    
 	    return "mainTest";
 	}
 
 	
 	
-	
+	/*
 	@GetMapping(value="/mtimeGo.do")
 	public String mtimeGo(HttpSession session, Model model) {
-		formattedDateTime();
+
 		String id = (String) session.getAttribute("id");
 	
 		
@@ -169,7 +151,6 @@ public class MainController {
 	@GetMapping(value="/mtimeEnd.do")
 	public String mtimeEnd(HttpSession session, Model model) {
 		
-		formattedDateTime();
 		String id = (String) session.getAttribute("id");
 		
 		
@@ -185,9 +166,16 @@ public class MainController {
 		
 		return "redirect:/main.go";
 	}	
+*/
 
-
-	
+	// 개인업무 관리에서 체크박스 클릭했을 시 업데이트
+	@RequestMapping(value="/updateTodo.ajax")
+	@ResponseBody
+	public boolean updateTodo(@RequestParam String todoId) {
+	    logger.info("부서 선택 사원");
+	    logger.info("todoId: " + todoId);
+	    return mservice.updateTodo(todoId);
+	}
 	
 	
 }

@@ -1,5 +1,6 @@
 package kr.co.cc.freeBoard.service;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -19,7 +20,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 import org.springframework.web.multipart.MultipartFile;
 
-import kr.co.cc.archive.dto.ArchiveDTO;
 import kr.co.cc.freeBoard.dao.FreeBoardDAO;
 import kr.co.cc.freeBoard.dto.FreeBoardDTO;
 
@@ -240,7 +240,65 @@ public class FreeBoardService {
 			return dao.replyDelete(id,free_board_id);
 			
 		}
-	
+
+		public boolean freeDelete(String id) {
+		
+			return dao.freeDelete(id);
+			
+		}
+
+		public int freeUpdate(MultipartFile[] attachment, HashMap<String, String> params,
+				ArrayList<String> deletedFiles) {
+			logger.info("params : "+params);
+	        
+	        int row = dao.freeUpdate(params);
+	        logger.info("insert row: " + row);
+	        String id = "";
+
+	        logger.info("서비스 deletedFiles 있나요 : "+deletedFiles);
+
+			if(row>0) { // 업로드된 자료실 게시물이 1이라면
+				
+				if(deletedFiles.size()>0) {
+					attachmentRemove(deletedFiles);
+				}
+				
+				id = params.get("id");
+				logger.info("update idx: " + id);
+				
+				for (MultipartFile file : attachment) {
+					
+					logger.info("업로드할 file 있나요? :"+!file.isEmpty());
+					
+					if(!file.isEmpty()) {
+						attachmentSave(id, file, "게시판");
+					}
+					
+					try { // 쓰레드 0.001초 지연으로 중복파일명 막자
+						Thread.sleep(1);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+					
+				}
+			}
+
+			
+	    return row;
+	}
+
+	private void attachmentRemove(ArrayList<String> newFileName) {
+		
+		for (String FileName : newFileName) {// for 문으로 하나씩 담아서 
+			logger.info(FileName);
+			File file = new File(attachmentRoot+"/"+newFileName);// file 객체 생성 후 
+			if(file.exists()) {// 파일이 존재하면 
+				file.delete();// 파일을 삭제함
+			}
+			dao.removeFileName(FileName);
+		}
+		
+	}	
 	
 	
 	

@@ -27,13 +27,36 @@
 <link rel="stylesheet" href="dist/css/adminlte.min.css">
 
 </head>
+<style>
 
+.page-link {
+  color: #000; 
+  background-color: #fff;
+  border: 1px solid #ccc; 
+}
+
+.page-item.active .page-link {
+ z-index: 1;
+ color: #555;
+ font-weight:bold;
+ background-color: #f1f1f1;
+ border-color: #ccc;
+ 
+}
+
+.page-link:focus, .page-link:hover {
+  color: #000;
+  background-color: #fafafa; 
+  border-color: #ccc;
+}
+
+</style>
 <body class="hold-transition sidebar-mini">
 
+<jsp:include page = "index.jsp"></jsp:include>
 <!-- Site wrapper -->
 <div class="wrapper">
 
-	<jsp:include page = "index.jsp"></jsp:include>
 	
 	
   <div class="content-wrapper">
@@ -45,12 +68,16 @@
       <table class="table table-bordered table-hover dataTable dtr-inline">
     
 		<div class="input-group" style="width: 30%;">
-	    <input type="search" class="form-control form-control-lg" id="searchInput" placeholder="제목 또는 작성자를 입력" style="font-size: 13px;">
+	    <input type="search" class="form-control form-control-lg" id="searchInput" placeholder="제목 또는 작성자를 입력" style="font-size: 13px;"/>
 	    <div class="input-group-append">
 	    <button id="searchButton" class="btn btn-lg btn-default"><alt="Search"><i class="fa fa-search"></i></button>
 	    </div>
-		</div>
+	    </div>
+	
+		
+		<div>
 		<input type ="hidden" id="adminchk" value= "${loginid}" />${loginid}
+		</div>
 		
 			<thead> 
 				<tr> 

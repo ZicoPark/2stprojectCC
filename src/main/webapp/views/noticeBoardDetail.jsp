@@ -24,89 +24,90 @@
     </section>
     <!-- Main content -->
     <section class="content">   
-    	<table class="table table-bordered table-hover dataTable dtr-inline">
-    	<thead>
-		    <tr>
-		       <th>제목</th>
-		       <td>${detailno.subject}</td>
-		    </tr>
-		    <tr>
-		       <th>작성자</th>
-		       <td>${detailno.name}(${detailno.user_id})</td>
-		    </tr>
-		    <tr>
-		       <th>조회수</th>
-		       <td>${detailno.hit}</td>
-		    </tr>
-		    <tr>
-		       <th>작성일</th>
-		       <td>${detailno.create_at}</td>
-		    </tr>
-		    <tr>
-		       <th>내용</th>
-		       <td>${detailno.content}</td>
-		    </tr>      
-		   	<tr>
-		       <th>첨부파일</th>
-			  	<td>
-			  	<c:if test="${detailFile.size() == 0 }">
-					<div>첨부파일 없음.</div>
-				</c:if>       
-				<c:if test="${detailFile.size() > 0 }">
-					<c:forEach items="${detailFile}" var="i">
-                  <div class="mailbox-attachment-info">
-                    <a class="mailbox-attachment-name"><i class="fas fa-paperclip"></i> &nbsp ${i.ori_file_name}</a>
-					&nbsp &nbsp
-                    <a href="msdownload.do?path=${i.id}" class="btn btn-default btn-sm float-right"><i class="fas fa-cloud-download-alt"></i></a>                    
-                  </div>
-            	</c:forEach>
-			</c:if>
-			</td>	
-		    </tr> 
-		    </thead>  
-		    <tr>
-		    	<th colspan="2"></th>
-		    </tr>
-		    <tbody>
-				<c:if test="${reader eq null}">
-				    <tr>
-				        <th style="text-align:left">공지 확인 사원</th>
-				        <td colspan="3" id="fornull" style="text-align:center">아직 읽은 사원이 없습니다.</td>
-				    </tr>
-				</c:if>
-				
-				<c:if test="${reader.size()==0}">
-				    <tr>
-				        <th style="text-align:center">공지 확인 사원</th>
-				        <td colspan="3" id="forzero" style="text-align:center">아직 읽은 사원이 없습니다.</td>
-				    </tr>
-				</c:if>
-				
-				<c:if test="${not empty reader}">
-				    <tr>
-				        <th style="text-align:left">공지 확인 사원</th>
-				        <td style="text-align:center">
-				            <c:forEach items="${reader}" var="employee">
-				                ${employee.name}<br>
-				            </c:forEach>
-				        </td>
-				    </tr>
-				</c:if>
-		    </tbody>
-		    
-		    <tr>
-		       <th colspan="2">    
-		           <input type="button" class="btn btn-block btn-outline-success btn-lg"  onclick="location.href='./noticeBoard.go'" value="돌아가기" />
-		       </th>            
-		   	</tr>
-		   	<c:if test="${loginId eq noticeBoard.member_id}">
-		   	<tr>
-		       <th colspan="2">    
-		           <input type="button" class="btn btn-block btn-outline-success btn-lg"  onclick="location.href='./noticeBoardDel.do?id=${noticeBoard.id}'" value="삭제" />
-		       </th>            
-		   	</tr>            
-		   	</c:if> 
-    	</table>
+       <table class="table table-bordered table-hover dataTable dtr-inline">
+
+          <tr>
+             <th>제목</th>
+             <td>${detailno.subject}</td>
+          </tr>
+          <tr>
+             <th>작성자</th>
+             <td>${detailno.name}(${detailno.user_id})</td>
+          </tr>
+          <tr>
+             <th>조회수</th>
+             <td>${detailno.hit}</td>
+          </tr>
+          <tr>
+             <th>작성일</th>
+             <td>${detailno.create_at}</td>
+          </tr>
+          <tr>
+             <th>내용</th>
+             <td>${detailno.content}</td>
+          </tr>      
+          <tr>
+             <th>첨부파일</th>
+              <td>
+	            <c:if test="${detailFile.size() == 0 }">
+	              		<div>첨부파일 없음.</div>
+	           	</c:if>       
+	            <c:if test="${detailFile.size() > 0 }">
+	               <c:forEach items="${detailFile}" var="i">
+	                  <div class="mailbox-attachment-info">
+	                    <a class="mailbox-attachment-name"><i class="fas fa-paperclip"></i> &nbsp ${i.ori_file_name}</a>
+	               		&nbsp &nbsp
+	                    <a href="msdownload.do?path=${i.id}" class="btn btn-default btn-sm float-right"><i class="fas fa-cloud-download-alt"></i></a>                    
+	                  </div>
+	               </c:forEach>
+	         	</c:if>
+         	</td>   
+          </tr> 
+
+          <tr>
+             <th colspan="2"></th>
+          </tr>
+
+            <c:if test="${reader eq null}">
+                <tr>
+                    <th style="text-align:left">공지 확인 사원</th>
+                    <td colspan="3" id="fornull" style="text-align:center">아직 읽은 사원이 없습니다.</td>
+                </tr>
+            </c:if>
+            
+            <c:if test="${reader.size()==0}">
+                <tr>
+                    <th style="text-align:center">공지 확인 사원</th>
+                    <td colspan="3" id="forzero" style="text-align:center">아직 읽은 사원이 없습니다.</td>
+                </tr>
+            </c:if>
+            
+            <c:if test="${not empty reader}">
+                <tr>
+                    <th style="text-align:left">공지 확인 사원</th>
+                    <td style="text-align:center">
+                        <c:forEach items="${reader}" var="employee">
+                            ${employee.name}<br>
+                        </c:forEach>
+                    </td>
+                </tr>
+            </c:if>
+          
+          
+          <tr>
+             <th colspan="2">    
+                 <input type="button" class="btn btn-block btn-outline-success btn-lg"  onclick="location.href='./noticeBoard.go'" value="돌아가기" />
+             </th>            
+            </tr>
+            <c:if test="${loginid.admin_chk eq 1 or loginId eq detailno.member_id}">
+	            <tr>
+		             <th colspan="2">    
+		                 <input type="button" class="btn btn-block btn-outline-success btn-lg"  onclick="location.href='./noticeBoardDel.do?id=${detailno.id}'" value="삭제" />
+		             </th>            
+	            </tr>                   
+            </c:if>
+               
+       </table>
     </section>
   </div>
 </div>
@@ -121,7 +122,7 @@
 <script src="../../dist/js/demo.js"></script>
 </body>
 <script>
-	//socket.send('알림');
+   //socket.send('알림');
 
 </script>
 </html>

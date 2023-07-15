@@ -19,17 +19,6 @@
   <!-- Theme style -->
   <link rel="stylesheet" href="../../dist/css/adminlte.min.css">
 </head>
-
-<style>
-
-  
-   .date {
-    color: rgb(52 58 64 / 91%);
-    font-size: 14px;
-	text-align: right;
-  }  
-
-</style>
 <body class="hold-transition sidebar-mini">
 <jsp:include page = "index.jsp"></jsp:include>
 <div class="wrapper">
@@ -41,12 +30,11 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="#">Home</a></li>
-              <li class="breadcrumb-item active">보낸쪽지함</li>
+              <li class="breadcrumb-item active">휴지통</li>
             </ol>
           </div>
         </div>
@@ -100,8 +88,7 @@
         <div class="col-md-9">
           <div class="card card-primary card-outline">
             <div class="card-header">
-              <h4 class="card-title">보낸쪽지함</h4>
-
+  
       <div class="card-tools">
         <div class="input-group input-group-sm">              
 			    <input type="text" id="searchInput" class="form-control" placeholder="제목 또는 작성자를 입력">
@@ -112,28 +99,12 @@
 			</div>
 	    </div>
 	   </div> 
-	   
-	   
 		<input type ="text" id="adminchk" value= "${loginid}" hidden />${loginid}
               <!-- /.card-tools -->
             </div>
             <!-- /.card-header -->
             <div class="card-body p-0">
-              <div class="mailbox-controls">
-                <!-- Check all button -->
-                <div class="btn btn-default btn-sm checkbox-toggle">
-				<input type="checkbox" name="allCheck" class="far fa-square" />
-				</div>
-                <div class="btn-group">
-                  <button type="button" onclick="deleteValue()" class="btn btn-default btn-sm">
-                    <i class="far fa-trash-alt"></i>
-                  </button>
 
-                  </div>
-                  <!-- /.btn-group -->
-                </div>
-                <!-- /.float-right -->
- 
 
 
                 <!-- /.float-right -->
@@ -166,14 +137,14 @@
                 <!-- /.float-right -->
               </div>
             </div>
-    </section>
           </div>
           <!-- /.card -->
+    </section>
         </div>
         <!-- /.col -->
+      </div>
       <!-- /.row -->
     <!-- /.content -->
-  </div>
   <!-- /.content-wrapper -->
   <footer class="main-footer">
  
@@ -184,6 +155,7 @@
     <!-- Control sidebar content goes here -->
   </aside>
   <!-- /.control-sidebar -->
+
 <!-- ./wrapper -->
 
 <!-- jQuery -->
@@ -215,9 +187,12 @@ $('#searchButton').click(function(){
 	});
 	
 function listCall(page){
+	
+	console.log("휴지통 ajax 요청");
+	
 	   $.ajax({
 	      type:'post',
-	      url:'sendlist.ajax',
+	      url:'msRemovelist.ajax',
 	      data:{
 	         'page':page,
 	         'search':searchText
@@ -261,35 +236,17 @@ function listPrint(list){
 			  content += '<tr><td colspan="6">쪽지가 존재하지 않습니다.</td></tr>';
 			} else {
 			  list.forEach(function(item) {
-			    var sendAt = new Date(item.send_at);
-			    var currentDate = new Date();
-
-			    var formattedDate;  
 			    // 배열 요소들 반복문 실행 -> 행 구성 + 데이터 추가
 			    content += '<tr>';
-			    content += '<td class="checkbox"><input type="checkbox" name="Rowcheck" value="' + item.id + '"></td>';
-			    content += '<td class="' + (item.read_chk == 0 ? 'read' : 'Noread') + '">' + item.to_name + '</td>';
-
-			    content += '<td><a href="msSendDetail.do?id=' + item.id + '"';
-			    content += ' class="' + (item.read_chk == 0 ? 'read' : 'Noread') + '">';
-			    content += item.title + '</a></td>';
-			    
-			    
-			    if (
-		  	      sendAt.getDate() === currentDate.getDate() &&
-		  	      sendAt.getMonth() === currentDate.getMonth() &&
-		  	      sendAt.getFullYear() === currentDate.getFullYear()
-		  	    ) {
-		  	      formattedDate = sendAt.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
-		  	    } else {
-		  	      formattedDate = sendAt.toLocaleDateString('ko-KR', { year: '2-digit', month: '2-digit', day: '2-digit' });
-		  	    }
-		  	    content += '<td class="date">' + formattedDate + '</td>';
-		  	    content += '</tr>';
+			    content += '<td><input type="hidden" value="' + item.id + '"></td>';
+			    content += '<td>' + item.name + '</td>';
+			    content += '<td><a href="msSendDetail.do?id=' + item.id + '">' + item.title + '</a></td>';
+			    content += '<td>' + item.send_at + '</td>';
+			    content += '</tr>';
 			  });
 			}
 
-		
+	   
 	   // list 요소의 내용 지우고 추가 - 페이징 처리 
 	   $('#list').empty();
 	   $('#list').append(content);
@@ -301,79 +258,6 @@ function listPrint(list){
 
 
 
-
-
-
-
-// 전체선택 
-$(function(){
-	var chkObj = $("input[name='Rowcheck']");
-	var rowCnt = chkObj.length;
-
-	  
-	  $("input[name='allCheck']").click(function(){
-	    var chk_listArr = $("input[name='Rowcheck']"); // 체크박스의 name 속성을 "Rowcheck"로 수정
-	    for (var i=0; i<chk_listArr.length; i++){
-	      chk_listArr[i].checked = this.checked;
-	    }
-	  });
-	  $("input[name='Rowcheck']").click(function(){
-	    if($("input[name='Rowcheck']:checked").length == rowCnt){ // 체크박스의 name 속성을 "Rowcheck"로 수정
-	      $("input[name='allCheck']")[0].checked = true;
-	    }
-	    else{
-	      $("input[name='allCheck']")[0].checked = false;
-	    }
-	  });
-	});
-
-
-
-
-
-function deleteValue(){
-   // Controller로 보내고자 하는 URL (.dh부분은 자신이 설정한 값으로 변경해야됨)
-	  var valueArr = []; // 빈 배열로 초기화
-
-	  var slist = $("input[name='Rowcheck']:checked"); // 선택된 체크박스 요소들을 가져옴
-
-	  if (slist.length === 0) {
-	    alert("선택된 글이 없습니다.");
-	    return; // 함수 종료
-	  }
-    else{
-		var chk = confirm("정말로 삭제하시겠습니까? 삭제 후에는 복구가 불가능합니다.");	
-		
-	    // 선택된 체크박스의 값을 valueArr 배열에 추가
-	    slist.each(function () {
-	      valueArr.push($(this).val());
-	    });
-		
-	    if(chk){
-			$.ajax({
-			    url :'msSelectDelete',                    // 전송 URL
-			    type : 'POST',                // GET or POST 방식
-			    traditional : true,
-			    data : {
-			    	valueArr : valueArr        // 보내고자 하는 data 변수 설정
-			    },
-	            success: function(jdata){
-	                if(jdata = 1) {
-	                    alert("쪽지가 삭제되었습니다.");
-	                    location.replace("msSendList.go");
-	                }
-	                else{
-	                    alert("블라인드 처리 실패");
-	                }
-	            }
-			});
-			
-	}else{
-		alert("삭제가 취소되었습니다.")
-	}
-		
-	}
-}
    
   
 
