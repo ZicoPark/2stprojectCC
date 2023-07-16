@@ -228,6 +228,14 @@
 		on a.member_id = m.id where m.user_id =#{param1}
 	</select>
 	
+	<insert id="giveAnnualLeave_id">
+		INSERT INTO annual_leave (id, member_id, annual_cnt, use_cnt, left_cnt, year)
+		SELECT UUID(), m.id, #{param2}, 0, #{param2}, YEAR(CURRENT_DATE())
+		FROM member m
+		where m.user_id = #{param1}
+	</insert>
+	
+	
 	<select id="idChk">
 		select count(id) from member where user_id = #{param1}
 	</select>
