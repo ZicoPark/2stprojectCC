@@ -135,7 +135,7 @@
 			, a.ori_file_name AS comment_ori_file_name
 			FROM comment c 
 			LEFT JOIN attachment a ON a.identify_value = c.id AND a.classification = '프로젝트 첨부파일'
-			WHERE c.project_id = '2991a594-1edf-11ee-973f-0242ac110002'
+			WHERE c.project_id = #{projectId}
 		ORDER BY create_at ASC
 	</select>
 	

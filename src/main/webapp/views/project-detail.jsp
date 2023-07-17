@@ -134,15 +134,15 @@ $(document).ready(function() {
 	          html += '<span class="description">' + detail.create_at + '</span>';
 	          html += '</div>';
 	          html += '<p>' + detail.content + '</p>';
-	          if (detail.attachment_id != null) {
-	        	  if (detail.ori_file_name.endsWith('.mp4') || detail.ori_file_name.endsWith('.avi') || detail.ori_file_name.endsWith('.mov')) {
+	          if (detail.comment_attachment_id != null) {
+	        	  if (detail.comment_ori_file_name.endsWith('.mp4') || detail.comment_ori_file_name.endsWith('.avi') || detail.comment_ori_file_name.endsWith('.mov')) {
 	        		    html += '<div class="mailbox-attachment-info">';
 	        		    html += '<video controls width="320" height="240">';
-	        		    html += '<source src="attachmentDownload.do?id=' + detail.attachment_id + '" type="video/mp4">';
+	        		    html += '<source src="attachmentDownload.do?id=' + detail.comment_attachment_id + '" type="video/mp4">';
 	        		    html += '브라우저가 비디오를 지원하지 않습니다.';
 	        		    html += '</video>';
-	        		    html += '<a class="mailbox-attachment-name"><i class="fas fa-paperclip"></i> &nbsp;' + detail.ori_file_name + '</a>';
-	        		    html += '<a href="attachmentDownload.do?id=' + detail.attachment_id + '" class="btn btn-default btn-sm"><i class="fas fa-cloud-download-alt"></i></a>';
+	        		    html += '<a class="mailbox-attachment-name"><i class="fas fa-paperclip"></i> &nbsp;' + detail.comment_ori_file_name + '</a>';
+	        		    html += '<a href="attachmentDownload.do?id=' + detail.comment_attachment_id + '" class="btn btn-default btn-sm"><i class="fas fa-cloud-download-alt"></i></a>';
 	        		    html += '</div>';
 	        		  }
 	      
@@ -227,8 +227,8 @@ $(document).ready(function() {
 
 	        data.dto.forEach(function(item) {
 	          var commentHtml = '<div>' + item.name+ '</div>';
-	          commentHtml += '<div>' + item.content + '</div>';
 	          commentHtml += '<div>' + item.create_at + '</div>';
+	          commentHtml += '<div>' + item.content + '</div>';
 	          if (item.member_id === loginId) {
 	        	  commentHtml += '<button class="deleteButton btn btn-danger btn-sm" data-reply-id="' + item.id + '" data-comment-id="' + item.coment_id + '"><i class="far fa-trash-alt"></i> 삭제</button>';
 
