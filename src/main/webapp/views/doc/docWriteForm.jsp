@@ -108,7 +108,7 @@
 									</div>
 								</div>
 								<div class="modal-footer justify-content-between">
-									<button type="button" class="btn btn-default" data-dismiss="modal">확인</button>
+									<button type="button" class="btn btn-default" data-dismiss="modal" onclick="approvalTest()">확인</button>
 								</div>
 							</div>
 							<!-- /.modal-content -->
