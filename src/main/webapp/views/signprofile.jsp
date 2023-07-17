@@ -42,7 +42,7 @@
             <div style="display: flex; align-items: center; justify-content: center; height: 90%; flex-direction: column;">
 				  <c:choose>
 				    <c:when test="${not empty member.photoName}">
-				      <img src="photoView.do?path=${member.photoName}" style="max-width: 90%; max-height: 90%;" id="preview">
+				      <img src="photoView.do?path=${member.photoName}" style="max-width: 90%; max-height: 90%;" id="preview1">
 				    </c:when>
 				    <c:otherwise>
 				      <img src="img/cc.png" style="max-width: 100%; max-height: 80%;" id="preview1">

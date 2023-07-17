@@ -54,7 +54,7 @@
 	            </otherwise>
 	        </choose>
 	    </set>
-	    WHERE user_id = #{user_id}
+	    WHERE member.id = #{user_id}
 	</update>
 	
 	<select id="MemberONOFFList" resultType="kr.co.cc.admin.dto.AdminDTO">

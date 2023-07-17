@@ -31,8 +31,8 @@
 					<thead>
 						<tr>
 							<th>문서번호</th>
-							<th>문서종류</th>
 							<th>제목</th>
+							<th>문서종류</th>
 							<th>생산부서</th>
 							<th>기안자</th>
 							<th>결재요청시각</th>
@@ -50,8 +50,8 @@
 							<c:forEach items="${list }" var="i" varStatus="varStatus">
 								<tr>
 									<td>${varStatus.count }</td>
-									<td>${i.doc_form_name }</td>
 									<td><a href="completeDocDetail.go?id=${i.id }">${i.subject }</a></td>
+									<td>${i.doc_form_name }</td>
 									<td>${i.production_dept_name }</td>
 									<td>${i.create_member_name }</td>
 									<td>${i.create_at }</td>

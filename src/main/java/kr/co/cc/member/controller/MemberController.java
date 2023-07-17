@@ -297,9 +297,4 @@ public class MemberController {
 		
 		return new ResponseEntity<Resource>(body, header, HttpStatus.OK);
 	}
-	
-	
-	
-
-	
 }
