@@ -14,6 +14,84 @@
   <!-- Theme style -->
   <link rel="stylesheet" href="../../dist/css/adminlte.min.css">
 </head>
+
+<style>
+    .comment-form {
+        margin-bottom: 20px;
+    }
+
+    .comment-input {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 10px;
+    }
+
+    .comment-input textarea {
+        flex: 1;
+        margin-right: 10px;
+    }
+
+    .comment-submit-btn {
+        padding: 8px 15px;
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+    
+    
+	.write {
+/*     position: absolute; */
+    bottom: 501px;
+    left: 15px;
+    height: 42px;
+    padding-left: 8px;
+    border: 1px solid #e6e6e6;
+    background-color: #fef5f59c;
+    width: 55%;
+    border-radius: 5px;
+}
+
+
+.send {
+    width: 40px;
+    height: 40px;
+    background-color: #3ab795;
+    border-radius: 5px;
+    border: none;
+    position: absolute;
+    left: 51%;
+    color: #fff;
+    cursor: pointer;
+}
+
+.fa {
+    display: inline-block;
+    font: normal normal normal 14px/1 FontAwesome;
+    font-size: inherit;
+    text-rendering: auto;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}    
+   
+   
+.write input {
+    font-size: 14px;
+    position: absolute;
+    left: 45px;
+    width: 45%;
+    height: 40px;
+    padding: 0 10px;
+    color: #6b6b6b;
+    border: 0;
+    outline: none;
+    background-color: #fef5f59c;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 400;    
+</style>
+
 <body class="hold-transition sidebar-mini">
 <jsp:include page = "index.jsp"></jsp:include>
 
@@ -25,12 +103,13 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1>Compose</h1>
+            <h1>사내게시판</h1>
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="#">Home</a></li>
-              <li class="breadcrumb-item active">Compose</li>
+              <li class="breadcrumb-item"><a href="#">게시판</a></li>
+              <li class="breadcrumb-item active">사내게시판</li>
             </ol>
           </div>
         </div>
@@ -41,118 +120,79 @@
     <section class="content">
       <div class="container-fluid">
         <div class="row">
- 
-        <div class="col-md-9">
-          <div class="card card-primary card-outline">
-            <div class="card-header">
-              <h3 class="card-title">${detailms.subject}</h3>
+          <div class="col-12">
+            <!-- Default box -->
+            <div class="card">
+<div class="card-header" style="background-color: #f5f5f5; border-radius: 10px;">
+  <div>
+    <h4 class="card-title">문서번호 ${detailms.id}</h4>
+  </div>
+  <br/>
+  <div>
+    <c:if test="${detailFile.size() == 0}">
+      <div>첨부파일 없음.</div>
+    </c:if>
+    <c:if test="${detailFile.size() > 0}">
+      <div class="mailbox-attachment-info">
+        <c:forEach items="${detailFile}" var="i" varStatus="status">
+          <a class="mailbox-attachment-name" href="msdownload.do?path=${i.id}">
+            <i class="fas fa-paperclip"></i> &nbsp;${i.ori_file_name}
+          </a>
+          <c:if test="${not status.last}">
+            &nbsp;&nbsp;
+          </c:if>
+        </c:forEach>
+      </div>
+    </c:if>
+  </div>
+</div>
 
-              <div class="card-tools">
-                <a href="#" class="btn btn-tool" title="Previous"><i class="fas fa-chevron-left"></i></a>
-                <a href="#" class="btn btn-tool" title="Next"><i class="fas fa-chevron-right"></i></a>
-              </div>
-            </div>
-            <!-- /.card-header -->
-            <div class="card-body p-0">
-              <div class="mailbox-read-info">
-                문서번호 ${detailms.id}<br>
-                <h6>
-                  <span class="mailbox-read-time float-right"> 
-                  작성자 ${detailms.name} < ${detailms.dept_id} > <br>
-                  작성일  &nbsp ${detailms.create_at}
-                  &nbsp &nbsp 조회수 &nbsp ${detailms.hit}
-                  </span></h6>
+            
+              <!-- 제목, 작성자, 작성일 -->
+              <div class="card-body">
+                <span class="float-right">
+                  ${detailms.name} &nbsp;&nbsp; ${detailms.create_at}
+                </span>
+                <h3>${detailms.subject}</h3>
               </div>
      
-              </div>
-              <!-- /.mailbox-controls -->
-              <div class="mailbox-read-message">
+              <!-- 내용 -->
+              <div class="card-body">
                 <p>${detailms.content}</p>
+                <p>조회수 &nbsp; ${detailms.hit}</p>
               </div>
-              <!-- /.mailbox-read-message -->
+              
             </div>
-            <!-- /.card-body -->
-    
+            <!-- /.card -->
 
-            <div class="card-footer bg-white">
-              <ul class="mailbox-attachments d-flex align-items-stretch clearfix">
-              <c:if test="${detailFile.size() == 0 }">
-               <div>첨부파일 없음.</div>
-            </c:if>       
-            <c:if test="${detailFile.size() > 0 }">
-               <c:forEach items="${detailFile}" var="i">
-                  <div class="mailbox-attachment-info">
-                    <a class="mailbox-attachment-name"><i class="fas fa-paperclip"></i> &nbsp ${i.ori_file_name}</a>
-               &nbsp &nbsp
-                    <a href="msdownload.do?path=${i.id}" class="btn btn-default btn-sm float-right"><i class="fas fa-cloud-download-alt"></i></a>
-                    
-                  </div>
-
-               </c:forEach>
-         </c:if>
-              </ul>
-            </div>
-            <!-- /.card-footer -->
-         <div class="card-footer">
-           <div class="float-right">
-             <c:if test="${loginid.admin_chk eq 1 or loginId eq detailms.member_id}">
-               <button type="button" class="btn btn-default" onclick="confirmDelete(event, 'freeDelete.do?id=${detailms.id}')">
-				    <i class="far fa-trash-alt"></i>
-				</button>
-               <button type="button" onclick="location.href='/freeUpdate.go?id=${detailms.id}&member_id=${detailms.member_id}'" class="btn btn-default"> 수정</button>
-             </c:if>
-             
-             <button type="button" onclick="location.href='/freeBoard.go'" class="btn btn-default"> 목록</button>
-           </div>
-         </div>
 
          <!-- 댓글 -->
    
          <hr />
             
-<!--             <li>
-                    <div>
-                        <p>첫번째 댓글 작성자</p>
-                        <p>첫번째 댓글</p>
-                    </div>
-                </li>
-                <li>
-                    <div>
-                        <p>두번째 댓글 작성자</p>
-                        <p>두번째 댓글</p>
-                    </div>
-                </li>
-                <li>
-                    <div>
-                        <p>세번째 댓글 작성자</p>
-                        <p>세번째 댓글</p>
-                    </div>
-                </li>-->
-
-
-         <div>
          
-             <form method="post" action="replyWrite.do">
-             
-                 <p>
-                     <label>댓글 작성자</label> <input type="text" name="member_id" value="${loginId}">
-                 </p>
-                 <p>
-                     <textarea rows="5" cols="50" name="content"></textarea>
-                 </p>
-                 <p>
-                    <input id = "hi" type="hidden" name="free_board_id" value="${detailms.id}">
-                     <button type="submit">댓글 작성</button>
-                 </p>
-             </form>
-             
-         </div>
-         
+<div class="card-body">
+  <div class="write" id="write">
+    <form method="post" action="replyWrite.do" class="comment-form">
+      <input type="hidden" name="member_id" value="${loginId}">
+      <div class="comment-input">
+        <div>
+          <input type="text" id="message-box" name="content" placeholder="댓글을 남겨주세요" />
+          <button type="submit" class="send" id="send">
+            <i class="fa fa-paper-plane" aria-hidden="true"></i>
+          </button>
+        </div>
+      </div>
+      <input id="hi" type="hidden" name="free_board_id" value="${detailms.id}">
+    </form>
+  </div>
+</div>
+
       <!-- 댓글 목록/ 댓글 수정 -->
             
       <table>    
          
-         
+
          <tbody id="list">
                   
 
@@ -169,19 +209,19 @@
          
       </table>   
 
-
+				</div>
          <!-- 댓글 끝 -->
             </div>
             <!-- /.card-footer -->
           </div>
-          <!-- /.card -->
-        </div>
+
         <!-- /.col -->
 
- 
     </section>
+
    </div><!-- /.container-fluid -->
  </div>  
+ 
   
 
 <!-- jQuery -->

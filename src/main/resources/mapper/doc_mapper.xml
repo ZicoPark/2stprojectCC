@@ -130,6 +130,7 @@
 			, d.public_range
 			, (SELECT df.name FROM doc_form df WHERE df.id = d.doc_form_id) AS doc_form_name
 			, DATE_FORMAT(d.create_at, '%Y-%m-%d %T') AS create_at
+			, DATE_FORMAT(ds.read_at, '%Y-%m-%d %T') AS read_at
 			, (SELECT a.name FROM approval a WHERE a.id = ds.approval_id) AS approval_kind_name
 			, (SELECT m.name FROM member m WHERE m.id = ds.member_id) AS approval_member_name
 			, ds.read_chk

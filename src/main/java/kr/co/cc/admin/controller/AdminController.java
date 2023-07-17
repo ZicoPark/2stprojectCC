@@ -73,12 +73,13 @@ public class AdminController {
 	            admin = true;
 	        }
 	    }
+	    logger.info("userid 체크 : "+user_id);
 	    logger.info("jobName체크 : "+jobName);
 	    logger.info("deptName체크 : "+deptName);
 	    logger.info("status체크 : "+status);
 	    logger.info("admin체크 : "+admin);
 	    AdminDTO dto = new AdminDTO();
-	    dto.setUser_id(user_id);
+	    dto.setId(user_id);
 	    dto.setJob_level_id(jobName);
 	    dto.setJob_name(jobName);
 	    dto.setDept_id(deptName);
