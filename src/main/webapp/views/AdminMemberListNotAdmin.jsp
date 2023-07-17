@@ -65,9 +65,18 @@
 				<h5>관리자 권한이 존재하지 않습니다.</h5>
 			</div>
 			<br>
-			<div class ="contents" id="but">
-				<button id="list" onclick="location.href='/'">메인페이지로 돌아가기</button>
-			</div>
+			<% 
+			    String id = (String) session.getAttribute("id");
+			    if (id != null) { 
+			%>
+			    <div class="contents" id="but">
+			        <button id="list" onclick="location.href='/main.go'">메인페이지로 돌아가기</button>
+			    </div>
+			<% } else { %>
+			    <div class="contents" id="but">
+			        <button id="list" onclick="location.href='/'">로그인페이지로 돌아가기</button>
+			    </div>
+			<% } %>
 		</section>
 	</div>
 </div>
