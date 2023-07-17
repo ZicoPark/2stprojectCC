@@ -23,7 +23,7 @@
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper" style="max-width: 1000px; margin: 0 auto;">
     <!-- Content Header (Page header) -->
-    <section class="content-header">
+    <section class="content-header"  style=" background-color: #20c997;">
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
@@ -32,7 +32,7 @@
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="#">Home</a></li>
-              <li class="breadcrumb-item active">Project Detail</li>
+              <li class="breadcrumb-item active">프로젝트 > 프로젝트 상세보기</li>
             </ol>
           </div>
         </div>
@@ -61,8 +61,8 @@
           </div>
         </div>
 
-        <div class="card-body">
-          <div id="projectDetailContainer"></div>
+        <div class="card-body" >
+          <div id="projectDetailContainer" ></div>
         </div>
         <!-- /.card-body -->
       </div>
@@ -113,9 +113,9 @@ $(document).ready(function() {
 	        $.each(data.commentList, function(index, detail) {
 	          var commentId = detail.comment_id;
 
-	          var html = '<div class="row">';
-	          html += '<div class="col-12 col-md-12 col-lg-8 order-2 order-md-1">';
-	          html += '<div class="row">';
+	          var html = '<div class="row" style="margin-bottom: 20px;">';
+	          html += '<div class="col-12 order-2 order-md-1">';
+	          html += '<div class="row" style="background-color: #f0f0f0; ">';
 	          html += '<div class="col-12">';
 	          html += '<span style="border: 1px solid green; border-radius: 5px; padding: 3px;">' + detail.step + '</span>';
 	          html += '<span style="border: 1px solid red; border-radius: 5px; padding: 3px;">' + detail.status + '</span>';
