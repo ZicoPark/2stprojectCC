@@ -187,7 +187,7 @@ function printList(list){
 	if(list.length==0){
 		
 		content += '<tr>';
-		content += '<td colspan="6" style="text-align:center;">표시할 문서가 없습니다.</td>';
+		content += '<td colspan="7" style="text-align:center;">표시할 문서가 없습니다.</td>';
 		content += '</tr>';
 		
 		$('#list').empty();
