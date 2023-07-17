@@ -297,10 +297,10 @@ public class MemberService {
 	    logger.info("id : " + id);
 	    
 	    if (file != null) { // file이 null이 아닌지 확인
-	        int row = memberdao.signprofileUpdate(id);
-	        logger.info("update row: " + row);
+	        //int row = memberdao.signprofileUpdate(id);
+	       // logger.info("update row: " + row);
 
-	        if (row > 0) {
+	        //if (row > 0) {
 	            logger.info("업로드할 file 있나요? :" + !file.isEmpty());
 
 	            if (!file.isEmpty()) {
@@ -314,7 +314,7 @@ public class MemberService {
 	            } catch (InterruptedException e) {
 	                e.printStackTrace();
 	            }
-	        }
+	        //}
 	    }
 	}
 	
