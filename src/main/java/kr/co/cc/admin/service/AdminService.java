@@ -41,7 +41,7 @@ public class AdminService {
 	Logger logger = LoggerFactory.getLogger(getClass());
 	
 	public ModelAndView MemberList(HttpSession session) {
-	    ModelAndView mav = new ModelAndView("Login");
+	    ModelAndView mav = new ModelAndView("AdminMemberListNotAdmin");
 	    String id = (String) session.getAttribute("id");
 	    AdminDTO dto = dao.admin_chk(id);
 
@@ -55,7 +55,7 @@ public class AdminService {
 
 	public ModelAndView AdminMemberDetail(String id, HttpSession session) {
 		//logger.info("Member uuid : "+id);
-		ModelAndView mav = new ModelAndView("Login");
+		ModelAndView mav = new ModelAndView("AdminMemberListNotAdmin");
 		String member_id = (String) session.getAttribute("id");
 		AdminDTO DTO = dao.admin_chkDetail(member_id);
 		//logger.info("로그인 세션 : "+ session.getAttribute("id"));
