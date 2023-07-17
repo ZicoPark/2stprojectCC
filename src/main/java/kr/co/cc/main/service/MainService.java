@@ -45,4 +45,10 @@ public class MainService {
 		return dao.noticelist();
 	}
 
+
+	public boolean updateTodo(String todoId) {
+		
+		return dao.updateTodo(todoId);
+	}
+
 }
