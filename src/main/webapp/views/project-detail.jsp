@@ -27,7 +27,7 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1>프로젝트 상세</h1>
+            <h1 style="color: white; font-weight: bold;">프로젝트 상세</h1>
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
@@ -149,7 +149,7 @@ $(document).ready(function() {
 	          }
 	          html += '</div>';
 
-	          var commentForm = '<div class="commentForm'+ detail.comment_id+'">';
+	          var commentForm = '<div class="commentForm'+ detail.comment_id+'" style="background-color: #dcdcdc;">';
 	          commentForm += '<input type="text" class="commentInput" placeholder="댓글 작성">';
 	          commentForm += '<input type="hidden" value="' + detail.comment_id + '">';
 	          commentForm += '<button class="commentButton btn btn-primary btn-sm view-btn" id="' + detail.comment_id + '"><i class="far fa-envelope"></i>작성</button>';
