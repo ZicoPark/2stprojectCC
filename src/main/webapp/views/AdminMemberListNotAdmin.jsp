@@ -66,7 +66,7 @@
 			</div>
 			<br>
 			<div class ="contents" id="but">
-				<button id="list" onclick="location.href='main.go'">메인페이지로 돌아가기</button>
+				<button id="list" onclick="location.href='/'">메인페이지로 돌아가기</button>
 			</div>
 		</section>
 	</div>
