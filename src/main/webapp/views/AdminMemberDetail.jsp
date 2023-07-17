@@ -133,7 +133,6 @@
 							계정 상태 : &nbsp;&nbsp;&nbsp;&nbsp; ${detail.status}
 							<select name="status" class="status">
 								<option value="재직">재직</option>
-								<option value="휴직">휴직</option>
 								<option value="퇴사">퇴사</option>
 							</select>
 						</td>
