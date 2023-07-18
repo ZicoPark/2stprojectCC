@@ -6,7 +6,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>AdminLTE 3 | Projects</title>
-
+<link rel="icon" href="/img/CC_favicon.png">
  <!-- CSS only -->
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
 <!-- Tempusdominus Bootstrap 4 -->
@@ -163,11 +163,11 @@
 						}else if(item.type == '전자결재') {
 							console.log('전자결재 if문 진입');
 							content += '<span class="type-approval">'+item.type+'</span></td><td style="text-align:center">';
-							content += '<a href="requestDocWaitDetail.go?id='+item.identify_value+'">'+item.doc_subject+'</a>';
+							content += '<a href="requestDocWaitDetail.go?type=alarm&id='+item.identify_value+'">'+item.doc_subject+'</a>';
 						}else if(item.type == '쪽지') {
 							console.log('쪽지 if문 진입');
 							content += '<span class="type-message">'+item.type+'</span></td><td style="text-align:center">';
-							content += '<a href="msRcDetail.do?id='+item.identify_value+'">'+item.title+'</a>';
+							content += '<a href="msRcDetail.do?type=alarm&id='+item.identify_value+'">'+item.title+'</a>';
 						}
 						content+='</td>';
 						content += '<td style="text-align:center">'+item.name+'('+item.user_id+')</td>';

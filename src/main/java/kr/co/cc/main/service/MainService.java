@@ -38,8 +38,8 @@ public class MainService {
 	}
 
 
-	public int totalCountDoc(String id) {
-		return dao.totalCountDoc(id);
+	public int totalRequestDocWait(String loginId) {
+		return dao.totalRequestDocWait(loginId);
 	}
 
 

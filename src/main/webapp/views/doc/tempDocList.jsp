@@ -50,7 +50,7 @@ th{
 					<tbody>
 						<c:if test="${list.size() == 0 }">
 							<tr>
-								<td colspan="3">임시저장 중인 문서가 없습니다.</td>
+								<td colspan="3" style="text-align: center;">임시저장 중인 문서가 없습니다.</td>
 							</tr>
 						</c:if>
 						<c:if test="${list.size() > 0 }">

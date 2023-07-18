@@ -32,9 +32,19 @@ th{
 			<!-- Main content -->
 			<section class="content">
 				<table class="table table-bordered">
+					<colgroup>
+						<col width="5%"/>
+						<col width="40%"/>
+						<col width="9%"/>
+						<col width="9%"/>
+						<col width="9%"/>
+						<col width="9%"/>
+						<col width="10%"/>
+						<col width="9%"/>
+					</colgroup>
 					<thead>
 						<tr>
-							<th>문서번호</th>
+							<th>순번</th>
 							<th>제목</th>
 							<th>문서종류</th>
 							<th>결재상태</th>
@@ -47,7 +57,7 @@ th{
 					<tbody>
 						<c:if test="${list.size() == 0 }">
 							<tr>
-								<td colspan="8">결재대기 중인 문서가 없습니다.</td>
+								<td colspan="8" style="text-align: center;">결재대기 중인 문서가 없습니다.</td>
 							</tr>
 						</c:if>
 						<c:if test="${list.size() > 0 }">
