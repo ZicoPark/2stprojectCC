@@ -49,158 +49,68 @@
 		
 		<div class="container">
 		  <div class="card card-primary card-tabs">
-		    <div class="card-header p-0 pt-1">
-		      <ul class="nav nav-tabs" id="custom-tabs-one-tab" role="tablist">
-		        <li class="nav-item flex-grow-1">
-		          <a class="nav-link active" id="custom-tabs-one-home-tab" data-toggle="pill" href="#custom-tabs-one-home" role="tab" aria-controls="custom-tabs-one-home" aria-selected="false" style="text-align:center" onclick="nonReadAlarm()"><strong>안 읽은 알림</strong></a>
-		        </li>
-		        <li class="nav-item flex-grow-1">
-		          <a class="nav-link" id="custom-tabs-one-profile-tab" data-toggle="pill" href="#custom-tabs-one-profile" role="tab" aria-controls="custom-tabs-one-profile" aria-selected="true" style="text-align:center" onclick="readAlarm()"><strong>읽은 알림</strong></a>
-		        </li>
-		      </ul>
-		    </div>
-		    <div class="card-body">
-		      <div class="tab-content" id="custom-tabs-one-tabContent">
-		        <div class="tab-pane fade" id="custom-tabs-one-home" role="tabpanel" aria-labelledby="custom-tabs-one-home-tab">
-         
-         
-         
-        <div class="card-body p-0">
-    <table class="table table-striped">
-        <thead>
-            <tr>
-                <th style="text-align:center">분류</th>
-                <th style="text-align:center">알림 제목</th>
-                <th style="text-align:center">발신인</th>
-                <th style="text-align:center">날짜</th>
-            </tr>
-        </thead>
-        <tbody id="nonRead">
-            <c:if test="${list eq null}">
-                <tr>
-                    <th colspan="5" style="text-align:center">알림이 없습니다.</th>
-                </tr>
-            </c:if>
-			<c:forEach items="${list}" var="noticeList">
-			    <tr>
-			        <td style="text-align:center">
-			            <c:set var="typeClass" value="" />
-			            <c:choose>
-			                <c:when test="${noticeList.type eq '공지사항'}">
-			                    <c:set var="typeClass" value="type-notice" />
-			                </c:when>
-			                <c:when test="${noticeList.type eq '전자결재'}">
-			                    <c:set var="typeClass" value="type-approval" />
-			                </c:when>
-			                <c:when test="${noticeList.type eq '쪽지'}">
-			                    <c:set var="typeClass" value="type-message" />
-			                </c:when>
-			            </c:choose>
-			            <span class="${typeClass}">${noticeList.type}</span>
-			        </td>
-			        <td style="text-align:center">
-			            <c:choose>
-			                <c:when test="${noticeList.type eq '공지사항'}">
-			                    <a href="noticeBoardDetail.do?id=${noticeList.identify_value}">${noticeList.subject}</a>
-			                </c:when>
-			                <c:when test="${noticeList.type eq '전자결재'}">
-			                    <a href="requestDocWaitDetail.go?id=${noticeList.identify_value}">${noticeList.doc_subject}</a>
-			                </c:when>
-			                <c:when test="${noticeList.type eq '쪽지'}">
-			                    <a href="msRcDetail.do?id=${noticeList.identify_value}">${noticeList.title}</a>
-			                </c:when>
-<%-- 			                <c:otherwise>
-			                    <a href="alarmDetail.do?id=${noticeList.identify_value}">${noticeList.identify_value}</a>
-			                </c:otherwise> --%>
-			            </c:choose>
-			        </td>
-			        <td style="text-align:center">${noticeList.name}(${noticeList.user_id})</td>
-			        <td style="text-align:center">${noticeList.create_at}</td>
-			    </tr>
-			</c:forEach>
-        </tbody>
-    </table>
-</div>
-  
-  
-         
-         </div>
-        <div class="tab-pane fade active show" id="custom-tabs-one-profile" role="tabpanel" aria-labelledby="custom-tabs-one-profile-tab">
-        
- 
-              <div class="card-body p-0">
-    <table class="table table-striped">
-        <thead>
-            <tr>
-                <th style="text-align:center">분류</th>
-                <th style="text-align:center">알림 제목</th>
-                <th style="text-align:center">발신인</th>
-                <th style="text-align:center">날짜</th>
-            </tr>
-        </thead>
-       <tbody id="read">
-			<c:if test="${list eq null}">
-			    <tr>
-			        <th colspan="5" style="text-align:center">알림이 없습니다.</th>
-			    </tr>
-			</c:if>
-			<c:forEach items="${list}" var="noticeList">
-			    <tr>
-			        <td style="text-align:center">
-			            <c:set var="typeClass" value="" />
-			            <c:choose>
-			                <c:when test="${noticeList.type eq '공지사항'}">
-			                    <c:set var="typeClass" value="type-notice" />
-			                </c:when>
-			                <c:when test="${noticeList.type eq '전자결재'}">
-			                    <c:set var="typeClass" value="type-approval" />
-			                </c:when>
-			                <c:when test="${noticeList.type eq '쪽지'}">
-			                    <c:set var="typeClass" value="type-message" />
-			                </c:when>
-			            </c:choose>
-			            <span class="${typeClass}">${noticeList.type}</span>
-			        </td>
-			        <td style="text-align:center">
-			            <c:choose>
-			                <c:when test="${noticeList.type eq '공지사항'}">
-			                    <a href="noticeBoardDetail.do?type=alarm&id=${noticeList.identify_value}">${noticeList.subject}</a>
-			                </c:when>
-			                <c:when test="${noticeList.type eq '전자결재'}">
-			                    <a href="requestDocWaitDetail.go?id=${noticeList.identify_value}">${noticeList.doc_subject}</a>
-			                </c:when>
-			                <c:when test="${noticeList.type eq '쪽지'}">
-			                    <a href="msRcDetail.do?id=${noticeList.identify_value}">${noticeList.title}</a>
-			                </c:when>
-<%-- 			                <c:otherwise>
-			                    <a href="alarmDetail.do?id=${noticeList.identify_value}">${noticeList.identify_value}</a>
-			                </c:otherwise> --%>
-			            </c:choose>
-			        </td>
-			        <td style="text-align:center">${noticeList.name}(${noticeList.user_id})</td>
-			        <td style="text-align:center">${noticeList.create_at}</td>
-			    </tr>
-			</c:forEach>
-        </tbody>
-    </table>
-</div>
-        
-        
-        
-        </div>
-      </div>
-       <div class="card-footer clearfix">
-<ul class="pagination pagination-sm m-0 float-right">
-<li class="page-item"><a class="page-link" href="#">«</a></li>
-<li class="page-item"><a class="page-link" href="#">1</a></li>
-<li class="page-item"><a class="page-link" href="#">2</a></li>
-<li class="page-item"><a class="page-link" href="#">3</a></li>
-<li class="page-item"><a class="page-link" href="#">»</a></li>
-</ul>
-</div>
-      
-    </div>
-  </div>
+              <div class="card-header p-0 pt-1">
+                <ul class="nav nav-tabs " id="custom-tabs-one-tab" role="tablist">
+                  <li class="nav-item flex-grow-1">
+                    <a class="nav-link active" id="custom-tabs-one-home-tab" data-toggle="pill" href="#custom-tabs-one-home" role="tab" aria-controls="custom-tabs-one-home" aria-selected="true" style="text-align:center" onclick="nonReadAlarm()"><strong>안 읽은 알림</strong></a>
+                  </li>
+                  <li class="nav-item flex-grow-1">
+                    <a class="nav-link" id="custom-tabs-one-profile-tab" data-toggle="pill" href="#custom-tabs-one-profile" role="tab" aria-controls="custom-tabs-one-profile" aria-selected="false" style="text-align:center" onclick="readAlarm()"><strong>읽은 알림</strong></a>
+                  </li>
+                  
+                </ul>
+              </div>
+              <div class="card-body">
+                <div class="tab-content" id="custom-tabs-one-tabContent">
+                  <div class="tab-pane fade show active" id="custom-tabs-one-home" role="tabpanel" aria-labelledby="custom-tabs-one-home-tab">
+                  	  <div class="card-body p-0">
+   						<table class="table table-striped">
+        					<thead>
+            					<tr>
+                					<th style="text-align:center">분류</th>
+					                <th style="text-align:center">알림 제목</th>
+					                <th style="text-align:center">발신인</th>
+					                <th style="text-align:center">날짜</th>
+            					</tr>
+        					</thead>
+        					<tbody id="nonRead">
+       
+        					</tbody>
+   					 	</table>
+					</div>
+                  </div>
+                  
+                  <div class="tab-pane fade" id="custom-tabs-one-profile" role="tabpanel" aria-labelledby="custom-tabs-one-profile-tab">
+                  	<div class="card-body p-0">
+		    			<table class="table table-striped">
+		        			<thead>
+		            			<tr>
+		                			<th style="text-align:center">분류</th>
+		                			<th style="text-align:center">알림 제목</th>
+					                <th style="text-align:center">발신인</th>
+					                <th style="text-align:center">날짜</th>
+		           				 </tr>
+		        			</thead>
+					        <tbody id="read">
+					        
+					        </tbody>
+		    			</table>
+					</div>
+                  </div>
+                  
+                </div>
+                <div class="card-footer clearfix">
+					<ul class="pagination pagination-sm m-0 float-right">
+						<li class="page-item"><a class="page-link" href="#">«</a></li>
+						<li class="page-item"><a class="page-link" href="#">1</a></li>
+						<li class="page-item"><a class="page-link" href="#">2</a></li>
+						<li class="page-item"><a class="page-link" href="#">3</a></li>
+						<li class="page-item"><a class="page-link" href="#">»</a></li>
+					</ul>
+	  			</div>
+              </div>
+              <!-- /.card -->
+            </div>
   
 
 </div>
@@ -214,18 +124,21 @@
   </div>
 </div>
 <!-- ./wrapper -->
+
+
 <!-- jQuery -->
 <script src="../../plugins/jquery/jquery.min.js"></script>
 <!-- Bootstrap 4 -->
 <script src="../../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
 <!-- AdminLTE App -->
 <script src="../../dist/js/adminlte.min.js"></script>
-<!-- AdminLTE for demo purposes -->
-<script src="../../dist/js/demo.js"></script>
+
+
 </body>
 <script>
 
-	nonReadAlarm();
+	nonReadAlarm(); // 시작했을때 기본으로 띄워줄 거
+	
 	function nonReadAlarm() {
 		console.log('nonReadAlarm() 호출');
 		$.ajax({
@@ -235,34 +148,42 @@
 			data:{loginId : '${sessionScope.id}'},
 			dataType:'json',
 			success:function(data){
-				console.log('아약스 통신 성공');
+				console.log('아작스 통신 성공');
 				console.log(data);
 				var content = '';
-				data.forEach(function(item) {
-					content += '<tr><td style="text-align:center">';
-					if(item.type == '공지사항') {
-						content += '<span class="type-notice">'+item.type+'</span></td><td style="text-align:center">';
-						content += '<a href="noticeBoardDetail.do?type=alarm&id='+item.identify_value+'">'+item.subject+'</a>';
-					}else if(item.type == '전자결재') {
-						content += '<span class="type-approval">'+item.type+'</span></td><td style="text-align:center">';
-						content += '<a href="requestDocWaitDetail.go?id='+item.identify_value+'">'+item.doc_subject+'</a>';
-					}else if(item.type == '쪽지') {
-						content += '<span class="type-message">'+item.type+'</span></td><td style="text-align:center">';
-						content += '<a href="msRcDetail.do?id='+item.identify_value+'">'+item.title+'</a>';
-					}
-					content+='</td>';
-					content += '<td style="text-align:center">'+item.name+'('+item.user_id+')</td>';
-			        content += '<td style="text-align:center">'+item.create_at+'</td>';
-				    content += '</tr>';
-				});
-				$('#nonRead').html('');
+				if(data.length == 0) {
+					content +='<tr><th colspan="5" style="text-align:center">알림이 없습니다.</th></tr>'
+				}else {
+					data.forEach(function(item) {
+						content += '<tr><td style="text-align:center">';
+						if(item.type == '공지사항') {
+							console.log('공지사항 if문 진입');
+							content += '<span class="type-notice">'+item.type+'</span></td><td style="text-align:center">';
+							content += '<a href="noticeBoardDetail.do?type=alarm&id='+item.identify_value+'">'+item.subject+'</a>';
+						}else if(item.type == '전자결재') {
+							console.log('전자결재 if문 진입');
+							content += '<span class="type-approval">'+item.type+'</span></td><td style="text-align:center">';
+							content += '<a href="requestDocWaitDetail.go?id='+item.identify_value+'">'+item.doc_subject+'</a>';
+						}else if(item.type == '쪽지') {
+							console.log('쪽지 if문 진입');
+							content += '<span class="type-message">'+item.type+'</span></td><td style="text-align:center">';
+							content += '<a href="msRcDetail.do?id='+item.identify_value+'">'+item.title+'</a>';
+						}
+						content+='</td>';
+						content += '<td style="text-align:center">'+item.name+'('+item.user_id+')</td>';
+				        content += '<td style="text-align:center">'+item.create_at.substring(0,10)+'</td>';
+					    content += '</tr>';
+					});
+				}
+				
+				$('#nonRead').empty();
 				$('#nonRead').append(content);
 			},
 			error:function(e){
 				console.log(e);
 			}
 		});
-		console.log('아약스 다음');
+		console.log('아작스 다음');
 	}
 	
 	function readAlarm() {
@@ -277,24 +198,28 @@
 				console.log(data);
 				console.log('createChatroom.ajax () 성공');
 				var content = '';
-				data.forEach(function(item) {
-					content += '<tr><td style="text-align:center">';
-					if(item.type == '공지사항') {
-						content += '<span class="type-notice">'+item.type+'</span></td><td style="text-align:center">';
-						content += '<a href="noticeBoardDetail.do?type=alarm&id='+item.identify_value+'">'+item.subject+'</a>';
-					}else if(item.type == '전자결재') {
-						content += '<span class="type-approval">'+item.type+'</span></td><td style="text-align:center">';
-						content += '<a href="requestDocWaitDetail.go?id='+item.identify_value+'">'+item.doc_subject+'</a>';
-					}else if(item.type == '쪽지') {
-						content += '<span class="type-message">'+item.type+'</span></td><td style="text-align:center">';
-						content += '<a href="msRcDetail.do?id='+item.identify_value+'">'+item.title+'</a>';
-					}
-					content+='</td>';
-					content += '<td style="text-align:center">'+item.name+'('+item.user_id+')</td>';
-			        content += '<td style="text-align:center">'+item.create_at+'</td>';
-				    content += '</tr>';
-				});
-				$('#read').html('');
+				if(data.length == 0) {
+					content +='<tr><th colspan="5" style="text-align:center">알림이 없습니다.</th></tr>'
+				}else {
+					data.forEach(function(item) {
+						content += '<tr><td style="text-align:center">';
+						if(item.type == '공지사항') {
+							content += '<span class="type-notice">'+item.type+'</span></td><td style="text-align:center">';
+							content += '<a href="noticeBoardDetail.do?type=alarm&id='+item.identify_value+'">'+item.subject+'</a>';
+						}else if(item.type == '전자결재') {
+							content += '<span class="type-approval">'+item.type+'</span></td><td style="text-align:center">';
+							content += '<a href="requestDocWaitDetail.go?id='+item.identify_value+'">'+item.doc_subject+'</a>';
+						}else if(item.type == '쪽지') {
+							content += '<span class="type-message">'+item.type+'</span></td><td style="text-align:center">';
+							content += '<a href="msRcDetail.do?id='+item.identify_value+'">'+item.title+'</a>';
+						}
+						content+='</td>';
+						content += '<td style="text-align:center">'+item.name+'('+item.user_id+')</td>';
+				        content += '<td style="text-align:center">'+item.create_at.substring(0,10)+'</td>';
+					    content += '</tr>';
+					});
+				}
+				$('#read').empty();
 				$('#read').append(content);
 			},
 			error:function(e){
@@ -304,42 +229,6 @@
 	}
 </script>
 </html>
-
-<c:set var="typeClass" value="" />
-			            <c:choose>
-			                <c:when test="${noticeList.type eq '공지사항'}">
-			                    <c:set var="typeClass" value="type-notice" />
-			                </c:when>
-			                <c:when test="${noticeList.type eq '전자결재'}">
-			                    <c:set var="typeClass" value="type-approval" />
-			                </c:when>
-			                <c:when test="${noticeList.type eq '쪽지'}">
-			                    <c:set var="typeClass" value="type-message" />
-			                </c:when>
-			            </c:choose>
-
-
- </td><td style="text-align:center">
-				<tr>
-			        <td style="text-align:center">
-			            <span class="${typeClass}">${noticeList.type}</span>
-			        </td>
-			        <td style="text-align:center">
-			            <c:choose>
-			                <c:when test="${noticeList.type eq '공지사항'}">
-			                    <a href="noticeBoardDetail.do?id=${noticeList.identify_value}">${noticeList.subject}</a>
-			                </c:when>
-			                <c:when test="${noticeList.type eq '전자결재'}">
-			                    <a href="requestDocWaitDetail.go?id=${noticeList.identify_value}">${noticeList.doc_subject}</a>
-			                </c:when>
-			                <c:when test="${noticeList.type eq '쪽지'}">
-			                    <a href="msRcDetail.do?id=${noticeList.identify_value}">${noticeList.title}</a>
-			                </c:when>
-			            </c:choose>
-			        </td>
-			        <td style="text-align:center">${noticeList.name}(${noticeList.user_id})</td>
-			        <td style="text-align:center">${noticeList.create_at}</td>
-			    </tr>
 
 
 

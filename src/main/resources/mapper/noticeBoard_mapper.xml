@@ -115,4 +115,5 @@
 		WHERE identify_value=#{id}
 		AND receive_id=#{loginId}
 	</update>
+	
 </mapper>

@@ -7,7 +7,7 @@ public class ProjectDTO {
 
 	private int del_chk;
 	private String id;
-	private int public_range;
+	private String public_range;
 	private String project_id;
 	private String name;
 	private String user_id;
@@ -27,6 +27,8 @@ public class ProjectDTO {
 	private int comment_status;
 	private Date comment_create_date;
 	private String coment_id;
+	private String dept_name;
+	
 	
 
 	private String ori_file_name;
@@ -37,6 +39,12 @@ public class ProjectDTO {
 	   
 	   
 	  
+	public String getDept_name() {
+		return dept_name;
+	}
+	public void setDept_name(String dept_name) {
+		this.dept_name = dept_name;
+	}
 	public String getComent_id() {
 		return coment_id;
 	}
@@ -55,11 +63,11 @@ public class ProjectDTO {
 	public void setId(String id) {
 		this.id = id;
 	}
-	public int getPublic_range() {
+	public String getPublic_range() {
 		return public_range;
 	}
-	public void setPublic_range(int public_range) {
-		this.public_range = public_range;
+	public void setPublic_range(String string) {
+		this.public_range = string;
 	}
 	public String getProject_id() {
 		return project_id;

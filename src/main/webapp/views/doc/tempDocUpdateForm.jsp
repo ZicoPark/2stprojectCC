@@ -5,7 +5,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Creator Company</title>
+<title>임시저장문서 계속 작성하기</title>
+<link rel="icon" href="/img/CC_favicon.png">
 <link rel="stylesheet" href="/richtexteditor/rte_theme_default.css" />
 <script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
 
@@ -16,6 +17,9 @@
 <!-- Theme style -->
 <link rel="stylesheet" href="../../dist/css/adminlte.min.css">
 <style>
+th{
+	text-align: center;
+}
 </style>
 </head>
 <body>
@@ -24,45 +28,54 @@
 	<div class="wrapper">
 		<div class="content-wrapper">
 			<section class="content-header">
-				<h1>임시저장문서 계속 작성</h1>
+				<h1>임시저장문서 계속 작성하기</h1>
 			</section>
 			<!-- Main content -->
 			<section class="content">
 				<form action="docUpdate.do" method="post" enctype="multipart/form-data">
 					<input type="text" name="id" value="${docDTO.id }" hidden="true"/>
-					<br>
-					기안자 : ${memberName }
-					<br>
-					문서종류 : ${docFormName }
-					<br>
 					<div class="row">
-						<div class="col-4">
-						<button type="button" class="btn btn-default" data-toggle="modal" data-target="#modal-default">
-						결재선 지정
-						</button>
-						</div>
-						<div class="col-8">
-						<button type="button" onclick="saveDoc()" class="btn btn-primary float-right">
-							<i class="fas fa-save">
-							임시저장
-							</i>
-						</button>
-						<button type="button" onclick="pushDoc()" class="btn btn-primary float-right" style="margin-left: 5px;">
-							<i class="fas fa-inbox">
-							결재신청
-							</i>
-						</button>
+						<div class="col-12">
+							<button type="button" class="btn btn-default" data-toggle="modal" data-target="#modal-default">
+							결재선 지정
+							</button>
+							<button type="button" onclick="location.href='tempDocDelete.do?id=${docDTO.id }'" class="btn btn-danger float-right" style="margin-left: 5px;">
+								<i class="fas fa-trash">
+								문서삭제
+								</i>
+							</button>
+							<button type="button" onclick="saveDoc()" class="btn btn-primary float-right" style="margin-left: 5px;">
+								<i class="fas fa-save">
+								임시저장
+								</i>
+							</button>
+							<button type="button" onclick="pushDoc()" class="btn btn-primary float-right">
+								<i class="fas fa-inbox">
+								결재신청
+								</i>
+							</button>
 						</div>
 					</div>
+					<br>
 					<div class="row">
 						<div class="col-6">
-							<select name="publicRange" class="form-control float-left" style="margin-bottom: 10px;">
+							<select	class="form-control float-left" style="margin-bottom: 10px;" disabled>
+								<option value="default">${docFormName }</option>
+							</select>
+						</div>
+						<div class="col-6">
+							<select name="publicRange" id="publicRange" class="form-control float-left" style="margin-bottom: 10px;">
 								<option value="all" <c:if test="${docDTO.public_range == 'all' }">selected</c:if>>전체</option>
 								<option value="dept" <c:if test="${docDTO.public_range == 'dept' }">selected</c:if>>부서별</option>
 							</select>
 						</div>
 					</div>
-
+					<div class="row">
+						<div class="col-12">
+							<br>
+							<input type="text" name="subject" id="subject" value="${docDTO.subject }" placeholder="제목을 입력하세요" maxlength="30" class="form-control form-control-lg" required="required"/>
+						</div>
+					</div>
 					<div class="modal fade" id="modal-default">
 						<div class="modal-dialog modal-lg">
 							<div class="modal-content">
@@ -82,7 +95,7 @@
 		                          				</a>
 											</div>
 											<div class="col-4">
-											<select name="approvalPriority" class="form-control float-left">
+											<select name="approvalPriority" class="form-control float-left approvalPriority">
 												<option value="default">--</option>
 												<c:forEach items="${approvalKindList}" var="i">
 													<option value="${i.priority}">${i.name}</option>
@@ -90,10 +103,10 @@
 											</select>
 											</div>
 											<div class="col-4">
-												<select name="approvalMemberId" class="form-control float-left">
+												<select name="approvalMemberId" class="form-control float-left approvalMemberId">
 													<option value="default">--</option>
 													<c:forEach items="${memberList}" var="i">
-														<option value="${i.id}">${i.dept_name} | ${i.name}</option>
+														<option value="${i.id}">${i.dept_name} | ${i.job_level_name} ${i.name}</option>
 													</c:forEach>
 												</select>
 											</div>
@@ -102,7 +115,7 @@
 									</div>
 								</div>
 								<div class="modal-footer justify-content-between">
-									<button type="button" class="btn btn-default" data-dismiss="modal">확인</button>
+									<button type="button" class="btn btn-default" data-dismiss="modal" onclick="approvalTest()">확인</button>
 								</div>
 							</div>
 							<!-- /.modal-content -->
@@ -110,32 +123,61 @@
 						<!-- /.modal-dialog -->
 					</div>
 					<!-- /.modal -->
-					<div class="row">
-						<div class="col-12">
-							<input type="text" name="subject" value="${docDTO.subject }" placeholder="제목을 입력하세요" maxlength="30" class="form-control form-control-lg"/>
-						</div>
-					</div>
+					<br>
 					<div id="div_editor">
 						<!-- 에디터 안에 들어갈 자리 -->
 					</div>
 					<textarea hidden="true" id="beforeContent">${docDTO.content }</textarea>
 					<textarea hidden="true" id="afterContent" name="afterContent"></textarea>
 					<input type="hidden" id="status" name="status"/>
-					<input type="file" multiple="multiple" name="attachment"/>
-					<c:if test="${attachmentList.size() == 0 }">
-						<div>첨부파일 없음.</div>
-					</c:if>
-					<c:if test="${attachmentList.size() > 0 }">
-						<c:forEach items="${attachmentList }" var="i">
-							<div>
-								<a href="attachmentDownload.do?oriFileName=${i.ori_file_name }&attachmentId=${i.id }">${i.ori_file_name }</a>
-								<a href="attachmentDelete.do?docId=${docDTO.id }&attachmentId=${i.id }">삭제</a>
-							</div>
-						</c:forEach>
-					</c:if>
+					<br>
+					<div class="custom-file">
+						<input type="file" multiple="multiple" id="attachment" name="attachment" class="custom-file-input"/>
+						<label class="custom-file-label" for="attachment">
+						첨부파일을 선택하세요.
+						</label>
+					</div>
+					<!-- Table row -->
+					<div class="row">
+						<div class="col-12">
+							<br>
+							<table class="table">
+								<thead>
+									<tr>
+										<th style="width: 5%;">순번</th>
+										<th colspan="2">파일명</th>
+									</tr>
+								</thead>
+								<tbody>
+									<c:if test="${attachmentList.size() == 0 }">
+										<tr>
+											<td colspan="3">첨부파일 없음.</td>
+										</tr>
+									</c:if>
+									<c:if test="${attachmentList.size() > 0 }">
+										<c:forEach items="${attachmentList }" var="i" varStatus="varStatus">
+										<tr>
+											<td style="text-align: center;">${varStatus.count }</td>
+											<td>
+												<a href="attachmentDownload.do?oriFileName=${i.ori_file_name }&attachmentId=${i.id }">${i.ori_file_name }</a>
+											</td>
+											<td style="text-align: center;">
+												<a class="btn btn-danger btn-sm" href="attachmentDelete.do?docId=${docDTO.id }&attachmentId=${i.id }">
+		                              				<i class="fas fa-trash"></i>
+		                              				삭제
+                          						</a>
+											</td>
+										</tr>
+										</c:forEach>
+									</c:if>
+								</tbody>
+							</table>
+						</div>
+						<!-- /.col -->
+					</div>
+					<!-- /.row -->
 				</form>
-				<button type="button" onclick="location.href='tempDocDelete.do?id=${docDTO.id }'">문서삭제</button>
-				</section>
+			</section>
 		</div>
 	</div>
 </body>
@@ -171,7 +213,7 @@ content += '추가';
 content += '</a>';
 content += '</div>';
 content += '<div class="col-4">';
-content += '<select name="approvalPriority" class="form-control float-left">';
+content += '<select name="approvalPriority" class="form-control float-left approvalPriority">';
 content += '<option value="default">--</option>';
 content += '<c:forEach items="${approvalKindList}" var="i">';
 content += '<option value="${i.priority}">${i.name}</option>';
@@ -179,10 +221,10 @@ content += '</c:forEach>';
 content += '</select>';
 content += '</div>';
 content += '<div class="col-4">';
-content += '<select name="approvalMemberId" class="form-control float-left">';
+content += '<select name="approvalMemberId" class="form-control float-left approvalMemberId">';
 content += '<option value="default">--</option>';
 content += '<c:forEach items="${memberList}" var="i">';
-content += '<option value="${i.id}">${i.dept_name} | ${i.name}</option>';
+content += '<option value="${i.id}">${i.dept_name} | ${i.job_level_name} ${i.name}</option>';
 content += '</c:forEach>';
 content += '</select>';
 content += '</div>';
@@ -213,7 +255,28 @@ function pushDoc(){
 	var submitContent = editor.getHTMLCode();
 	$('textarea[name="afterContent"]').val(submitContent);
 	$('input[name="status"]').val('1');
-	$('form').submit();
+	
+	var approvalPriorityArr = [];
+	var approvalMemberIdArr = [];
+	
+	for(var i=0;i<document.getElementsByClassName('approvalPriority').length;i++){
+		approvalPriorityArr.push(document.getElementsByClassName('approvalPriority')[i].value);
+	}
+	for(var i=0;i<document.getElementsByClassName('approvalMemberId').length;i++){
+		approvalMemberIdArr.push(document.getElementsByClassName('approvalMemberId')[i].value);
+	}	
+	
+	if($('#subject').val().length==0){
+		alert('문서 제목을 입력하세요.');
+	}else if(approvalPriorityArr.includes('default')){
+		alert('결재선을 선택하세요.');
+	}else if(approvalMemberIdArr.includes('default')){
+		alert('결재선을 선택하세요.');
+	}else if(document.getElementById('publicRange').value == 'default'){
+		alert('공개범위를 선택하세요.');
+	}else{
+		$('form').submit();
+	}	
 	
 }
 
@@ -222,7 +285,28 @@ function saveDoc(){
 	var submitContent = editor.getHTMLCode();
 	$('textarea[name="afterContent"]').val(submitContent);
 	$('input[name="status"]').val('2');
-	$('form').submit();
+	
+	var approvalPriorityArr = [];
+	var approvalMemberIdArr = [];
+	
+	for(var i=0;i<document.getElementsByClassName('approvalPriority').length;i++){
+		approvalPriorityArr.push(document.getElementsByClassName('approvalPriority')[i].value);
+	}
+	for(var i=0;i<document.getElementsByClassName('approvalMemberId').length;i++){
+		approvalMemberIdArr.push(document.getElementsByClassName('approvalMemberId')[i].value);
+	}	
+	
+	if($('#subject').val().length==0){
+		alert('문서 제목을 입력하세요.');
+	}else if(approvalPriorityArr.includes('default')){
+		alert('결재선을 선택하세요.');
+	}else if(approvalMemberIdArr.includes('default')){
+		alert('결재선을 선택하세요.');
+	}else if(document.getElementById('publicRange').value == 'default'){
+		alert('공개범위를 선택하세요.');
+	}else{
+		$('form').submit();
+	}
 	
 }
 
@@ -242,7 +326,7 @@ function deleteApprovalLine(){
 	defaultContent += '</a>';
 	defaultContent += '</div>';
 	defaultContent += '<div class="col-4">';
-	defaultContent += '<select name="approvalPriority" class="form-control float-left">';
+	defaultContent += '<select name="approvalPriority" class="form-control float-left approvalPriority">';
 	defaultContent += '<option value="default">--</option>';
 	defaultContent += '<c:forEach items="${approvalKindList}" var="i">';
 	defaultContent += '<option value="${i.priority}">${i.name}</option>';
@@ -250,10 +334,10 @@ function deleteApprovalLine(){
 	defaultContent += '</select>';
 	defaultContent += '</div>';
 	defaultContent += '<div class="col-4">';
-	defaultContent += '<select name="approvalMemberId" class="form-control float-left">';
+	defaultContent += '<select name="approvalMemberId" class="form-control float-left approvalMemberId">';
 	defaultContent += '<option value="default">--</option>';
 	defaultContent += '<c:forEach items="${memberList}" var="i">';
-	defaultContent += '<option value="${i.id}">${i.dept_name} | ${i.name}</option>';
+	defaultContent += '<option value="${i.id}">${i.dept_name} | ${i.job_level_name} ${i.name}</option>';
 	defaultContent += '</c:forEach>';
 	defaultContent += '</select>';
 	defaultContent += '</div>';
@@ -262,6 +346,48 @@ function deleteApprovalLine(){
 
 	$('#approvalList').empty();
 	$('#approvalList').append(defaultContent);
+	
+}
+
+function approvalTest(){
+
+	var approvalPriorityArr = [];
+	var approvalMemberIdArr = [];
+	
+	for(var i=0;i<document.getElementsByClassName('approvalPriority').length;i++){
+		approvalPriorityArr.push(document.getElementsByClassName('approvalPriority')[i].value);
+	}
+	for(var i=0;i<document.getElementsByClassName('approvalMemberId').length;i++){
+		approvalMemberIdArr.push(document.getElementsByClassName('approvalMemberId')[i].value);
+	}
+	
+	const findDuplicatesPriority = approvalPriorityArr => approvalPriorityArr.filter((item, index) => approvalPriorityArr.indexOf(item) !== index)
+	const duplicatesPriorityArr = findDuplicatesPriority(approvalPriorityArr);
+
+	const findDuplicatesMemberId = approvalMemberIdArr => approvalMemberIdArr.filter((item, index) => approvalMemberIdArr.indexOf(item) !== index)
+	const duplicatesMemberIdArr = findDuplicatesMemberId(approvalMemberIdArr);
+
+	if(approvalPriorityArr.includes('default') || approvalMemberIdArr.includes('default')){
+		// 결재종류나 memberId에 default가 있어서는 안된다.
+		alert('선택되지 않은 결재종류나 결재자가 있습니다.');
+		deleteApprovalLine();
+	}else if(approvalPriorityArr[approvalPriorityArr.length-1]==2){
+		// 최종 결재자는 2=검토 이어서는 안된다.
+		alert('최종 결재자는 전결 혹은 결재로 지정해야 합니다.');
+		deleteApprovalLine();
+	}else if(approvalPriorityArr.includes('3') && approvalPriorityArr.includes('4')){
+		// 한 문서에 전결=3, 결재=4는 같이 있을 수 없다.
+		alert('전결 혹은 결재는 한 명만 지정해야 합니다.');
+		deleteApprovalLine();
+	}else if(duplicatesPriorityArr.includes('3') || duplicatesPriorityArr.includes('4')){
+		// 한 문서에 전결=3, 결재=4가 여러 개 있으면 안된다.
+		alert('전결 혹은 결재는 여러 번 지정할 수 없습니다.');
+		deleteApprovalLine();
+	}else if(duplicatesMemberIdArr.length>0){
+		// 한 문서에 memberId가 중복되어 여러 개 있으면 안된다.
+		alert('동일한 결재자가 존재하면 안됩니다.');
+		deleteApprovalLine();
+	}
 	
 }
 </script>

@@ -54,7 +54,7 @@
 	            </otherwise>
 	        </choose>
 	    </set>
-	    WHERE user_id = #{user_id}
+	    WHERE member.id = #{user_id}
 	</update>
 	
 	<select id="MemberONOFFList" resultType="kr.co.cc.admin.dto.AdminDTO">
@@ -83,7 +83,7 @@
 	  WHERE m.id = #{id}
 	</select>
 	
-<!-- 	<select id="admin_chk" resultType="kr.co.cc.admin.dto.AdminDTO">
+	<select id="admin_chk" resultType="kr.co.cc.admin.dto.AdminDTO">
 		SELECT admin_chk
 		FROM member
 		WHERE id = #{id}
@@ -93,6 +93,6 @@
 		SELECT admin_chk
 		FROM member
 		WHERE id = #{id}
-	</select> -->
+	</select> 
 	
 </mapper>

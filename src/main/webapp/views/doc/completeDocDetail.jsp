@@ -6,6 +6,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Creator Company</title>
+<link rel="icon" href="/img/CC_favicon.png">
 <link rel="stylesheet" href="/richtexteditor/rte_theme_default.css" />
 <script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
 
@@ -16,6 +17,10 @@
 <!-- Theme style -->
 <link rel="stylesheet" href="../../dist/css/adminlte.min.css">
 <style>
+th{
+	text-align: center;
+	font-size: 12px;
+}
 </style>
 </head>
 <body>
@@ -24,46 +29,165 @@
 	<div class="wrapper">
 		<div class="content-wrapper">
 			<section class="content-header">
-				<h1>결재한 문서</h1>
+				<h1>결재완료문서 상세보기</h1>
 			</section>
 			<!-- Main content -->
 			<section class="content">
 				<input type="text" value="${doc.id }" hidden="true"/>
-				제목 : <input type="text" value="${doc.subject }" readonly="readonly"/>
+				<div class="row">
+					<div class="col-12">
+						<button type="button" class="btn btn-default" data-toggle="modal" data-target="#modal-xl">
+						결재정보 보기
+						</button>
+						<button type="button" onclick="location.href='/completeDocList.go'" class="btn btn-secondary float-right">
+							<i class="fas fa-reply">
+							리스트
+							</i>
+						</button>		
+					</div>
+				</div>
 				<br>
-				기안자 : <input type="text" value="${doc.create_member_name }" readonly="readonly"/>
+				<div class="row">
+					<div class="col-6">
+						<select	class="form-control float-left" style="margin-bottom: 10px;" disabled>
+							<option value="default">${doc.doc_form_name }</option>
+						</select>
+					</div>
+					<div class="col-6">
+						<select name="publicRange" class="form-control float-left" style="margin-bottom: 10px;" disabled>
+							<option value="default">
+								<c:if test="${doc.public_range eq 'all' }">전체</c:if>
+								<c:if test="${doc.public_range eq 'dept' }">부서별</c:if>
+							</option>
+						</select>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-12">
+						<br>
+						<input type="text" value="${doc.subject }" class="form-control form-control-lg" readonly="readonly"/>
+					</div>
+				</div>
 				<br>
-				결재요청시각 : ${doc.create_at }
-				생산부서 : ${doc.production_dept_name }
-				<br>
-				공개범위 : 
-				<c:if test="${doc.public_range eq 'all' }">
-					전체공개
-				</c:if>
-				<c:if test="${doc.public_range eq 'dept' }">
-					부서별공개
-				</c:if>
-				<br>
-				<br>
-				문서종류 : <input type="text" value="${doc.doc_form_name }" readonly="readonly"/>
-				<br>
-				<input type="button" value="재작성" onclick="rewriteDoc()"/>
+				<div class="modal fade" id="modal-xl">
+					<div class="modal-dialog modal-xl">
+						<div class="modal-content">
+							<div class="modal-header">
+								<h4 class="modal-title">결재정보</h4>
+								<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+									<span aria-hidden="true">&times;</span>
+								</button>
+							</div>
+							<div class="modal-body">
+								<!-- Table row -->
+								<div class="row">
+									<div class="col-12">
+										<br>
+										<table class="table">
+											<thead>
+												<tr>
+													<th style="width: 5%;">순번</th>
+													<th style="width: 10%;">결재종류</th>
+													<th style="width: 8%;">부서</th>
+													<th style="width: 5%;">직급</th>
+													<th style="width: 8%;">이름</th>
+													<th style="width: 5%;">읽음여부</th>
+													<th style="width: 10%;">읽은시각</th>
+													<th style="width: 5%;">결재여부</th>
+													<th style="width: 10%;">처리시각</th>
+													<th style="width: 34%;">의견</th>
+												</tr>
+											</thead>
+											<tbody>
+												<c:if test="${docStatusList.size() == 0 }">
+													<tr>
+														<td colspan="10">결재정보를 불러오는데 실패했습니다.</td>
+													</tr>
+												</c:if>
+												<c:if test="${docStatusList.size() > 0 }">
+													<c:forEach items="${docStatusList }" var="i">
+														<tr>
+															<td style="text-align: center;">${i.order_rank+1 }</td>
+															<c:if test="${i.approval_kind_name eq '결재'}">
+																<td style="text-align: center;"><span class="badge bg-red">${i.approval_kind_name }</span></td>
+															</c:if>
+															<c:if test="${i.approval_kind_name eq '검토'}">
+																<td style="text-align: center;"><span class="badge bg-yellow">${i.approval_kind_name }</span></td>
+															</c:if>
+															<td style="text-align: center; font-size: 12px;">${i.dept_name }</td>
+															<td style="text-align: center; font-size: 12px;">${i.job_name }</td>
+															<td style="text-align: center; font-size: 12px;">${i.approval_member_name }</td>
+															<c:if test="${i.read_chk eq true}">
+																<td style="text-align: center;"><span class="badge bg-primary">읽음</span></td>
+															</c:if>
+															<c:if test="${i.read_chk eq false}">
+																<td style="text-align: center;"><span class="badge bg-gray">읽지않음</span></td>
+															</c:if>
+															<td style="text-align: center;"><span class="badge bg-primary">${i.read_at }</span></td>
+															<c:if test="${i.approval eq '0'}">
+																<td style="text-align: center;"><span class="badge bg-gray">대기</span></td>
+															</c:if>
+															<c:if test="${i.approval eq '1'}">
+																<td style="text-align: center;"><span class="badge bg-green">정상결재</span></td>
+															</c:if>
+															<c:if test="${i.approval eq '2'}">
+																<td style="text-align: center;"><span class="badge bg-red">반려</span></td>
+															</c:if>
+															<td style="text-align: center;"><span class="badge bg-primary">${i.approval_at }</span></td>
+															<td style="text-align: left;"><span style="font-size: 10px;">${i.opinion }</span></td>
+														</tr>
+													</c:forEach>
+												</c:if>
+											</tbody>
+										</table>
+									</div>
+									<!-- /.col -->
+								</div>
+								<!-- /.row -->
+							</div>
+						</div>
+						<!-- /.modal-content -->
+					</div>
+					<!-- /.modal-dialog -->
+				</div>
+				<!-- /.modal -->
 				<div id="div_editor">
 					<!-- 에디터 안에 들어갈 자리 -->
 				</div>
 				<textarea hidden="true" id="content">${doc.content }</textarea>
-				<c:if test="${attachmentList.size() == 0 }">
-					<div>첨부파일 없음.</div>
-				</c:if>
-				<c:if test="${attachmentList.size() > 0 }">
-					<c:forEach items="${attachmentList }" var="i">
-						<div>
-							<a href="attachmentDownload.do?oriFileName=${i.ori_file_name }&attachmentId=${i.id }">${i.ori_file_name }</a>
-						</div>
-					</c:forEach>
-				</c:if>
-				<input type="button" onclick="docStatusHistory()" value="결재상세보기"/>
-				<input type="button" onclick="location.href='/objectionDocList.go'" value="리스트"/>
+				<!-- Table row -->
+				<div class="row">
+					<div class="col-12">
+						<br>
+						<table class="table">
+							<thead>
+								<tr>
+									<th style="width: 5%;">순번</th>
+									<th colspan="2">파일명</th>
+								</tr>
+							</thead>
+							<tbody>
+								<c:if test="${attachmentList.size() == 0 }">
+									<tr>
+										<td colspan="3">첨부파일 없음.</td>
+									</tr>
+								</c:if>
+								<c:if test="${attachmentList.size() > 0 }">
+									<c:forEach items="${attachmentList }" var="i" varStatus="varStatus">
+									<tr>
+										<td style="text-align: center;">${varStatus.count }</td>
+										<td colspan="2">
+											<a href="attachmentDownload.do?oriFileName=${i.ori_file_name }&attachmentId=${i.id }">${i.ori_file_name }</a>
+										</td>
+									</tr>
+									</c:forEach>
+								</c:if>
+							</tbody>
+						</table>
+					</div>
+					<!-- /.col -->
+				</div>
+				<!-- /.row -->
 			</section>
 		</div>
 	</div>
@@ -90,38 +214,5 @@ var editor = new RichTextEditor("#div_editor", config);
 var content = document.getElementById('content').value;
 editor.setHTMLCode(content); // editor에 내용 넣기
 editor.setReadOnly();
-
-function rewriteDoc(){
-	
-	var subject = '${doc.subject}';
-	// content는 위에 선언됨.
-	var status = 2; // 임시저장문서로 만들거니까 status는 2로 고정한다.
-	// member_id는 세션으로 받아오기
-	var docFormId = '${doc.doc_form_id}';
-	// deptId는 memberInfo에서 받아온다.
-	// jobLevelName는 memberInfo에서 받아온다.
-	var publicRange = '${doc.public_range}';
-	
-	var params = {subject, content, status, docFormId, publicRange};
-	
-	$.ajax({
-		
-		type:'post',
-		url:'rewriteDoc.ajax',
-		data:params,
-		dataType:'json',
-		success:function(data){
-			
-			if(data.updateRow != null && data.docId != null){
-				location.href='tempDocUpdateForm.go?id='+data.docId;
-			}
-		},
-		error:function(e){
-			console.log(e);
-		}
-		
-	});
-	
-}
 </script>
 </html>

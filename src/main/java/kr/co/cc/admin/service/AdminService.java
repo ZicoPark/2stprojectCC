@@ -41,22 +41,25 @@ public class AdminService {
 	Logger logger = LoggerFactory.getLogger(getClass());
 	
 	public ModelAndView MemberList(HttpSession session) {
-		ModelAndView mav = new ModelAndView("Login");
-		//logger.info("로그인 세션 : "+ session.getAttribute("id"));
-		String id = (String) session.getAttribute("id");
-		if(id != null) {
-			mav = new ModelAndView("AdminMemberList");
-			ArrayList<AdminDTO> list = dao.MemberList();
-			mav.addObject("list",list);
-       } 		
-		return mav;
+	    ModelAndView mav = new ModelAndView("AdminMemberListNotAdmin");
+	    String id = (String) session.getAttribute("id");
+	    AdminDTO dto = dao.admin_chk(id);
+
+	    if (id != null && dto != null && dto.getAdmin_chk()) {
+	        mav = new ModelAndView("AdminMemberList");
+	        ArrayList<AdminDTO> list = dao.MemberList();
+	        mav.addObject("list", list);
+	    }
+	    return mav;
 	}
 
 	public ModelAndView AdminMemberDetail(String id, HttpSession session) {
 		//logger.info("Member uuid : "+id);
-		ModelAndView mav = new ModelAndView("Login");
+		ModelAndView mav = new ModelAndView("AdminMemberListNotAdmin");
+		String member_id = (String) session.getAttribute("id");
+		AdminDTO DTO = dao.admin_chkDetail(member_id);
 		//logger.info("로그인 세션 : "+ session.getAttribute("id"));
-		if(session.getAttribute("id") != null) {
+		if (member_id != null && DTO != null && DTO.getAdmin_chk()) {
 			mav = new ModelAndView("AdminMemberDetail");
 			AdminDTO detail = dao.AdminMemberDetail(id);
 			AdminDTO dto = dao.AdminMemberDetailPhoto(id);

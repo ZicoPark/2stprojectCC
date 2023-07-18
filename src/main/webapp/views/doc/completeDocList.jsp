@@ -6,6 +6,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Creator Company</title>
+<link rel="icon" href="/img/CC_favicon.png">
 <script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
 
 <!-- Google Font: Source Sans Pro -->
@@ -15,6 +16,9 @@
 <!-- Theme style -->
 <link rel="stylesheet" href="../../dist/css/adminlte.min.css">
 <style>
+th{
+	text-align: center;
+}
 </style>
 </head>
 <body>
@@ -23,7 +27,7 @@
 	<div class="wrapper">
 		<div class="content-wrapper">
 			<section class="content-header">
-				<h1>결재완료함 목록</h1>
+				<h1>결재완료함</h1>
 			</section>
 			<!-- Main content -->
 			<section class="content">
@@ -31,8 +35,8 @@
 					<thead>
 						<tr>
 							<th>문서번호</th>
-							<th>문서종류</th>
 							<th>제목</th>
+							<th>문서종류</th>
 							<th>생산부서</th>
 							<th>기안자</th>
 							<th>결재요청시각</th>
@@ -49,14 +53,19 @@
 						<c:if test="${list.size() > 0 }">
 							<c:forEach items="${list }" var="i" varStatus="varStatus">
 								<tr>
-									<td>${varStatus.count }</td>
-									<td>${i.doc_form_name }</td>
+									<td style="text-align: center;">${varStatus.count }</td>
 									<td><a href="completeDocDetail.go?id=${i.id }">${i.subject }</a></td>
-									<td>${i.production_dept_name }</td>
-									<td>${i.create_member_name }</td>
-									<td>${i.create_at }</td>
-									<td>${i.approval_kind_name } 완료</td>
-									<td>${i.approval_at }</td>
+									<td style="text-align: center;">${i.doc_form_name }</td>
+									<td style="text-align: center;">${i.production_dept_name }</td>
+									<td style="text-align: center;">${i.create_member_name }</td>
+									<td style="text-align: center;"><span class="badge bg-gray">${i.create_at }</span></td>
+									<c:if test="${i.approval_kind_name eq '결재'}">
+										<td style="text-align: center;"><span class="badge bg-red">${i.approval_kind_name }완료</span></td>
+									</c:if>
+									<c:if test="${i.approval_kind_name eq '검토'}">
+										<td style="text-align: center;"><span class="badge bg-yellow">${i.approval_kind_name }완료</span></td>
+									</c:if>
+									<td style="text-align: center;"><span class="badge bg-primary">${i.approval_at }</span></td>
 								</tr>
 							</c:forEach>
 						</c:if>

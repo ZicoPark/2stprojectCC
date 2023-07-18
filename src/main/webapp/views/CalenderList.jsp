@@ -51,7 +51,7 @@
 			<div class="row">
 				<div class="col-md-3">
 					<div class="sticky-top mb-3">
-						<div class="card">
+						<!-- <div class="card">
 								<div class="card-header">
 									<h4 class="card-title">이벤트를 추가하고 반드시 새로고침 하세요</h4>
 								</div>
@@ -60,7 +60,7 @@
 										<button type="button" class="btn btn-primary" onclick="location.href='CalenderList.go'">새로고침</button>
 									</div>
 								</div>
-							</div>
+							</div> -->
 						<div class="card">
 							<div class="card-header">
 								<h4 class="card-title">이벤트 목록</h4>
@@ -333,6 +333,7 @@ $(function () {
 	            //console.log('newEvent.extendedProps.uuid 확인: ', newEvent.extendedProps.uuid);
 
 	            calendar.addEvent(newEvent).setExtendedProp('uuid', newEvent.extendedProps.uuid);
+	            location.reload();
 	          },
 	          error: function (e) {
 	            console.log(e);

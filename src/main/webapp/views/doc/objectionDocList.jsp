@@ -5,7 +5,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Creator Company</title>
+<title>반려문서함</title>
+<link rel="icon" href="/img/CC_favicon.png">
 <script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
 
 <!-- Google Font: Source Sans Pro -->
@@ -15,6 +16,9 @@
 <!-- Theme style -->
 <link rel="stylesheet" href="../../dist/css/adminlte.min.css">
 <style>
+th{
+	text-align: center;
+}
 </style>
 </head>
 <body>
@@ -23,16 +27,16 @@
 	<div class="wrapper">
 		<div class="content-wrapper">
 			<section class="content-header">
-				<h1>반려문서함 목록</h1>
+				<h1>반려문서함</h1>
 			</section>
 			<!-- Main content -->
 			<section class="content">
 				<table class="table table-bordered">
 					<thead>
 						<tr>
-							<th>문서번호</th>
+							<th>순번</th>
 							<th>제목</th>
-							<th>반려단계</th>
+							<th>결재단계</th>
 							<th>처리자</th>
 							<th>반려시각</th>
 						</tr>
@@ -46,11 +50,16 @@
 						<c:if test="${list.size() > 0 }">
 							<c:forEach items="${list }" var="i" varStatus="varStatus">
 								<tr>
-									<td>${varStatus.count }</td>
+									<td style="text-align: center;">${varStatus.count }</td>
 									<td><a href="objectionDocDetail.go?id=${i.id }">${i.subject }</a></td>
-									<td>${i.approval_kind_name }단계 반려</td>
-									<td>${i.objection_member_name }</td>
-									<td>${i.objection_at }</td>
+									<c:if test="${i.approval_kind_name eq '결재'}">
+										<td style="text-align: center;"><span class="badge bg-red">${i.approval_kind_name }반려</span></td>
+									</c:if>
+									<c:if test="${i.approval_kind_name eq '검토'}">
+										<td style="text-align: center;"><span class="badge bg-yellow">${i.approval_kind_name }반려</span></td>
+									</c:if>
+									<td style="text-align: center;">${i.objection_member_name }</td>
+									<td style="text-align: center;"><span class="badge bg-gray">${i.objection_at }</span></td>
 								</tr>
 							</c:forEach>
 						</c:if>
