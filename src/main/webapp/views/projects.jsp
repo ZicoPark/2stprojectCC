@@ -229,11 +229,16 @@
 	<script src="../../dist/js/demo.js"></script>
 
 	<script>
-	var msg = "${msg}";
+	var msg = "${msgU}";
 
 	if (msg != "") {
 		alert(msg);
 	}
+	console.log(sessionStorage.getItem('msgU'));
+	sessionStorage.removeItem('msgU');		
+
+
+	
 	</script>
 
 </body>
