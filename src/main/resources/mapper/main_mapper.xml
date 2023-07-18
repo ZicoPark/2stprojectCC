@@ -5,7 +5,7 @@
 <mapper namespace="kr.co.cc.main.dao.MainDAO">
 
 	<select id="mWorkHistory" resultType="kr.co.cc.main.dto.MainDTO">
-		SELECT id, member_id, name, date, 
+		SELECT id, member_id, name, date,
 		CASE WHEN date = CURDATE() THEN time_go ELSE '출근 전입니다.' END AS time_go,
 		CASE WHEN date = CURDATE() THEN time_go ELSE '퇴근 꼭 찍어주세요!' END AS time_end
 		FROM working_hour WHERE member_id=#{id}
@@ -35,6 +35,34 @@
 	   SET status = CASE WHEN status = 0 THEN 1 ELSE 0 END
 	   WHERE id = #{todoId}
 	</update>
+
+
+	<!-- 유튜브 링크 저장 -->
+	<insert 	
+	id="insertLink" 
+	parameterType="String"
+	useGeneratedKeys="false"
+	>
+    <selectKey keyProperty="id" resultType="java.lang.String" order="BEFORE">
+       SELECT UUID()
+    </selectKey>
+		INSERT INTO attachment (ori_file_name, id, classification, identify_value)	
+		values(#{youtubeId},#{newYoutubeId},'유튜브','유튜브')		
+	</insert>
+
+
+   
+   <delete id="deleteLink">
+      DELETE FROM attachment WHERE classification = '유튜브'
+   </delete>
+
+
+	<select id="youtubeURL" resultType="String">
+		SELECT ori_file_name FROM attachment WHERE classification = '유튜브'
+	</select>
+
+
+
 
 
 </mapper>

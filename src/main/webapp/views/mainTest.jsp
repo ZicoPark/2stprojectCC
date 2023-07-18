@@ -33,15 +33,10 @@
       @import url('https://fonts.googleapis.com/css?family=Questrial&display=swap');
 
 
-        div .cal {
-            background-color : white;
-            height: auto;
-            width: 400px;
-            margin: 0px;
-            padding: 20px;
-            margin: 0 auto;
-            border-radius:5px;
-            box-shadow:0px 40px 30px -20px rgba(0,0,0,0.3);
+        .cal {
+	      width: 200px;
+	      height: 200px;
+	      overflow: hidden;
         }
         
 
@@ -276,31 +271,42 @@
  
  
 
-  <div class="col-lg-6">
-     <div class="col-md-12">
-<div class="card">
-<div class="card-header ui-sortable-handle" style="cursor: move; background-color: #20c997!important;">
-<h3 class="card-title" style="font-size: 1.1rem; font-weight: 400; color: white">
-<i class="ion ion-clipboard mr-1"></i>
-유튜브 
-</h3>
-<div class="card-tools">
+<div class="col-lg-6">
+  <div class="col-md-12">
+    <div class="card">
+      <div class="card-header ui-sortable-handle" style="cursor: move; background-color: #20c997!important;">
+        <h3 class="card-title" style="font-size: 1.1rem; font-weight: 400; color: white">
+          <i class="ion ion-clipboard mr-1"></i>
+          유튜브
+        </h3>
+        <div class="card-tools">
+          <c:if test="${main.admin_chk == 1}">
+            <form action="youtubeForm">
+              <input id="url" type="url" name="youtubeLink" placeholder="삽입할 YOUTUBE 영상의 URL을 입력해주세요">
+              <button id="sbt">제출</button>
+            </form>
+          </c:if>
+        </div>
+      </div>
+      <div class="card-body">
+   
+		<div class="video-container">
+		  <a href="https://www.youtube.com/embed/${youtube}" target="_blank">
+		    <img src="https://img.youtube.com/vi/${youtube}/maxresdefault.jpg" width="560" height="315">
+		  </a>
+		</div>
 
-</div>
+
+        </div>
+      </div>
+       
+    </div>
+  </div>
+  
+  
+  
 </div>
 
-<div class="card-body">
-<iframe width="1217" height="685" src="https://www.youtube.com/embed/WOQzrOuJm_A" title="고양이에게 미움받는 사람 특징" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
-
-</div>
-</div>
-</div>
-</div>
-
-
-
- 
- 
  
  
  
@@ -368,10 +374,10 @@
   
   
   </div>
+ </section>         
 </div>
 
 
- </section>         
            
 </div>
 
@@ -383,7 +389,7 @@
     <!-- Control sidebar content goes here -->
   </aside>
   <!-- /.control-sidebar -->
-</div>
+
 
 
 <!-- jQuery -->
@@ -553,11 +559,13 @@ if(msg != ""){
           return value;
       }    
     
-    
-    
-    
-    
 
+
+      
+      
+      
+      
+      
 </script>
 
 

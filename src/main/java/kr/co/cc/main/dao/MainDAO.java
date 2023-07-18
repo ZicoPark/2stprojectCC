@@ -21,4 +21,10 @@ public interface MainDAO {
 
 	boolean updateTodo(String todoId);
 
+	void insertLink(String youtubeId, String newYoutubeId, String classification, String idx);
+
+	void deleteLink();
+
+	String youtubeURL();
+
 }
