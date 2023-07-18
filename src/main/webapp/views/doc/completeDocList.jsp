@@ -6,6 +6,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Creator Company</title>
+<link rel="icon" href="/img/CC_favicon.png">
 <script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
 
 <!-- Google Font: Source Sans Pro -->
@@ -26,7 +27,7 @@ th{
 	<div class="wrapper">
 		<div class="content-wrapper">
 			<section class="content-header">
-				<h1>결재완료함 목록</h1>
+				<h1>결재완료함</h1>
 			</section>
 			<!-- Main content -->
 			<section class="content">
