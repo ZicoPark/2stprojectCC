@@ -134,10 +134,10 @@
 	          
 	          </div>
           
-          <a href="#" class="dropdown-item">
+<!--           <a href="#" class="dropdown-item">
             <i class="fas fa-envelope mr-2"></i> 쪽지
             <span class="float-right text-muted text-sm">3 mins</span>
-          </a>
+          </a> -->
           
           
           <!-- <div class="dropdown-divider"></div>
@@ -609,45 +609,43 @@ alarmList(); // 무조건 한 번 호출해야 페이지 이동때마다 뜸
  
 function alarmList() {
 	$.ajax({
-		url:'alarmList.ajax',
-		type:'post',
+		url: 'alarmList.ajax',
+		type: 'post',
 		async: false,
-		data:{
-			loginId : '${sessionScope.id}'
+		data: {
+			loginId: '${sessionScope.id}'
 		},
-		dataType:'json',
-		success:function(data){
+		dataType: 'json',
+		success: function(data) {
 			console.log('아작스 통신 성공');
 			console.log(data);
 			var content = '';
-			if(data.length == 0) {
-				content +='<tr><th colspan="5" style="text-align:center">새 알림이 없습니다.</th></tr>'
-			}else {
+			if (data.length == 0) {
+				content += '<tr><th colspan="5" style="text-align:center">새 알림이 없습니다.</th></tr>';
+			} else {
 				data.forEach(function(item) {
-				    content += '<a href="#" class="dropdown-item">';
-				    if (item.type === '쪽지') {
-				      content += '<i class="fas fa-envelope mr-2"></i> 쪽지';
-				    } else if (item.type === '공지사항') {
-				      content += '<i class="fas fa-bullhorn mr-2"></i> 공지사항';
-				    } else if (item.type === '전자결재') {
-				      content += '<i class="fas fa-file-signature mr-2"></i> 전자결재';
-				    }
-				    content += '<span class="float-right text-muted text-sm">' +item.type+ '</span>';
-				    content += '</a>';
-				    content += '<span style="text-align:center">' + item.name + '(' + item.user_id + ')</span>'; 
-
+					content += '<a href="#" class="dropdown-item">' +
+						(item.type === '쪽지'
+							? '<a href="msRcDetail.do?id=' + item.identify_value + '">쪽지<span>' + item.title + '</span></a>'
+							: (item.type === '공지사항'
+								? '<a href="noticeBoardDetail.do?type=alarm&id=' + item.identify_value + '" class="dropdown-item">공지사항<span>' + item.subject + '</span></a>'
+								: '<a href="requestDocWaitDetail.go?id=' + item.identify_value + '">전자결재<span>' + item.doc_subject + '</span></a>'
+							)
+						) +
+						'<span class="float-right text-muted text-sm">' + item.name + '</span>' +
+						'</a>';
 				});
 			}
-			
+
 			$('#list').empty();
 			$('#list').append(content);
 		},
-		error:function(e){
+		error: function(e) {
 			console.log(e);
 		}
 	});
 	console.log('아작스 다음');
-} 
+}
 
 
 socket.onmessage = function(event) {
