@@ -10,11 +10,17 @@
 		AND status = 0
 	</select>
 	
-<!-- 	<select id="alarmList" resultType="kr.co.cc.alaram.dto.AlarmDTO">
-		SELECT notice.type, notice.identify_value, notice.send_id, notice.create_at, m.user_id, m.name
-		FROM notice
-		LEFT JOIN member m ON notice.send_id = m.id
-		WHERE notice.status = 0
-	</select> -->
+	<select id="alarmList" resultType="kr.co.cc.alarm.dto.AlarmDTO" parameterType="String">
+	 	SELECT n.type, n.identify_value, n.send_id, n.create_at, m.user_id, m.name, nb.subject, d.subject AS doc_subject, message.title
+		FROM notice n
+		LEFT JOIN member m ON n.send_id = m.id
+		LEFT JOIN notice_board nb ON n.identify_value = nb.id
+		LEFT JOIN doc d ON n.identify_value = d.id
+		LEFT JOIN message ON n.identify_value = message.id
+		WHERE n.status = 0
+		AND n.receive_id  = #{loginId}
+	 	ORDER BY create_at DESC
+	 	LIMIT 5
+	 </select>
 	
 </mapper>

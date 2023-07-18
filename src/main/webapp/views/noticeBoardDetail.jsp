@@ -99,13 +99,13 @@
                  <input type="button" class="btn btn-block btn-outline-success btn-lg"  onclick="location.href='./noticeBoard.go'" value="돌아가기" />
              </th>            
             </tr>
-<%--             <c:if test="${loginid.admin_chk eq 1 or loginId eq detailno.member_id}"> --%>
+            <c:if test="${loginid.admin_chk eq 1}">
 	            <tr>
 		             <th colspan="2">    
 		                 <input type="button" class="btn btn-block btn-outline-success btn-lg"  onclick="location.href='./noticeBoardDel.do?id=${detailno.id}'" value="삭제" />
 		             </th>            
 	            </tr>                   
-<%--             </c:if> --%>
+             </c:if>
                
        </table>
     </section>

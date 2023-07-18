@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import kr.co.cc.alarm.dto.AlarmDTO;
 import kr.co.cc.alarm.service.AlarmService;
 import kr.co.cc.notice.dto.NoticeDTO;
 import kr.co.cc.notice.service.NoticeService;
@@ -27,7 +28,7 @@ public class AlarmController {
 	Logger logger = LoggerFactory.getLogger(getClass());
 	
 	@Autowired AlarmService service;
-	@Autowired NoticeService nService;
+	//@Autowired NoticeService nService;
 	
 	@PostMapping(value="/alarmCount.ajax")
 	@ResponseBody
@@ -36,10 +37,17 @@ public class AlarmController {
 		return service.alarmCount(receive_id);
 	}
 	
+//	@RequestMapping(value="/alarmList.ajax", method = RequestMethod.POST)
+//	@ResponseBody
+//	 public ArrayList<NoticeDTO> alarmList(@RequestParam String loginId) {
+//		   logger.info("readAlarm 통신");
+//	      return nService.readAlarm(loginId);
+//	   }
+	
 	@RequestMapping(value="/alarmList.ajax", method = RequestMethod.POST)
 	@ResponseBody
-	 public ArrayList<NoticeDTO> alarmList(@RequestParam String loginId) {
+	 public ArrayList<AlarmDTO> alarmList(@RequestParam String loginId) {
 		   logger.info("readAlarm 통신");
-	      return nService.readAlarm(loginId);
+	      return service.alarmList(loginId);
 	   }
 }
