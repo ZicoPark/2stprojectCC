@@ -16,6 +16,9 @@
 <!-- Theme style -->
 <link rel="stylesheet" href="../../dist/css/adminlte.min.css">
 <style>
+th{
+	text-align: center;
+}
 </style>
 </head>
 <body>
@@ -30,31 +33,35 @@
 			<section class="content">
 				<form action="docUpdate.do" method="post" enctype="multipart/form-data">
 					<input type="text" name="id" value="${docDTO.id }" hidden="true"/>
-					<br>
-					기안자 : ${memberName }
-					<br>
-					문서종류 : ${docFormName }
-					<br>
 					<div class="row">
-						<div class="col-4">
-						<button type="button" class="btn btn-default" data-toggle="modal" data-target="#modal-default">
-						결재선 지정
-						</button>
-						</div>
-						<div class="col-8">
-						<button type="button" onclick="saveDoc()" class="btn btn-primary float-right">
-							<i class="fas fa-save">
-							임시저장
-							</i>
-						</button>
-						<button type="button" onclick="pushDoc()" class="btn btn-primary float-right" style="margin-left: 5px;">
-							<i class="fas fa-inbox">
-							결재신청
-							</i>
-						</button>
+						<div class="col-12">
+							<button type="button" class="btn btn-default" data-toggle="modal" data-target="#modal-default">
+							결재선 지정
+							</button>
+							<button type="button" onclick="location.href='tempDocDelete.do?id=${docDTO.id }'" class="btn btn-danger float-right" style="margin-left: 5px;">
+								<i class="fas fa-trash">
+								문서삭제
+								</i>
+							</button>
+							<button type="button" onclick="saveDoc()" class="btn btn-primary float-right" style="margin-left: 5px;">
+								<i class="fas fa-save">
+								임시저장
+								</i>
+							</button>
+							<button type="button" onclick="pushDoc()" class="btn btn-primary float-right">
+								<i class="fas fa-inbox">
+								결재신청
+								</i>
+							</button>
 						</div>
 					</div>
+					<br>
 					<div class="row">
+						<div class="col-6">
+							<select	class="form-control float-left" style="margin-bottom: 10px;" disabled>
+								<option value="default">${docFormName }</option>
+							</select>
+						</div>
 						<div class="col-6">
 							<select name="publicRange" class="form-control float-left" style="margin-bottom: 10px;">
 								<option value="all" <c:if test="${docDTO.public_range == 'all' }">selected</c:if>>전체</option>
@@ -62,7 +69,12 @@
 							</select>
 						</div>
 					</div>
-
+					<div class="row">
+						<div class="col-12">
+							<br>
+							<input type="text" name="subject" value="${docDTO.subject }" placeholder="제목을 입력하세요" maxlength="30" class="form-control form-control-lg"/>
+						</div>
+					</div>
 					<div class="modal fade" id="modal-default">
 						<div class="modal-dialog modal-lg">
 							<div class="modal-content">
@@ -110,32 +122,61 @@
 						<!-- /.modal-dialog -->
 					</div>
 					<!-- /.modal -->
-					<div class="row">
-						<div class="col-12">
-							<input type="text" name="subject" value="${docDTO.subject }" placeholder="제목을 입력하세요" maxlength="30" class="form-control form-control-lg"/>
-						</div>
-					</div>
+					<br>
 					<div id="div_editor">
 						<!-- 에디터 안에 들어갈 자리 -->
 					</div>
 					<textarea hidden="true" id="beforeContent">${docDTO.content }</textarea>
 					<textarea hidden="true" id="afterContent" name="afterContent"></textarea>
 					<input type="hidden" id="status" name="status"/>
-					<input type="file" multiple="multiple" name="attachment"/>
-					<c:if test="${attachmentList.size() == 0 }">
-						<div>첨부파일 없음.</div>
-					</c:if>
-					<c:if test="${attachmentList.size() > 0 }">
-						<c:forEach items="${attachmentList }" var="i">
-							<div>
-								<a href="attachmentDownload.do?oriFileName=${i.ori_file_name }&attachmentId=${i.id }">${i.ori_file_name }</a>
-								<a href="attachmentDelete.do?docId=${docDTO.id }&attachmentId=${i.id }">삭제</a>
-							</div>
-						</c:forEach>
-					</c:if>
+					<br>
+					<div class="custom-file">
+						<input type="file" multiple="multiple" id="attachment" name="attachment" class="custom-file-input"/>
+						<label class="custom-file-label" for="attachment">
+						첨부파일을 선택하세요.
+						</label>
+					</div>
+					<!-- Table row -->
+					<div class="row">
+						<div class="col-12">
+							<br>
+							<table class="table">
+								<thead>
+									<tr>
+										<th style="width: 5%;">순번</th>
+										<th colspan="2">파일명</th>
+									</tr>
+								</thead>
+								<tbody>
+									<c:if test="${attachmentList.size() == 0 }">
+										<tr>
+											<td colspan="3">첨부파일 없음.</td>
+										</tr>
+									</c:if>
+									<c:if test="${attachmentList.size() > 0 }">
+										<c:forEach items="${attachmentList }" var="i" varStatus="varStatus">
+										<tr>
+											<td style="text-align: center;">${varStatus.count }</td>
+											<td>
+												<a href="attachmentDownload.do?oriFileName=${i.ori_file_name }&attachmentId=${i.id }">${i.ori_file_name }</a>
+											</td>
+											<td style="text-align: center;">
+												<a class="btn btn-danger btn-sm" href="attachmentDelete.do?docId=${docDTO.id }&attachmentId=${i.id }">
+		                              				<i class="fas fa-trash"></i>
+		                              				삭제
+                          						</a>
+											</td>
+										</tr>
+										</c:forEach>
+									</c:if>
+								</tbody>
+							</table>
+						</div>
+						<!-- /.col -->
+					</div>
+					<!-- /.row -->
 				</form>
-				<button type="button" onclick="location.href='tempDocDelete.do?id=${docDTO.id }'">문서삭제</button>
-				</section>
+			</section>
 		</div>
 	</div>
 </body>

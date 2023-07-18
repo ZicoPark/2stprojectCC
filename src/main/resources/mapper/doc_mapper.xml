@@ -293,6 +293,7 @@
 			, DATE_FORMAT(ds.read_at, '%Y-%m-%d %T') AS read_at
 		FROM doc_status ds 
 		WHERE ds.doc_id = #{docId}
+		ORDER BY ds.order_rank DESC
 	</select>
 	
 	<select id="getNextApprovalMemberRow" parameterType="string" resultType="int">

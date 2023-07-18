@@ -15,6 +15,9 @@
 <!-- Theme style -->
 <link rel="stylesheet" href="../../dist/css/adminlte.min.css">
 <style>
+th{
+	text-align: center;
+}
 </style>
 </head>
 <body>
@@ -49,14 +52,19 @@
 						<c:if test="${list.size() > 0 }">
 							<c:forEach items="${list }" var="i" varStatus="varStatus">
 								<tr>
-									<td>${varStatus.count }</td>
+									<td style="text-align: center;">${varStatus.count }</td>
 									<td><a href="completeDocDetail.go?id=${i.id }">${i.subject }</a></td>
-									<td>${i.doc_form_name }</td>
-									<td>${i.production_dept_name }</td>
-									<td>${i.create_member_name }</td>
-									<td>${i.create_at }</td>
-									<td>${i.approval_kind_name } 완료</td>
-									<td>${i.approval_at }</td>
+									<td style="text-align: center;">${i.doc_form_name }</td>
+									<td style="text-align: center;">${i.production_dept_name }</td>
+									<td style="text-align: center;">${i.create_member_name }</td>
+									<td style="text-align: center;"><span class="badge bg-gray">${i.create_at }</span></td>
+									<c:if test="${i.approval_kind_name eq '결재'}">
+										<td style="text-align: center;"><span class="badge bg-red">${i.approval_kind_name }완료</span></td>
+									</c:if>
+									<c:if test="${i.approval_kind_name eq '검토'}">
+										<td style="text-align: center;"><span class="badge bg-yellow">${i.approval_kind_name }완료</span></td>
+									</c:if>
+									<td style="text-align: center;"><span class="badge bg-primary">${i.approval_at }</span></td>
 								</tr>
 							</c:forEach>
 						</c:if>

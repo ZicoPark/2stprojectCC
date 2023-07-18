@@ -33,7 +33,7 @@ th{
 				<table class="table table-bordered">
 					<thead>
 						<tr>
-							<th>문서번호</th>
+							<th>순번</th>
 							<th>제목</th>
 							<th>문서종류</th>
 							<th>현재상태</th>

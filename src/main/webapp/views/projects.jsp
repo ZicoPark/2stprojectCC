@@ -45,7 +45,7 @@
 
 				<!-- Default box -->
 				<div class="card">
-					<div class="card-header">
+					<div class="card-header" style=" background-color: #20c997!important;">
 						<h3 class="card-title">진행중인 프로젝트</h3>
 
 						<div class="card-tools">
@@ -125,7 +125,7 @@
 				
 				
 				<div class="card">
-					<div class="card-header">
+					<div class="card-header" style=" background-color: #20c997!important;">
 						<h3 class="card-title">철회된 프로젝트</h3>
 
 						<div class="card-tools">
