@@ -124,7 +124,7 @@
           <span class="dropdown-item dropdown-header">최신 알림</span>
           <div class="dropdown-divider"></div>
           
-	          <div id="list">
+	          <div id="aList">
 	          
 	          </div>
           
@@ -620,7 +620,7 @@ function alarmList() {
 				data.forEach(function(item) {
 					content += '<a href="#" class="dropdown-item">' +
 						(item.type === '쪽지'
-							? '<a href="msRcDetail.do?id=' + item.identify_value + '">쪽지<span>' + item.title + '</span></a>'
+							? '<a href="msRcDetail.do?type=alarm&id=' + item.identify_value + '">쪽지<span>' + item.title + '</span></a>'
 							: (item.type === '공지사항'
 								? '<a href="noticeBoardDetail.do?type=alarm&id=' + item.identify_value + '" class="dropdown-item">공지사항<span>' + item.subject + '</span></a>'
 								: '<a href="requestDocWaitDetail.go?id=' + item.identify_value + '">전자결재<span>' + item.doc_subject + '</span></a>'
@@ -631,8 +631,8 @@ function alarmList() {
 				});
 			}
 
-			$('#list').empty();
-			$('#list').append(content);
+			$('#aList').empty();
+			$('#aList').append(content);
 		},
 		error: function(e) {
 			console.log(e);

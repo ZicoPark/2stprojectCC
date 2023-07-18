@@ -69,6 +69,10 @@ public interface MessageDAO {
 
 	MessageDTO msSenddetail(String id);
 
+	void readMessage(String id, String loginId);
+
+
+
 
 
 }

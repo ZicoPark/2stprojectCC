@@ -230,8 +230,11 @@
 	</select>	
 	
 	
-	
-	
+	<update id="readMessage" parameterType="String">
+		UPDATE notice set status = 1
+		WHERE identify_value=#{id}
+		AND receive_id=#{loginId}
+	</update>	
 	
 	
 	

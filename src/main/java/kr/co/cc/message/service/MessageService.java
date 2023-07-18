@@ -430,6 +430,14 @@ public class MessageService {
 		}
 
 
+		public void readMessage(String id, String loginId) {
+			dao.readMessage(id, loginId);
+			
+		}
+
+
+
+
 
 
 
