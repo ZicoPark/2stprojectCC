@@ -45,7 +45,6 @@
       <!-- Default box -->
       <div class="card">
         <div class="card-header">
-          <h3 class="card-title">Projects Detail</h3>
 
           <div class="card-tools">
           
