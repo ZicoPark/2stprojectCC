@@ -841,9 +841,7 @@ public class DocService {
 		dao.docWriteETC(params.get("docId"), dateWritedContent);
 		
 		// 마지막으로 doc_status 테이블에 update를 한다.
-		dao.requestDocApproval(params);
-		
-// ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////		
+		dao.requestDocApproval(params);	
 		
 		// 다음 타자에게 결재 알림을 보낸다.
 		int nextApprovalMemberRow = dao.getNextApprovalMemberRow(params.get("docId"));
@@ -885,6 +883,16 @@ public class DocService {
 		// 문서의 첨부파일 불러오기
 		ArrayList<AttachmentDTO> attachmentList = dao.getAttachmentList(docId);
 		mav.addObject("attachmentList", attachmentList);
+		
+		return mav;
+	}
+	
+	public ModelAndView objectionDocBlind(String docId, HttpSession session) {
+
+		ModelAndView mav = new ModelAndView("redirect:/objectionDocList.go");
+		String loginId = (String) session.getAttribute("id");
+		
+		int row = dao.objectionDocBlind(docId, loginId);
 		
 		return mav;
 	}
@@ -1090,6 +1098,8 @@ public class DocService {
 		
 		return mav;
 	}
+
+
 
 
 

@@ -32,6 +32,15 @@ th{
 			<!-- Main content -->
 			<section class="content">
 				<table class="table table-bordered">
+					<colgroup>
+						<col width="5%"/>
+						<col width="45%"/>
+						<col width="10%"/>
+						<col width="10%"/>
+						<col width="10%"/>
+						<col width="10%"/>
+						<col width="10%"/>
+					</colgroup>
 					<thead>
 						<tr>
 							<th>순번</th>
@@ -46,7 +55,7 @@ th{
 					<tbody>
 						<c:if test="${list.size() == 0 }">
 							<tr>
-								<td colspan="6">결재요청 중인 문서가 없습니다.</td>
+								<td colspan="7" style="text-align: center;">결재요청 중인 문서가 없습니다.</td>
 							</tr>
 						</c:if>
 						<c:if test="${list.size() > 0 }">

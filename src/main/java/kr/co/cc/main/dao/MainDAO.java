@@ -13,7 +13,7 @@ public interface MainDAO {
 
 	int totalCountMs(String id);
 
-	int totalCountDoc(String id);
+	int totalRequestDocWait(String loginId);
 
 	int totalCountPr(String id);
 

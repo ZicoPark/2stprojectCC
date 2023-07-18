@@ -288,6 +288,10 @@
 		WHERE d.id = #{docId} AND d.status = 1
 	</select>
 	
+	<update id="objectionDocBlind" parameterType="string">
+		UPDATE doc d SET d.status = 0 WHERE d.id = #{docId} AND d.member_id = #{loginId}
+	</update>
+	
 	<select id="getDocStatusList" parameterType="string" resultType="hashmap">
 		SELECT ds.doc_id
 			, ds.job_name
@@ -337,7 +341,7 @@
 				(SELECT ds.* FROM doc_status ds INNER JOIN 
 					(SELECT MAX(ds2.order_rank) FROM doc_status ds2 GROUP BY ds2.doc_id) AS ds2 
 				WHERE ds.approval = 1 GROUP BY ds.doc_id) AS ds3 
-		ON d.id = ds3.doc_id WHERE d.status = 1 AND ds3.member_id = #{loginId}
+		ON d.id = ds3.doc_id WHERE d.status = 1 AND ds3.member_id = #{loginId} ORDER BY approval_at DESC
 	</select>
 	
 	<select id="completeDocDetail" parameterType="string" resultType="hashmap">

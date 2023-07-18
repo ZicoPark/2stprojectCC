@@ -102,7 +102,7 @@ public class MainController {
 	    
 	    // 대시보드
 	    int mstotal = mservice.totalCountMs(loginId);
-	    int doctotal = mservice.totalCountDoc(loginId);
+	    int totalRequestDocWait = mservice.totalRequestDocWait(loginId);
 	    int prtotal = mservice.totalCountPr(loginId);
 	    
 	    // 공지사항
@@ -116,7 +116,7 @@ public class MainController {
 	    logger.info("main : "+mainPage);
 	    model.addAttribute("main", mainPage);
 	    model.addAttribute("ms", mstotal);
-	    model.addAttribute("doc", doctotal);
+	    model.addAttribute("doc", totalRequestDocWait);
 	    model.addAttribute("pro", prtotal);
 	    model.addAttribute("Nolist", NoList);
 	    model.addAttribute("PerList", PerList);

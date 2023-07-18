@@ -177,7 +177,7 @@
 <strong><i class="far fa-file-alt mr-1"></i><a href="/msReceiveList.go"> 받은 쪽지함 &nbsp ${ms}</a></strong>
 
 <hr>
-<strong><i class="fas fa-pencil-alt mr-1"></i><a href="#"> 결재 대기함 &nbsp ${doc}</a></strong>
+<strong><i class="fas fa-pencil-alt mr-1"></i><a href="/requestDocWaitList.go"> 결재 대기함 &nbsp ${doc}</a></strong>
 
 <hr>
 <strong><i class="fas fa-book mr-1"></i><a href="projects.go"> 진행중인 프로젝트 &nbsp ${pro}</a></strong>

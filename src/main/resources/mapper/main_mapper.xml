@@ -16,8 +16,22 @@
 		select count (m.id) from message m where m.to_id = #{id} and read_chk = 0 and del_chk = 0
 	</select>
 
-	<select id="totalCountDoc" resultType="int">
-		select count (id) from doc where member_id = #{id} and status = 1
+	<select id="totalRequestDocWait" resultType="int">
+		SELECT COUNT(d.id)
+		FROM doc d INNER JOIN 
+			(SELECT e.doc_id FROM (SELECT c.* FROM (SELECT ds2.* FROM doc_status ds2 INNER JOIN 
+				(SELECT d.id FROM doc d 
+					INNER JOIN doc_status ds ON d.id = ds.doc_id 
+				WHERE ds.member_id = #{loginId} AND d.status = 1 AND ds.approval = 0) AS a 
+				ON ds2.doc_id = a.id AND ds2.member_id <![CDATA[<>]]> #{loginId}) AS c, 
+		(SELECT ds2.* FROM doc_status ds2 INNER JOIN 
+			(SELECT d.id FROM doc d 
+				INNER JOIN doc_status ds ON d.id = ds.doc_id 
+				WHERE ds.member_id = #{loginId} AND d.status = 1 AND ds.approval = 0) AS b 
+			ON ds2.doc_id = b.id AND ds2.member_id = #{loginId}) AS d
+		WHERE c.order_rank <![CDATA[<=]]> d.order_rank GROUP BY c.doc_id, c.member_id) AS e 
+		WHERE NOT(e.order_rank = 0 AND e.approval = 0)) AS f ON d.id = f.doc_id 
+		LEFT JOIN doc_status ds ON d.id = ds.doc_id AND ds.member_id = #{loginId}
 	</select>
 
 	<select id="totalCountPr" resultType="int">
