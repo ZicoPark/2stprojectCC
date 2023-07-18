@@ -15,6 +15,9 @@
 <!-- Theme style -->
 <link rel="stylesheet" href="/dist/css/adminlte.min.css">
 <style>
+th{
+	text-align: center;
+}
 </style>
 </head>
 <body>
@@ -27,42 +30,72 @@
 			</section>
 			<!-- Main content -->
 			<section class="content">
-				<select name="searchDept" id="searchDept">
-					<c:if test="${deptList.size() > 0 }">
-						<c:forEach items="${deptList }" var="list">
-							<option value="${list.id }">${list.name }</option>
-						</c:forEach>
-					</c:if>
-				</select>
-				<select name="searchOpt" id="searchOpt">
-					<option value="searchSubject">제목</option>
-					<option value="searchCreateMember">기안자</option>
-				</select>
-				<input type="text" name="searchText" id="searchText" value=""/>
-				<input type="button" value="검색" onclick="searchDoc()"/>
+				<div class="row">
+					<div class="col-md-1">
+						<select name="searchDept" id="searchDept" onchange="searchDoc()" class="form-control form-control-sm">
+							<c:if test="${deptList.size() > 0 }">
+								<c:forEach items="${deptList }" var="list">
+									<option value="${list.id }">${list.name }</option>
+								</c:forEach>
+							</c:if>
+						</select>
+						<br>
+					</div>
+				</div>
+				<div class="row d-flex justify-content-center">
+					<div class="col-md-2">
+						<select name="searchOpt" id="searchOpt" class="form-control form-control-lg">
+							<option value="searchSubject">제목</option>
+							<option value="searchCreateMember">기안자</option>
+						</select>
+					</div>
+					<div class="col-md-6">
+						<div class="input-group">
+							<input type="search" name="searchText" id="searchText" value="" class="form-control form-control-lg" placeholder="검색어를 입력하세요.">
+							<div class="input-group-append">
+								<button type="button" class="btn btn-lg btn-default" onclick="searchDoc()">
+									<i class="fa fa-search"></i>
+								</button>
+							</div>
+						</div>
+					</div>
+				</div>
+				<br>
 				<table class="table table-bordered">
+					<colgroup>
+						<col width="5%"/>
+						<col width="50%"/>
+						<col width="10%"/>
+						<col width="10%"/>
+						<col width="5%"/>
+						<col width="10%"/>
+						<col width="10%"/>
+					</colgroup>
 					<thead>
 						<tr>
 							<th>순번</th>
-							<th>문서종류</th>
 							<th>제목</th>
+							<th>문서종류</th>
 							<th>생산부서</th>
 							<th>기안자</th>
+							<th>공개여부</th>
 							<th>문서등록시각</th>
 						</tr>
 					</thead>
 					<tbody id="list">
 						<tr>
-							<td colspan="6">표시할 문서가 없습니다.</td>
+							<td colspan="7" style="text-align:center;">표시할 문서가 없습니다.</td>
 						</tr>
 					</tbody>
 					<tr>
-						<td colspan="6" id="paging">	
+						<td colspan="7" id="paging">	
 							<!-- 	플러그인 사용	(twbsPagination)	-->
-							<div class="container">									
-								<nav aria-label="Page navigation" style="text-align:center">
-									<ul class="pagination" id="pagination"></ul>
-								</nav>					
+							<div class="row d-flex justify-content-center">
+								<div class="container col-3">									
+									<nav aria-label="Page navigation">
+										<ul class="pagination" id="pagination" style="text-align:center;"></ul>
+									</nav>					
+								</div>
 							</div>
 						</td>
 					</tr>
@@ -154,7 +187,7 @@ function printList(list){
 	if(list.length==0){
 		
 		content += '<tr>';
-		content += '<td colspan="6">표시할 문서가 없습니다.</td>';
+		content += '<td colspan="7" style="text-align:center;">표시할 문서가 없습니다.</td>';
 		content += '</tr>';
 		
 		$('#list').empty();
@@ -165,12 +198,19 @@ function printList(list){
 		list.forEach(function(item, number){
 			
 			content += '<tr>';
-			content += '<td>'+(list.length-number)+'</td>';
-			content += '<td>'+item.doc_form_name+'</td>';
+			content += '<td style="text-align:center;">'+(list.length-number)+'</td>';
 			content += '<td>'+'<a href="registeredDocDetail.go?id='+item.id+'">'+item.subject+'</a></td>';
-			content += '<td>'+item.production_dept_name+'</td>';
-			content += '<td>'+item.create_member_name+'</td>';
-			content += '<td>'+item.approval_at+'</td>';
+			content += '<td style="text-align:center;">'+item.doc_form_name+'</td>';
+			content += '<td style="text-align:center;">'+item.production_dept_name+'</td>';
+			content += '<td style="text-align:center;">'+item.create_member_name+'</td>';
+			
+			if(item.public_range == 'all'){
+				content += '<td style="text-align:center;">'+'<span class="badge bg-green">공개</span>'+'</td>';
+			}else{
+				content += '<td style="text-align:center;">'+'<span class="badge bg-red">비공개</span>'+'</td>';
+			}
+			
+			content += '<td style="text-align:center;">'+'<span class="badge bg-primary">'+item.approval_at+'</span></td>';
 			content += '</tr>';
 			
 			$('#list').empty();
@@ -179,8 +219,6 @@ function printList(list){
 		});
 		
 	}
-	
-
 	
 }
 
