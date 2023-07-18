@@ -154,6 +154,9 @@ public class ProjectService {
 
 		return dao.projectDel(id);
 	}
+	public int projectRes(String id) {
+		return dao.projectRes(id);
+	}
 
 
 	public String projectDetailFile(String id) {
@@ -212,10 +215,6 @@ public class ProjectService {
 	public String getRange(String id) {
 		return dao.getRange(id);
 	}
-
-
-
-
 
 
 
