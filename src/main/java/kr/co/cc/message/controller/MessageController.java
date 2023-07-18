@@ -140,7 +140,7 @@ public class MessageController {
 			
 			logger.info("상세보기 쪽지 번호 : "+id);
 			
-			MessageDTO detailms = service.msdetail(id, "detail");
+			MessageDTO detailms = service.msSenddetail(id, "detail");
 			String page = "redirect:/msSendList.go";
 			
 			if(detailms != null) {

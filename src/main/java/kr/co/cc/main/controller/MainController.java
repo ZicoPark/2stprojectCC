@@ -113,6 +113,7 @@ public class MainController {
 	    
 	    
 	    model.addAttribute("timeList", timeList);
+	    logger.info("main : "+mainPage);
 	    model.addAttribute("main", mainPage);
 	    model.addAttribute("ms", mstotal);
 	    model.addAttribute("doc", doctotal);
