@@ -93,6 +93,8 @@ public interface DocDAO {
 
 	HashMap<String, String> registeredDocDetail(String docId);
 
+	void changeNoticeStatus(String loginId, String type, String docId);
+
 	
 
 

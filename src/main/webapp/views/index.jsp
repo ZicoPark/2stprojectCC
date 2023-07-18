@@ -623,7 +623,7 @@ function alarmList() {
 							? '<a href="msRcDetail.do?type=alarm&id=' + item.identify_value + '">쪽지<span>' + item.title + '</span></a>'
 							: (item.type === '공지사항'
 								? '<a href="noticeBoardDetail.do?type=alarm&id=' + item.identify_value + '" class="dropdown-item">공지사항<span>' + item.subject + '</span></a>'
-								: '<a href="requestDocWaitDetail.go?id=' + item.identify_value + '">전자결재<span>' + item.doc_subject + '</span></a>'
+								: '<a href="requestDocWaitDetail.go?type=alarm&id=' + item.identify_value + '">전자결재<span>' + item.doc_subject + '</span></a>'
 							)
 						) +
 						'<span class="float-right text-muted text-sm">' + item.name + '</span>' +
