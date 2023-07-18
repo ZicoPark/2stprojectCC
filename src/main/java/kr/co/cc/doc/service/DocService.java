@@ -646,6 +646,10 @@ public class DocService {
 		HashMap<String, String> doc = dao.requestDocDetail(docId);
 		mav.addObject("doc", doc);
 		
+		// 문서의 결재 정보를 불러오기
+		ArrayList<HashMap<String, String>> docStatusList = dao.getDocStatusList(docId);
+		mav.addObject("docStatusList", docStatusList);
+		
 		// 문서의 첨부파일 불러오기
 		ArrayList<AttachmentDTO> attachmentList = dao.getAttachmentList(docId);
 		mav.addObject("attachmentList", attachmentList);
@@ -749,6 +753,10 @@ public class DocService {
 		// 문서의 정보 불러오기
 		HashMap<String, String> docMap = dao.requestDocDetail(docId);
 		mav.addObject("doc", docMap);
+		
+		// 문서의 결재 정보를 불러오기
+		ArrayList<HashMap<String, String>> docStatusList = dao.getDocStatusList(docId);
+		mav.addObject("docStatusList", docStatusList);
 		
 		// 문서의 첨부파일 불러오기
 		ArrayList<AttachmentDTO> attachmentList = dao.getAttachmentList(docId);

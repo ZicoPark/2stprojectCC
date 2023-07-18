@@ -5,7 +5,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Creator Company</title>
+<title>결재요청함</title>
+<link rel="icon" href="/img/CC_favicon.png">
 <script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
 
 <!-- Google Font: Source Sans Pro -->
@@ -15,6 +16,9 @@
 <!-- Theme style -->
 <link rel="stylesheet" href="../../dist/css/adminlte.min.css">
 <style>
+th{
+	text-align: center;
+}
 </style>
 </head>
 <body>
@@ -23,20 +27,20 @@
 	<div class="wrapper">
 		<div class="content-wrapper">
 			<section class="content-header">
-				<h1>결재요청함 목록</h1>
+				<h1>결재요청함</h1>
 			</section>
 			<!-- Main content -->
 			<section class="content">
 				<table class="table table-bordered">
 					<thead>
 						<tr>
-							<th>문서번호</th>
-							<th>문서종류</th>
+							<th>순번</th>
 							<th>제목</th>
+							<th>문서종류</th>
 							<th>현재상태</th>
 							<th>처리자</th>
 							<th>읽음여부</th>
-							<th>요청시각</th>
+							<th>읽은시각</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -48,18 +52,23 @@
 						<c:if test="${list.size() > 0 }">
 							<c:forEach items="${list }" var="i" varStatus="varStatus">
 								<tr>
-									<td>${varStatus.count }</td>
+									<td style="text-align: center;">${varStatus.count }</td>
 									<td><a href="requestDocDetail.go?id=${i.id }">${i.subject }</a></td>
-									<td>${i.doc_form_name }</td>
-									<td>${i.approval_kind_name }대기</td>
-									<td>${i.approval_member_name }</td>
+									<td style="text-align: center;">${i.doc_form_name }</td>
+									<c:if test="${i.approval_kind_name eq '결재'}">
+										<td style="text-align: center;"><span class="badge bg-red">${i.approval_kind_name }대기</span></td>
+									</c:if>
+									<c:if test="${i.approval_kind_name eq '검토'}">
+										<td style="text-align: center;"><span class="badge bg-yellow">${i.approval_kind_name }대기</span></td>
+									</c:if>
+									<td style="text-align: center;">${i.approval_member_name }</td>
 									<c:if test="${i.read_chk eq true}">
-										<td>읽음</td>
+										<td style="text-align: center;"><span class="badge bg-primary">읽음</span></td>
 									</c:if>
 									<c:if test="${i.read_chk eq false}">
-										<td>안읽음</td>
+										<td style="text-align: center;"><span class="badge bg-gray">읽지않음</span></td>
 									</c:if>
-									<td>${i.create_at }</td>
+									<td style="text-align: center;"><span class="badge bg-primary">${i.read_at }</span></td>
 								</tr>
 							</c:forEach>
 						</c:if>

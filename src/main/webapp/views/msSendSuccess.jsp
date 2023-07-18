@@ -27,64 +27,58 @@
 <link rel="stylesheet" href="dist/css/adminlte.min.css">
 
 </head>
-
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            margin: 50px auto;
+            width: 400px;
+            padding: 20px;
+            text-align: center;
+        }
+        h2 {
+            color: #555;
+            font-size : 15px;
+        }
+        .icon {
+            margin-top: 20px;
+            font-size: 50px;
+            color: #3498db;
+        }
+        .buttons {
+            margin-top: 30px;
+        }
+        .button {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #20c997;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 4px;
+            transition: background-color 0.3s ease;
+        }
+        .button:hover {
+            background-color: #2980b9;
+        }
+    </style>
 <body class="hold-transition sidebar-mini">
 
 <jsp:include page = "index.jsp"></jsp:include>
 <!-- Site wrapper -->
 <div class="wrapper">
     <section class="content">
-      <div class="row">
-	<!-- row 밑에  -->
-	<div class="col-md-3">
-	<a href="/msWrite.go" class="btn btn-primary btn-block mb-3">쪽지 작성</a>
-	<div class="card">
-	<div class="card-header">
-	<h3 class="card-title">보관함</h3>
-	<div class="card-tools">
-	<button type="button" class="btn btn-tool" data-card-widget="collapse">
-	<i class="fas fa-minus"></i>
-	</button>
-	</div>
-	</div>
-	<div class="card-body p-0">
-	<ul class="nav nav-pills flex-column">
-	<li class="nav-item active">
-	<a href="#" class="nav-link">
-	<i class="far fa-envelope"></i> 전체 쪽지
-	<span class="badge bg-primary float-right">12</span>
-	</a>
-	</li>
-	<li class="nav-item">
-	<a href="/msReceiveList.go" class="nav-link">
-	<i class="fas fa-inbox"></i> 받은 쪽지
-	</a>
-	</li>
-	<li class="nav-item">
-	<a href="/msSendList.go" class="nav-link">
-	<i class="far fa-file-alt"></i> 보낸 쪽지
-	</a>
-	</li>
-	<li class="nav-item">
-	<a href="/msRemoveList.go" class="nav-link">
-	<i class="far fa-trash-alt"></i> 휴지통
-	</a>
-	</li>
-	</ul>
-	</div>
-	</div>
-	</div> 
-	<!-- col-md-9 위에  -->  
-	
-	
-    <div style="text-align: center;">
-      <i class="fas fa-envelope"></i>
-      <h3>쪽지가 전송되었습니다 !</h3>
-    </div>
 
-    <div style="display: flex; justify-content: space-between;">
-      <a href="#" class="btn btn-block bg-gradient-primary btn-lg"><b>보낸 쪽지함</b></a>
-      <a href="#" class="btn btn-block bg-gradient-primary btn-lg"><b>추가 쪽지 작성</b></a>
+
+	
+	
+    <div class="container">
+        <h2>쪽지 작성이 완료되었습니다!</h2>
+        <div class="icon">📩</div>
+
+    <div class="buttons">
+      <a href="#" class="button"><b>보낸 쪽지함</b></a>
+      <a href="#" class="button"><b>추가 쪽지 작성</b></a>
   
   </div>
 </div>

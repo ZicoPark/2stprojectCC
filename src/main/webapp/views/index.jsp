@@ -20,12 +20,6 @@
       <li class="nav-item">
         <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
       </li>
-      <li class="nav-item d-none d-sm-inline-block">
-        <a href="../../index3.jsp" class="nav-link">Home</a>
-      </li>
-      <li class="nav-item d-none d-sm-inline-block">
-        <a href="#" class="nav-link">Contact</a>
-      </li>
     </ul>
 
     <!-- Right navbar links -->
@@ -176,7 +170,7 @@
   <!-- Main Sidebar Container -->
   <aside class="main-sidebar sidebar-dark-primary elevation-4 bg-white">
     <!-- Brand Logo -->
-    <a onclick="goMyMainPage(${user.id})" class="brand-link">
+    <a onclick="goMyMainPage(${user.id})" class="brand-link" style="cursor: pointer;">
       <img src="../../dist/img/KakaoTalk_20230613_164257782.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-10" style="opacity: .8">
       <span class="brand-text font-weight-light">CreatorCompany</span>
     </a>
@@ -466,9 +460,9 @@
                 </a>
               </li>
               <li class="nav-item">
-                <a href="../../index3.jsp" class="nav-link">
+                <a href="/stat.go" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
-                  <p>부제목3</p>
+                  <p>유튜브 통계</p>
                 </a>
               </li>
             </ul>

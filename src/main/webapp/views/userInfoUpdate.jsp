@@ -38,7 +38,7 @@
 		<form method="post" action="userinfoupdate.do" enctype="multipart/form-data">
       <table class="table table-bordered table-hover dataTable dtr-inline">
          <tr> 
-         	<th rowspan="11" style="width: 500px;">
+         	<th rowspan="10" style="width: 500px;">
 				<div style="display: flex; align-items: center; justify-content: center; height: 100%; flex-direction: column;">
 				  <c:choose>
 				    <c:when test="${not empty member.photoName}">
@@ -112,7 +112,7 @@
             <td><input type="text" name="phone" id="phone" value="${member.phone}" /></td>
          </tr>
          <tr>      
-            <th colspan="4" style="text-align: center;">
+            <th colspan="11" style="text-align: center;">
                <button class="btn btn-outline-dark" type="submit" id="update">완료</button>
             </th>
         </tr>

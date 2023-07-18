@@ -19,4 +19,6 @@ public interface MainDAO {
 
 	ArrayList<NoticeBoardDTO> noticelist();
 
+	boolean updateTodo(String todoId);
+
 }

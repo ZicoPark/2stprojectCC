@@ -23,16 +23,16 @@
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper" style="max-width: 1000px; margin: 0 auto;">
     <!-- Content Header (Page header) -->
-    <section class="content-header">
+    <section class="content-header"  style=" background-color: #20c997;">
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1>프로젝트 상세</h1>
+            <h1 style="color: white; font-weight: bold;">프로젝트 상세</h1>
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="#">Home</a></li>
-              <li class="breadcrumb-item active">Project Detail</li>
+              <li class="breadcrumb-item active">프로젝트 > 프로젝트 상세보기</li>
             </ol>
           </div>
         </div>
@@ -45,7 +45,6 @@
       <!-- Default box -->
       <div class="card">
         <div class="card-header">
-          <h3 class="card-title">Projects Detail</h3>
 
           <div class="card-tools">
           
@@ -61,8 +60,8 @@
           </div>
         </div>
 
-        <div class="card-body">
-          <div id="projectDetailContainer"></div>
+        <div class="card-body" >
+          <div id="projectDetailContainer" ></div>
         </div>
         <!-- /.card-body -->
       </div>
@@ -113,9 +112,9 @@ $(document).ready(function() {
 	        $.each(data.commentList, function(index, detail) {
 	          var commentId = detail.comment_id;
 
-	          var html = '<div class="row">';
-	          html += '<div class="col-12 col-md-12 col-lg-8 order-2 order-md-1">';
-	          html += '<div class="row">';
+	          var html = '<div class="row" style="margin-bottom: 20px;">';
+	          html += '<div class="col-12 order-2 order-md-1">';
+	          html += '<div class="row" style="background-color: #f0f0f0; ">';
 	          html += '<div class="col-12">';
 	          html += '<span style="border: 1px solid green; border-radius: 5px; padding: 3px;">' + detail.step + '</span>';
 	          html += '<span style="border: 1px solid red; border-radius: 5px; padding: 3px;">' + detail.status + '</span>';
@@ -134,22 +133,30 @@ $(document).ready(function() {
 	          html += '<span class="description">' + detail.create_at + '</span>';
 	          html += '</div>';
 	          html += '<p>' + detail.content + '</p>';
-	          if (detail.attachment_id != null) {
-	        	  if (detail.ori_file_name.endsWith('.mp4') || detail.ori_file_name.endsWith('.avi') || detail.ori_file_name.endsWith('.mov')) {
-	        		    html += '<div class="mailbox-attachment-info">';
-	        		    html += '<video controls width="320" height="240">';
-	        		    html += '<source src="attachmentDownload.do?id=' + detail.attachment_id + '" type="video/mp4">';
-	        		    html += '브라우저가 비디오를 지원하지 않습니다.';
-	        		    html += '</video>';
-	        		    html += '<a class="mailbox-attachment-name"><i class="fas fa-paperclip"></i> &nbsp;' + detail.ori_file_name + '</a>';
-	        		    html += '<a href="attachmentDownload.do?id=' + detail.attachment_id + '" class="btn btn-default btn-sm"><i class="fas fa-cloud-download-alt"></i></a>';
-	        		    html += '</div>';
-	        		  }
-	      
-	          }
-	          html += '</div>';
+	          if (detail.comment_attachment_id != null) {
+	        	    if (detail.comment_ori_file_name.endsWith('.mp4') || detail.comment_ori_file_name.endsWith('.avi') || detail.comment_ori_file_name.endsWith('.mov')) {
+	        	        // 비디오 파일인 경우
+	        	        html += '<div class="mailbox-attachment-info">';
+	        	        html += '<video controls width="320" height="240">';
+	        	        html += '<source src="attachmentDownload.do?id=' + detail.comment_attachment_id + '" type="video/mp4">';
+	        	        html += '브라우저가 비디오를 지원하지 않습니다.';
+	        	        html += '</video>';
+	        	        html += '<a class="mailbox-attachment-name"><i class="fas fa-paperclip"></i> &nbsp;' + detail.comment_ori_file_name + '</a>';
+	        	        html += '<a href="attachmentDownload.do?id=' + detail.comment_attachment_id + '" class="btn btn-default btn-sm"><i class="fas fa-cloud-download-alt"></i></a>';
+	        	        html += '</div>';
+	        	    } else if (detail.comment_ori_file_name.endsWith('.jpg') || detail.comment_ori_file_name.endsWith('.png') || detail.comment_ori_file_name.endsWith('.gif')) {
+	        	        // 사진(이미지) 파일인 경우
+	        	        html += '<div class="mailbox-attachment-info">';
+	        	        html += '<img src="attachmentDownload.do?id=' + detail.comment_attachment_id + '" alt="' + detail.comment_ori_file_name + '" class="img-thumbnail">';
+	        	        html += '<a class="mailbox-attachment-name"><i class="fas fa-paperclip"></i> &nbsp;' + detail.comment_ori_file_name + '</a>';
+	        	        html += '<a href="attachmentDownload.do?id=' + detail.comment_attachment_id + '" class="btn btn-default btn-sm"><i class="fas fa-cloud-download-alt"></i></a>';
+	        	        html += '</div>';
+	        	    }
+	        	}
+	        	html += '</div>';
 
-	          var commentForm = '<div class="commentForm'+ detail.comment_id+'">';
+
+	          var commentForm = '<div class="commentForm'+ detail.comment_id+'" style="background-color: #dcdcdc;">';
 	          commentForm += '<input type="text" class="commentInput" placeholder="댓글 작성">';
 	          commentForm += '<input type="hidden" value="' + detail.comment_id + '">';
 	          commentForm += '<button class="commentButton btn btn-primary btn-sm view-btn" id="' + detail.comment_id + '"><i class="far fa-envelope"></i>작성</button>';
@@ -227,8 +234,8 @@ $(document).ready(function() {
 
 	        data.dto.forEach(function(item) {
 	          var commentHtml = '<div>' + item.name+ '</div>';
-	          commentHtml += '<div>' + item.content + '</div>';
 	          commentHtml += '<div>' + item.create_at + '</div>';
+	          commentHtml += '<div>' + item.content + '</div>';
 	          if (item.member_id === loginId) {
 	        	  commentHtml += '<button class="deleteButton btn btn-danger btn-sm" data-reply-id="' + item.id + '" data-comment-id="' + item.coment_id + '"><i class="far fa-trash-alt"></i> 삭제</button>';
 

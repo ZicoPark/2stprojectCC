@@ -11,7 +11,8 @@
 	<select id="getMemberList" resultType="hashmap">
 		SELECT m.*, jl.name AS job_level_name, d.name AS dept_name FROM member m 
 			LEFT JOIN job_level jl ON m.job_level_id = jl.id 
-		LEFT JOIN dept d ON m.dept_id = d.id
+			LEFT JOIN dept d ON m.dept_id = d.id 
+		ORDER BY d.name DESC, FIELD(job_level_name, '사장','이사','팀장','팀원'), m.name ASC
 	</select>
 
 	<select id="getDocFormList" resultType="kr.co.cc.doc.dto.DocFormDTO">
@@ -130,6 +131,7 @@
 			, d.public_range
 			, (SELECT df.name FROM doc_form df WHERE df.id = d.doc_form_id) AS doc_form_name
 			, DATE_FORMAT(d.create_at, '%Y-%m-%d %T') AS create_at
+			, DATE_FORMAT(ds.read_at, '%Y-%m-%d %T') AS read_at
 			, (SELECT a.name FROM approval a WHERE a.id = ds.approval_id) AS approval_kind_name
 			, (SELECT m.name FROM member m WHERE m.id = ds.member_id) AS approval_member_name
 			, ds.read_chk
@@ -292,6 +294,7 @@
 			, DATE_FORMAT(ds.read_at, '%Y-%m-%d %T') AS read_at
 		FROM doc_status ds 
 		WHERE ds.doc_id = #{docId}
+		ORDER BY ds.order_rank DESC
 	</select>
 	
 	<select id="getNextApprovalMemberRow" parameterType="string" resultType="int">
@@ -373,8 +376,7 @@
 	
 	<select id="getRegisteredDocList" resultType="hashmap">
 		SELECT d.id
-			, d.subject 
-			, d.content 
+			, d.subject
 			, d.member_id 
 			, (SELECT m.name FROM member m WHERE m.id = d.member_id) AS create_member_name
 			, (SELECT df.name FROM doc_form df WHERE df.id = d.doc_form_id) AS doc_form_name
