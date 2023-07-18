@@ -109,9 +109,14 @@ public class MessageController {
 	
 	// 받은 쪽지 상세보기
 	@RequestMapping(value="/msRcDetail.do")
-		public String msRcDetail(Model model, @RequestParam String id) {
+		public String msRcDetail(Model model, @RequestParam String id, @RequestParam String type ,HttpSession session) {
 			
 			logger.info("상세보기 쪽지 번호 : "+id);
+			
+			   if(type.equals("alarm")) {
+				   service.readMessage(id, String.valueOf(session.getAttribute("id")));
+			   }
+			   
 			
 			MessageDTO detailms = service.msdetail(id, "detail");
 			String page = "redirect:/msSendList.go";
@@ -140,7 +145,7 @@ public class MessageController {
 			
 			logger.info("상세보기 쪽지 번호 : "+id);
 			
-			MessageDTO detailms = service.msdetail(id, "detail");
+			MessageDTO detailms = service.msSenddetail(id, "detail");
 			String page = "redirect:/msSendList.go";
 			
 			if(detailms != null) {

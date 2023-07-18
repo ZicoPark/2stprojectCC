@@ -262,7 +262,7 @@ function listPrint(list){
 			    content += '<tr>';
 			    content += '<td class="checkbox"><input type="checkbox" name="Rowcheck" value="' + item.id + '"></td>';
 			    content += '<td class="' + (item.read_chk == 0 ? 'read' : 'Noread') + '">' + item.to_name + '</td>';
-			    content += '<td><a href="msRcDetail.do?id=' + item.id + '"';
+			    content += '<td><a href="msRcDetail.do?type=list&id=' + item.id + '"';
 			    content += ' class="' + (item.read_chk == 0 ? 'read' : 'Noread') + '">';
 			    content += item.title + '</a></td>';
 

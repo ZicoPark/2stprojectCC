@@ -11,7 +11,8 @@
 	<select id="getMemberList" resultType="hashmap">
 		SELECT m.*, jl.name AS job_level_name, d.name AS dept_name FROM member m 
 			LEFT JOIN job_level jl ON m.job_level_id = jl.id 
-		LEFT JOIN dept d ON m.dept_id = d.id
+			LEFT JOIN dept d ON m.dept_id = d.id 
+		ORDER BY d.name DESC, FIELD(job_level_name, '사장','이사','팀장','팀원'), m.name ASC
 	</select>
 
 	<select id="getDocFormList" resultType="kr.co.cc.doc.dto.DocFormDTO">
@@ -375,8 +376,7 @@
 	
 	<select id="getRegisteredDocList" resultType="hashmap">
 		SELECT d.id
-			, d.subject 
-			, d.content 
+			, d.subject
 			, d.member_id 
 			, (SELECT m.name FROM member m WHERE m.id = d.member_id) AS create_member_name
 			, (SELECT df.name FROM doc_form df WHERE df.id = d.doc_form_id) AS doc_form_name
@@ -426,4 +426,7 @@
 		WHERE d.id = #{docId} AND d.status = 1
 	</select>
 	
+	<update id="changeNoticeStatus" parameterType="string">
+		UPDATE notice n SET n.status = 1 WHERE n.receive_id = #{loginId} AND n.type = #{type} AND n.identify_value = #{docId}
+	</update>
 </mapper>

@@ -421,6 +421,21 @@ public class MessageService {
 		}
 
 
+		public MessageDTO msSenddetail(String id, String flag) {
+			if(flag.equals("detail")) {
+				logger.info("if문 진입");
+				
+			}
+			return dao.msSenddetail(id);
+		}
+
+
+		public void readMessage(String id, String loginId) {
+			dao.readMessage(id, loginId);
+			
+		}
+
+
 
 
 

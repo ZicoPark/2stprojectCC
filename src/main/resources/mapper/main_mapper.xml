@@ -13,7 +13,7 @@
 	</select>
 
 	<select id="totalCountMs" resultType="int">
-		select count (m.id) from message m where m.to_id = #{id} and read_chk = 0
+		select count (m.id) from message m where m.to_id = #{id} and read_chk = 0 and del_chk = 0
 	</select>
 
 	<select id="totalCountDoc" resultType="int">

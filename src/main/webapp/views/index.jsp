@@ -8,6 +8,11 @@
 	    color: white;
 	}
 </style>
+
+<!-- jQuery -->
+<script src="../../plugins/jquery/jquery.min.js"></script>
+
+
   <!-- Navbar -->
   <nav class="main-header navbar navbar-expand navbar-white navbar-light">
     <!-- Left navbar links -->
@@ -119,11 +124,14 @@
           <span class="dropdown-item dropdown-header">최신 알림</span>
           <div class="dropdown-divider"></div>
           
+	          <div id="aList">
+	          
+	          </div>
           
-          <a href="#" class="dropdown-item">
+<!--           <a href="#" class="dropdown-item">
             <i class="fas fa-envelope mr-2"></i> 쪽지
             <span class="float-right text-muted text-sm">3 mins</span>
-          </a>
+          </a> -->
           
           
           <!-- <div class="dropdown-divider"></div>
@@ -591,39 +599,48 @@ socket.onopen = function(event) {
 	});
 };
 
-
- socket.onopen = function(event) {
-    console.log('WebSocket 연결이 열렸습니다.');
-    /*
-    $.ajax({
-		type:'post',
-		url:'alarmList.ajax',
+alarmList(); // 무조건 한 번 호출해야 페이지 이동때마다 뜸
+ 
+function alarmList() {
+	$.ajax({
+		url: 'alarmList.ajax',
+		type: 'post',
+		async: false,
 		data: {
-			receive_id : '${sessionScope.id}'
+			loginId: '${sessionScope.id}'
 		},
-		dataType:'json',
-		success:function(data){
+		dataType: 'json',
+		success: function(data) {
+			console.log('아작스 통신 성공');
 			console.log(data);
 			var content = '';
-			data.forEach(function(item) {
-				content += '<tr>';
-				content += '<td>' + item.type + '</td>';
-				content += '<td>' + item.identify_value + '</td>';
-				content += '<td>' + item.name + '</td>';
-				content += '<td><input type="hidden" id="' + item.id + '"></td>';
-				content += '</tr>';
-			});
-			
-			// HTML에 알림 목록 추가
-			//$('#notification-table').append(content);
+			if (data.length == 0) {
+				content += '<tr><th colspan="5" style="text-align:center">새 알림이 없습니다.</th></tr>';
+			} else {
+				data.forEach(function(item) {
+					content += '<a href="#" class="dropdown-item">' +
+						(item.type === '쪽지'
+							? '<a href="msRcDetail.do?type=alarm&id=' + item.identify_value + '">쪽지<span>' + item.title + '</span></a>'
+							: (item.type === '공지사항'
+								? '<a href="noticeBoardDetail.do?type=alarm&id=' + item.identify_value + '" class="dropdown-item">공지사항<span>' + item.subject + '</span></a>'
+								: '<a href="requestDocWaitDetail.go?type=alarm&id=' + item.identify_value + '">전자결재<span>' + item.doc_subject + '</span></a>'
+							)
+						) +
+						'<span class="float-right text-muted text-sm">' + item.name + '</span>' +
+						'</a>';
+				});
+			}
 
+			$('#aList').empty();
+			$('#aList').append(content);
 		},
-		error:function(e){
+		error: function(e) {
 			console.log(e);
-		}		
+		}
 	});
-    */
-};
+	console.log('아작스 다음');
+}
+
 
 socket.onmessage = function(event) {
     var message = event.data;

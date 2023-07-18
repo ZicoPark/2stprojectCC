@@ -139,14 +139,16 @@ public class DocController {
 	}
 	
 	@RequestMapping(value="/requestDocWaitDetail.go")
-	public ModelAndView requestDocWaitDetail(@RequestParam String id, HttpSession session) {
+	public ModelAndView requestDocWaitDetail(@RequestParam String id, @RequestParam String type, HttpSession session) {
 		
-		return service.requestDocWaitDetail(id, session);
+		return service.requestDocWaitDetail(id, type, session);
 	}
 	
 	@RequestMapping(value="/requestDocApproval.do")
 	public ModelAndView requestDocApproval(@RequestParam HashMap<String, String> params, HttpSession session) {
 		
+		logger.info(params.get("chooseApproval"));
+
 		return service.requestDocApproval(params, session);
 	}
 	

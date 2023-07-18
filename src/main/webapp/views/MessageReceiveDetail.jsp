@@ -95,7 +95,7 @@
             <div class="card-body p-0">
               <div class="mailbox-read-info">
                 
-                <h6>From: ${detailms.from_id} ${detailms.name}
+                <h6>From: ${detailms.name} ( ${detailms.user_id} )
                   <span class="mailbox-read-time float-right">${detailms.send_at}</span></h6>
               </div>
      
@@ -112,15 +112,25 @@
             <div class="card-footer bg-white">
               <ul class="mailbox-attachments d-flex align-items-stretch clearfix">
                 <li>
-                  <span class="mailbox-attachment-icon"><i class="far fa-file-pdf"></i></span>
+                 
 
-                  <div class="mailbox-attachment-info">
-                    <a class="mailbox-attachment-name"><i class="fas fa-paperclip"></i> ${detailFile}</a>
-                        <span class="mailbox-attachment-size clearfix mt-1">
-                          
-                          <a href="msdownload.do?path=${detailFile}" class="btn btn-default btn-sm float-right"><i class="fas fa-cloud-download-alt"></i></a>
-                        </span>
-                  </div>
+			     <div>
+			    <c:if test="${detailFile.size() == 0}">
+			      <div>첨부파일 없음.</div>
+			    </c:if>
+			    <c:if test="${detailFile.size() > 0}">
+			      <div class="mailbox-attachment-info">
+			        <c:forEach items="${detailFile}" var="i" varStatus="status">
+			          <a class="mailbox-attachment-name" href="msdownload.do?path=${i.id}">
+			            <i class="fas fa-paperclip"></i> &nbsp;${i.ori_file_name}
+			          </a>
+			          <c:if test="${not status.last}">
+			            &nbsp;&nbsp;
+			          </c:if>
+			        </c:forEach>
+			      </div>
+			    </c:if>
+			  </div>
                 </li>
               </ul>
             </div>

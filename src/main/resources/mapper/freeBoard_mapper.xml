@@ -19,6 +19,7 @@
 		FROM free_board fb
 		JOIN member m ON fb.member_id = m.id
 		WHERE fb.status =1
+		ORDER BY fb.create_at DESC
 		LIMIT 10 OFFSET #{offset}
 	</select>	
 
@@ -28,6 +29,7 @@
 	    JOIN member m ON fb.member_id = m.id
 	    WHERE CONCAT(fb.subject, m.user_id) LIKE CONCAT('%', #{search}, '%') 
 	    AND fb.status = 1
+	    ORDER BY fb.create_at DESC
 	    LIMIT 10 OFFSET #{offset}
 	</select>
 

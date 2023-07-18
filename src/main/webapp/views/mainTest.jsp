@@ -27,6 +27,87 @@
   <!-- summernote -->
   <link rel="stylesheet" href="plugins/summernote/summernote-bs4.min.css">
 </head>
+
+<style>
+
+      @import url('https://fonts.googleapis.com/css?family=Questrial&display=swap');
+
+
+        div .cal {
+            background-color : white;
+            height: auto;
+            width: 400px;
+            margin: 0px;
+            padding: 20px;
+            margin: 0 auto;
+            border-radius:5px;
+            box-shadow:0px 40px 30px -20px rgba(0,0,0,0.3);
+        }
+        
+
+        td .day {
+            width: 50px;
+            height: 50px;
+        } 
+
+        .Calendar {
+            text-align: center;
+            margin: 21px;
+        }
+
+        .Calendar>thead>tr:first-child>td {
+            font-family: 'Questrial', sans-serif;
+            font-size: 1.1em;
+            font-weight: bold;
+        }
+
+        .Calendar>thead>tr:last-child>td {
+            font-family: 'Questrial', sans-serif;
+            font-weight: 600;     
+        }
+
+        .Calendar>tbody>tr>td>p {
+            font-family: 'Montserrat', sans-serif;
+            height: 45px;
+            width: 45px;
+            border-radius: 45px;
+            transition-duration: .2s;
+            line-height: 45px;
+            margin: 2.5px;
+            display: block;
+            text-align: center;
+        }        
+
+        .pastDay {
+            color: lightgray;
+        }
+
+        .today {
+            background-color: #F5D042;            
+            color: #fff;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .futureDay {
+            background-color: #FFFFFF;
+            cursor: pointer;
+        }
+        .futureDay:hover{
+            background:#eee;
+        }
+
+        .futureDay.choiceDay,
+        .today.choiceDay {
+            background: #0A174E;
+            color: #fff;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+</style>
+
+
 <body class="hold-transition sidebar-mini">
 <jsp:include page = "index.jsp"></jsp:include>
 
@@ -43,15 +124,18 @@
 <div class="card card-primary card-outline" style="border-top : 3px solid #20c997!important">
 <div class="card-body box-profile">
 <div style="display: flex; align-items: center; justify-content: center; height: 100%;">
- <c:choose>
-   <c:when test="${not empty member.photoName}">
-     <img src="photoView.do?path=${member.photoName}" class="profile-user-img img-fluid img-circle" id="preview" style= "height: 130px; width: 130px;">
-   </c:when>
-   <c:otherwise>
-     <img class="profile-user-img img-fluid img-circle" src="img/cc.png" id="preview" style= "height: 130px; width: 130px;">
-   </c:otherwise>
- </c:choose>
+
+
+<div>
+    <c:if test="${main.a_id == null || main.a_id == ''}">
+        <img class="profile-user-img img-fluid img-circle" id="preview" style= "height: 130px; width: 130px;" src="img/cc.png"  alt="message user image">
+    </c:if>
+    <c:if test="${main.a_id != null && main.a_id != ''}">
+        <img class="profile-user-img img-fluid img-circle" src="/photoView.do?path=${main.a_id}" alt="message user image" style= "height: 130px; width: 130px;">
+    </c:if>
 </div>
+</div>
+
 <div class="text-center">
 </div>
 <h3 class="profile-username text-center">${main.m_name }</h3>
@@ -159,31 +243,67 @@
           </a>
         </div>
       </div>
-      <div class="card-body table-responsive p-0">
-        <table class="table table-striped table-valign-middle">
-          <thead>
-            <tr>
-              <th>제목</th>
-              <th>작성자</th>
-              <th>등록일</th>
-            </tr>
-          </thead>
-          <tbody>
-	        <c:forEach items="${Nolist}" var="i">
-	          <tr>
-	            <td>${i.subject}</td>
-	            <td>${i.name}</td>
-	            <td>${i.create_at}</td>
-	            <td><input type ="hidden" id = "${i.id}" /></td>
-	          </tr>
-	        </c:forEach>
-          </tbody>
+    <div class = "cal">
+        <table class="Calendar">
+            <thead>
+                <tr>
+                    <td class = "day" onClick="prevCalendar();" style="cursor:pointer;">&#60;</td>
+                    <td class = "day" colspan="5">
+                        <span id="calYear"></span>년
+                        <span id="calMonth"></span>월
+                    </td>
+                    <td onClick="nextCalendar();" style="cursor:pointer;">&#62;</td>
+                </tr>
+                <tr>
+                    <td class = "day">일</td>
+                    <td class = "day">월</td>
+                    <td class = "day">화</td>
+                    <td class = "day">수</td>
+                    <td class = "day">목</td>
+                    <td class = "day">금</td>
+                    <td class = "day">토</td>
+                </tr>
+            </thead>
+
+            <tbody>
+            </tbody>
         </table>
-      </div>
+    </div>
     </div>
    </div>
   </div> 
  </div>  
+ 
+ 
+
+  <div class="col-lg-6">
+     <div class="col-md-12">
+<div class="card">
+<div class="card-header ui-sortable-handle" style="cursor: move; background-color: #20c997!important;">
+<h3 class="card-title" style="font-size: 1.1rem; font-weight: 400; color: white">
+<i class="ion ion-clipboard mr-1"></i>
+유튜브 
+</h3>
+<div class="card-tools">
+
+</div>
+</div>
+
+<div class="card-body">
+<iframe width="1217" height="685" src="https://www.youtube.com/embed/WOQzrOuJm_A" title="고양이에게 미움받는 사람 특징" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+
+</div>
+</div>
+</div>
+</div>
+
+
+
+ 
+ 
+ 
+ 
+ 
   <div class="card">
 <div class="card-header ui-sortable-handle" style="cursor: move; background-color: #20c997!important;">
 <h3 class="card-title" style="font-size: 1.1rem; font-weight: 400; color: white">
@@ -352,7 +472,86 @@ if(msg != ""){
 	  });
 
     
-    
+      window.onload = function () { buildCalendar(); }    // 웹 페이지가 로드되면 buildCalendar 실행
+
+      let nowMonth = new Date();  // 현재 달을 페이지를 로드한 날의 달로 초기화
+      let today = new Date();     // 페이지를 로드한 날짜를 저장
+      today.setHours(0, 0, 0, 0);    // 비교 편의를 위해 today의 시간을 초기화
+
+      // 달력 생성 : 해당 달에 맞춰 테이블을 만들고, 날짜를 채워 넣는다.
+      function buildCalendar() {
+
+          let firstDate = new Date(nowMonth.getFullYear(), nowMonth.getMonth(), 1);     // 이번달 1일
+          let lastDate = new Date(nowMonth.getFullYear(), nowMonth.getMonth() + 1, 0);  // 이번달 마지막날
+
+          let tbody_Calendar = document.querySelector(".Calendar > tbody");
+          document.getElementById("calYear").innerText = nowMonth.getFullYear();             // 연도 숫자 갱신
+          document.getElementById("calMonth").innerText = leftPad(nowMonth.getMonth() + 1);  // 월 숫자 갱신
+
+          while (tbody_Calendar.rows.length > 0) {                        // 이전 출력결과가 남아있는 경우 초기화
+              tbody_Calendar.deleteRow(tbody_Calendar.rows.length - 1);
+          }
+
+          let nowRow = tbody_Calendar.insertRow();        // 첫번째 행 추가           
+
+          for (let j = 0; j < firstDate.getDay(); j++) {  // 이번달 1일의 요일만큼
+              let nowColumn = nowRow.insertCell();        // 열 추가
+          }
+
+          for (let nowDay = firstDate; nowDay <= lastDate; nowDay.setDate(nowDay.getDate() + 1)) {   // day는 날짜를 저장하는 변수, 이번달 마지막날까지 증가시키며 반복  
+
+              let nowColumn = nowRow.insertCell();        // 새 열을 추가하고
+
+
+              let newDIV = document.createElement("p");
+              newDIV.innerHTML = leftPad(nowDay.getDate());        // 추가한 열에 날짜 입력
+              nowColumn.appendChild(newDIV);
+
+              if (nowDay.getDay() == 6) {                 // 토요일인 경우
+                  nowRow = tbody_Calendar.insertRow();    // 새로운 행 추가
+              }
+
+              if (nowDay < today) {                       // 지난날인 경우
+                  newDIV.className = "pastDay";
+              }
+              else if (nowDay.getFullYear() == today.getFullYear() && nowDay.getMonth() == today.getMonth() && nowDay.getDate() == today.getDate()) { // 오늘인 경우           
+                  newDIV.className = "today";
+                  newDIV.onclick = function () { choiceDate(this); }
+              }
+              else {                                      // 미래인 경우
+                  newDIV.className = "futureDay";
+                  newDIV.onclick = function () { choiceDate(this); }
+              }
+          }
+      }
+
+      // 날짜 선택
+      function choiceDate(newDIV) {
+          if (document.getElementsByClassName("choiceDay")[0]) {                              // 기존에 선택한 날짜가 있으면
+              document.getElementsByClassName("choiceDay")[0].classList.remove("choiceDay");  // 해당 날짜의 "choiceDay" class 제거
+          }
+          newDIV.classList.add("choiceDay");           // 선택된 날짜에 "choiceDay" class 추가
+      }
+
+      // 이전달 버튼 클릭
+      function prevCalendar() {
+          nowMonth = new Date(nowMonth.getFullYear(), nowMonth.getMonth() - 1, nowMonth.getDate());   // 현재 달을 1 감소
+          buildCalendar();    // 달력 다시 생성
+      }
+      // 다음달 버튼 클릭
+      function nextCalendar() {
+          nowMonth = new Date(nowMonth.getFullYear(), nowMonth.getMonth() + 1, nowMonth.getDate());   // 현재 달을 1 증가
+          buildCalendar();    // 달력 다시 생성
+      }
+
+      // input값이 한자리 숫자인 경우 앞에 '0' 붙혀주는 함수
+      function leftPad(value) {
+          if (value < 10) {
+              value = "0" + value;
+              return value;
+          }
+          return value;
+      }    
     
     
     

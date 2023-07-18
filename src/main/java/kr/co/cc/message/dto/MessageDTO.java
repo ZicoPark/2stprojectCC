@@ -34,6 +34,7 @@ public class MessageDTO {
 	private String tofrom_id;
 	private String from_name;
 	private String to_name;
+	
 
 	
 	public String getFrom_name() {

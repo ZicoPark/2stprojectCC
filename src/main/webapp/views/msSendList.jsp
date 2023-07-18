@@ -270,10 +270,11 @@ function listPrint(list){
 			    content += '<td class="checkbox"><input type="checkbox" name="Rowcheck" value="' + item.id + '"></td>';
 			    content += '<td class="' + (item.read_chk == 0 ? 'read' : 'Noread') + '">' + item.to_name + '</td>';
 
-			    content += '<td><a href="msSendDetail.do?id=' + item.id + '"';
-			    content += ' class="' + (item.read_chk == 0 ? 'read' : 'Noread') + '">';
-			    content += item.title + '</a></td>';
+			    content += '<td><a href="msSendDetail.do?id=' + item.id + '">' + item.title + '</a></td>';
+
 			    
+			    content += '<td>' + (item.read_chk ? '읽음' : '안읽음') + '</td>';
+
 			    
 			    if (
 		  	      sendAt.getDate() === currentDate.getDate() &&

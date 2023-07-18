@@ -100,8 +100,8 @@
               <div class="mailbox-read-info">
               	<h5>${detailms.title}</h5>
                 <div>
-                  <h6>From: ${detailms.name} < ${detailms.from_id} > 
-                    <span class="badge badge-success">${detailms.dept_id}</span>
+                  <h6>From: ${detailms.name} < ${detailms.user_id} > 
+                    <span class="badge badge-success">${detailms.dept_name}</span>
                  
                   	<span class="mailbox-read-time float-right">${detailms.send_at}</span>
                    </h6>
