@@ -734,7 +734,7 @@ public class DocService {
 		return mav;
 	}
 
-	public ModelAndView requestDocWaitDetail(String docId, HttpSession session) {
+	public ModelAndView requestDocWaitDetail(String docId, String type, HttpSession session) {
 		
 		ModelAndView mav = new ModelAndView("/doc/requestDocWaitDetail");
 		
@@ -743,6 +743,10 @@ public class DocService {
 		// 진입했을 때 읽음표시 업데이트
 		dao.readCheckUpdate(docId, loginId);
 		
+		// 진입했을 때 알림을 통해서 온 거면(type="alarm") notice 테이블에서 status를 1로 바꿈
+		if(type.equals("alarm")) {
+			dao.changeNoticeStatus(loginId, "전자결재", docId);
+		}
 		// 진입했을 때 읽은날짜 업데이트 - 처음 읽었을 때 한 번만 업데이트 되어야 함.
 		long currentTimeMillis = System.currentTimeMillis();
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");

@@ -54,7 +54,7 @@ th{
 							<c:forEach items="${list }" var="i" varStatus="varStatus">
 								<tr>
 									<td style="text-align: center;">${varStatus.count }</td>
-									<td><a href="requestDocWaitDetail.go?id=${i.id }">${i.subject }</a></td>
+									<td><a href="requestDocWaitDetail.go?type=normal&id=${i.id }">${i.subject }</a></td>
 									<td style="text-align: center;">${i.doc_form_name }</td>
 									<c:if test="${i.approval_kind_name eq '결재'}">
 										<td style="text-align: center;"><span class="badge bg-red">${i.approval_kind_name }대기</span></td>

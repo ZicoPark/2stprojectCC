@@ -426,4 +426,7 @@
 		WHERE d.id = #{docId} AND d.status = 1
 	</select>
 	
+	<update id="changeNoticeStatus" parameterType="string">
+		UPDATE notice n SET n.status = 1 WHERE n.receive_id = #{loginId} AND n.type = #{type} AND n.identify_value = #{docId}
+	</update>
 </mapper>
