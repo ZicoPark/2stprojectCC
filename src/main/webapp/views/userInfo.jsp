@@ -19,7 +19,7 @@
 <div class="wrapper">
   <div class="content-wrapper">
     <section class="content-header">
-    	<h1>마이 페이지</h1>         
+    	<h1>　마이 페이지</h1>         
     </section>
     <!-- Main content -->
     <section class="content">
@@ -50,7 +50,7 @@
             <th>비밀번호</th>
             <td>
                ******** &nbsp; &nbsp; &nbsp; &nbsp; 
-               <button class="btn btn-outline-dark" onclick="location.href='userinfopassword.go'">비밀번호 변경</button>         
+               <button class="btn btn-outline-dark" onclick="location.href='findPW.go'">비밀번호 변경</button>         
             </td>
          </tr>
          <tr>
