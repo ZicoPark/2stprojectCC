@@ -134,19 +134,27 @@ $(document).ready(function() {
 	          html += '</div>';
 	          html += '<p>' + detail.content + '</p>';
 	          if (detail.comment_attachment_id != null) {
-	        	  if (detail.comment_ori_file_name.endsWith('.mp4') || detail.comment_ori_file_name.endsWith('.avi') || detail.comment_ori_file_name.endsWith('.mov')) {
-	        		    html += '<div class="mailbox-attachment-info">';
-	        		    html += '<video controls width="320" height="240">';
-	        		    html += '<source src="attachmentDownload.do?id=' + detail.comment_attachment_id + '" type="video/mp4">';
-	        		    html += '브라우저가 비디오를 지원하지 않습니다.';
-	        		    html += '</video>';
-	        		    html += '<a class="mailbox-attachment-name"><i class="fas fa-paperclip"></i> &nbsp;' + detail.comment_ori_file_name + '</a>';
-	        		    html += '<a href="attachmentDownload.do?id=' + detail.comment_attachment_id + '" class="btn btn-default btn-sm"><i class="fas fa-cloud-download-alt"></i></a>';
-	        		    html += '</div>';
-	        		  }
-	      
-	          }
-	          html += '</div>';
+	        	    if (detail.comment_ori_file_name.endsWith('.mp4') || detail.comment_ori_file_name.endsWith('.avi') || detail.comment_ori_file_name.endsWith('.mov')) {
+	        	        // 비디오 파일인 경우
+	        	        html += '<div class="mailbox-attachment-info">';
+	        	        html += '<video controls width="320" height="240">';
+	        	        html += '<source src="attachmentDownload.do?id=' + detail.comment_attachment_id + '" type="video/mp4">';
+	        	        html += '브라우저가 비디오를 지원하지 않습니다.';
+	        	        html += '</video>';
+	        	        html += '<a class="mailbox-attachment-name"><i class="fas fa-paperclip"></i> &nbsp;' + detail.comment_ori_file_name + '</a>';
+	        	        html += '<a href="attachmentDownload.do?id=' + detail.comment_attachment_id + '" class="btn btn-default btn-sm"><i class="fas fa-cloud-download-alt"></i></a>';
+	        	        html += '</div>';
+	        	    } else if (detail.comment_ori_file_name.endsWith('.jpg') || detail.comment_ori_file_name.endsWith('.png') || detail.comment_ori_file_name.endsWith('.gif')) {
+	        	        // 사진(이미지) 파일인 경우
+	        	        html += '<div class="mailbox-attachment-info">';
+	        	        html += '<img src="attachmentDownload.do?id=' + detail.comment_attachment_id + '" alt="' + detail.comment_ori_file_name + '" class="img-thumbnail">';
+	        	        html += '<a class="mailbox-attachment-name"><i class="fas fa-paperclip"></i> &nbsp;' + detail.comment_ori_file_name + '</a>';
+	        	        html += '<a href="attachmentDownload.do?id=' + detail.comment_attachment_id + '" class="btn btn-default btn-sm"><i class="fas fa-cloud-download-alt"></i></a>';
+	        	        html += '</div>';
+	        	    }
+	        	}
+	        	html += '</div>';
+
 
 	          var commentForm = '<div class="commentForm'+ detail.comment_id+'" style="background-color: #dcdcdc;">';
 	          commentForm += '<input type="text" class="commentInput" placeholder="댓글 작성">';
