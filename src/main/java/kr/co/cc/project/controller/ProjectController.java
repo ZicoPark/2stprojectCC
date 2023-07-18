@@ -88,7 +88,7 @@ public class ProjectController {
    
    
    @RequestMapping(value = "projectDetail.go")
-   public String projectList(HttpSession session, Model model, @RequestParam String id, @RequestParam int public_range, RedirectAttributes rttr) {
+   public String projectList(HttpSession session, Model model, @RequestParam String id, @RequestParam int public_range, @RequestParam int del_chk, RedirectAttributes rttr) {
       
       String page = "redirect:/projects.go";
       
@@ -97,11 +97,13 @@ public class ProjectController {
             String loginId = (String) session.getAttribute("id");
             page = service.getMemberList(loginId, id);
                model.addAttribute("project_id",id);
+               model.addAttribute("del_chk",del_chk);
                rttr.addFlashAttribute("msgU", "일부 공개 프로젝트입니다.");
             }
       }else {
          page = "project-detail";
          model.addAttribute("project_id",id);
+         model.addAttribute("del_chk",del_chk);
       }
       return page;
    }
@@ -152,21 +154,18 @@ public class ProjectController {
        if (session.getAttribute("id") != null) {
            // 프로젝트 정보 업데이트
           String id = params.get("project_id");
-          logger.info("idddddd"+id);
-           service.projectUpdate(params);
-           logger.info("params"+params);
-           
 
 
-           String memberIdsString = params.get("user_id");
-
-           if (memberIdsString != null) {
+           if (params.get("user_id") != null && !params.get("user_id").equals("") ) {
+        	   String memberIdsString = params.get("user_id");
                String[] memberIds = memberIdsString.split(",");
                // 새로운 참가자 정보 추가
                for (String contributorId : memberIds) {
                    service.addContributor(contributorId, id);
                }
            }
+           service.projectUpdate(params);
+           logger.info("params"+params);
 
            rttr.addFlashAttribute("msgU", "프로젝트가 수정되었습니다.");
        }
@@ -184,6 +183,23 @@ public class ProjectController {
       if(session.getAttribute("id") != null) {
          if(service.project_del(id) == 1) { 
          msg = "철회에 성공 했습니다.";            
+         }                     
+      }
+      // redirect 시 데이터를 보낼 수 없다.
+      // 하지만 session 에 데이터를 넣어 보낼 수 있다.
+      rttr.addFlashAttribute("msgU", msg);
+      
+      return "redirect:/projects.go";
+   }
+   
+   @GetMapping(value = "/projectRes.do")
+   public String projectRes(HttpSession session, @RequestParam String id, RedirectAttributes rttr) {
+      
+      String msg = "복구에 실패 했습니다.";
+      
+      if(session.getAttribute("id") != null) {
+         if(service.projectRes(id) == 1) { 
+         msg = "복구에 성공 했습니다.";            
          }                     
       }
       // redirect 시 데이터를 보낼 수 없다.

@@ -17,6 +17,7 @@ public class MainDTO {
 	private String d_name;
 	private String jl_name;
 	private String a_id;
+	private String admin_chk;
 
     private Date date;
     private String time_go;
@@ -33,6 +34,12 @@ public class MainDTO {
     private String total_time;
 	
 	
+	public String getAdmin_chk() {
+		return admin_chk;
+	}
+	public void setAdmin_chk(String admin_chk) {
+		this.admin_chk = admin_chk;
+	}
 	public String getTime_go() {
 		return time_go;
 	}

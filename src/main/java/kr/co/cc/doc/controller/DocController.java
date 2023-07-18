@@ -164,6 +164,12 @@ public class DocController {
 		return service.objectionDocDetail(id, session);
 	}
 	
+	@RequestMapping(value="/objectionDocBlind.do")
+	public ModelAndView objectionDocBlind(@RequestParam String id, HttpSession session) {
+		
+		return service.objectionDocBlind(id, session);
+	}
+	
 	@RequestMapping(value="/rewriteDoc.ajax")
 	@ResponseBody
 	public HashMap<String, Object> rewriteDoc(@RequestParam HashMap<String, String> params, HttpSession session){

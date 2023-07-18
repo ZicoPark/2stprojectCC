@@ -122,6 +122,12 @@
 	  WHERE id = #{project_id}
 	</update>
 	
+	<update id="projectRes" parameterType="kr.co.cc.project.dto.ProjectDTO">
+	  UPDATE project
+	  SET del_chk = 0
+	  WHERE id = #{project_id}
+	</update>
+	
 	<select id="getAllComment" parameterType="string" resultType="hashmap">
 		SELECT c.id AS comment_id
 			, c.project_id 

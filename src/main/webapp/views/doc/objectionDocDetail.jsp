@@ -44,6 +44,11 @@ th{
 							재작성
 							</i>
 						</button>
+						<button type="button" onclick="location.href='/objectionDocBlind.do?id=${doc.id }'" class="btn btn-danger float-right" style="margin-left: 5px;">
+							<i class="fas fa-trash">
+							폐기
+							</i>
+                        </button>
 						<button type="button" onclick="location.href='/objectionDocList.go'" class="btn btn-secondary float-right">
 							<i class="fas fa-reply">
 							리스트

@@ -13,12 +13,18 @@ public interface MainDAO {
 
 	int totalCountMs(String id);
 
-	int totalCountDoc(String id);
+	int totalRequestDocWait(String loginId);
 
 	int totalCountPr(String id);
 
 	ArrayList<NoticeBoardDTO> noticelist();
 
 	boolean updateTodo(String todoId);
+
+	void insertLink(String youtubeId, String newYoutubeId, String classification, String idx);
+
+	void deleteLink();
+
+	String youtubeURL();
 
 }

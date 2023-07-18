@@ -6,7 +6,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>CreatorCompany</title>
-
+<link rel="icon" href="/img/CC_favicon.png">
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
   <!-- Font Awesome -->
@@ -48,14 +48,19 @@
 
           <div class="card-tools">
           
-           <a href="projectInsert.go?id=${project_id}" class="btn btn-sm btn-primary"><i class="fas fa-edit"></i>추가</a>
-           <a href="projectDel.do?id=${project_id}" class="btn btn-danger btn-sm">철회</a>
+          <%
+			    int del_chk = (Integer) request.getAttribute("del_chk");
+			%>
+          
+           <% if (del_chk == 0) { %>
+		        <a href="projectInsert.go?id=${project_id}" class="btn btn-sm btn-primary"><i class="fas fa-edit"></i> 추가</a>
+		        <a href="projectDel.do?id=${project_id}" class="btn btn-danger btn-sm"> 철회</a>
+		    <% } else if (del_chk == 1) { %>
+		   		 <a href="projectRes.do?id=${project_id}" class="btn btn-sm btn-success restore-btn"><i class="fas fa-undo"></i> 복구</a>
+		    <% } %>
                           				
             <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
               <i class="fas fa-minus"></i>
-            </button>
-            <button type="button" class="btn btn-tool" data-card-widget="remove" title="Remove">
-              <i class="fas fa-times"></i>
             </button>
           </div>
         </div>
@@ -194,6 +199,12 @@ $(document).ready(function() {
 
 	    console.log('commentId : ' + $(this).attr('id'));
 
+	 	// 댓글 내용이 비어있는지 확인
+	    if (replyContent.trim() === '') {
+	        alert('댓글 내용을 입력해주세요.');
+	        return;
+	    }
+	    
 	    // 서버로 댓글 전송하는 Ajax 요청
 	    $.ajax({
 	      url: "postCommentWrite.ajax", // 댓글 작성 요청을 처리하는 서버 URL
