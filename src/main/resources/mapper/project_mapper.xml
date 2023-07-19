@@ -1,198 +1,206 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC	"-//mybatis.org//DTD Mapper 3.0//EN"
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-	
+
 <mapper namespace="kr.co.cc.project.dao.ProjectDAO">
 
-	<insert
-	   useGeneratedKeys="false"
-	    id="ProjectWrite" parameterType="kr.co.cc.project.dto.ProjectDTO">
-	    <selectKey keyProperty="id" resultType="java.lang.String" order="BEFORE">
-        SELECT UUID()
-    </selectKey>
-	    INSERT INTO project (id, name, member_id, public_range, start_at, end_at, step, status)
-	    VALUES (#{id},#{name}, #{member_id}, #{public_range}, #{start_at}, #{end_at}, '기획', '준비중')
+	<insert useGeneratedKeys="false" id="ProjectWrite"
+		parameterType="kr.co.cc.project.dto.ProjectDTO">
+		<selectKey keyProperty="id" resultType="java.lang.String"
+			order="BEFORE">
+			SELECT UUID()
+		</selectKey>
+		INSERT INTO project (id, name, member_id, public_range, start_at,
+		end_at, step, status)
+		VALUES (#{id},#{name}, #{member_id}, #{public_range}, #{start_at},
+		#{end_at}, '기획', '준비중')
 	</insert>
-	
+
 	<insert id="archivefileWrite">
-		INSERT INTO attachment(ori_file_name, id, classification, identify_value)
-			VALUES(#{param1}, #{param2}, #{param3}, #{param4})
+		INSERT INTO attachment(ori_file_name, id,
+		classification, identify_value)
+		VALUES(#{param1}, #{param2}, #{param3}, #{param4})
 	</insert>
 
-    
-    <insert id="addContributor" parameterType="string">
-	    INSERT INTO contributor (member_id, project_id)
-	    VALUES (
-	        (SELECT id FROM member WHERE user_id = #{param1}),
-	        #{param2}
-	    )
+
+	<insert id="addContributor" parameterType="string">
+		INSERT INTO contributor (member_id, project_id)
+		VALUES (
+		(SELECT id FROM member WHERE user_id = #{param1}),
+		#{param2}
+		)
 	</insert>
 
-	<select id="memberListAll" resultType="kr.co.cc.project.dto.ProjectDTO">
+	<select id="memberListAll"
+		resultType="kr.co.cc.project.dto.ProjectDTO">
 		SELECT m.id, m.name, m.user_id, d.name as dept_name
-		from member m inner join dept d 
+		from
+		member m inner join dept d
 		on m.dept_id = d.id
 	</select>
 
-	<select id="getUserIdsByProjectId" resultType="java.lang.String">
-	        SELECT m.name
-	        FROM project p
-	        INNER JOIN contributor c ON p.id = c.project_id
-	        INNER JOIN member m ON c.member_id = m.id
-	        WHERE p.id = #{id}
-    </select>
-    
-    <select id="getUserPhoto" resultType="java.lang.String">
-	        SELECT a.id AS member_profile_id
-			FROM project p
-			INNER JOIN contributor c ON p.id = c.project_id
-			INNER JOIN member m ON c.member_id = m.id
-			LEFT JOIN attachment a ON a.identify_value = c.member_id AND a.classification = '프로필사진'
-			WHERE p.id = #{id};
-    </select>
-    
-    
-    <select id="getUserId" resultType="java.lang.String">
-        SELECT user_id
-        FROM member m
-        WHERE id = #{memberId}
-    </select>
-    
-    
+	<select id="getUserId" resultType="java.lang.String">
+		SELECT user_id
+		FROM member m
+		WHERE id = #{memberId}
+	</select>
 
-		<select id="ProjectList" resultType="kr.co.cc.project.dto.ProjectDTO">
-		    SELECT p.id, p.name,p.member_id, p.public_range, m.user_id AS member_id, p.create_at, p.step, p.del_chk, GROUP_CONCAT(c.member_id SEPARATOR ',') AS contributors
-		    FROM project p
-		    LEFT JOIN contributor c ON p.id = c.project_id
-		    LEFT JOIN member m ON c.member_id = m.id
-		    GROUP BY p.id, p.name, p.create_at, p.step
-		</select>
+	<select id="ProjectList"
+		resultType="kr.co.cc.project.dto.ProjectDTO">
+		SELECT p.id, p.name,p.member_id, p.public_range, m.user_id AS member_id,
+		p.create_at, p.step, p.del_chk, GROUP_CONCAT(c.member_id SEPARATOR
+		',') AS contributors
+		FROM project p
+		LEFT JOIN contributor c ON p.id = c.project_id
+		LEFT JOIN member m ON c.member_id = m.id
+		GROUP BY p.id, p.name, p.create_at, p.step
+	</select>
 
 
-		<insert
-		 id="commentWrite" 
-		 parameterType="kr.co.cc.project.dto.AttachmentDTO"
-		 useGeneratedKeys="true" keyProperty="id">
-		 <selectKey keyProperty="id" resultType="java.lang.String" order="BEFORE">
-	        SELECT UUID()
-	    </selectKey>
+	<insert id="commentWrite"
+		parameterType="kr.co.cc.project.dto.AttachmentDTO"
+		useGeneratedKeys="true" keyProperty="id">
+		<selectKey keyProperty="id" resultType="java.lang.String"
+			order="BEFORE">
+			SELECT UUID()
+		</selectKey>
 		INSERT INTO
 		comment(id, content,member_id,project_id,step,status)
 		VALUES(#{id},#{content},#{member_id},#{project_id},#{step},#{status})
 	</insert>
-		
-	
-	<update id="stateChange" parameterType="kr.co.cc.project.dto.ProjectDTO">
-		UPDATE  project SET  step=#{step} where id=#{project_id}
+
+
+	<update id="stateChange"
+		parameterType="kr.co.cc.project.dto.ProjectDTO">
+		UPDATE project SET step=#{step} where id=#{project_id}
 	</update>
 
-	<insert 
-		useGeneratedKeys="false"
-		id="AttachmentSave" parameterType="kr.co.cc.project.dto.AttachmentDTO">
-		<selectKey keyProperty="id" resultType="java.lang.String" order="BEFORE">
-        SELECT UUID()
-    </selectKey>
-	INSERT INTO attachment(id, identify_value, ori_file_name,classification)
-	VALUES(#{id}, #{identify_value},#{ori_file_name},'프로젝트첨부파일')
+	<insert useGeneratedKeys="false" id="AttachmentSave"
+		parameterType="kr.co.cc.project.dto.AttachmentDTO">
+		<selectKey keyProperty="id" resultType="java.lang.String"
+			order="BEFORE">
+			SELECT UUID()
+		</selectKey>
+		INSERT INTO attachment(id, identify_value,
+		ori_file_name,classification)
+		VALUES(#{id}, #{identify_value},#{ori_file_name},'프로젝트첨부파일')
 	</insert>
-	
+
 	<select id="projectDetailFile" resultType="string">
-		SELECT id FROM attachment WHERE identify_value = #{id} 
+		SELECT id FROM
+		attachment WHERE identify_value = #{id}
 	</select>
 
-	
-	
-	
-	<select id="projectDetailUp" resultType="kr.co.cc.project.dto.ProjectDTO">
-    SELECT p.id, p.name, p.member_id, p.public_range, p.start_at, p.end_at, p.step, p.status, GROUP_CONCAT(c.member_id SEPARATOR ',') AS contributors
-    FROM project p
-    INNER JOIN contributor c ON p.id = c.project_id
-    WHERE p.id = #{param1}
-</select>
+
+
+
+	<select id="projectDetailUp"
+		resultType="kr.co.cc.project.dto.ProjectDTO">
+		SELECT p.id, p.name, p.member_id, p.public_range, p.start_at, p.end_at,
+		p.step, p.status, GROUP_CONCAT(c.member_id SEPARATOR ',') AS
+		contributors
+		FROM project p
+		INNER JOIN contributor c ON p.id = c.project_id
+		WHERE p.id = #{param1}
+	</select>
 
 	<update id="projectUpdate" parameterType="hashmap">
-	  UPDATE project
-	  SET name = #{name},
-	      public_range = #{public_range},
-	      start_at = #{start_at},
-	      end_at = #{end_at}
-	  WHERE id = #{project_id}
+		UPDATE project
+		SET name = #{name},
+		public_range = #{public_range},
+		start_at = #{start_at},
+		end_at = #{end_at}
+		WHERE id = #{project_id}
 	</update>
-	
+
 	<delete id="clearContributors" parameterType="java.util.Map">
-	  DELETE FROM contributor
-	  WHERE project_id = #{projectId}
-	    AND member_id = #{contributorId}
+		DELETE FROM contributor
+		WHERE project_id = #{projectId}
+		AND member_id = #{contributorId}
 	</delete>
-	
-	
-	<update id="projectDel" parameterType="kr.co.cc.project.dto.ProjectDTO">
-	  UPDATE project
-	  SET del_chk = 1
-	  WHERE id = #{project_id}
+
+
+	<update id="projectDel"
+		parameterType="kr.co.cc.project.dto.ProjectDTO">
+		UPDATE project
+		SET del_chk = 1
+		WHERE id = #{project_id}
 	</update>
-	
-	<update id="projectRes" parameterType="kr.co.cc.project.dto.ProjectDTO">
-	  UPDATE project
-	  SET del_chk = 0
-	  WHERE id = #{project_id}
+
+	<update id="projectRes"
+		parameterType="kr.co.cc.project.dto.ProjectDTO">
+		UPDATE project
+		SET del_chk = 0
+		WHERE id = #{project_id}
 	</update>
-	
-	<select id="getAllComment" parameterType="string" resultType="hashmap">
+
+	<select id="getAllComment" parameterType="string"
+		resultType="hashmap">
 		SELECT c.id AS comment_id
-			, c.project_id 
-			, (SELECT m.name FROM member m WHERE m.id = c.member_id) AS name
-			, (SELECT a2.id FROM attachment a2 WHERE a2.identify_value = c.member_id AND a2.classification = '프로필사진') AS member_profile_attachment_id
-			, c.content 
-			, DATE_FORMAT(c.create_at, '%Y-%m-%d %T') AS create_at
-			, c.step 
-			, c.status 
-			, a.id AS comment_attachment_id
-			, a.ori_file_name AS comment_ori_file_name
-			FROM comment c 
-			LEFT JOIN attachment a ON a.identify_value = c.id AND a.classification = '프로젝트 첨부파일'
-			WHERE c.project_id = #{projectId}
+		, c.project_id
+		, (SELECT m.name FROM member m WHERE m.id = c.member_id) AS name
+		, (SELECT a2.id FROM attachment a2 WHERE a2.identify_value =
+		c.member_id AND a2.classification = '프로필사진') AS
+		member_profile_attachment_id
+		, c.content
+		, DATE_FORMAT(c.create_at, '%Y-%m-%d %T') AS create_at
+		, c.step
+		, c.status
+		, a.id AS comment_attachment_id
+		, a.ori_file_name AS comment_ori_file_name
+		FROM comment c
+		LEFT JOIN attachment a ON a.identify_value = c.id AND a.classification =
+		'프로젝트 첨부파일'
+		WHERE c.project_id = #{projectId}
 		ORDER BY create_at ASC
 	</select>
-	
+
 	<insert id="replyWrite">
-	  INSERT INTO comment_reply (coment_id, content, member_id, status)
-	  VALUES (#{id}, #{content}, #{loginId}, 1)
+		INSERT INTO comment_reply (coment_id, content, member_id, status)
+		VALUES (#{id}, #{content}, #{loginId}, 1)
 	</insert>
-	
-	<select id="replyLoad" resultType="kr.co.cc.project.dto.ProjectDTO" parameterType="String">
-		SELECT cr.*,(select m.name from member m where m.id = cr.member_id ) as name
+
+	<select id="replyLoad"
+		resultType="kr.co.cc.project.dto.ProjectDTO" parameterType="String">
+		SELECT
+		cr.*,(select m.name from member m where m.id = cr.member_id ) as name
 		FROM comment_reply cr WHERE coment_id=#{comment_id}
-	</select>	
-	
+	</select>
+
 	<delete id="replyDel" parameterType="java.lang.String">
-	  DELETE FROM comment_reply
-	  WHERE id = #{param1}
-	</delete>	
-	
-	<select id="contributorChk" parameterType="string" resultType="int">
-		SELECT COUNT(c.member_id) FROM contributor c 
-			WHERE c.project_id = #{projectId} AND c.member_id = #{loginId}
-	</select>					
-	
-	<select id="createMemberChk" parameterType="string" resultType="int">
-		SELECT COUNT(p.member_id) FROM project p 
-			WHERE p.member_id = #{loginId} AND p.id = #{projectId}
-	</select>		
-			
+		DELETE FROM comment_reply
+		WHERE id = #{param1}
+	</delete>
+
+	<select id="contributorChk" parameterType="string"
+		resultType="int">
+		SELECT COUNT(c.member_id) FROM contributor c
+		WHERE c.project_id = #{projectId} AND c.member_id = #{loginId}
+	</select>
+
+	<select id="createMemberChk" parameterType="string"
+		resultType="int">
+		SELECT COUNT(p.member_id) FROM project p
+		WHERE p.member_id = #{loginId} AND p.id = #{projectId}
+	</select>
+
 	<select id="getRange" parameterType="string" resultType="string">
-		SELECT public_range FROM project p 
-			WHERE id = #{id}
-	</select>				
-	
-	<select id="getUserIdPhoto" parameterType="string" resultType="hashmap">
+		SELECT
+		public_range FROM project p
+		WHERE id = #{id}
+	</select>
+
+	<select id="getUserIdPhoto" parameterType="string"
+		resultType="hashmap">
 		SELECT b.member_id
-			, (SELECT m.name FROM member m WHERE b.member_id = m.id) AS name
-			, d.id AS profile_name
-		FROM (SELECT c.member_id FROM contributor c WHERE c.project_id = #{projectId}) AS b 
-			LEFT JOIN (SELECT a.identify_value, a.id FROM attachment a WHERE classification = '프로필사진') AS d 
+		, (SELECT m.name FROM member m WHERE b.member_id = m.id) AS name
+		, d.id AS profile_name
+		FROM (SELECT c.member_id FROM contributor c WHERE
+		c.project_id = #{projectId}) AS b
+		LEFT JOIN (SELECT a.identify_value, a.id FROM attachment a WHERE
+		classification = '프로필사진') AS d
 		ON b.member_id = d.identify_value
-	</select>					
+	</select>
 </mapper>
 
 
