@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import kr.co.cc.chat.dto.MemberDTO;
 import kr.co.cc.project.dto.AttachmentDTO;
 import kr.co.cc.project.dto.ProjectDTO;
 
@@ -57,6 +58,12 @@ public interface ProjectDAO {
 	int contributorChk(String loginId, String projectId);
 
 	int createMemberChk(String loginId, String projectId);
+
+	ArrayList<ProjectDTO> memberListAll();
+
+	String getRange(String id);
+
+	int projectRes(String id);
 
 
 

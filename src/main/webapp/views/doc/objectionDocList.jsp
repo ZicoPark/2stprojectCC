@@ -5,7 +5,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Creator Company</title>
+<title>반려문서함</title>
+<link rel="icon" href="/img/CC_favicon.png">
 <script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
 
 <!-- Google Font: Source Sans Pro -->
@@ -26,24 +27,32 @@ th{
 	<div class="wrapper">
 		<div class="content-wrapper">
 			<section class="content-header">
-				<h1>반려문서함 목록</h1>
+				<h1>반려문서함</h1>
 			</section>
 			<!-- Main content -->
 			<section class="content">
 				<table class="table table-bordered">
+					<colgroup>
+						<col width="5%"/>
+						<col width="50%"/>
+						<col width="10%"/>
+						<col width="10%"/>
+						<col width="15%"/>
+						<col width="10%"/>
+					</colgroup>
 					<thead>
 						<tr>
 							<th>순번</th>
 							<th>제목</th>
 							<th>결재단계</th>
 							<th>처리자</th>
-							<th>반려시각</th>
+							<th colspan="2">반려시각</th>
 						</tr>
 					</thead>
 					<tbody>
 						<c:if test="${list.size() == 0 }">
 							<tr>
-								<td colspan="5">반려처리된 문서가 없습니다.</td>
+								<td colspan="6" style="text-align: center;">반려처리된 문서가 없습니다.</td>
 							</tr>
 						</c:if>
 						<c:if test="${list.size() > 0 }">
@@ -59,6 +68,12 @@ th{
 									</c:if>
 									<td style="text-align: center;">${i.objection_member_name }</td>
 									<td style="text-align: center;"><span class="badge bg-gray">${i.objection_at }</span></td>
+									<td style="text-align: center;">
+										<a class="btn btn-danger btn-sm" href="objectionDocBlind.do?id=${i.id }">
+                              				<i class="fas fa-trash"></i>
+                              				폐기
+                          				</a>
+                          			</td>
 								</tr>
 							</c:forEach>
 						</c:if>

@@ -21,6 +21,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.multipart.MultipartFile;
 
 import kr.co.cc.project.dto.AttachmentDTO;
+import kr.co.cc.chat.dto.MemberDTO;
 import kr.co.cc.project.dao.ProjectDAO;
 import kr.co.cc.project.dto.ProjectDTO;
 
@@ -68,6 +69,7 @@ public class ProjectService {
 		dto.setStep(params.get("step"));
 		dto.setStatus(params.get("status"));
 		dto.setProject_id(params.get("project_id"));
+		dto.setPublic_range(params.get("public_range"));
 		int row = dao.commentWrite(dto);
 		
 		String idx = dto.getId();
@@ -91,7 +93,7 @@ public class ProjectService {
 				
 			}
 		}
-		page = "redirect:/projectDetail.go?id="+params.get("project_id");
+		page = "redirect:/projectDetail.go?id="+params.get("project_id")+"&public_range="+params.get("public_range");
 		
 
 		return page;
@@ -152,6 +154,9 @@ public class ProjectService {
 
 		return dao.projectDel(id);
 	}
+	public int projectRes(String id) {
+		return dao.projectRes(id);
+	}
 
 
 	public String projectDetailFile(String id) {
@@ -202,8 +207,14 @@ public class ProjectService {
 	}
 
 
+	public ArrayList<ProjectDTO> memberListAll() {
+		return dao.memberListAll();
+	}
 
 
+	public String getRange(String id) {
+		return dao.getRange(id);
+	}
 
 
 

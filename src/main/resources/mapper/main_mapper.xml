@@ -5,7 +5,7 @@
 <mapper namespace="kr.co.cc.main.dao.MainDAO">
 
 	<select id="mWorkHistory" resultType="kr.co.cc.main.dto.MainDTO">
-		SELECT id, member_id, name, date, 
+		SELECT id, member_id, name, date,
 		CASE WHEN date = CURDATE() THEN time_go ELSE '출근 전입니다.' END AS time_go,
 		CASE WHEN date = CURDATE() THEN time_go ELSE '퇴근 꼭 찍어주세요!' END AS time_end
 		FROM working_hour WHERE member_id=#{id}
@@ -13,11 +13,25 @@
 	</select>
 
 	<select id="totalCountMs" resultType="int">
-		select count (m.id) from message m where m.to_id = #{id} and read_chk = 0
+		select count (m.id) from message m where m.to_id = #{id} and read_chk = 0 and del_chk = 0
 	</select>
 
-	<select id="totalCountDoc" resultType="int">
-		select count (id) from doc where member_id = #{id} and status = 1
+	<select id="totalRequestDocWait" resultType="int">
+		SELECT COUNT(d.id)
+		FROM doc d INNER JOIN 
+			(SELECT e.doc_id FROM (SELECT c.* FROM (SELECT ds2.* FROM doc_status ds2 INNER JOIN 
+				(SELECT d.id FROM doc d 
+					INNER JOIN doc_status ds ON d.id = ds.doc_id 
+				WHERE ds.member_id = #{loginId} AND d.status = 1 AND ds.approval = 0) AS a 
+				ON ds2.doc_id = a.id AND ds2.member_id <![CDATA[<>]]> #{loginId}) AS c, 
+		(SELECT ds2.* FROM doc_status ds2 INNER JOIN 
+			(SELECT d.id FROM doc d 
+				INNER JOIN doc_status ds ON d.id = ds.doc_id 
+				WHERE ds.member_id = #{loginId} AND d.status = 1 AND ds.approval = 0) AS b 
+			ON ds2.doc_id = b.id AND ds2.member_id = #{loginId}) AS d
+		WHERE c.order_rank <![CDATA[<=]]> d.order_rank GROUP BY c.doc_id, c.member_id) AS e 
+		WHERE NOT(e.order_rank = 0 AND e.approval = 0)) AS f ON d.id = f.doc_id 
+		LEFT JOIN doc_status ds ON d.id = ds.doc_id AND ds.member_id = #{loginId}
 	</select>
 
 	<select id="totalCountPr" resultType="int">
@@ -35,6 +49,34 @@
 	   SET status = CASE WHEN status = 0 THEN 1 ELSE 0 END
 	   WHERE id = #{todoId}
 	</update>
+
+
+	<!-- 유튜브 링크 저장 -->
+	<insert 	
+	id="insertLink" 
+	parameterType="String"
+	useGeneratedKeys="false"
+	>
+    <selectKey keyProperty="id" resultType="java.lang.String" order="BEFORE">
+       SELECT UUID()
+    </selectKey>
+		INSERT INTO attachment (ori_file_name, id, classification, identify_value)	
+		values(#{youtubeId},#{newYoutubeId},'유튜브','유튜브')		
+	</insert>
+
+
+   
+   <delete id="deleteLink">
+      DELETE FROM attachment WHERE classification = '유튜브'
+   </delete>
+
+
+	<select id="youtubeURL" resultType="String">
+		SELECT ori_file_name FROM attachment WHERE classification = '유튜브'
+	</select>
+
+
+
 
 
 </mapper>

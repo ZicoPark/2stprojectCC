@@ -67,6 +67,12 @@ public interface MessageDAO {
 
 	ArrayList<MessageDTO> receiveListSearch(HashMap<String, Object> params);
 
+	MessageDTO msSenddetail(String id);
+
+	void readMessage(String id, String loginId);
+
+
+
 
 
 }

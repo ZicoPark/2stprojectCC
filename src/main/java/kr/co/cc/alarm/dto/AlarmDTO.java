@@ -1,6 +1,7 @@
 package kr.co.cc.alarm.dto;
 
 import java.sql.Date;
+import java.sql.Timestamp;
 
 public class AlarmDTO {
 	private String id;
@@ -9,7 +10,46 @@ public class AlarmDTO {
 	private String type;
 	private boolean status;
 	private String identify_value;
-	private Date create_at;
+	private Timestamp create_at;
+	private String name;
+	private String user_id;
+	private String subject;
+	private String title;
+	private String doc_subject;
+	
+	
+	
+	
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	public String getUser_id() {
+		return user_id;
+	}
+	public void setUser_id(String user_id) {
+		this.user_id = user_id;
+	}
+	public String getSubject() {
+		return subject;
+	}
+	public void setSubject(String subject) {
+		this.subject = subject;
+	}
+	public String getTitle() {
+		return title;
+	}
+	public void setTitle(String title) {
+		this.title = title;
+	}
+	public String getDoc_subject() {
+		return doc_subject;
+	}
+	public void setDoc_subject(String doc_subject) {
+		this.doc_subject = doc_subject;
+	}
 	public String getId() {
 		return id;
 	}
@@ -46,12 +86,13 @@ public class AlarmDTO {
 	public void setIdentify_value(String identify_value) {
 		this.identify_value = identify_value;
 	}
-	public Date getCreate_at() {
+	public Timestamp getCreate_at() {
 		return create_at;
 	}
-	public void setCreate_at(Date create_at) {
+	public void setCreate_at(Timestamp create_at) {
 		this.create_at = create_at;
 	}
+	
 	
 	
 }

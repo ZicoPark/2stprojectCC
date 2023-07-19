@@ -7,7 +7,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>CreatorCompany</title>
-
+<link rel="icon" href="/img/CC_favicon.png">
 <!-- Google Font: Source Sans Pro -->
 <link rel="stylesheet"
 	href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
@@ -45,17 +45,13 @@
 
 				<!-- Default box -->
 				<div class="card">
-					<div class="card-header">
+					<div class="card-header" style=" background-color: #20c997!important;">
 						<h3 class="card-title">진행중인 프로젝트</h3>
 
 						<div class="card-tools">
 							<button type="button" class="btn btn-tool"
 								data-card-widget="collapse" title="Collapse">
 								<i class="fas fa-minus"></i>
-							</button>
-							<button type="button" class="btn btn-tool"
-								data-card-widget="remove" title="Remove">
-								<i class="fas fa-times"></i>
 							</button>
 
 							<a href="project-add.go" class="btn btn-sm btn-primary">추가</a>
@@ -103,7 +99,7 @@
 										<td class="project-state"><span
 											class="badge badge-success">${project.step}</span></td>
 										<td class="project-actions text-right">
-										<a href="projectDetail.go?id=${project.id}&public_range=${project.public_range}" class="btn btn-primary btn-sm view-btn"> 
+										<a href="projectDetail.go?id=${project.id}&public_range=${project.public_range}&del_chk=${project.del_chk}" class="btn btn-primary btn-sm view-btn"> 
 											<i class="fas fa-folder"> </i> 상세보기
 										</a>                            
 										<c:if test="${sessionScope.id eq project.member_id}">
@@ -125,17 +121,13 @@
 				
 				
 				<div class="card">
-					<div class="card-header">
+					<div class="card-header" style=" background-color: #20c997!important;">
 						<h3 class="card-title">철회된 프로젝트</h3>
 
 						<div class="card-tools">
 							<button type="button" class="btn btn-tool"
 								data-card-widget="collapse" title="Collapse">
 								<i class="fas fa-minus"></i>
-							</button>
-							<button type="button" class="btn btn-tool"
-								data-card-widget="remove" title="Remove">
-								<i class="fas fa-times"></i>
 							</button>
 
 						</div>
@@ -181,7 +173,7 @@
 										<td class="project-state"><span
 											class="badge badge-success">${project.step}</span></td>
 										<td class="project-actions text-right">
-										<a href="projectDetail.go?id=${project.id}&public_range=${project.public_range}" class="btn btn-primary btn-sm view-btn">
+										<a href="projectDetail.go?id=${project.id}&public_range=${project.public_range}&del_chk=${project.del_chk}" class="btn btn-primary btn-sm view-btn">
 											<i class="fas fa-folder"> </i> 상세보기
 										</a>                            
 										<c:if test="${sessionScope.id eq project.member_id}">
@@ -229,11 +221,16 @@
 	<script src="../../dist/js/demo.js"></script>
 
 	<script>
-	var msg = "${msg}";
+	var msg = "${msgU}";
 
 	if (msg != "") {
 		alert(msg);
 	}
+	console.log(sessionStorage.getItem('msgU'));
+	sessionStorage.removeItem('msgU');		
+
+
+	
 	</script>
 
 </body>

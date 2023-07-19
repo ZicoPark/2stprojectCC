@@ -9,7 +9,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>AdminLTE 3 | Mailbox</title>
-
+<link rel="icon" href="/img/CC_favicon.png">
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
   <!-- Font Awesome -->
@@ -262,7 +262,7 @@ function listPrint(list){
 			    content += '<tr>';
 			    content += '<td class="checkbox"><input type="checkbox" name="Rowcheck" value="' + item.id + '"></td>';
 			    content += '<td class="' + (item.read_chk == 0 ? 'read' : 'Noread') + '">' + item.to_name + '</td>';
-			    content += '<td><a href="msRcDetail.do?id=' + item.id + '"';
+			    content += '<td><a href="msRcDetail.do?type=list&id=' + item.id + '"';
 			    content += ' class="' + (item.read_chk == 0 ? 'read' : 'Noread') + '">';
 			    content += item.title + '</a></td>';
 
