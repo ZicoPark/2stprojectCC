@@ -387,7 +387,7 @@ function listPrint(list){
 	      content += '<td>' + item.name + ' ( ' + item.user_id + ' ) ' + '</td>';
 	      content +='<td id="userstate">'+ item.create_at +'</td>';
 	      
-	      content +='<td id="hit"> ' + item.hit + '</td>';
+	      content +='<td> ' + item.hit + '</td>';
 	      content +='</tr>';
 	      
 	   });
