@@ -269,10 +269,19 @@ public class MemberController {
 	    return page;
 	}
 	
+	// 부서 리스트 이동
+	@RequestMapping(value="/departmentlist.go")
+    public String departmentlistgo() {
+		
+
+        return "departmentlist";  
+    }
+	
 	
 	// 부서 리스트
-	@RequestMapping(value="/departmentlist.go")
-	public ModelAndView departmentlist(@RequestParam HashMap<String, String> params) {
+	@RequestMapping(value="/departmentlist.ajax", method = RequestMethod.POST)
+	@ResponseBody
+	public HashMap<String, Object> departmentlist(HttpSession session, @RequestParam HashMap<String, Object> params) {
 		
 		logger.info("departmentlist params : " + params);
 		return memberservice.departmentlist(params);

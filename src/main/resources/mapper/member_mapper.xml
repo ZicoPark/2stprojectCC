@@ -133,46 +133,37 @@
 		 WHERE m.id = #{id}
 	</select>
 	
+	<select id="totalCount" parameterType="String" resultType ="int">
+		SELECT COUNT (id) FROM member WHERE status = 1
+	</select>
+
+	<select id="totalCountSearch" parameterType="String" resultType ="int">
+		SELECT COUNT (id) FROM member
+		WHERE CONCAT(user_id, name, email) LIKE CONCAT('%', #{search}, '%') AND status = 1
+	</select>
+	
+	<select id="departmentlist" resultType="kr.co.cc.member.dto.MemberDTO">
+		SELECT user_id, m.name, email, m.dept_id, m.job_level_id
+		FROM member m
+		JOIN dept d ON d.id = m.dept_id
+		JOIN job_level j ON j.id = m.job_level_id
+		WHERE m.status = 1
+		LIMIT 10 OFFSET #{offset}
+	</select>	
+
+	<select id="departmentlistSearch" parameterType="hashmap" resultType="kr.co.cc.member.dto.MemberDTO">
+	    SELECT user_id, m.name, email, m.dept_id, m.job_level_id
+		FROM member m
+		JOIN dept d ON d.id = m.dept_id
+		JOIN job_level j ON j.id = m.job_level_id
+	    WHERE CONCAT(user_id, m.name, email) LIKE CONCAT('%', #{search}, '%') 
+	    AND m.status = 1
+	    LIMIT 10 OFFSET #{offset}
+	</select>
+
 	
 	
-	
-	
-<select id="departmentlist" resultType="kr.co.cc.member.dto.MemberDTO" parameterType="hashmap">
-  SELECT * FROM member
-  <where>
-    <if test="keyword != null and !keyword.equals('')">
-      <choose>
-        <when test="opt == 'user_id'">
-          AND user_id LIKE CONCAT('%', #{keyword}, '%')
-        </when>
-        <when test="opt == 'name'">
-          AND name LIKE CONCAT('%', #{keyword}, '%')
-        </when>
-        <when test="opt == 'email'">
-          AND email LIKE CONCAT('%', #{keyword}, '%')
-        </when>
-        <when test="opt == 'dept_id'">
-          AND dept_id IN (
-            '8e5f3282-1703-11ee-973f-0242ac110002',
-            '8ee07433-1703-11ee-973f-0242ac110002',
-            '8f963853-1703-11ee-973f-0242ac110002',
-            '9022f64a-1703-11ee-973f-0242ac110002'
-          ) 
-          AND dept_id = #{keyword}
-        </when>
-        <when test="opt == 'job_level_id'">
-          AND job_level_id IN (
-            '8ade9167-1703-11ee-973f-0242ac110002',
-            '8bbf948d-1703-11ee-973f-0242ac110002',
-            '8c4e7542-1703-11ee-973f-0242ac110002',
-            '8cdd8503-1703-11ee-973f-0242ac110002'
-          ) 
-          AND job_level_id = #{keyword}
-        </when>
-      </choose>
-    </if>
-  </where>
-</select>
+
 	
 	
 	
