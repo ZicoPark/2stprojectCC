@@ -34,12 +34,6 @@ public class NoticeBoardController {
    
    @Value("${spring.servlet.multipart.location}") private String root;
    
-
-//   @RequestMapping(value="/noticeBoardList.go")
-//   public String noticeBoardList(){
-//      return "noticeBoardList";
-//   
-//   }
    
    @RequestMapping(value="/noticeBoard.go")
    public ModelAndView noticeBoard(){
@@ -88,7 +82,11 @@ public class NoticeBoardController {
 		   service.readNotice(id, String.valueOf(session.getAttribute("id")));
 	   }
 	   
+	   String loginId = (String) session.getAttribute("id");
+	   NoticeBoardDTO loginid = service.logincheck(loginId);
+	   
       logger.info("nodetail : " + id);
+      
       
       NoticeBoardDTO detailno = service.nodetail(id, "detail");
       String page = "redirect:/noticeBoard.go";
@@ -103,8 +101,10 @@ public class NoticeBoardController {
          page = "noticeBoardDetail";
          model.addAttribute("detailno", detailno);
          model.addAttribute("detailFile", detailfile);
+         model.addAttribute("loginId", loginId);
+         model.addAttribute("loginid", loginid);
 
-         String loginId = (String) session.getAttribute("id");
+//         String loginId = (String) session.getAttribute("id");
          logger.info("read: " + loginId);
 
          // 중복 방지용 변수 초기화
@@ -116,7 +116,7 @@ public class NoticeBoardController {
             service.getinfo(loginId, id);
          }
          
-         // 읽은 사람 목록을 가져옵니다.
+         // 읽은 사람 목록 가져오기
          ArrayList<NoticeBoardDTO> reader = service.rlist(id);
          logger.info("reader: " + reader);
          model.addAttribute("reader", reader);

@@ -8,6 +8,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <style>
+	.table-bordered{
+  		overflow: auto;
+	}
     .row {
         float: right;
     }
