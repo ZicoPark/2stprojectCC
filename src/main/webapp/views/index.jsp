@@ -179,12 +179,6 @@
     <div class="sidebar bg-teal">
       <!-- Sidebar user (optional) -->
       <div class="user-panel mt-3 pb-3 mb-3 d-flex">
-        <div class="image">
-          <img src="../../dist/img/CC.png" class="img-circle elevation-2">
-        </div>
-        <div class="info" style="text-align: center;">
-		  <a href="/userinfo.go" class="d-block">마이페이지</a>
-		</div>
       </div>
 
       <!-- SidebarSearch Form -->
@@ -205,7 +199,35 @@
           <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
                
-               
+        <li class="nav-item">
+            <a href="#" class="nav-link">
+              <img src="../../dist/img/부서리스트.png" class="nav-icon fas fa-tachometer-alt"/>
+              <p>
+                마이 페이지
+                <i class="right fas fa-angle-left"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+            	<li class="nav-item">
+                <a href="/userinfo.go" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>개인 정보</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="/signprofile.go" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>서명 이미지 등록</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="/departmentlist.go" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>부서리스트</p>
+                </a>
+              </li>
+            </ul>
+          </li>     
                
           <li class="nav-item">
             <a href="#" class="nav-link">
@@ -369,30 +391,7 @@
             </ul>
           </li>
           
-                    <li class="nav-item">
-            <a href="#" class="nav-link">
-              <img src="../../dist/img/부서리스트.png" class="nav-icon fas fa-tachometer-alt"/>
-              <p>
-                인사 관리
-                <i class="right fas fa-angle-left"></i>
-              </p>
-            </a>
-            <ul class="nav nav-treeview">
-              <li class="nav-item">
 
-                <a href="/signprofile.go" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>서명 이미지 등록</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="/departmentlist.go" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>부서리스트</p>
-                </a>
-              </li>
-            </ul>
-          </li>
           
           
                     <li class="nav-item">
@@ -447,12 +446,6 @@
               </p>
             </a>
             <ul class="nav nav-treeview">
-              <li class="nav-item">
-                <a href="/" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>자료실</p>
-                </a>
-              </li>
               <li class="nav-item">
                 <a href="/freeBoardList" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
