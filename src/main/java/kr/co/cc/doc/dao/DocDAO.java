@@ -49,7 +49,7 @@ public interface DocDAO {
 	
 	DocFormDTO getDocForm(String doc_form_id);
 	
-	int attachmentDelete(String attachmentId);
+	int docAttachmentDelete(String attachmentId);
 	
 	int docUpdate(HashMap<String, String> params);
 
@@ -74,6 +74,8 @@ public interface DocDAO {
 	ArrayList<HashMap<String, String>> getObjectionDocList(String loginId);
 
 	HashMap<String, String> objectionDocDetail(String docId);
+	
+	int objectionDocBlind(String docId, String loginId);
 
 	ArrayList<HashMap<String, String>> getDocStatusList(String docId);
 	
@@ -94,6 +96,8 @@ public interface DocDAO {
 	HashMap<String, String> registeredDocDetail(String docId);
 
 	void changeNoticeStatus(String loginId, String type, String docId);
+
+	
 
 	
 

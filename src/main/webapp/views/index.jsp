@@ -615,19 +615,26 @@ function alarmList() {
 			console.log(data);
 			var content = '';
 			if (data.length == 0) {
-				content += '<tr><th colspan="5" style="text-align:center">새 알림이 없습니다.</th></tr>';
+				content += '<tr><th style="text-align:center">새 알림이 없습니다.</th></tr>';
 			} else {
 				data.forEach(function(item) {
-					content += '<a href="#" class="dropdown-item">' +
-						(item.type === '쪽지'
-							? '<a href="msRcDetail.do?type=alarm&id=' + item.identify_value + '">쪽지<span>' + item.title + '</span></a>'
-							: (item.type === '공지사항'
-								? '<a href="noticeBoardDetail.do?type=alarm&id=' + item.identify_value + '" class="dropdown-item">공지사항<span>' + item.subject + '</span></a>'
-								: '<a href="requestDocWaitDetail.go?type=alarm&id=' + item.identify_value + '">전자결재<span>' + item.doc_subject + '</span></a>'
-							)
-						) +
-						'<span class="float-right text-muted text-sm">' + item.name + '</span>' +
-						'</a>';
+					var link = '';
+					if (item.type === '쪽지') {
+						link = 'msRcDetail.do?type=alarm&id=' + item.identify_value;
+					} else if (item.type === '공지사항') {
+						link = 'noticeBoardDetail.do?type=alarm&id=' + item.identify_value;
+					} else {
+						link = 'requestDocWaitDetail.go?type=alarm&id=' + item.identify_value;
+					}
+					var title = (item.title || item.subject || item.doc_subject).replace(/\s/g, ''); // 공백 제거 후
+					title = title.length > 5 ? title.substring(0, 5) + '...' : title; // 최대 5자 제한
+					content += '<a href="' + link + '" class="dropdown-item">' +
+				    '<span class="type" style="font-size: small; color: ' +
+				    (item.type === '쪽지' ? 'green' : (item.type === '공지사항' ? 'red' : 'blue')) + '">' +
+				    item.type + '</span>' +
+				    '<span style="margin-left: 30px; font-size: 80%;">' + title + '</span>' +  
+				    '<span class="float-right text-muted text-sm name" style="margin-left: 5px;">' + item.name + '</span>' +
+				    '</a>';
 				});
 			}
 

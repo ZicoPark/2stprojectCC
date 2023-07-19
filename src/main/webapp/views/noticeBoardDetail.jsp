@@ -6,7 +6,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>AdminLTE 3 | Projects</title>
-
+<link rel="icon" href="/img/CC_favicon.png">
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
   <!-- Font Awesome -->
@@ -99,13 +99,13 @@
                  <input type="button" class="btn btn-block btn-outline-success btn-lg"  onclick="location.href='./noticeBoard.go'" value="돌아가기" />
              </th>            
             </tr>
-<%--             <c:if test="${loginid.admin_chk eq 1 or loginId eq detailno.member_id}"> --%>
+            <c:if test="${loginid.admin_chk eq 1}">
 	            <tr>
 		             <th colspan="2">    
 		                 <input type="button" class="btn btn-block btn-outline-success btn-lg"  onclick="location.href='./noticeBoardDel.do?id=${detailno.id}'" value="삭제" />
 		             </th>            
 	            </tr>                   
-<%--             </c:if> --%>
+             </c:if>
                
        </table>
     </section>

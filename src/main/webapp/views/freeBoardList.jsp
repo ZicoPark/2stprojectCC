@@ -8,7 +8,7 @@
 
 
   <title>AdminLTE 3 | Projects</title>
-
+<link rel="icon" href="/img/CC_favicon.png">
  <!-- CSS only -->
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
 <!-- Tempusdominus Bootstrap 4 -->
@@ -387,7 +387,7 @@ function listPrint(list){
 	      content += '<td>' + item.name + ' ( ' + item.user_id + ' ) ' + '</td>';
 	      content +='<td id="userstate">'+ item.create_at +'</td>';
 	      
-	      content +='<td id="hit"> ' + item.hit + '</td>';
+	      content +='<td> ' + item.hit + '</td>';
 	      content +='</tr>';
 	      
 	   });

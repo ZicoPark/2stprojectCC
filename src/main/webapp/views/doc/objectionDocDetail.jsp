@@ -44,6 +44,11 @@ th{
 							재작성
 							</i>
 						</button>
+						<button type="button" onclick="location.href='/objectionDocBlind.do?id=${doc.id }'" class="btn btn-danger float-right" style="margin-left: 5px;">
+							<i class="fas fa-trash">
+							폐기
+							</i>
+                        </button>
 						<button type="button" onclick="location.href='/objectionDocList.go'" class="btn btn-secondary float-right">
 							<i class="fas fa-reply">
 							리스트
@@ -182,7 +187,7 @@ th{
 									<tr>
 										<td style="text-align: center;">${varStatus.count }</td>
 										<td colspan="2">
-											<a href="attachmentDownload.do?oriFileName=${i.ori_file_name }&attachmentId=${i.id }">${i.ori_file_name }</a>
+											<a href="docAttachmentDownload.do?oriFileName=${i.ori_file_name }&attachmentId=${i.id }">${i.ori_file_name }</a>
 										</td>
 									</tr>
 									</c:forEach>

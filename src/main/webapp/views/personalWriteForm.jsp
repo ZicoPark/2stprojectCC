@@ -6,7 +6,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Creator Company</title>
-
+<link rel="icon" href="/img/CC_favicon.png">
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
   <!-- Font Awesome -->
@@ -44,17 +44,17 @@
               
               <div class="form-group">
 				 <label for="inputName">업무 사항</label>
-                <input type="text" class="form-control" name = "title">
+                <input type="text" class="form-control" name = "title" id="title">
               </div>
               
               <div class="form-group">
                 <label for="inputPriod">시작일</label>
-                <input type="date" class="form-control" name="start_at" placeholder="시작일">
+                <input type="date" class="form-control" name="start_at" id="start_at" placeholder="시작일">
               </div>
 
               <div class="form-group">
                 <label for="inputDeadLinePriod">마감일</label>
-                <input type="date" class="form-control" name="end_at" placeholder="마감일">
+                <input type="date" class="form-control" name="end_at" id="end_at" placeholder="마감일">
               </div>
               
             </div>
@@ -63,7 +63,7 @@
           <!-- /.card -->
 
           <a href="/personal.go" class="btn btn-secondary">돌아가기</a>
-          <input type="submit" value="작성하기" class="btn btn-success float-right">
+          <input type="submit" id = "submit" onclick="pWrite()" value="작성하기" class="btn btn-success float-right">
 
 </section>
     </form>
@@ -80,6 +80,26 @@
 <script src="../../dist/js/demo.js"></script>
 </body>
 <script>
+
+var overlayChk = true;
+
+function pWrite(){
+   if(overlayChk == true){
+      if($('#title').val()==''){
+         alert('업무 사항을 입력해주세요!');
+         $('#title').focus();
+      }else if($('#start_at').val()==''){
+         alert('시작일을 입력해주세요!');
+         $('#start_at').focus();
+      }else if($('#end_at').val()==''){
+          alert('마감일을 입력해주세요!');
+          $('#end_at').focus();
+       }else{
+         $('submit').attr('type','submit');
+      }
+   }
+}
+
 </script>
 </html>
    

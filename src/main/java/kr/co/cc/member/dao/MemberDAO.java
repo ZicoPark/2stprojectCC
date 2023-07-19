@@ -26,7 +26,7 @@ public interface MemberDAO {
 
 	String loginid(String user_id);
 
-	ArrayList<MemberDTO> departmentlist(HashMap<String, String> params);
+	
 	
 	MemberDTO userInfo(String id);
 
@@ -53,6 +53,17 @@ public interface MemberDAO {
 	int signprofileUpdate(String id);
 
 	MemberDTO signInfo(String id);
+	
+
+	int totalCount();
+
+	int totalCountSearch(String search);
+
+	ArrayList<MemberDTO> departmentlist(int offset);
+
+	ArrayList<MemberDTO> departmentlistSearch(HashMap<String, Object> params);
+	
+	
 
 
 

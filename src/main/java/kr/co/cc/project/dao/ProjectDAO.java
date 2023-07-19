@@ -37,8 +37,6 @@ public interface ProjectDAO {
 
 	void clearContributors(int project_id);
 
-	List<String> getUserIdsByProjectId(String id);
-
 	String getUserId(String memberId);
 
 	int projectDel(String id);
@@ -62,6 +60,10 @@ public interface ProjectDAO {
 	ArrayList<ProjectDTO> memberListAll();
 
 	String getRange(String id);
+
+	int projectRes(String id);
+
+	ArrayList<HashMap<String, String>> getUserIdPhoto(String projectId);
 
 
 
