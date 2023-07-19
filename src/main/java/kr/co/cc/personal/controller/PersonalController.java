@@ -56,8 +56,8 @@ public class PersonalController {
   	public String pwrite(HttpSession session, Model model, @RequestParam HashMap<String, String> params) { 
   		
   		logger.info("개인 업무 추가");
-	    String msg = "개인 업무 등록";
-	    model.addAttribute("msg", msg);
+//	    String msg = "개인 업무 등록";
+//	    model.addAttribute("msg", msg);
 
 	    String id = (String) session.getAttribute("id");
 	    logger.info("loginId"+id);

@@ -632,7 +632,7 @@ function alarmList() {
 				    '<span class="type" style="font-size: small; color: ' +
 				    (item.type === '쪽지' ? 'green' : (item.type === '공지사항' ? 'red' : 'blue')) + '">' +
 				    item.type + '</span>' +
-				    '<span style="margin-left: 30px;">' + title + '</span>' +  
+				    '<span style="margin-left: 30px; font-size: 80%;">' + title + '</span>' +  
 				    '<span class="float-right text-muted text-sm name" style="margin-left: 5px;">' + item.name + '</span>' +
 				    '</a>';
 				});
