@@ -32,7 +32,7 @@ public class WorkController {
 	String time;
 	String date;
 	
-	// 근태 관리 workHistoryList > 
+	// 근태 관리 workHistoryList > workAnnualApproval
 	@GetMapping(value="/workHistoryList.go")
 	public ModelAndView workHistoryList(HttpSession session) {
 		formattedDateTime();

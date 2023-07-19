@@ -48,9 +48,9 @@
     			</tr>    		
     		</thead>
     		<tbody id="historyBody">
-    			<c:if test="${dto eq null}">
+    			<c:if test="${dto eq null || dto.size() == 0}">
 					<tr>
-						<th colspan="4">근태 수정 요청 사항이 없습니다.</th>
+						<th colspan="8">근태 수정 요청 사항이 없습니다.</th>
 					</tr>
 				</c:if>   		
 	    		<c:forEach items="${dto}" var="dto">

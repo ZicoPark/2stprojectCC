@@ -52,9 +52,9 @@
     			</tr>    		
     		</thead>
     		<tbody>
-    			<c:if test="${workList eq null}">
+    			<c:if test="${workList == null || workList.size() == 0}">
 					<tr>
-						<th colspan="7">등록된 근태가 없습니다.</th>
+						<th colspan="6">등록된 근태가 없습니다.</th>
 					</tr>
 				</c:if>   		
 	    		<c:forEach items="${workList}" var="workList">
