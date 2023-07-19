@@ -68,10 +68,8 @@ public class FreeBoardController {
 			String loginId = (String) session.getAttribute("id");
 			FreeBoardDTO detailms = service.freedetail(id, "detail");
 			FreeBoardDTO loginid = service.logincheck(loginId);
-			logger.info("상세보기 로그인한 아이디 관리자 여부 : "+loginid);
 			String page = "freeDetail";
 
-			
 			
 			
 			if(detailms != null) {

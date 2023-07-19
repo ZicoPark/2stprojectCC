@@ -63,7 +63,7 @@
           <!-- /.card -->
 
           <a href="/personal.go" class="btn btn-secondary">돌아가기</a>
-          <input type="submit" value="작성하기" class="btn btn-success float-right">
+          <input type="submit" onclick="return confirm('수정하시겠습니까?');" value="수정하기" class="btn btn-success float-right">
 
 </section>
     </form>

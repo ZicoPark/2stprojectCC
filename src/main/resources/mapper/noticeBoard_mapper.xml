@@ -70,12 +70,12 @@
    </update>   
    
 	
-   <select id="noDetailFile" resultType="kr.co.cc.doc.dto.AttachmentDTO">
+   <select id="noDetailFile" resultType="kr.co.cc.noticeBoard.dto.NoticeBoardDTO">
       SELECT * FROM attachment 
       WHERE identify_value = #{id}
    </select>
    
-   	<select id="logincheck" resultType="kr.co.cc.doc.dto.AttachmentDTO">
+   	<select id="logincheck" resultType="kr.co.cc.noticeBoard.dto.NoticeBoardDTO">
 		SELECT admin_chk FROM member WHERE id = #{param1}
 	</select>	
    
