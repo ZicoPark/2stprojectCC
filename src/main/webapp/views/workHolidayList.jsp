@@ -66,8 +66,8 @@
 	   				<th>승인 여부</th>
 	   			</tr>    		
 	   		</thead>
-	   		<tbody> 
-	   			<c:if test="${leave_recode_List eq null}">
+	   		<tbody>
+	   			<c:if test="${leave_recode_List == null || leave_recode_List.size() == 0}">
 					<tr>
 						<th colspan="8">등록된 연차/휴가 내역이 없습니다.</th>
 					</tr>

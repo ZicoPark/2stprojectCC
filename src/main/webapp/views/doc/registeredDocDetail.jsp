@@ -183,7 +183,7 @@ th{
 									<tr>
 										<td style="text-align: center;">${varStatus.count }</td>
 										<td colspan="2">
-											<a href="attachmentDownload.do?oriFileName=${i.ori_file_name }&attachmentId=${i.id }">${i.ori_file_name }</a>
+											<a href="docAttachmentDownload.do?oriFileName=${i.ori_file_name }&attachmentId=${i.id }">${i.ori_file_name }</a>
 										</td>
 									</tr>
 									</c:forEach>
