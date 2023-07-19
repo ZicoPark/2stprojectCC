@@ -49,7 +49,7 @@ public interface DocDAO {
 	
 	DocFormDTO getDocForm(String doc_form_id);
 	
-	int attachmentDelete(String attachmentId);
+	int docAttachmentDelete(String attachmentId);
 	
 	int docUpdate(HashMap<String, String> params);
 

@@ -78,16 +78,16 @@ public class DocController {
 		return service.tempDocDelete(id);
 	}
 	
-	@RequestMapping(value="/attachmentDownload.do")
-	public ResponseEntity<Resource> attachmentDownload(@RequestParam String oriFileName, @RequestParam String attachmentId) {
+	@RequestMapping(value="/docAttachmentDownload.do")
+	public ResponseEntity<Resource> docAttachmentDownload(@RequestParam String oriFileName, @RequestParam String attachmentId) {
 		
-		return service.attachmentDownload(oriFileName, attachmentId);
+		return service.docAttachmentDownload(oriFileName, attachmentId);
 	}
 	
-	@RequestMapping(value="/attachmentDelete.do")
-	public ModelAndView attachmentDelete(@RequestParam String docId, @RequestParam String attachmentId) {
+	@RequestMapping(value="/docAttachmentDelete.do")
+	public ModelAndView docAttachmentDelete(@RequestParam String docId, @RequestParam String attachmentId) {
 		
-		return service.attachmentDelete(docId, attachmentId);
+		return service.docAttachmentDelete(docId, attachmentId);
 	}
 	
 	@RequestMapping(value="/docUpdate.do")

@@ -98,7 +98,7 @@
 		SELECT * FROM doc_form WHERE id = #{param1}
 	</select>
 
-	<delete id="attachmentDelete">
+	<delete id="docAttachmentDelete">
 		DELETE FROM attachment WHERE id = #{attachmentId}
 	</delete>
 
