@@ -91,7 +91,26 @@ public class ProjectController {
       return service.memberListAll();
    }
    
-   
+   @RequestMapping(value = "projectDetail.go")
+   public String projectList(HttpSession session, Model model, @RequestParam String id, @RequestParam int public_range, @RequestParam int del_chk, RedirectAttributes rttr) {
+      
+      String page = "redirect:/projects.go";
+      
+      if(public_range == 0) {
+         if(session.getAttribute("id") != null) {
+            String loginId = (String) session.getAttribute("id");
+            page = service.getMemberList(loginId, id);
+               model.addAttribute("project_id",id);
+               model.addAttribute("del_chk",del_chk);
+               rttr.addFlashAttribute("msgU", "일부 공개 프로젝트입니다.");
+            }
+      }else {
+         page = "project-detail";
+         model.addAttribute("project_id",id);
+         model.addAttribute("del_chk",del_chk);
+      }
+      return page;
+   }
 
    
    
