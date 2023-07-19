@@ -11,7 +11,8 @@
 	<select id="getMemberList" resultType="hashmap">
 		SELECT m.*, jl.name AS job_level_name, d.name AS dept_name FROM member m 
 			LEFT JOIN job_level jl ON m.job_level_id = jl.id 
-		LEFT JOIN dept d ON m.dept_id = d.id
+			LEFT JOIN dept d ON m.dept_id = d.id 
+		ORDER BY d.name DESC, FIELD(job_level_name, '사장','이사','팀장','팀원'), m.name ASC
 	</select>
 
 	<select id="getDocFormList" resultType="kr.co.cc.doc.dto.DocFormDTO">
@@ -176,14 +177,22 @@
 			, (SELECT df.name FROM doc_form df WHERE df.id = d.doc_form_id) AS doc_form_name
 			, (SELECT dp.name FROM dept dp WHERE dp.id = d.dept_id) AS production_dept_name
 			, (SELECT a.name FROM approval a WHERE a.id = ds.approval_id) AS approval_kind_name
-			, ds.read_chk 
-			, DATE_FORMAT(d.create_at, '%Y-%m-%d %T') AS create_at
-			, MIN(ds.order_rank) AS order_rank
-			FROM doc d 
-		INNER JOIN doc_status ds ON d.id = ds.doc_id 
-			WHERE ds.member_id = #{loginId} AND d.status = 1 AND ds.approval = 0
-		GROUP BY d.id
-		ORDER BY d.create_at DESC
+			, ds.read_chk
+			, DATE_FORMAT(d.create_at, '%Y-%m-%d %T') AS create_at 
+		FROM doc d INNER JOIN 
+			(SELECT e.doc_id FROM (SELECT c.* FROM (SELECT ds2.* FROM doc_status ds2 INNER JOIN 
+				(SELECT d.id FROM doc d 
+					INNER JOIN doc_status ds ON d.id = ds.doc_id 
+				WHERE ds.member_id = #{loginId} AND d.status = 1 AND ds.approval = 0) AS a 
+				ON ds2.doc_id = a.id AND ds2.member_id <![CDATA[<>]]> #{loginId}) AS c, 
+		(SELECT ds2.* FROM doc_status ds2 INNER JOIN 
+			(SELECT d.id FROM doc d 
+				INNER JOIN doc_status ds ON d.id = ds.doc_id 
+				WHERE ds.member_id = #{loginId} AND d.status = 1 AND ds.approval = 0) AS b 
+			ON ds2.doc_id = b.id AND ds2.member_id = #{loginId}) AS d
+		WHERE c.order_rank <![CDATA[<=]]> d.order_rank GROUP BY c.doc_id, c.member_id) AS e 
+		WHERE NOT(e.order_rank = 0 AND e.approval = 0)) AS f ON d.id = f.doc_id 
+		LEFT JOIN doc_status ds ON d.id = ds.doc_id AND ds.member_id = #{loginId} ORDER BY d.create_at DESC
 	</select>
 	
 	<update id="readCheckUpdate" parameterType="string">
@@ -279,6 +288,10 @@
 		WHERE d.id = #{docId} AND d.status = 1
 	</select>
 	
+	<update id="objectionDocBlind" parameterType="string">
+		UPDATE doc d SET d.status = 0 WHERE d.id = #{docId} AND d.member_id = #{loginId}
+	</update>
+	
 	<select id="getDocStatusList" parameterType="string" resultType="hashmap">
 		SELECT ds.doc_id
 			, ds.job_name
@@ -328,7 +341,7 @@
 				(SELECT ds.* FROM doc_status ds INNER JOIN 
 					(SELECT MAX(ds2.order_rank) FROM doc_status ds2 GROUP BY ds2.doc_id) AS ds2 
 				WHERE ds.approval = 1 GROUP BY ds.doc_id) AS ds3 
-		ON d.id = ds3.doc_id WHERE d.status = 1 AND ds3.member_id = #{loginId}
+		ON d.id = ds3.doc_id WHERE d.status = 1 AND ds3.member_id = #{loginId} ORDER BY approval_at DESC
 	</select>
 	
 	<select id="completeDocDetail" parameterType="string" resultType="hashmap">
@@ -375,8 +388,7 @@
 	
 	<select id="getRegisteredDocList" resultType="hashmap">
 		SELECT d.id
-			, d.subject 
-			, d.content 
+			, d.subject
 			, d.member_id 
 			, (SELECT m.name FROM member m WHERE m.id = d.member_id) AS create_member_name
 			, (SELECT df.name FROM doc_form df WHERE df.id = d.doc_form_id) AS doc_form_name
@@ -426,4 +438,7 @@
 		WHERE d.id = #{docId} AND d.status = 1
 	</select>
 	
+	<update id="changeNoticeStatus" parameterType="string">
+		UPDATE notice n SET n.status = 1 WHERE n.receive_id = #{loginId} AND n.type = #{type} AND n.identify_value = #{docId}
+	</update>
 </mapper>

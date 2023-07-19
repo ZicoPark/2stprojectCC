@@ -20,8 +20,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import kr.co.cc.main.dto.MainDTO;
 import kr.co.cc.main.service.MainService;
@@ -102,7 +104,7 @@ public class MainController {
 	    
 	    // 대시보드
 	    int mstotal = mservice.totalCountMs(loginId);
-	    int doctotal = mservice.totalCountDoc(loginId);
+	    int totalRequestDocWait = mservice.totalRequestDocWait(loginId);
 	    int prtotal = mservice.totalCountPr(loginId);
 	    
 	    // 공지사항
@@ -111,11 +113,15 @@ public class MainController {
 	    // 개인업무관리
 	    ArrayList<PersonalDTO> PerList = perservice.list(loginId);
 	    
+	    // 유튜브
+	    String youtubeURL = mservice.youtubeURL();
 	    
+	    model.addAttribute("youtube", youtubeURL);
 	    model.addAttribute("timeList", timeList);
+	    logger.info("main : "+mainPage);
 	    model.addAttribute("main", mainPage);
 	    model.addAttribute("ms", mstotal);
-	    model.addAttribute("doc", doctotal);
+	    model.addAttribute("doc", totalRequestDocWait);
 	    model.addAttribute("pro", prtotal);
 	    model.addAttribute("Nolist", NoList);
 	    model.addAttribute("PerList", PerList);
@@ -176,6 +182,18 @@ public class MainController {
 	    logger.info("todoId: " + todoId);
 	    return mservice.updateTodo(todoId);
 	}
+	
+	
+	
+	// 유튜브 링크 변환
+	@RequestMapping(value = "/youtubeForm")
+	public String youtubeInsert(@RequestParam String youtubeLink, Model model) {
+	    logger.info("원본 youtubeLink: " + youtubeLink);
+	   
+
+	    
+	    return mservice.youtubeInsert(youtubeLink);
+	}	
 	
 	
 }

@@ -5,7 +5,7 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>비밀번호 찾기</title>
-	
+	<link rel="icon" href="/img/CC_favicon.png">
 	<script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
 	
 	<!-- Google Font: Source Sans Pro -->

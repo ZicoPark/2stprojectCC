@@ -5,7 +5,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Creator Company</title>
+<title>임시저장함</title>
+<link rel="icon" href="/img/CC_favicon.png">
 <script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
 
 <!-- Google Font: Source Sans Pro -->
@@ -26,7 +27,7 @@ th{
 	<div class="wrapper">
 		<div class="content-wrapper">
 			<section class="content-header">
-				<h1>임시저장함 목록</h1>
+				<h1>임시저장함</h1>
 			</section>
 			<!-- Main content -->
 			<section class="content">
@@ -49,7 +50,7 @@ th{
 					<tbody>
 						<c:if test="${list.size() == 0 }">
 							<tr>
-								<td colspan="3">임시저장 중인 문서가 없습니다.</td>
+								<td colspan="3" style="text-align: center;">임시저장 중인 문서가 없습니다.</td>
 							</tr>
 						</c:if>
 						<c:if test="${list.size() > 0 }">

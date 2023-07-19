@@ -5,7 +5,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Creator Company</title>
+<title>결재대기문서 상세보기</title>
+<link rel="icon" href="/img/CC_favicon.png">
 <link rel="stylesheet" href="/richtexteditor/rte_theme_default.css" />
 <script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
 
@@ -20,6 +21,9 @@ th{
 	text-align: center;
 	font-size: 12px;
 }
+textarea{
+	resize: none;
+}
 </style>
 </head>
 <body>
@@ -28,7 +32,7 @@ th{
 	<div class="wrapper">
 		<div class="content-wrapper">
 			<section class="content-header">
-				<h1>결재대기문서</h1>
+				<h1>결재대기문서 상세보기</h1>
 			</section>
 			<!-- Main content -->
 			<section class="content">
@@ -39,8 +43,10 @@ th{
 							<button type="button" class="btn btn-default" data-toggle="modal" data-target="#modal-xl">
 							결재정보 보기
 							</button>
-							<button type="button" class="btn btn-default" data-toggle="modal" data-target="#modal-default">
-							결재하기
+							<button type="button" class="btn btn-primary float-right" data-toggle="modal" data-target="#modal-default" style="margin-left: 5px;">
+								<i class="fas fa-solid fa-user-check">
+								결재하기
+								</i>
 							</button>
 							<button type="button" onclick="location.href='/requestDocWaitList.go'" class="btn btn-secondary float-right">
 								<i class="fas fa-reply">
@@ -165,26 +171,22 @@ th{
 								</div>
 								<div class="modal-body">
 									<div class="row">
-<!-- <div class="btn-group btn-group-toggle" data-toggle="buttons">
-<label class="btn btn-secondary active">
-<input type="radio" name="options" id="option_a1" autocomplete="off" checked> Active
-</label>
-<label class="btn btn-secondary">
-<input type="radio" name="options" id="option_a2" autocomplete="off"> Radio
-</label>
-<label class="btn btn-secondary">
-<input type="radio" name="options" id="option_a3" autocomplete="off"> Radio
-</label>
-</div> -->
-										<input type="radio" name="chooseApproval" value="1"/>결재&nbsp;&nbsp;
-										<input type="radio" name="chooseApproval" value="2"/>반려
+										<div class="btn-group btn-group-toggle" data-toggle="buttons">
+											<label class="btn btn-secondary active">
+												<input type="radio" name="chooseApproval" value="1" autocomplete="off" checked> 결재
+											</label>
+											<label class="btn btn-secondary">
+												<input type="radio" name="chooseApproval" value="2" autocomplete="off"> 반려
+											</label>
+										</div>
 									</div>
+									<br>
 									<div class="row">
-										<textarea name="opinion" class="form-control"></textarea>
+										<textarea name="opinion" class="form-control" placeholder="결재의견을 입력하세요."></textarea>
 									</div>
 								</div>
-								<div class="modal-footer justify-content-between">
-									<button type="button" class="btn btn-primary">처리</button>
+								<div class="modal-footer justify-content-end">
+									<button type="submit" class="btn btn-primary">처리</button>
 								</div>
 							</div>
 							<!-- /.modal-content -->
@@ -257,27 +259,5 @@ var editor = new RichTextEditor("#div_editor", config);
 var content = document.getElementById('content').value;
 editor.setHTMLCode(content); // editor에 내용 넣기
 editor.setReadOnly();
-
-const body = document.querySelector('body');
-const modal = document.querySelector('.modal');
-const modalOpenBtn = document.querySelector('.modalOpenBtn');
-
-modalOpenBtn.addEventListener('click', () => {
-	modal.classList.toggle('show');
-
-	if (modal.classList.contains('show')) {
-		body.style.overflow = 'hidden';
-	}
-});
-
-modal.addEventListener('click', (event) => {
-	if (event.target === modal) {
-		modal.classList.toggle('show');
-	
-		if (!modal.classList.contains('show')) {
-			body.style.overflow = 'auto';
-		}
-	}
-});
 </script>
 </html>

@@ -29,13 +29,6 @@ public class AdminController {
 		return service.MemberList(session);
 	}
 	
-	// 관리사 사원 상세보기
-	@RequestMapping(value = "/AdminMemberDetail.go")
-	public ModelAndView AdminMemberDetail(@RequestParam ("id") String id, HttpSession session) {
-		logger.info("아이디확인 : "+id);
-		return service.AdminMemberDetail(id,session);
-	}
-	
 	// 사원리스트 검색
 	@RequestMapping(value = "/MemberSearch.go")
 	public ModelAndView MemberSearch(@RequestParam("searchField") String searchField, @RequestParam("searchText") String searchText) {
@@ -43,6 +36,13 @@ public class AdminController {
 		 ModelAndView mav = new ModelAndView("AdminMemberList");
 		 mav.addObject("list", list);
 		 return mav;
+	}
+	
+	// 관리사 사원 상세보기
+	@RequestMapping(value = "/AdminMemberDetail.go")
+	public ModelAndView AdminMemberDetail(@RequestParam ("id") String id, HttpSession session) {
+		logger.info("아이디확인 : "+id);
+		return service.AdminMemberDetail(id,session);
 	}
 	
 	// 관리자 사원 상세보기 업데이트(권한, 직급변경)
@@ -91,22 +91,22 @@ public class AdminController {
 	    return service.MemberUpdate(dto, user_id);
 	}
 	
-	// 관리자 사원 요청/삭제 리스트
-	@RequestMapping(value = "/MemberONOFFList.go")
-	public ModelAndView MemberONOFFList() {
-		return service.MemberONOFFList();
-	}
-	
-	// 관리자 사원 요청/삭제 상세보기
-	@RequestMapping(value = "/MemberONOFFListDetail.go")
-	public ModelAndView MemberONOFFListDetail(@RequestParam ("id") String id) {
-		return service.MemberONOFFListDetail(id);
-	}
-	
-	@RequestMapping(value = "/MemberONOFFDelete.go")
-	public ModelAndView MemberONOFFDelete(@RequestParam ("id") String id) {
-		logger.info("id확인 : "+id);
-		return service.MemberONOFFDelete(id);
-	}
+//	// 관리자 사원 요청/삭제 리스트
+//	@RequestMapping(value = "/MemberONOFFList.go")
+//	public ModelAndView MemberONOFFList() {
+//		return service.MemberONOFFList();
+//	}
+//	
+//	// 관리자 사원 요청/삭제 상세보기
+//	@RequestMapping(value = "/MemberONOFFListDetail.go")
+//	public ModelAndView MemberONOFFListDetail(@RequestParam ("id") String id) {
+//		return service.MemberONOFFListDetail(id);
+//	}
+//	
+//	@RequestMapping(value = "/MemberONOFFDelete.go")
+//	public ModelAndView MemberONOFFDelete(@RequestParam ("id") String id) {
+//		logger.info("id확인 : "+id);
+//		return service.MemberONOFFDelete(id);
+//	}
 
 }

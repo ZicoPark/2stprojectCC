@@ -6,7 +6,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>CreatorCompany</title>
-
+<link rel="icon" href="/img/CC_favicon.png">
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
   <!-- Font Awesome -->
@@ -162,6 +162,20 @@
                 <p>조회수 &nbsp; ${detailms.hit}</p>
               </div>
               
+          <div class="card-footer">
+           <div class="float-right">
+             <c:if test="${loginid.admin_chk eq 1 or loginId eq detailms.member_id}">
+               <button type="button" class="btn btn-default" onclick="confirmDelete(event, 'freeDelete.do?id=${detailms.id}')">
+                    <i class="far fa-trash-alt"></i>
+                </button>
+               <button type="button" onclick="location.href='/freeUpdate.go?id=${detailms.id}&member_id=${detailms.member_id}'" class="btn btn-default"> 수정</button>
+             </c:if>
+             <button type="button" onclick="location.href='/freeBoard.go'" class="btn btn-default"> 목록</button>
+           </div>
+         </div>
+              
+              
+              
             </div>
             <!-- /.card -->
 
@@ -288,6 +302,9 @@ function listPrint(list) {
      var count = (showPage - 1) * 10 + list.length;
      var totalItems = list.length;
      var isAdmin = document.getElementById('adminchk'); // 서버에서 가져온 관리자 여부 값
+     var sessionId = "${sessionScope.id}";
+     console.log(sessionId, isAdmin);
+     
      
      list.forEach(function(item) {
        content += '<div class="comment">';
@@ -297,8 +314,17 @@ function listPrint(list) {
        content += '</div>';
        content += '<div class="comment-content">' + item.content + '</div>';
        content += '<div class="comment-actions">';
-       content += '<a href="#" onclick="showEditCommentForm(this, \'' + item.id + '\', \'' + item.member_id + '\')">수정</a>';
-       content += '<a href="replyDelete.do?id=' + item.id + '&free_board_id=' + item.free_board_id + '">삭제</a>';
+       if (sessionId === item.member_id) {
+           content += '<a href="#" onclick="showEditCommentForm(this, \'' + item.id + '\', \'' + item.member_id + '\')">수정</a>';
+           }
+       if (isAdmin && isAdmin.value === '1' || sessionId === item.member_id) {
+    	    content += '<a href="replyDelete.do?id=' + item.id + '&free_board_id=' + item.free_board_id + '">삭제</a>';
+    	}
+
+
+
+
+       
        content += '</div>';
        content += '</div>';
      });
@@ -327,7 +353,7 @@ function showEditCommentForm(element, replyId, memberId) {
        // 수정 완료 버튼 추가
        var buttonElement = $('<button type="button" class="btn btn-info btn-flat">완료</button>').click(function() {
          var modifiedContent = $(textareaElement).val(); // 수정된 댓글 내용 가져오기   
-   
+   	
         if('${sessionScope.id}' == memberId) {
          $.ajax({
             url:'commentUpdate.ajax',
@@ -353,6 +379,7 @@ function showEditCommentForm(element, replyId, memberId) {
          // textarea와 버튼 요소 제거
          $(textareaElement).remove();
          $(buttonElement).remove();
+         
          $(element).show();
        });
 

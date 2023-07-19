@@ -6,6 +6,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Creator Company</title>
+<link rel="icon" href="/img/CC_favicon.png">
 <script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
 
 <!-- Google Font: Source Sans Pro -->
@@ -26,14 +27,24 @@ th{
 	<div class="wrapper">
 		<div class="content-wrapper">
 			<section class="content-header">
-				<h1>결재완료함 목록</h1>
+				<h1>결재완료함</h1>
 			</section>
 			<!-- Main content -->
 			<section class="content">
 				<table class="table table-bordered">
+					<colgroup>
+						<col width="8%"/>
+						<col width="39%"/>
+						<col width="10%"/>
+						<col width="10%"/>
+						<col width="5%"/>
+						<col width="10%"/>
+						<col width="8%"/>
+						<col width="10%"/>
+					</colgroup>
 					<thead>
 						<tr>
-							<th>문서번호</th>
+							<th>순번</th>
 							<th>제목</th>
 							<th>문서종류</th>
 							<th>생산부서</th>
@@ -46,7 +57,7 @@ th{
 					<tbody>
 						<c:if test="${list.size() == 0 }">
 							<tr>
-								<td colspan="8">결재된 문서가 없습니다.</td>
+								<td colspan="8" style="text-align: center;">결재된 문서가 없습니다.</td>
 							</tr>
 						</c:if>
 						<c:if test="${list.size() > 0 }">

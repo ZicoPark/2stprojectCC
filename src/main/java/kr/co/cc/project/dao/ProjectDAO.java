@@ -63,6 +63,8 @@ public interface ProjectDAO {
 
 	String getRange(String id);
 
+	int projectRes(String id);
+
 
 
 
