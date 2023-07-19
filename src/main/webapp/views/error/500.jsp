@@ -53,7 +53,9 @@
 						</h3>
 
 						<p>
-						서버 처리 중 문제가 발생했습니다. 관리자 hannodada에게 문의하세요.
+						서버 처리 중 문제가 발생했습니다.
+							<br>						
+						관리자 hannodada에게 문의하세요.
 						</p>
 
 						<div class="input-group">

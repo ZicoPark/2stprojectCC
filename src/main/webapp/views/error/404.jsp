@@ -56,7 +56,9 @@
 						</h3>
 
 						<p>
-						원하시는 요청 또는 페이지가 없습니다. 관리자 hannodada에게 문의하세요.
+						원하시는 요청 또는 페이지가 없습니다.
+							<br>
+						관리자 hannodada에게 문의하세요.
 						</p>
 
 						<div class="input-group">
