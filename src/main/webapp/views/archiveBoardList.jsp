@@ -49,6 +49,78 @@
   background-color: #fafafa; 
   border-color: #ccc;
 }
+#board-search .search-window {
+  padding: 15px 0;
+  background-color: #f4f6f9;
+}
+#board-search .search-window .search-wrap {
+  position: relative;
+/*   padding-right: 124px; */
+  margin: 0 auto;
+  width: 80%;
+  max-width: 564px;
+}
+#board-search .search-window .search-wrap input {
+  height: 40px;
+  width: 100%;
+  font-size: 14px;
+  padding: 7px 14px;
+  border: 1px solid #ccc;
+}
+#board-search .search-window .search-wrap input:focus {
+  border-color: #333;
+  outline: 0;
+  border-width: 1px;
+}
+#board-search .search-window .search-wrap .btn1 {
+  position: absolute;
+  right: 0;
+  top: 24px;
+  bottom: 0;
+  width: 50px;
+  padding: 0;
+  font-size: 16px;
+}
+
+
+.btn1 {
+  display: inline-block;
+  padding: 0 30px;
+  font-size: 15px;
+  font-weight: 400;
+  background: transparent;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: middle;
+  -ms-touch-action: manipulation;
+  touch-action: manipulation;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  border: 1px solid transparent;
+  text-transform: uppercase;
+  -webkit-border-radius: 0;
+  -moz-border-radius: 0;
+  border-radius: 0;
+  -webkit-transition: all 0.3s;
+  -moz-transition: all 0.3s;
+  -ms-transition: all 0.3s;
+  -o-transition: all 0.3s;
+  transition: all 0.3s;
+}
+
+.btn-dark {
+  background: #fff0;
+  color: #20c997;
+}
+
+.btn-dark:hover, .btn-dark:focus {
+  background: #373737;
+  border-color: #373737;
+  color: #fff;
+}
 
 </style>
 <body class="hold-transition sidebar-mini">
@@ -61,20 +133,29 @@
 	
   <div class="content-wrapper">
     <section class="content-header">
-            <h1>자료실</h1>         
+            <h4>자료실</h4>         
     </section>
     <!-- Main content -->
     <section class="content">
       <table class="table table-bordered table-hover dataTable dtr-inline">
     
-		<div class="input-group" style="width: 30%;">
-	    <input type="search" class="form-control form-control-lg" id="searchInput" placeholder="제목 또는 작성자를 입력" style="font-size: 13px;"/>
-	    <div class="input-group-append">
-	    <button id="searchButton" class="btn btn-lg btn-default"><alt="Search"><i class="fa fa-search"></i></button>
-	    </div>
-	    </div>
+    <div id="board-search">
+        <div class="container">
+            <div class="search-window">
+               <div class="search-wrap">
+                   <label for="search" class="blind"></label>
+                   <input id="searchInput" type="search" name="" placeholder="검색어를 입력해주세요." value="">
+                   <button id="searchButton" class="btn1 btn-dark"><alt="Search"><i class="fa fa-search"></i></button>
+       			</div>                
+      		</div>                  
+	    </div>                    
+	  </div>   
 	
-		
+   <div>                      		
+  <button onclick="location.href='archiveWrite.go'" class ="btn btn-primary float-right" style="margin-bottom: 10px;">
+  <i class="fas fa-plus"></i>작성
+	</button>  
+  </div> 		
 		<div>
 		<input type ="hidden" id="adminchk" value= "${loginid}" />${loginid}
 		</div>
@@ -106,7 +187,7 @@
          </tr>	
          
 		</table>
-		<button onclick="location.href='archiveWrite.go'">글쓰기</button>
+
     </section>
   </div>
 </div>

@@ -352,6 +352,7 @@
     padding: 10px;
     overflow: auto;
     word-wrap: break-word;
+    height: 400px;
 }
 .note-editor.note-frame .note-editing-area .note-editable[contenteditable=false],
 .note-editor.note-airframe .note-editing-area .note-editable[contenteditable=false] {

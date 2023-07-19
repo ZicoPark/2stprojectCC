@@ -82,6 +82,7 @@
 		,content = #{content}
 		WHERE id = #{id}
 	</update>
+	
 
 
 	<delete id="removeFileName" parameterType="String">
@@ -93,7 +94,7 @@
 	</update>	
 
 	<select id="logincheck" resultType="kr.co.cc.archive.dto.ArchiveDTO">
-		SELECT admin_chk FROM member WHERE id = #{param1}
+		SELECT admin_chk FROM member WHERE id = #{loginId}
 	</select>
 
 

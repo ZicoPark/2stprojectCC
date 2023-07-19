@@ -30,24 +30,27 @@
 </head>
 
 <style>
-table {
-  border-collapse: collapse;
-  border-spacing: 0;
-}
-section.notice {
-  padding: 20px 0;
+
+.page-link {
+  color: #000; 
+  background-color: #fff;
+  border: 1px solid #ccc; 
 }
 
-.page-title {
-  margin-bottom: 10px;
-}
-.page-title h3 {
-  font-size: 28px;
-  color: #333333;
-  font-weight: 400;
-  text-align: center;
+.page-item.active .page-link {
+ z-index: 1;
+ color: #555;
+ font-weight:bold;
+ background-color: #f1f1f1;
+ border-color: #ccc;
+ 
 }
 
+.page-link:focus, .page-link:hover {
+  color: #000;
+  background-color: #fafafa; 
+  border-color: #ccc;
+}
 #board-search .search-window {
   padding: 15px 0;
   background-color: #f4f6f9;
@@ -71,67 +74,18 @@ section.notice {
   outline: 0;
   border-width: 1px;
 }
-#board-search .search-window .search-wrap .btn {
+#board-search .search-window .search-wrap .btn1 {
   position: absolute;
   right: 0;
-  top: 0;
+  top: 24px;
   bottom: 0;
-  width: 108px;
+  width: 50px;
   padding: 0;
   font-size: 16px;
 }
 
-.board-table {
-  font-size: 13px;
-  width: 100%;
-  border-top: 1px solid #ccc;
-  border-bottom: 1px solid #ccc;
-}
 
-.board-table a {
-  color: #333;
-  display: inline-block;
-  line-height: 1.4;
-  word-break: break-all;
-  vertical-align: middle;
-}
-.board-table a:hover {
-  text-decoration: underline;
-}
-.board-table th {
-  text-align: center;
-}
-
-.board-table .th-num {
-  width: 100px;
-  text-align: center;
-}
-
-.board-table .th-date {
-  width: 200px;
-}
-
-.board-table th, .board-table td {
-  padding: 14px 0;
-}
-
-.board-table tbody td {
-  border-top: 1px solid #e7e7e7;
-  text-align: center;
-}
-
-.board-table tbody th {
-  padding-left: 28px;
-  padding-right: 14px;
-  border-top: 1px solid #e7e7e7;
-  text-align: left;
-}
-
-.board-table tbody th p{
-  display: none;
-}
-
-.btn {
+.btn1 {
   display: inline-block;
   padding: 0 30px;
   font-size: 15px;
@@ -172,53 +126,6 @@ section.notice {
 
 
 
-/* reset */
-
-* {
-  list-style: none;
-  text-decoration: none;
-  padding: 0;
-  margin: 0;
-  box-sizing: border-box;
-}
-.clearfix:after {
-  content: '';
-  display: block;
-  clear: both;
-}
-.container {
-  width: 1100px;
-  margin: 10px;
-}
-.blind {
-  position: absolute;
-  overflow: hidden;
-  clip: rect(0 0 0 0);
-  margin: -1px;
-  width: 1px;
-  height: 1px;
-}
-
-.page-link {
-  color: #000; 
-  background-color: #fff;
-  border: 1px solid #ccc; 
-}
-
-.page-item.active .page-link {
- z-index: 1;
- color: #555;
- font-weight:bold;
- background-color: #f1f1f1;
- border-color: #ccc;
- 
-}
-
-.page-link:focus, .page-link:hover {
-  color: #000;
-  background-color: #fafafa; 
-  border-color: #ccc;
-}
 
 </style>
 
@@ -227,60 +134,44 @@ section.notice {
 
 <jsp:include page = "index.jsp"></jsp:include>
 
-<!-- Site wrapper -->
-<div class="wrapper" style = " background-color: ##ffffff;">
+<div class="wrapper">
+  <div class="content-wrapper">
+    <section class="content-header">
+            <h4>사내게시판</h4>         
+    </section>
 
 
-
-
-  <div class="content-wrapper"  style = "background-color: ##ffffff;">
-	<section class="notice">
-	  <div class="page-title">
-	        <div class="container">
-	            <h3>사내게시판</h3>
-	        </div>
-	    </div>
-    <!-- Main content -->
     <section class="content">
-    <!--  <table class="table table-bordered table-hover dataTable dtr-inline"> -->
-     
-     
+     <table class="table table-bordered table-hover dataTable dtr-inline">
+
      
     <!-- board seach area -->
     <div id="board-search">
         <div class="container">
             <div class="search-window">
                <div class="search-wrap">
-                   <label for="search" class="blind">공지사항 내용 검색</label>
+                   <label for="search" class="blind"></label>
                    <input id="searchInput" type="search" name="" placeholder="검색어를 입력해주세요." value="">
-                   <button id="searchButton" class="btn btn-dark"><alt="Search"><i class="fa fa-search"></i></button>
+                   <button id="searchButton" class="btn1 btn-dark"><alt="Search"><i class="fa fa-search"></i></button>
        			</div>                
       		</div>                  
 	    </div>                    
 	  </div>                      
-                           		
-<!-- 		<div class="input-group" style="width: 30%;">
-	    <input type="search" class="form-control form-control-lg" id="searchInput" placeholder="제목 또는 작성자를 입력" style="font-size: 13px;"/>
-	    <div class="input-group-append">
-	    <button id="searchButton" class="btn btn-lg btn-default"><alt="Search"><i class="fa fa-search"></i></button>
-	    </div>
-	    </div> -->
-  <button onclick="location.href='freeWrite.go'">글 작성</button>  
-  <!-- board list area -->
-    <div id="board-list">
-        <div class="container">
-            <table class="board-table">
-
-
+   
+   <div>                      		
+  <button onclick="location.href='freeWrite.go'" class ="btn btn-primary float-right" style="margin-bottom: 10px;">
+  <i class="fas fa-plus"></i>작성
+	</button>  
+  </div>  
 			<thead> 
-                <tr>
-                    <th scope="col" class="th-num">번호</th>
-                    <th scope="col" class="th-title">제목</th>
-                    <th>작성자</th>
-                    <th scope="col" class="th-date">등록일</th>
-                    <th>조회수</th>
-                </tr>			
-			
+				<tr> 
+					<th>번호</th>
+					<th>제목</th>
+
+					<th>작성자</th>
+					<th>작성일</th>
+					<th>조회수</th>
+				</tr>
 			</thead>
 			<tbody>
 			
@@ -299,8 +190,7 @@ section.notice {
            </th>
          </tr>	
 		</table>
-	</div>
-	</div>
+
 
 		
 		

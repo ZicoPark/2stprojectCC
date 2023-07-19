@@ -106,14 +106,8 @@ public class FreeBoardController {
 	@RequestMapping(value="/freeUpdate.go")
 		public String freeUpdateForm(@RequestParam String id, @RequestParam String member_id, HttpSession session, Model model) {
 		logger.info("게시글 수정 요청");
-		String page = "freeBoardList";
-		String loginId = null;
+
 		
-		if(session.getAttribute("id")!=null) {
-			loginId = (String) session.getAttribute("id");
-			if(loginId.equals(member_id)) {
-				
-				logger.info("작성자와 세션아이디 일치함");
 				FreeBoardDTO detailms = service.freedetail(id, "update");
 				
 				if(detailms != null) {
@@ -121,13 +115,13 @@ public class FreeBoardController {
 					
 					model.addAttribute("detailms", detailms);
 					model.addAttribute("detailfile", detailfile);
-					page = "freeUpdateForm";
+			
 				}
-			}
-		}
-		
-		return page;		
-}	
+
+		return "freeUpdateForm";		
+	}
+	
+
 	
 	@RequestMapping(value = "/freeUpdate.do")
 	public String freeUpdate(MultipartFile[] attachment, @RequestParam HashMap<String, String> params, 

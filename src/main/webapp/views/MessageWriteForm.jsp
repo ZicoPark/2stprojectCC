@@ -23,6 +23,9 @@
   .table-wrapper table {
     flex-grow: 1;
   }
+  
+
+  
 </style> 
 </head>
 
@@ -106,7 +109,7 @@
                 <div class="form-group">
                 <input type="text" name="from_id" value="${loginId}" readonly="readonly" hidden="true" required/>
                 <input type="text" class="form-control" name="to_id" hidden/>
-				<div class="input-group">
+				<div class="input-group" style="padding: 13px;">
 				  <input type="text" id="to_plz" name="to_plz" class="form-control" placeholder="받는 사람: " readonly/>
 				  <div class="input-group-append">
 				    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#memberModal">주소록</button>
@@ -167,14 +170,14 @@
 				</div>   
 			
 			
-				
+			<div>	
 			 <input type="text" class="form-control" name="title" maxlength="19"  placeholder="제목을 입력하세요">
+			</div>
 			
-            <div class="form-group" name="content">
-              <textarea id="compose-textarea" class="form-control" style="height: 600px" name="content">
-                      
-              </textarea>
-            </div>
+					<div id="div_editor">
+						<!-- 에디터 안에 들어갈 자리 -->
+					</div>
+					<textarea hidden="true" id="content" name="content"></textarea>
                 
 			<div class="form-group">
 			  <div class="btn btn-default btn-file">
