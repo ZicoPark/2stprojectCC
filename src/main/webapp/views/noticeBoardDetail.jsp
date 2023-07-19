@@ -102,8 +102,8 @@
             <c:if test="${loginid.admin_chk eq 1}">
 	            <tr>
 		             <th colspan="2">    
-		                 <input type="button" class="btn btn-block btn-outline-success btn-lg"  onclick="location.href='./noticeBoardDel.do?id=${detailno.id}'" value="삭제" />
-		             </th>            
+					    <input type="button" class="btn btn-block btn-outline-success btn-lg" onclick="deleteNotice();" value="삭제" />
+					</th>         
 	            </tr>                   
              </c:if>
                
@@ -123,6 +123,17 @@
 </body>
 <script>
    //socket.send('알림');
+   
+   function deleteNotice() {
+    //삭제 여부를 확인하는 confirm 창 표시
+    var result = confirm("정말로 삭제하시겠습니까? 삭제 후에는 복구가 불가능합니다.");
+    if (result) {
+        // 사용자가 "확인"을 선택한 경우에만 삭제를 진행하는 alert 창 표시
+        alert("삭제되었습니다."); // 원하는 메시지를 alert 창에 표시
+        // 삭제를 진행하는 URL로 이동
+        location.href = "./noticeBoardDel.do?id=${detailno.id}";
+    }
+}
 
 </script>
 </html>

@@ -68,6 +68,7 @@ public class ArchiveController {
 			logger.info("상세보기 자료실 번호 : "+id);
 			String loginId = (String) session.getAttribute("id");
 			ArchiveDTO detailms = service.archivedetail(id, "detail");
+			ArchiveDTO loginid = service.logincheck(loginId);
 			String page = "redirect:/archiveBoard.go";
 			
 			if(detailms != null) {
@@ -81,6 +82,7 @@ public class ArchiveController {
 				model.addAttribute("detailms", detailms);
 				model.addAttribute("detailFile", detailfile);
 				model.addAttribute("loginId", loginId);
+				model.addAttribute("loginid", loginid);
 			}	
 			return page;
 	}
@@ -90,13 +92,6 @@ public class ArchiveController {
 		public String archiveUpdateForm(@RequestParam String id, @RequestParam String member_id, HttpSession session, Model model) {
 		logger.info("게시글 수정 요청");
 		String page = "archiveBoardList";
-		String loginId = null;
-		
-		if(session.getAttribute("id")!=null) {
-			loginId = (String) session.getAttribute("id");
-			if(loginId.equals(member_id)) {
-				
-				logger.info("작성자와 세션아이디 일치함");
 				ArchiveDTO detailms = service.archivedetail(id, "update");
 				
 				if(detailms != null) {
@@ -106,8 +101,7 @@ public class ArchiveController {
 					model.addAttribute("detailfile", detailfile);
 					page = "archiveUpdateForm";
 				}
-			}
-		}
+
 		
 		return page;		
 }
@@ -143,18 +137,13 @@ public class ArchiveController {
 		
 		String page = "redirect:/archiveBoard.go";
 		
-		String member_id = params.get("member_id");
 		
-		if(session.getAttribute("loginId")!=null) {//로그인 상태에서
-			if(session.getAttribute("loginId").equals(member_id)) {// 작성자와 세션 아이디가 일치할 때
-				
+
 				String id = params.get("id");
 				service.archivedelete(id);
 				page = "redirect:/archiveBoard.go";
-			}else {
-				logger.info("세션 아이디 아님");
-			}
-		}
+
+	
 		return page;
 	}	
 	

@@ -81,7 +81,9 @@
 				</c:forEach>
          </tbody>
       </table>
-      <button class="btn btn-block btn-outline-success btn-lg" onclick="location.href='noticeBoardWrite.go'">글 작성</button>
+      <c:if test="${loginid.admin_chk eq 1}">
+      	<button class="btn btn-block btn-outline-success btn-lg" onclick="location.href='noticeBoardWrite.go'">글 작성</button>
+      </c:if>
     </section>
   </div>
 </div>
