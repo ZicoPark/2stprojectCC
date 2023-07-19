@@ -55,9 +55,9 @@
     			</tr>    		
     		</thead>
     		<tbody id="holidayBody">
-    			<c:if test="${dto eq null}">
+    			<c:if test="${dto eq null || dto.size() == 0}">
 					<tr>
-						<th colspan="7">등록된 연차가 없습니다.</th>
+						<th colspan="8">등록된 연차가 없습니다.</th>
 					</tr>
 				</c:if>   		
 	    		<c:forEach items="${dto}" var="holiday">
@@ -76,9 +76,10 @@
 	    				
 	    				<td>
 	    					<div class="btn-group" role="group">
-			              		<button id="b1" type="button" class="btn btn-success btn-sm" onclick="location.href='holidayApproval.do?approval=1&id=${holiday.id}&regist_id=${holiday.regist_id}&use_cnt=${holiday.use_cnt}&type=${holiday.type}&start_at=${holiday.start_at}&end_at=${holiday.end_at}'">승인</button>
-			              		<button id="b2" type="button" class="btn btn-danger btn-sm" onclick="location.href='holidayApproval.do?approval=2&id=${holiday.id}&regist_id=${holiday.regist_id}&use_cnt=${holiday.use_cnt}&type=${holiday.type}&start_at=${holiday.start_at}&end_at=${holiday.end_at}'">반려</button>
-			            	</div>
+			              		<button id="b1" type="button" class="btn btn-success btn-sm" onclick="confirmApproval('${holiday.id}', '${holiday.regist_id}', '${holiday.use_cnt}', '${holiday.type}', '${holiday.start_at}', '${holiday.end_at}', '1')">승인</button>
+			              		<button id="b2" type="button" class="btn btn-danger btn-sm" onclick="confirmApproval('${holiday.id}', '${holiday.regist_id}', '${holiday.use_cnt}', '${holiday.type}', '${holiday.start_at}', '${holiday.end_at}', '2')">반려</button>
+			              		
+			              	</div>
 			            </td>
 	    			</tr>
 				</c:forEach>				
@@ -114,6 +115,18 @@
 	if(msg != ""){
 		alert(msg);
 	}
+	
+	function confirmApproval(id, regist_id, use_cnt, type, start_at, end_at, approval) {
+	    var message = approval == 1 ? '승인' : '반려';
+	    if (confirm(message + '하시겠습니까?')) {
+	        location.href = 'holidayApproval.do?approval=' + approval + '&id=' + id + '&regist_id=' + regist_id + '&use_cnt=' + use_cnt + '&type=' + type + '&start_at=' + start_at + '&end_at=' + end_at;
+	    } else {
+	    }
+	}
+
+
+	
+	
 	
 	$('#approvalChange').on('change', function(e){
 		   var approvalChange = $('#approvalChange').val();      

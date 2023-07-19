@@ -13,6 +13,13 @@
   <link rel="stylesheet" href="../../plugins/fontawesome-free/css/all.min.css">
   <!-- Theme style -->
   <link rel="stylesheet" href="../../dist/css/adminlte.min.css">
+
+<style>
+    /* Add custom CSS here */
+    #board-search {
+        text-align: left;
+    }
+</style>
 </head>
 <body>
 <jsp:include page = "index.jsp"></jsp:include>
@@ -22,19 +29,36 @@
     <section class="content-header">
     	<h1>직원 리스트</h1>         
     </section>
-    <!-- Main content -->
+
     <section class="content">
-    	<form action= "departmentlist.go">
-    		<select name = "opt">
-    			<option value="user_id">아이디</option>
-    			<option value="name">이름</option>
-    			<option value="email">이메일</option>
-    			<option value="dept_id">부서</option>
-    			<option value="job_level_id">직급</option>
-    		</select>
-    		<input type = "text" name = "keyword" value="" placeholder="검색어를 입력하세요"/>
-    		<input type="submit" value="검색" />
-    	</form>
+    
+    
+
+    <div id="board-search">
+	    <select id="dept">
+			  <option value="default">부서</option>
+			  <option value="dp1">총무팀</option>
+			  <option value="dp2">기획팀</option>
+			  <option value="dp3">촬영팀</option>
+			  <option value="dp4">편집팀</option>
+		</select>
+		<select id="level">
+			  <option value="default">직급</option>
+			  <option value="lv1">팀원</option>
+			  <option value="lv2">팀장</option>
+			  <option value="lv3">이사</option>
+			  <option value="lv4">사장</option>
+		</select>
+        <div class="search-window">
+               <div class="search-wrap">
+                   <label for="search">아이디, 이름, 이메일　검색　</label>
+                   <input id="searchInput" type="search" name="" placeholder="검색어를 입력해주세요." value="">
+                   <button id="searchButton" class="btn btn-dark"><alt="Search"><i class="fa fa-search"></i></button>
+       			</div>                
+      		</div>                  
+                  
+	  </div>
+
     	
       <table class="table table-bordered table-hover dataTable dtr-inline">
          <thead> 
@@ -47,35 +71,17 @@
             </tr>
          </thead>
          <tbody>
-            <c:if test="${departmentlist eq null}">
-               <tr>
-                  <th colspan="6">등록된 글이 없습니다.</th>
-               </tr>
-            </c:if>
-            <c:forEach items="${departmentlist}" var="member">
-               <tr> 
-                  <td>${member.user_id}</td>
-                  <td>${member.name}</td>
-                  <td>${member.email}</td>
-                  <td>
-					  <c:choose>
-					    <c:when test="${member.dept_id eq '8e5f3282-1703-11ee-973f-0242ac110002'}">총무팀</c:when>
-					    <c:when test="${member.dept_id eq '8ee07433-1703-11ee-973f-0242ac110002'}">기획팀</c:when>
-					    <c:when test="${member.dept_id eq '8f963853-1703-11ee-973f-0242ac110002'}">촬영팀</c:when>
-					    <c:when test="${member.dept_id eq '9022f64a-1703-11ee-973f-0242ac110002'}">편집팀</c:when>
-					  </c:choose>
-				  </td>
-                  <td>
-					  <c:choose>
-					    <c:when test="${member.job_level_id eq '8ade9167-1703-11ee-973f-0242ac110002'}">팀원</c:when>
-					    <c:when test="${member.job_level_id eq '8bbf948d-1703-11ee-973f-0242ac110002'}">팀장</c:when>
-					    <c:when test="${member.job_level_id eq '8c4e7542-1703-11ee-973f-0242ac110002'}">이사</c:when>
-					    <c:when test="${member.job_level_id eq '8cdd8503-1703-11ee-973f-0242ac110002'}">사장</c:when>
-					  </c:choose>
-			   	   </td>
-               </tr>
-            </c:forEach>
+            <tbody id="list">
          </tbody>
+         <tr>
+           <th colspan="6" id="paging">  
+             <div class="container">                  
+               <nav aria-label="Page navigation">
+                 <ul class="pagination justify-content-center" id="pagination"></ul>
+               </nav>
+             </div>
+           </th>
+         </tr>
       </table>
     </section>
   </div>
@@ -87,15 +93,125 @@
 <script src="../../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
 <!-- AdminLTE App -->
 <script src="../../dist/js/adminlte.min.js"></script>
-<!-- AdminLTE for demo purposes -->
-<script src="../../dist/js/demo.js"></script>
+
+<script type="text/javascript" src="../../dist/js/jquery.twbsPagination.min.js"></script>
 </body>
 <script>
 
-	var msg = "${msg}";
-	if(msg != ""){
-		alert(msg);
+	var showPage = 1;
+	var searchText = 'default';
+	var selectedDept = 'default';
+	var selectedLevel = 'default';
+
+	$('#dept').change(function(){
+		selectedDept = $(this).val();
+		listCall(showPage);
+		$('#pagination').twbsPagination('destroy');
+	});
+	
+	$('#level').change(function(){
+		selectedLevel = $(this).val();
+		console.log(selectedSort);
+		listCall(showPage);
+		$('#pagination').twbsPagination('destroy');
+	});
+
+
+	var departmentLookup = {
+	    '8e5f3282-1703-11ee-973f-0242ac110002': '총무팀',
+	    '8ee07433-1703-11ee-973f-0242ac110002': '기획팀',
+	    '8f963853-1703-11ee-973f-0242ac110002': '촬영팀',
+	    '9022f64a-1703-11ee-973f-0242ac110002': '편집팀'
+	};
+
+	var jobLevelLookup = {
+		'8ade9167-1703-11ee-973f-0242ac110002' : '팀원',
+	    '8bbf948d-1703-11ee-973f-0242ac110002' : '팀장',
+	    '8c4e7542-1703-11ee-973f-0242ac110002' : '이사',
+	    '8cdd8503-1703-11ee-973f-0242ac110002' : '사장'
+	};
+
+
+	
+	
+	listCall(showPage);
+	
+	//검색어에 따른 출력 
+	$('#searchButton').click(function(){
+	   //검색어 확인 
+	   searchText = $('#searchInput').val();
+	   listCall(showPage);
+	   searchText = 'default';
+	   $('#pagination').twbsPagination('destroy');
+	});
+
+
+
+	function listCall(page){
+	   $.ajax({
+	      type:'post',
+	      url:'departmentlist.ajax',
+	      data:{
+	         'page':page,
+	         'search':searchText
+	         'dept':selectedDept,
+	    	 'level':selectedLevel
+	      },
+	      dataType:'json',           
+	      success:function(data){
+	         console.log(data);
+	         listPrint(data.list);
+	         
+	         // 페이징 처리를 위해 필요한 데이터
+	         // 1. 총 페이지의 수
+	         // 2. 현재 페이지
+	         console.log(data.list); // arraylist 로 값 들어옴
+	         
+	         // Paging Plugin (j-query의 기본기능을 가지고 만들었기 때문에  plugin)
+	         $('#pagination').twbsPagination({
+	         startPage:1, // 시작 페이지
+	         totalPages:data.pages,// 총 페이지 수 
+	         visiblePages:5,// 보여줄 페이지
+	         onPageClick:function(event,page){ // 페이지 클릭시 동작되는 (콜백)함수
+	            console.log(page,showPage);
+	            if(page != showPage){
+	               showPage=page;
+	               listCall(page);
+	          
+	            }
+	         }
+	         });
+	      }
+	   });
 	}
 
+// list 받아와서 보여줌
+function listPrint(list){
+	   var content ='';
+	   var count = (showPage - 1) * 10 + list.length;
+	   var totalItems = list.length;
+	   list.forEach(function(item){
+	      
+		  var department = departmentLookup[item.dept_id] || '알 수 없는 부서';
+	      var jobLevel = jobLevelLookup[item.job_level_id] || '알 수 없는 직급';
+		   
+		   
+	      // 배열 요소들 반복문 실행 -> 행 구성 + 데이터 추가 
+	      content +='<tr>';
+	      
+	      content += '<td>' + item.user_id + '</td>';
+	      content += '<td>' + item.name + '</td>';
+	      content += '<td>' + item.email + '</td>';
+	      content += '<td>' + department  + '</td>';
+	      content += '<td>' + jobLevel  + '</td>';
+	      
+	      content +='</tr>';
+	      
+	   });
+	   
+	   // list 요소의 내용 지우고 추가 - 페이징 처리 
+	   $('#list').empty();
+	   $('#list').append(content);
+	}
 </script>
 </html>

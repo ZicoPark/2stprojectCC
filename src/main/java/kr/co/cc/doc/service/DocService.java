@@ -388,7 +388,7 @@ public class DocService {
 			for (AttachmentDTO attachmentDTO : attachmentList) {
 				
 				attachmentId = attachmentDTO.getId();
-				row = dao.attachmentDelete(attachmentId);
+				row = dao.docAttachmentDelete(attachmentId);
 				
 				if(row==1) {
 					// 2. 실제 파일을 삭제한다.
@@ -407,7 +407,7 @@ public class DocService {
 	}
 
 	// 첨부파일을 다운로드하는 메서드
-	public ResponseEntity<Resource> attachmentDownload(String oriFileName, String attachmentId) {
+	public ResponseEntity<Resource> docAttachmentDownload(String oriFileName, String attachmentId) {
 
 		Resource body = new FileSystemResource(attachmentRoot+"/"+attachmentId);
 		
@@ -427,11 +427,11 @@ public class DocService {
 	}
 
 	// 파일명을 DB에서 지우는 메서드, 이후 실제 파일을 지우는 fileDelete 메서드를 실행한다.
-	public ModelAndView attachmentDelete(String docId, String attachmentId) {
+	public ModelAndView docAttachmentDelete(String docId, String attachmentId) {
 		
 		ModelAndView mav = new ModelAndView("redirect:/tempDocUpdateForm.go?id="+docId);
 		
-		int row = dao.attachmentDelete(attachmentId);
+		int row = dao.docAttachmentDelete(attachmentId);
 		
 		if(row==1){ // 삭제된 DB 상의 파일명이 1개라면 실제 파일 지우는 메서드를 실행한다.
 			

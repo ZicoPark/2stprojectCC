@@ -27,6 +27,10 @@ public interface AdminDAO {
 
 	AdminDTO admin_chkDetail(String id);
 
+	int totalCount();
+
+	ArrayList<AdminDTO> MemberListPaging(int cnt, int offset);
+
 
 	
 

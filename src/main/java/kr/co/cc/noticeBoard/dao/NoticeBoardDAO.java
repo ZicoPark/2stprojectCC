@@ -46,6 +46,8 @@ public interface NoticeBoardDAO {
 
 	void readNotice(String id, String loginId);
 
+	NoticeBoardDTO logincheck(String loginId);
+
    
 
 

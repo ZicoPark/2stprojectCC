@@ -44,11 +44,11 @@
          <table class="table table-bordered table-hover dataTable dtr-inline">
             <tr>
                <th>제목</th>
-               <td><input type="text" name="subject" /></td>
+               <td><input type="text" name="subject" id="subject"/></td>
             </tr>
             <tr>
                <th>내용</th>
-               <td><textarea name="content"></textarea> </td>
+               <td><textarea name="content" id="content"></textarea> </td>
             </tr>
             <tr>
             	<th>첨부파일</th>
@@ -59,7 +59,7 @@
             <tr>
                <th colspan="2">
                   <input type="button" onclick="location.href='./noticeBoard.go'" value="돌아가기" />
-                  <button>작성하기</button>
+                  <button type="button" id = "submit" onclick="nbWrite()">작성하기</button>
                </th>
             </tr>      
          </table>
@@ -78,8 +78,23 @@
 <script src="../../dist/js/demo.js"></script>
 </body>
 <script>
-
 console.log(socket);
+
+var overlayChk = true;
+
+function nbWrite(){
+   if(overlayChk == true){
+      if($('#subject').val()==''){
+         alert('제목을 입력해주세요!');
+         $('#subject').focus();
+      }else if($('#content').val()==''){
+         alert('내용을 입력해주세요!');
+         $('#content').focus();
+      }else{
+         $('button').attr('type','submit');
+      }
+   }
+}
 </script>
 </html>
    

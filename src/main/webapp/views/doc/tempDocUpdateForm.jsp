@@ -159,10 +159,10 @@ th{
 										<tr>
 											<td style="text-align: center;">${varStatus.count }</td>
 											<td>
-												<a href="attachmentDownload.do?oriFileName=${i.ori_file_name }&attachmentId=${i.id }">${i.ori_file_name }</a>
+												<a href="docAttachmentDownload.do?oriFileName=${i.ori_file_name }&attachmentId=${i.id }">${i.ori_file_name }</a>
 											</td>
 											<td style="text-align: center;">
-												<a class="btn btn-danger btn-sm" href="attachmentDelete.do?docId=${docDTO.id }&attachmentId=${i.id }">
+												<a class="btn btn-danger btn-sm" href="docAttachmentDelete.do?docId=${docDTO.id }&attachmentId=${i.id }">
 		                              				<i class="fas fa-trash"></i>
 		                              				삭제
                           						</a>

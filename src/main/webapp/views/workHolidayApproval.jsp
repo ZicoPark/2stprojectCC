@@ -57,8 +57,8 @@
 	    				<td>${holiday.end_date}</td>
 	    				<td>${holiday.use_cnt}</td>
 	    				<td>
-	    					<button type="button" class="btn btn-success btn-sm" onclick="location.href='workAnnualApproval.do?id=${holiday.id}&type=${holiday.type}&approval=1'">승인</button>
-	    					<button type="button" class="btn btn-danger btn-sm" onclick="location.href='workAnnualApproval.do?id=${holiday.id}&type=${holiday.type}&approval=2'">반려</button>
+							<button type="button" class="btn btn-success btn-sm" onclick="confirmApproval(${holiday.id}, '${holiday.type}', 1)">승인</button>
+							<button type="button" class="btn btn-danger btn-sm" onclick="confirmApproval(${holiday.id}, '${holiday.type}', 2)">반려</button>
 	    				</td>
 
 	    			</tr>
@@ -84,5 +84,17 @@
 	if(msg != ""){
 		alert(msg);
 	}	
+	
+
+	function confirmApproval(id, type, approval) {
+	    var message = approval === 1 ? '승인' : '반려';
+	    if (confirm(message + '하시겠습니까?')) {
+	        // 사용자가 확인을 누른 경우
+	        location.href = 'workAnnualApproval.do?id=' + id + '&type=' + type + '&approval=' + approval;
+	    } else {
+	    }
+	}
+
+
 </script>
 </html>
