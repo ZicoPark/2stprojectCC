@@ -65,6 +65,10 @@ public interface ProjectDAO {
 
 	int projectRes(String id);
 
+	List<String> getUserPhoto(String id);
+
+	ArrayList<HashMap<String, String>> getUserIdPhoto(String projectId);
+
 
 
 

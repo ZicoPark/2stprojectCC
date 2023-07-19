@@ -42,6 +42,16 @@
 	        WHERE p.id = #{id}
     </select>
     
+    <select id="getUserPhoto" resultType="java.lang.String">
+	        SELECT a.id AS member_profile_id
+			FROM project p
+			INNER JOIN contributor c ON p.id = c.project_id
+			INNER JOIN member m ON c.member_id = m.id
+			LEFT JOIN attachment a ON a.identify_value = c.member_id AND a.classification = '프로필사진'
+			WHERE p.id = #{id};
+    </select>
+    
+    
     <select id="getUserId" resultType="java.lang.String">
         SELECT user_id
         FROM member m
@@ -173,7 +183,16 @@
 	<select id="getRange" parameterType="string" resultType="string">
 		SELECT public_range FROM project p 
 			WHERE id = #{id}
-	</select>									
+	</select>				
+	
+	<select id="getUserIdPhoto" parameterType="string" resultType="hashmap">
+		SELECT b.member_id
+			, (SELECT m.name FROM member m WHERE b.member_id = m.id) AS name
+			, d.id AS profile_name
+		FROM (SELECT c.member_id FROM contributor c WHERE c.project_id = #{projectId}) AS b 
+			LEFT JOIN (SELECT a.identify_value, a.id FROM attachment a WHERE classification = '프로필사진') AS d 
+		ON b.member_id = d.identify_value
+	</select>					
 </mapper>
 
 

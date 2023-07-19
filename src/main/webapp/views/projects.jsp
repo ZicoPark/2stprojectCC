@@ -79,10 +79,16 @@
 												${project.create_at} </small></td>
 										<td>
 											<ul class="list-inline">
-											    <c:forEach items="${project.userIds}" var="userId" varStatus="loop">
+											    <c:forEach items="${project.userIdPhoto}" var="userId" varStatus="loop">
 											        <li class="list-inline-item">
-											            <img alt="Avatar" class="table-avatar" src="../../dist/img/avatar${loop.index + 1}.png">
-											            ${userId}
+											        <c:if test="${userId.profile_name eq null }">
+											        	<img alt="Avatar" class="table-avatar" src="photoView.do?path=cc.png">
+											        	cc.png
+											        </c:if>
+											        <c:if test="${userId.profile_name ne null }">
+											        	<img alt="Avatar" class="table-avatar" src="photoView.do?path=${userId.profile_name }">
+											        </c:if>
+											            ${userId.name}
 											        </li>
 											    </c:forEach>
 											</ul>
@@ -153,15 +159,19 @@
 												${project.create_at} </small></td>
 										<td>
 											<ul class="list-inline">
-											    <c:forEach items="${project.userIds}" var="userId" varStatus="loop">
+											    <c:forEach items="${project.userIdPhoto}" var="userId" varStatus="loop">
 											        <li class="list-inline-item">
-											            <img alt="Avatar" class="table-avatar" src="../../dist/img/avatar${loop.index + 1}.png">
-											            ${userId}
+											        <c:if test="${userId.profile_name eq null }">
+											        	<img alt="Avatar" class="table-avatar" src="photoView.do?path=cc.png">
+											        </c:if>
+											        <c:if test="${userId.profile_name ne null }">
+											        	<img alt="Avatar" class="table-avatar" src="photoView.do?path=${userId.profile_name }">
+											        </c:if>
+											            ${userId.name}
 											        </li>
 											    </c:forEach>
 											</ul>
 										</td>
-
 										<td class="project_progress">
 											<div class="progress progress-sm">
 												<div class="progress-bar bg-green" role="progressbar"

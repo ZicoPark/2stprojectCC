@@ -2,6 +2,8 @@ package kr.co.cc.project.controller;
 
 import java.io.IOException;
 import java.net.URLEncoder;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -58,7 +60,11 @@ public class ProjectController {
     
        for (ProjectDTO project : list) {
            List<String> userIds = service.getUserIdsByProjectId(project.getId());
+           List<String> user_photo = service.getUserPhoto(project.getId());
+           ArrayList<HashMap<String, String>>	userIdPhoto = service.getUserIdPhoto(project.getId());
            project.setUserIds(userIds);
+           project.setUser_photo(user_photo);
+           project.setUserIdPhoto(userIdPhoto);
        }
 
        model.addAttribute("list", list);
@@ -321,7 +327,7 @@ public class ProjectController {
           return service.replyDel(id);
 
       }
-
+      
    
    
    

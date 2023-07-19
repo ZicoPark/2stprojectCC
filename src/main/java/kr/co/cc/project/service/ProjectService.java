@@ -143,6 +143,10 @@ public class ProjectService {
 	public List<String> getUserIdsByProjectId(String id) {
 	    return dao.getUserIdsByProjectId(id);
 	}
+	
+	public List<String> getUserPhoto(String id) {
+		return dao.getUserPhoto(id);
+	}
 
 
 	public String getMemberById(String memberId) {
@@ -215,6 +219,13 @@ public class ProjectService {
 	public String getRange(String id) {
 		return dao.getRange(id);
 	}
+
+
+	public ArrayList<HashMap<String, String>> getUserIdPhoto(String projectId) {
+		
+		return dao.getUserIdPhoto(projectId);
+	}
+
 
 
 

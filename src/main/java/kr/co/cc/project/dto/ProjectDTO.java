@@ -1,6 +1,8 @@
 package kr.co.cc.project.dto;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 public class ProjectDTO {
@@ -28,6 +30,7 @@ public class ProjectDTO {
 	private Date comment_create_date;
 	private String coment_id;
 	private String dept_name;
+	private List<String> user_photo;
 	
 	
 
@@ -36,9 +39,16 @@ public class ProjectDTO {
 	   private String classification;
 	   private String identify_value;
 	   
-	   
+	private ArrayList<HashMap<String, String>>	userIdPhoto;   
 	   
 	  
+
+	public List<String> getUser_photo() {
+		return user_photo;
+	}
+	public void setUser_photo(List<String> user_photo) {
+		this.user_photo = user_photo;
+	}
 	public String getDept_name() {
 		return dept_name;
 	}
@@ -200,6 +210,12 @@ public class ProjectDTO {
 	}
 	public void setIdentify_value(String identify_value) {
 		this.identify_value = identify_value;
+	}
+	public ArrayList<HashMap<String, String>> getUserIdPhoto() {
+		return userIdPhoto;
+	}
+	public void setUserIdPhoto(ArrayList<HashMap<String, String>> userIdPhoto) {
+		this.userIdPhoto = userIdPhoto;
 	}
 	
 	
