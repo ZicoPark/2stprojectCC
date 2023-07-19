@@ -229,6 +229,12 @@ public class NoticeBoardService {
 	}
 
 
+	public NoticeBoardDTO logincheck(String loginId) {
+		
+		return dao.logincheck(loginId);
+	}
+
+
 	
 
 

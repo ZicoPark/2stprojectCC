@@ -40,15 +40,9 @@
 			VALUES(#{param1}, #{param2}, #{param3}, #{param4})
 	</insert>
 
-	
-<!--     <select id="detail"  resultType="kr.co.cc.noticeBoard.dto.NoticeBoardDTO">
-      SELECT * FROM notice_board 
-      WHERE id = #{param1}   
-   </select> -->
-   
    
    <select id="nodetail" resultType="kr.co.cc.noticeBoard.dto.NoticeBoardDTO">
-      select nb.id, nb.member_id, nb.subject, nb.content, nb.hit, nb.create_at, m.user_id, m.name
+      select nb.id, nb.member_id, nb.subject, nb.content, nb.hit, nb.create_at, m.user_id, m.name, m.admin_chk
 		from notice_board nb
 		left join member m on nb.member_id = m.id 
 		where nb.id = #{id} 
@@ -75,18 +69,15 @@
          WHERE id=#{id}
    </update>   
    
-<!--    	<resultMap id="attachmentMap" type="kr.co.cc.doc.dto.AttachmentDTO" >
-		<id property="id" column="id"/>
-		<result property="oriFileName" column="ori_file_name"/>
-		<result property="newFileName" column="id"/>
-		<result property="classification" column="classification"/>
-		<result property="identifyValue" column="identify_value"/>		
-	</resultMap> -->
 	
    <select id="noDetailFile" resultType="kr.co.cc.doc.dto.AttachmentDTO">
       SELECT * FROM attachment 
       WHERE identify_value = #{id}
    </select>
+   
+   	<select id="logincheck" resultType="kr.co.cc.doc.dto.AttachmentDTO">
+		SELECT admin_chk FROM member WHERE id = #{param1}
+	</select>	
    
    <delete id="noticeBoardDel">
       DELETE FROM notice_board WHERE id = #{id}
@@ -115,5 +106,7 @@
 		WHERE identify_value=#{id}
 		AND receive_id=#{loginId}
 	</update>
+	
+	
 	
 </mapper>

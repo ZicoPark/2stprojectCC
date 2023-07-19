@@ -16,10 +16,19 @@ public class NoticeBoardDTO {
    private String identify_value;
    private String name;
 	private String user_id;
+	private String admin_chk;
+	
+	
 	
 	
    
 	   
+	public String getAdmin_chk() {
+		return admin_chk;
+	}
+	public void setAdmin_chk(String admin_chk) {
+		this.admin_chk = admin_chk;
+	}
 	public String getUser_id() {
 		return user_id;
 	}
