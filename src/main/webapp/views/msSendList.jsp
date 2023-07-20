@@ -21,7 +21,16 @@
 </head>
 
 <style>
-
+.btn-primary {
+    color: #fff;
+    background-color: #20c997;
+    border-color: #20c997;
+    box-shadow: none;
+}
+  
+.card-primary.card-outline {
+    border-top: 3px solid #20c997;
+}  
   
    .date {
     color: rgb(52 58 64 / 91%);

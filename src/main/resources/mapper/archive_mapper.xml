@@ -79,7 +79,7 @@
 	<update id="archiveUpdate" parameterType="hashmap">
 		UPDATE archive_board SET 
 		subject = #{subject}
-		,content = #{content}
+		,content = #{afterContent}
 		WHERE id = #{id}
 	</update>
 	

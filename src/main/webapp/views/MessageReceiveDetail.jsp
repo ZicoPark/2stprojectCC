@@ -15,6 +15,19 @@
   <!-- Theme style -->
   <link rel="stylesheet" href="../../dist/css/adminlte.min.css">
 </head>
+<style>
+.btn-primary {
+    color: #fff;
+    background-color: #20c997;
+    border-color: #20c997;
+    box-shadow: none;
+}
+  
+.card-primary.card-outline {
+    border-top: 3px solid #20c997;
+}  
+
+</style>
 <body class="hold-transition sidebar-mini">
 <jsp:include page = "index.jsp"></jsp:include>
 <div class="wrapper">
@@ -101,14 +114,10 @@
      
               </div>
               <!-- /.mailbox-controls -->
-              <div class="mailbox-read-message">
+              <div class="mailbox-read-message" style="height: 310px;">
                 <p>${detailms.content}</p>
               </div>
               <!-- /.mailbox-read-message -->
-            </div>
-            <!-- /.card-body -->
-    
-
             <div class="card-footer bg-white">
               <ul class="mailbox-attachments d-flex align-items-stretch clearfix">
                 <li>
@@ -133,8 +142,6 @@
 			  </div>
                 </li>
               </ul>
-            </div>
-
             <!-- /.card-footer -->
             <div class="card-footer">
               <div class="float-right">
@@ -144,6 +151,12 @@
               <button type="button" class="btn btn-default" onclick="location.href='msDelete.do?id=${detailms.id}'"><i class="far fa-trash-alt"></i></button>
               <button type="button" class="btn btn-default"><i class="fas fa-print"></i> Print</button>
             </div>
+            </div>
+            </div>
+            <!-- /.card-body -->
+    
+
+
             <!-- /.card-footer -->
           </div>
           <!-- /.card -->

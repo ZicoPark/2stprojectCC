@@ -15,6 +15,18 @@
   <!-- Theme style -->
   <link rel="stylesheet" href="../../dist/css/adminlte.min.css">
 </head>
+<style>
+.btn-primary {
+    color: #fff;
+    background-color: #20c997;
+    border-color: #20c997;
+    box-shadow: none;
+}
+  
+.card-primary.card-outline {
+    border-top: 3px solid #20c997;
+}  
+</style>
 <body class="hold-transition sidebar-mini">
 <jsp:include page = "index.jsp"></jsp:include>
 <div class="wrapper">
@@ -110,19 +122,16 @@
 
               </div>
               <!-- /.mailbox-controls -->
-              <div class="mailbox-read-message">
+              <div class="mailbox-read-message" style="height: 310px;">
                 <p>${detailms.content}</p>
               </div>
               <!-- /.mailbox-read-message -->
-            </div>
-            <!-- /.card-body -->
-    
 				<c:if test="${detailFile.size() > 0 }">
 					<c:forEach items="${detailFile}" var="i">
                   <div class="mailbox-attachment-info">
                     <a class="mailbox-attachment-name"><i class="fas fa-paperclip"></i> &nbsp ${i.ori_file_name}</a>
 					&nbsp &nbsp
-                    <a href="msdownload.do?path=${i.id}"><i class="fas fa-cloud-download-alt"></i></a>
+                    <a href="msdownload.do?path=${i.id}"><i clawss="fas fa-cloud-download-alt"></i></a>
                     
                   </div>
 
@@ -139,6 +148,9 @@
                 <button type="button" onclick="location.href='/msSendList.go'" class="btn btn-default"> 목록</button>
  			</div>
             </div>
+            </div>
+            <!-- /.card-body -->
+    
             <!-- /.card-footer -->
           </div>
           <!-- /.card -->

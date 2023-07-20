@@ -71,7 +71,7 @@
             <div class="card-footer bg-white">
               <ul class="mailbox-attachments d-flex align-items-stretch clearfix">
 			  	<c:if test="${detailFile.size() == 0 }">
-					<div>첨부파일 없음.</div>
+					<div></div>
 				</c:if>       
 				<c:if test="${detailFile.size() > 0 }">
 					<c:forEach items="${detailFile}" var="i">

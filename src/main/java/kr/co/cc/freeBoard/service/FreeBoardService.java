@@ -254,7 +254,7 @@ public class FreeBoardService {
 	        int row = dao.freeUpdate(params);
 	        logger.info("insert row: " + row);
 	        String id = "";
-
+	        logger.info("update params :"+params);
 	        logger.info("서비스 deletedFiles 있나요 : "+deletedFiles);
 
 			if(row>0) { // 업로드된 자료실 게시물이 1이라면
