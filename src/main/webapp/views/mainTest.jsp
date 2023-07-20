@@ -33,72 +33,24 @@
       @import url('https://fonts.googleapis.com/css?family=Questrial&display=swap');
 
 
-        .cal {
-	      width: 200px;
-	      height: 200px;
-	      overflow: hidden;
-        }
-        
+    a {
+      color: #000000;
+      text-decoration: none; 
+      font-family: 'Questrial', sans-serif;
+    }
+    
+    a:hover {
+      color: #108080; 
+    }
 
-        td .day {
-            width: 50px;
-            height: 50px;
-        } 
+   .button-self{
+    color: #20c997;
+    background-color: #ffffff;
+    border-color: #ffffff;
+    box-shadow: none;
 
-        .Calendar {
-            text-align: center;
-            margin: 21px;
-        }
+   }
 
-        .Calendar>thead>tr:first-child>td {
-            font-family: 'Questrial', sans-serif;
-            font-size: 1.1em;
-            font-weight: bold;
-        }
-
-        .Calendar>thead>tr:last-child>td {
-            font-family: 'Questrial', sans-serif;
-            font-weight: 600;     
-        }
-
-        .Calendar>tbody>tr>td>p {
-            font-family: 'Montserrat', sans-serif;
-            height: 45px;
-            width: 45px;
-            border-radius: 45px;
-            transition-duration: .2s;
-            line-height: 45px;
-            margin: 2.5px;
-            display: block;
-            text-align: center;
-        }        
-
-        .pastDay {
-            color: lightgray;
-        }
-
-        .today {
-            background-color: #F5D042;            
-            color: #fff;
-            font-weight: 600;
-            cursor: pointer;
-        }
-
-        .futureDay {
-            background-color: #FFFFFF;
-            cursor: pointer;
-        }
-        .futureDay:hover{
-            background:#eee;
-        }
-
-        .futureDay.choiceDay,
-        .today.choiceDay {
-            background: #0A174E;
-            color: #fff;
-            font-weight: 600;
-            cursor: pointer;
-        }
 
 </style>
 
@@ -133,31 +85,33 @@
 
 <div class="text-center">
 </div>
-<h3 class="profile-username text-center">${main.m_name }</h3>
+<h3 class="profile-username text-center" style ="color :#1b916e; font-weight: bold;">${main.m_name }</h3>
 <p class="text-muted text-center">${main.d_name} /  ${main.jl_name}</p>
 <ul class="list-group list-group-unbordered mb-3">
-<li class="list-group-item">
-    <b>출근시간</b>
-<a class="float-right" style=" FONT-SIZE: 13PX; COLOR: GREEN;">
+
+<li class="list-group-item" style="text-align: center;">
+   <i class="far fa-clock" id="clock" style="
+    font-weight: bold;
+    color: #20c997;"></i>
+   <hr/>
+  <button type="button" class="btn btn-success btn-sm" onclick="location.href='timeGo.do'">출근</button>
+   &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;  &nbsp; &nbsp;  &nbsp; &nbsp;  &nbsp; &nbsp;
+  <button type="button" class="btn btn-danger btn-sm" onclick="location.href='timeEnd.do'">퇴근</button>
+</li>
+
+<li class="list-group-item" style="text-align: center;">
+  <a style="FONT-SIZE: 15PX; COLOR: GREEN;">
     ${timeList.time_go}
-</a>
-
-</li>
-<li class="list-group-item">
-    <b>퇴근시간</b>
-    <a class="float-right" style=" FONT-SIZE: 13PX; COLOR: RED;">
-        ${timeList.time_end}
-    </a>
+  </a>  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;
+  <a style="FONT-SIZE: 15PX; COLOR: RED;">
+    ${timeList.time_end}
+  </a>
 </li>
 
 
-
-<li class="list-group-item">
-<h4 id="clock"></h4>
-</li>
 </ul>
-<button type="button" class="btn btn-success btn-sm" onclick="location.href='timeGo.do'">출근</button>&nbsp;&nbsp;
-          <button type="button" class="btn btn-danger btn-sm" onclick="location.href='timeEnd.do'">퇴근</button>
+
+          
 </div>
 
 </div>
@@ -170,14 +124,12 @@
 
 <div class="card-body">
 <strong><i class="far fa-file-alt mr-1"></i><a href="/msReceiveList.go"> 받은 쪽지함 &nbsp ${ms}</a></strong>
-
 <hr>
 <strong><i class="fas fa-pencil-alt mr-1"></i><a href="/requestDocWaitList.go"> 결재 대기함 &nbsp ${doc}</a></strong>
-
 <hr>
 <strong><i class="fas fa-book mr-1"></i><a href="projects.go"> 진행중인 프로젝트 &nbsp ${pro}</a></strong>
-
 <hr>
+
 
 </div>
 
@@ -213,31 +165,133 @@
             </tr>
           </thead>
           <tbody>
-	        <c:forEach items="${Nolist}" var="i">
-	          <tr>
-	            <td>${i.subject}</td>
-	            <td>${i.name}</td>
-	            <td>${i.create_at}</td>
-	            <td><input type ="hidden" id = "${i.id}" /></td>
-	          </tr>
-	        </c:forEach>
+           <c:forEach items="${Nolist}" var="i">
+             <tr>
+               <td>${i.subject}</td>
+               <td>${i.name}</td>
+               <td>${i.create_at.substring(0, 10)}</td>
+               <td><input type ="hidden" id = "${i.id}" /></td>
+             </tr>
+           </c:forEach>
           </tbody>
         </table>
       </div>
     </div>     
      </div>
     </div> 
+    
+    
+    
+    
    <div class="col-lg-6">   
    <div class="col-md-12"> 
     <div class="card">
       <div class="card-header border-0" style=" background-color: #20c997!important;">
-        <h3 class="card-title" style="font-size: 1.1rem; font-weight: 400; color: white">언젠가 쓸거임</h3>
+        <h3 class="card-title" style="font-size: 1.1rem; font-weight: 400; color: white">
+          <i class="ion ion-clipboard mr-1"></i>
+          유튜브
+        </h3>
+ 
         <div class="card-tools">
-          <a href="/noticeBoard.go" class="btn btn-tool btn-sm">
+          <c:if test="${main.admin_chk == 1}">
+            <form action="youtubeForm">
+              <input id="url" type="url" name="youtubeLink" placeholder="삽입할 영상의 URL을 입력해주세요" style="
+                height: 30px;
+                width: 64%;
+                font-size: 11px;
+                padding: 7px 10px;
+                border: 1px solid #ccc;
+            ">
+              <button type="button" id="sbt" class="btn button-self float-right" style="margin-left: 5px;">
+            <i class="fas fa-save">저장</i></button>
+            </form>
+          </c:if>
+        </div>
+      </div>
+      <div class="card-body">
+   
+      <div class="video-container">
+        <a href="https://www.youtube.com/embed/${youtube}" target="_blank">
+          <img src="https://img.youtube.com/vi/${youtube}/maxresdefault.jpg" width="450" height="240">
+        </a>
+      </div>
+
+
+        </div>
+    </div>
+    </div>
+   </div>
+  </div> 
+  
+  
+  
+  
+ <div class ="row">
+<div class="card card-primary" style="width: 500px;">
+  <div class="card-header ui-sortable-handle" style="cursor: move; background-color: #20c997!important;">
+    <h3 class="card-title" style="font-size: 1.1rem; font-weight: 400; color: white">
+      <i class="ion ion-clipboard mr-1"></i>
+      개인 업무 관리
+    </h3>
+    <div class="card-tools">
+            
+   </div>
+   </div>
+  <div class="card-body" style="overflow-y: auto; max-height: 300px;">
+    <ul class="todo-list ui-sortable" data-widget="todo-list">
+
+
+
+            <!-- 한 줄  -->
+            
+            <c:forEach items="${PerList}" var="personal">
+            <li class="${personal.status ? '' : 'done'}" style="">
+            
+            <span class="handle ui-sortable-handle">
+            <i class="fas fa-ellipsis-v"></i>
+            <i class="fas fa-ellipsis-v"></i>
+            </span>
+            
+            <div class="icheck-primary d-inline ml-2">
+              <input type="checkbox" value="${personal.id}" name="todo" id="todoCheck${personal.id}" ${personal.status ? '' : 'checked'}>
+              <label for="todoCheck${personal.id}"></label>
+            </div>
+
+
+
+            <span class="text">${personal.title}</span>
+            
+            
+            <div class="tools">
+            <!-- 수정버튼 -->
+            <a href="personalUpdate.go?id=${personal.id}" style="color: inherit;">
+              <i class="fas fa-edit"></i>
+            </a>
+            
+            <i class="fas fa-trash-o"></i>
+            </div>
+            </li>
+            
+            </c:forEach>
+            </ul>
+            
+            </div>
+            <div class="card-footer clearfix">
+            <button onclick="location.href='personalWrite.go'" class="btn button-self float-right"><i class="fas fa-plus"></i> 추가</button>
+            </div>
+            </div>
+    
+ <div class="col-md-3">
+  <div class="card card-primary">
+    <div class="card-header border-0" style="background-color: #20c997!important;">
+      <h3 class="card-title" style="font-size: 1.1rem; font-weight: 400; color: white">언젠가 쓸거임</h3>
+      <div class="card-tools">
+        <a href="/noticeBoard.go" class="btn btn-tool btn-sm">
             더보기
           </a>
         </div>
       </div>
+   <div class="card-body">
     <div class = "cal">
         <table class="Calendar">
             <thead>
@@ -265,121 +319,27 @@
         </table>
     </div>
     </div>
-   </div>
-  </div> 
- </div>  
- 
- 
+   </div> 
+    
 
-<div class="col-lg-6">
-  <div class="col-md-12">
-    <div class="card">
-      <div class="card-header ui-sortable-handle" style="cursor: move; background-color: #20c997!important;">
-        <h3 class="card-title" style="font-size: 1.1rem; font-weight: 400; color: white">
-          <i class="ion ion-clipboard mr-1"></i>
-          유튜브
-        </h3>
-        <div class="card-tools">
-          <c:if test="${main.admin_chk == 1}">
-            <form action="youtubeForm">
-              <input id="url" type="url" name="youtubeLink" placeholder="삽입할 YOUTUBE 영상의 URL을 입력해주세요">
-              <button id="sbt">제출</button>
-            </form>
-          </c:if>
+            
+          </section>
+          <!-- right col -->
         </div>
-      </div>
-      <div class="card-body">
-   
-		<div class="video-container">
-		  <a href="https://www.youtube.com/embed/${youtube}" target="_blank">
-		    <img src="https://img.youtube.com/vi/${youtube}/maxresdefault.jpg" width="560" height="315">
-		  </a>
-		</div>
+        <!-- /.row (main row) -->
+      </div><!-- /.container-fluid -->
 
+  
 
-        </div>
-      </div>
-       
-    </div>
-  </div>
-  
-  
-  
-</div>
 
  
  
  
-  <div class="card">
-<div class="card-header ui-sortable-handle" style="cursor: move; background-color: #20c997!important;">
-<h3 class="card-title" style="font-size: 1.1rem; font-weight: 400; color: white">
-<i class="ion ion-clipboard mr-1"></i>
-개인 업무 관리
-</h3>
-<div class="card-tools">
 
-</div>
-</div>
-
-<div class="card-body">
-<ul class="todo-list ui-sortable" data-widget="todo-list">
-
-<div class="card-body" style="overflow-y: auto; max-height: 300px;">
-<ul class="todo-list ui-sortable" data-widget="todo-list">
-
-<!-- 한 줄  -->
-
-<c:forEach items="${PerList}" var="personal">
-<li class="${personal.status ? '' : 'done'}" style="">
-
-<span class="handle ui-sortable-handle">
-<i class="fas fa-ellipsis-v"></i>
-<i class="fas fa-ellipsis-v"></i>
-</span>
-
-<div class="icheck-primary d-inline ml-2">
-  <input type="checkbox" value="${personal.id}" name="todo" id="todoCheck${personal.id}" ${personal.status ? '' : 'checked'}>
-  <label for="todoCheck${personal.id}"></label>
-</div>
-
-
-
-<span class="text">${personal.title}</span>
-
-
-<div class="tools">
-<!-- 수정버튼 -->
-<a href="personalUpdate.go?id=${personal.id}" style="color: inherit;">
-  <i class="fas fa-edit"></i>
-</a>
-
-<i class="fas fa-trash-o"></i>
-</div>
-</li>
-
-</c:forEach>
-</ul>
-
-</div>
-
-
-</ul>
-</div>
-
-<div class="card-footer clearfix">
-<button onclick="location.href='personalWrite.go'" class="btn btn-primary float-right"><i class="fas fa-plus"></i> Add item</button>
-</div>
-</div>
   
   
   
-  </div>
- </section>         
-</div>
 
-
-           
-</div>
 
            
            
@@ -430,139 +390,59 @@
 <script>
 var msg = "${msg}";
 if(msg != ""){
-	alert(msg);
-}	
+   alert(msg);
+}   
 
-	// 시계 
-	setInterval(function(){
-	    var timer = new Date();
-	    var h = timer.getHours();
-	    var m = timer.getMinutes();
-	    var s = timer.getSeconds();
-	    document.getElementById('clock').innerHTML = h + ":" + m + ":" + s;},1000);
-	    
+   // 시계 
+   setInterval(function(){
+       var timer = new Date();
+       var h = timer.getHours();
+       var m = timer.getMinutes();
+       var s = timer.getSeconds();
+       document.getElementById('clock').innerHTML = h + ":" + m + ":" + s;},1000);
+       
 
-	  // 개인업무 체크박스 클릭 했을 때
-	  $("input[name='todo']").on("click", function() {
-	    var isChk = $(this).is(":checked");
-	    var liElement = $(this).closest("li");
-	    var todoId = $(this).val();
+     // 개인업무 체크박스 클릭 했을 때
+     $("input[name='todo']").on("click", function() {
+       var isChk = $(this).is(":checked");
+       var liElement = $(this).closest("li");
+       var todoId = $(this).val();
 
-	    if (isChk) {
-	      $.ajax({
-	        url: "/updateTodo.ajax",
-	        method: "POST",
-	        data: { todoId: todoId },
-	        success: function(response) {
-	        liElement.addClass("done");
-	          console.log("개인업무 체크박스 ajax 성공")
-	        },
-	        error: function() {
-	          console.log("오류 발생");
-	        }
-	      });
-	    } else {
-	      $.ajax({
-	        url: "/updateTodo.ajax",
-	        method: "POST",
-	        data: { todoId: todoId },
-	        success: function(response) {
-	        	liElement.removeClass("done");
-	          console.log("개인업무 체크박스 ajax 성공")
-	        },
-	        error: function() {
-	          console.log("오류 발생");
-	        }
-	      });
-	    }
-	  });
+       if (isChk) {
+         $.ajax({
+           url: "/updateTodo.ajax",
+           method: "POST",
+           data: { todoId: todoId },
+           success: function(response) {
+           liElement.addClass("done");
+             console.log("개인업무 체크박스 ajax 성공")
+           },
+           error: function() {
+             console.log("오류 발생");
+           }
+         });
+       } else {
+         $.ajax({
+           url: "/updateTodo.ajax",
+           method: "POST",
+           data: { todoId: todoId },
+           success: function(response) {
+              liElement.removeClass("done");
+             console.log("개인업무 체크박스 ajax 성공")
+           },
+           error: function() {
+             console.log("오류 발생");
+           }
+         });
+       }
+     });
 
-    
-      window.onload = function () { buildCalendar(); }    // 웹 페이지가 로드되면 buildCalendar 실행
-
-      let nowMonth = new Date();  // 현재 달을 페이지를 로드한 날의 달로 초기화
-      let today = new Date();     // 페이지를 로드한 날짜를 저장
-      today.setHours(0, 0, 0, 0);    // 비교 편의를 위해 today의 시간을 초기화
-
-      // 달력 생성 : 해당 달에 맞춰 테이블을 만들고, 날짜를 채워 넣는다.
-      function buildCalendar() {
-
-          let firstDate = new Date(nowMonth.getFullYear(), nowMonth.getMonth(), 1);     // 이번달 1일
-          let lastDate = new Date(nowMonth.getFullYear(), nowMonth.getMonth() + 1, 0);  // 이번달 마지막날
-
-          let tbody_Calendar = document.querySelector(".Calendar > tbody");
-          document.getElementById("calYear").innerText = nowMonth.getFullYear();             // 연도 숫자 갱신
-          document.getElementById("calMonth").innerText = leftPad(nowMonth.getMonth() + 1);  // 월 숫자 갱신
-
-          while (tbody_Calendar.rows.length > 0) {                        // 이전 출력결과가 남아있는 경우 초기화
-              tbody_Calendar.deleteRow(tbody_Calendar.rows.length - 1);
-          }
-
-          let nowRow = tbody_Calendar.insertRow();        // 첫번째 행 추가           
-
-          for (let j = 0; j < firstDate.getDay(); j++) {  // 이번달 1일의 요일만큼
-              let nowColumn = nowRow.insertCell();        // 열 추가
-          }
-
-          for (let nowDay = firstDate; nowDay <= lastDate; nowDay.setDate(nowDay.getDate() + 1)) {   // day는 날짜를 저장하는 변수, 이번달 마지막날까지 증가시키며 반복  
-
-              let nowColumn = nowRow.insertCell();        // 새 열을 추가하고
-
-
-              let newDIV = document.createElement("p");
-              newDIV.innerHTML = leftPad(nowDay.getDate());        // 추가한 열에 날짜 입력
-              nowColumn.appendChild(newDIV);
-
-              if (nowDay.getDay() == 6) {                 // 토요일인 경우
-                  nowRow = tbody_Calendar.insertRow();    // 새로운 행 추가
-              }
-
-              if (nowDay < today) {                       // 지난날인 경우
-                  newDIV.className = "pastDay";
-              }
-              else if (nowDay.getFullYear() == today.getFullYear() && nowDay.getMonth() == today.getMonth() && nowDay.getDate() == today.getDate()) { // 오늘인 경우           
-                  newDIV.className = "today";
-                  newDIV.onclick = function () { choiceDate(this); }
-              }
-              else {                                      // 미래인 경우
-                  newDIV.className = "futureDay";
-                  newDIV.onclick = function () { choiceDate(this); }
-              }
-          }
-      }
-
-      // 날짜 선택
-      function choiceDate(newDIV) {
-          if (document.getElementsByClassName("choiceDay")[0]) {                              // 기존에 선택한 날짜가 있으면
-              document.getElementsByClassName("choiceDay")[0].classList.remove("choiceDay");  // 해당 날짜의 "choiceDay" class 제거
-          }
-          newDIV.classList.add("choiceDay");           // 선택된 날짜에 "choiceDay" class 추가
-      }
-
-      // 이전달 버튼 클릭
-      function prevCalendar() {
-          nowMonth = new Date(nowMonth.getFullYear(), nowMonth.getMonth() - 1, nowMonth.getDate());   // 현재 달을 1 감소
-          buildCalendar();    // 달력 다시 생성
-      }
-      // 다음달 버튼 클릭
-      function nextCalendar() {
-          nowMonth = new Date(nowMonth.getFullYear(), nowMonth.getMonth() + 1, nowMonth.getDate());   // 현재 달을 1 증가
-          buildCalendar();    // 달력 다시 생성
-      }
-
-      // input값이 한자리 숫자인 경우 앞에 '0' 붙혀주는 함수
-      function leftPad(value) {
-          if (value < 10) {
-              value = "0" + value;
-              return value;
-          }
-          return value;
-      }    
     
 
 
+
       
-      
+
       
       
       

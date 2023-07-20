@@ -24,18 +24,13 @@
 		</dependency>
 		
 
-		<!-- 통계 -->
+		<!-- 통계 -->	    
 	    <dependency>
-	      <groupId>com.google.apis</groupId>
-	      <artifactId>google-api-services-youtubeAnalytics</artifactId>
-	      <version>v2-rev20210510-2.0.0</version>
-	    </dependency>
-	    
-	    <dependency>
-	      <groupId>com.google.apis</groupId>
-	      <artifactId>google-api-services-analyticsreporting</artifactId>
-	      <version>v4-rev20211020-1.32.1</version>
-	    </dependency>
+		    <groupId>org.seleniumhq.selenium</groupId>
+		    <artifactId>selenium-java</artifactId>
+		</dependency>
+		
+
 
 
 		

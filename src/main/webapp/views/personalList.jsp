@@ -75,7 +75,7 @@
 											class="btn btn-primary btn-sm view-btn"> <i
 												class="fas fa-edit"> </i> 수정
 										</a>                       
-                          				<a class="btn btn-danger btn-sm" href="personalDel.do?id=${personal.id}">
+                          				<a class="btn btn-danger btn-sm" onclick="return confirm('정말로 삭제하시겠습니까?  삭제 후에는 복구가 불가능합니다.');" href="personalDel.do?id=${personal.id}" >
                               				<i class="fas fa-trash">
                               			</i>
                               					삭제
@@ -86,131 +86,7 @@
 								
 </tbody>
 						</table>
-      
-      
-<%--       <div class="card-body">
-       <ul class="todo-list ui-sortable" data-widget="todo-list">
-      <li>
-			<div class="card-body p-0">
-						<table class="table table-striped projects">
-							<thead>
-								<tr>
-									<th ></th>
-									<th>생성일</th>
-									<th>업무 사항</th>
-									<th>시작일</th>
-									<th>마감일</th>
-									<th>수정</th>
-									<th>삭제</th>
-<!-- 									<th style="width: 20%"></th> -->
-								</tr>
-							</thead>
-							<tbody>
-							<tr>
-										<td>#</td>
-										<td>${personal.create_at}</td>
-										<td>${personal.title}</td>
-										<td>${personal.start_at}</td>
-										<td>${personal.end_at}</td>
-										<td ><a
-											href="projectDetail.go?id=${project.project_id}"
-											class="btn btn-primary btn-sm view-btn"> 수정 </a>
-										</td>
-										<td ><a
-											href="projectDetail.go?id=${project.project_id}"
-											class="btn btn-primary btn-sm view-btn"> 삭제 </a> 뭐 쓸지 고민
-											<button type="button" class="btn btn-default"><i class="far fa-trash-alt"></i></button>
-										</td>
-							</tr>
-							
-							<tr>
-								<td>      
-									<div class="icheck-primary d-inline ml-2">
-									      <input type="checkbox" value="" name="todo1" id="todoCheck1">
-									      <label for="todoCheck1"></label>
-									</div>
-								</td>
-										<td>${personal.create_at}</td>
-										<td><span class="text">Design a nice theme</span></td>
-										<td>${personal.start_at}</td>
-										<td>${personal.end_at}</td>
-										<td ><a
-											href="projectDetail.go?id=${project.project_id}"
-											class="btn btn-primary btn-sm view-btn"> 수정 </a>
-										</td>
-										<td ><a
-											href="projectDetail.go?id=${project.project_id}"
-											class="btn btn-primary btn-sm view-btn"> 삭제 </a> 뭐 쓸지 고민
-											<button type="button" class="btn btn-default"><i class="far fa-trash-alt"></i></button>
-										</td>
-							</tr>
-							</tbody>
-						</table>
-					</div>
-      </li>
-     <li>
-      <div class="icheck-primary d-inline ml-2">
-      <input type="checkbox" value="" name="todo1" id="todoCheck1">
-      <label for="todoCheck1"></label>
-      </div>
-      
-      <span class="text">Design a nice theme</span>
-      
-      
-      <div class="tools">
-      <i class="fas fa-edit"></i>
-      <i class="fas fa-trash-o"></i>
-      </div>
-      </li>
-      <li class="done">
-
-      <div class="icheck-primary d-inline ml-2">
-      <input type="checkbox" value="" name="todo2" id="todoCheck2" checked="">
-      <label for="todoCheck2"></label>
-      </div>
-      <span class="text">Make the theme responsive</span>
-      <small class="badge badge-info"><i class="far fa-clock"></i> 4 hours</small>
-      <div class="tools">
-      <i class="fas fa-edit"></i>
-      <i class="fas fa-trash-o"></i>
-      </div>
-      </li>
-      <li>
-      <div class="icheck-primary d-inline ml-2">
-      <input type="checkbox" value="" name="todo3" id="todoCheck3">
-      <label for="todoCheck3"></label>
-      </div>
-      <span class="text">Let theme shine like a star</span>
-      <div class="tools">
-      <i class="fas fa-edit"></i>
-      <i class="fas fa-trash-o"></i>
-      </div>
-      </li>
-      <li>
-      <div class="icheck-primary d-inline ml-2">
-      <input type="checkbox" value="" name="todo4" id="todoCheck4">
-      <label for="todoCheck4"></label>
-      </div>
-      <span class="text">Let theme shine like a star</span>
-      <div class="tools">
-      <i class="fas fa-edit"></i>
-      <i class="fas fa-trash-o"></i>
-      </div>
-      </li>
-      <li>
-
-      <div class="icheck-primary d-inline ml-2">
-      <input type="checkbox" value="" name="todo5" id="todoCheck5">
-      <label for="todoCheck5"></label>
-      </div>
-      <span class="text">Check your messages and notifications</span>
-      <div class="tools">
-      <i class="fas fa-edit"></i>
-      <i class="fas fa-trash-o"></i>
-      </div>
-      </li>
-      </ul>
-      </div> --%>
+  
       
       
       	<div class="card-footer clearfix"> 

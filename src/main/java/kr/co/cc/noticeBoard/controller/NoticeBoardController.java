@@ -36,13 +36,21 @@ public class NoticeBoardController {
    
    
    @RequestMapping(value="/noticeBoard.go")
-   public ModelAndView noticeBoard(){
+   public ModelAndView noticeBoard(Model model, HttpSession session){
 	   logger.info("list");
 		ModelAndView mav = new ModelAndView("noticeBoardList") ;
 	
 			ArrayList<NoticeBoardDTO> list = service.nolist();
 			logger.info("list cnt" + list.size());
 			mav.addObject("list", list);
+			
+			String loginId = (String) session.getAttribute("id");
+			NoticeBoardDTO loginid = service.logincheck(loginId);
+			
+	         model.addAttribute("loginId", loginId);
+	         model.addAttribute("loginid", loginid);
+			
+			
 			
 		return mav;
          
@@ -56,9 +64,6 @@ public class NoticeBoardController {
    
 
    
-   
-   
-   
    @RequestMapping(value = "/noticeBoardWrite.do", method = RequestMethod.POST)
    public String nowrite(MultipartFile file, @RequestParam HashMap<String, String> params, HttpSession session, RedirectAttributes rttr) {
    
@@ -70,9 +75,7 @@ public class NoticeBoardController {
    }
    
    
-   
-   
-   
+
    @RequestMapping(value="/noticeBoardDetail.do")
    public String nodetail(Model model, @RequestParam String id, @RequestParam String type ,HttpSession session){
       
@@ -124,31 +127,6 @@ public class NoticeBoardController {
       
       return page;   
    }
-   
-//   @RequestMapping(value="/noticeBoardDetail.do")
-//   public String noDetail(Model model, @RequestParam String id) {
-//      
-//      logger.info("detail : "+id);
-//      
-//      NoticeBoardDTO detailno = service.nodetail(Integer.parseInt(id), "detail");
-//      String page = "redirect:/msSendList.go";
-//      
-//      if(detailno != null) {
-//         
-//         logger.info("if문 진입");
-//         String detailfile = service.noDetailFile(Integer.parseInt(id));
-//         
-//         logger.info("detailFile :"+detailfile);
-//         
-//         page = "noticeBoardDetail"; 
-//         model.addAttribute("detailno", detailno);
-//         model.addAttribute("detailFile", detailfile);
-//         
-//      }
-//      
-//      return page;
-//   }
-   
    
    
    

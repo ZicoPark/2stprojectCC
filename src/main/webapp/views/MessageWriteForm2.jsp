@@ -46,6 +46,9 @@
     display: none;
   }
   
+
+  
+  
 /*   	.chat-column1{
 	    flex: 1;
         padding: 10px;
@@ -98,12 +101,11 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1>Compose</h1>
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="#">Home</a></li>
-              <li class="breadcrumb-item active">Compose</li>
+              <li class="breadcrumb-item active">쪽지 작성</li>
             </ol>
           </div>
         </div>
@@ -131,7 +133,6 @@
 	<li class="nav-item active">
 	<a href="#" class="nav-link">
 	<i class="far fa-envelope"></i> 전체 쪽지
-	<span class="badge bg-primary float-right">12</span>
 	</a>
 	</li>
 	<li class="nav-item">
@@ -158,7 +159,7 @@
           <div class="col-md-9">
             <div class="card card-primary card-outline">
               <div class="card-header">
-                <h3 class="card-title">Compose New Message</h3>
+                <h3 class="card-title">새 쪽지 작성</h3>
               </div>
               <!-- /.card-header -->
               <div class="card-body">
@@ -169,6 +170,7 @@
 				  <input type="text" id="to_plz" name="to_plz" class="form-control" placeholder="받는 사람: " readonly/>
 				  <div class="input-group-append">
 				    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#memberModal">주소록</button>
+				  </div>
 				  </div>
 				</div>
 
@@ -263,12 +265,12 @@
 		</div>   
 	</div>
 	</div>
-				
+			<div class="form-group">
 			 <input type="text" class="form-control" name="title" maxlength="19"  placeholder="제목을 입력하세요">
+			</div>
 			
-            <div class="form-group" name="content">
-              <textarea id="compose-textarea" class="form-control" style="height: 600px" name="content">
-                      
+            <div class="form-group" name="content" style="height: 400px;">
+              <textarea id="compose-textarea" class="form-control" style="height: 300px; display: none;">   
               </textarea>
             </div>
                 

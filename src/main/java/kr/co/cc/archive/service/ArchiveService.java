@@ -238,6 +238,11 @@ public class ArchiveService {
 	}
 
 
+	public ArchiveDTO logincheck(String loginId) {
+		return dao.logincheck(loginId);
+	}
+
+
 
 }
 

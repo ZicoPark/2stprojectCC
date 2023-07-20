@@ -178,21 +178,12 @@
 			, (SELECT dp.name FROM dept dp WHERE dp.id = d.dept_id) AS production_dept_name
 			, (SELECT a.name FROM approval a WHERE a.id = ds.approval_id) AS approval_kind_name
 			, ds.read_chk
-			, DATE_FORMAT(d.create_at, '%Y-%m-%d %T') AS create_at 
-		FROM doc d INNER JOIN 
-			(SELECT e.doc_id FROM (SELECT c.* FROM (SELECT ds2.* FROM doc_status ds2 INNER JOIN 
-				(SELECT d.id FROM doc d 
-					INNER JOIN doc_status ds ON d.id = ds.doc_id 
-				WHERE ds.member_id = #{loginId} AND d.status = 1 AND ds.approval = 0) AS a 
-				ON ds2.doc_id = a.id AND ds2.member_id <![CDATA[<>]]> #{loginId}) AS c, 
-		(SELECT ds2.* FROM doc_status ds2 INNER JOIN 
-			(SELECT d.id FROM doc d 
-				INNER JOIN doc_status ds ON d.id = ds.doc_id 
-				WHERE ds.member_id = #{loginId} AND d.status = 1 AND ds.approval = 0) AS b 
-			ON ds2.doc_id = b.id AND ds2.member_id = #{loginId}) AS d
-		WHERE c.order_rank <![CDATA[<=]]> d.order_rank GROUP BY c.doc_id, c.member_id) AS e 
-		WHERE NOT(e.order_rank = 0 AND e.approval = 0)) AS f ON d.id = f.doc_id 
-		LEFT JOIN doc_status ds ON d.id = ds.doc_id AND ds.member_id = #{loginId} ORDER BY d.create_at DESC
+			, DATE_FORMAT(d.create_at, '%Y-%m-%d %T') AS create_at
+			, MIN(ds.order_rank) AS order_rank
+		FROM doc d INNER JOIN doc_status ds ON d.id = ds.doc_id
+			WHERE ds.member_id = #{loginId} AND d.status = 1 AND ds.approval = 0
+			GROUP BY d.id
+			ORDER BY d.create_at DESC
 	</select>
 	
 	<update id="readCheckUpdate" parameterType="string">
