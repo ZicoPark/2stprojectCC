@@ -130,7 +130,7 @@
   <br/>
   <div>
     <c:if test="${detailFile.size() == 0}">
-      <div>첨부파일 없음.</div>
+      <div></div>
     </c:if>
     <c:if test="${detailFile.size() > 0}">
       <div class="mailbox-attachment-info">

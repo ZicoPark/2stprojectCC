@@ -26,7 +26,7 @@
 	</section>
     <section class="content">
 		<form action="freeWrite.do" method="post" enctype="multipart/form-data">
-      	<button type="submit" class="btn btn-primary float-right"><i class="far fa-envelope"></i> 작성</button>
+      	<button type="button" onclick="pushContent()" class="btn btn-primary float-right"><i class="far fa-envelope"></i> 작성</button>
         
        	<br>
 		<div class="row">
@@ -36,7 +36,7 @@
 	
 				<div class="col-12">
 					<br>
-					<input class="form-control" name="subject" maxlength="19" onkeyup="counter(event, '20')" placeholder="제목을 입력하세요">
+					<input class="form-control" name="subject" id="subject" value="" maxlength="19" onkeyup="counter(event, '20')" placeholder="제목을 입력하세요">
                  	<span id="reCount">0 / 20</span>
 				</div>
 		
@@ -45,10 +45,10 @@
 				<br>
                 
 					<div id="div_editor">
-						<!-- 에디터 안에 들어갈 자리 -->
+	
 					</div>
 					<textarea hidden="true" id="content" name="content"></textarea>
-					<input type="hidden" id="status" name="status"/>
+
 					<br>
 					<div class="custom-file">
 						<input type="file" multiple="multiple" id="attachment" name="attachment" class="custom-file-input"/>
@@ -80,19 +80,27 @@
 
 <script type="text/javascript" src="/richtexteditor/rte.js"></script>  
 <script type="text/javascript" src='/richtexteditor/plugins/all_plugins.js'></script>
-
 <script>
-
 var config = {}; // 설정
 config.editorResizeMode = "none"; // 에디터 크기조절 none
 
 var editor = new RichTextEditor("#div_editor", config);
 
 
-$(function () {
-    // 텍스트 편집기 추가
-    $('#compose-textarea').summernote()
-    
+
+function pushContent(){
+	
+	var submitContent = editor.getHTMLCode();
+	$('textarea[name="content"]').val(submitContent);
+
+	if($('#subject').val().length==0){
+		alert('제목을 입력해주세요.');
+	}else{
+		$('form').submit();
+	}
+	
+}
+
     // 제목 입력란에 이벤트 리스너 추가
     $('#subjectInput').on('input', function () {
       var count = this.value.length;
@@ -106,7 +114,7 @@ $(function () {
         countSpan.css('color', ''); // 색상 초기화 (CSS 스타일 제거)
       }
     });
-  });
+
 
 // 첨부파일 목록 보여주고 안 보여주고 
 function displayFileNames(event) {

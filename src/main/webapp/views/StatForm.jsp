@@ -30,7 +30,7 @@
     </section>
 
     <section class="content">
-		<button type="button" onclick="location.href='/stat1.do'">구독자 수 및 수익 예측</button>
+		<button type="button" onclick="location.href='/findElem.do'">크롤링 요소따오기</button>
 
     </section>
   </div>

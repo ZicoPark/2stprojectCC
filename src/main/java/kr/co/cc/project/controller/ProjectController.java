@@ -239,11 +239,13 @@ public class ProjectController {
 
 		String user_id = service.getMemberById(memberId);
 		String public_range = service.getRange(id);
-
+		String del_chk = service.getChk(id);
+		
 		model.addAttribute("user_id", user_id);
 		model.addAttribute("member_id", memberId);
 		model.addAttribute("project_id", id);
 		model.addAttribute("public_range", public_range);
+		model.addAttribute("del_chk", del_chk);
 
 		return "projectInsert";
 	}

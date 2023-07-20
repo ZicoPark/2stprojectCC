@@ -28,20 +28,7 @@
     <section class="content-header">
     	<h1>유튜브 통계</h1>         
     </section>
-   <c:if test="${full}">
-      ${elem}
-   </c:if>
-   
-   <c:if test="${!full}">
-      <c:forEach items="${elem}" var="item">
-         <ul>
-            <li class="title">
-               ${item.title}
-            </li>
-            <li>${item.content}</li>
-         </ul>
-      </c:forEach>
-   </c:if>
+    ${elem}
   </div>
 </div>
 <!-- ./wrapper -->
