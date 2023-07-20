@@ -36,7 +36,7 @@ th{
 						<select name="searchDept" id="searchDept" onchange="searchDoc()" class="form-control form-control-sm">
 							<c:if test="${deptList.size() > 0 }">
 								<c:forEach items="${deptList }" var="list">
-									<option value="${list.id }">${list.name }</option>
+									<option value="${list.id }" <c:if test="${list.id eq deptId }">selected</c:if>>${list.name }</option>
 								</c:forEach>
 							</c:if>
 						</select>

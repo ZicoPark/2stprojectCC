@@ -62,10 +62,9 @@
           </div>
           <!-- /.card -->
 
-          <a href="/personal.go" class="btn btn-secondary">돌아가기</a>
-          <input type="submit" id = "submit" onclick="pWrite()" value="작성하기" class="btn btn-success float-right">
-
-</section>
+	          <a href="/personal.go" class="btn btn-secondary">돌아가기</a>
+	          <button type="button" id = "submit" onclick="pWrite()" class="btn btn-success float-right">작성하기</button>
+		</section>
     </form>
   </div>
 </div>
@@ -95,7 +94,7 @@ function pWrite(){
           alert('마감일을 입력해주세요!');
           $('#end_at').focus();
        }else{
-         $('submit').attr('type','submit');
+         $('button').attr('type','submit');
       }
    }
 }
