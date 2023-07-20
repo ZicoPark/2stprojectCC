@@ -140,6 +140,11 @@
 			VALUES(#{param1}, #{param2}, #{param3}, #{param4})
 	</insert>
 	
+	
+	<select id="msReplyMember">
+		SELECT name FROM member WHERE id = #{fromId}
+	</select>
+	
 	<!-- 삭제 -->
 	<update id="msdelete">
 		UPDATE message SET del_chk = 1 WHERE id = #{param1}
