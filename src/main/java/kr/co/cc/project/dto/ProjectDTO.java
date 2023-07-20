@@ -7,7 +7,7 @@ import java.util.List;
 
 public class ProjectDTO {
 
-	private int del_chk;
+	private String del_chk;
 	private String id;
 	private String public_range;
 	private String project_id;
@@ -53,11 +53,11 @@ public class ProjectDTO {
 		this.coment_id = coment_id;
 	}
 
-	public int getDel_chk() {
+	public String getDel_chk() {
 		return del_chk;
 	}
 
-	public void setDel_chk(int del_chk) {
+	public void setDel_chk(String del_chk) {
 		this.del_chk = del_chk;
 	}
 

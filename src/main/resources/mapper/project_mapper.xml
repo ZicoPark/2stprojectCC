@@ -189,6 +189,12 @@
 		public_range FROM project p
 		WHERE id = #{id}
 	</select>
+	
+	<select id="getChk" parameterType="string" resultType="string">
+		SELECT
+		del_chk FROM project p
+		WHERE id = #{id}
+	</select>
 
 	<select id="getUserIdPhoto" parameterType="string"
 		resultType="hashmap">
