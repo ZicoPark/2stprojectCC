@@ -30,6 +30,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import kr.co.cc.doc.dao.DocDAO;
 import kr.co.cc.doc.dto.ApprovalDTO;
@@ -339,7 +340,7 @@ public class DocService {
 		return mav;
 	}
 
-	public ModelAndView tempDocUpdateForm(String id) {
+	public ModelAndView tempDocUpdateForm(String docId) {
 
 		ModelAndView mav = new ModelAndView("/doc/tempDocUpdateForm");
 			
@@ -354,7 +355,7 @@ public class DocService {
 		mav.addObject("memberList", memberList);
 		
 		// 임시저장된 문서의 정보 불러오기
-		DocDTO docDTO = dao.getWritedDoc(id);
+		DocDTO docDTO = dao.getWritedDoc(docId);
 		mav.addObject("docDTO", docDTO);
 		
 		// 기안자 이름 불러오기
@@ -366,7 +367,7 @@ public class DocService {
 		mav.addObject("docFormName", docFormDTO.getName());
 		
 		// 임시저장된 문서의 첨부파일 불러오기
-		ArrayList<AttachmentDTO> attachmentList = dao.getAttachmentList(id);
+		ArrayList<AttachmentDTO> attachmentList = dao.getAttachmentList(docId);
 		mav.addObject("attachmentList", attachmentList);
 		
 		return mav;
@@ -988,19 +989,25 @@ public class DocService {
 		return mav;
 	}
 
-	public ModelAndView registeredDocList(HttpSession session) {
+	public ModelAndView registeredDocList(String flag, HttpSession session) {
 
 		ModelAndView mav = new ModelAndView("/doc/registeredDocList");
-		
-		ArrayList<HashMap<String, String>> deptList = dao.getDeptList();
-		mav.addObject("deptList", deptList);
-		
+
 		// 세션에서 로그인 정보 모두 가져오기
 		String loginId = (String) session.getAttribute("id");
 		MemberDTO memberInfo = dao.getMemberInfo(loginId);
 		
-		String deptId = memberInfo.getDept_id();
-		mav.addObject("deptId", deptId);
+		ArrayList<HashMap<String, String>> deptList = dao.getDeptList();
+		mav.addObject("deptList", deptList);
+		
+		if(flag.equals("default")) {
+			// flag = default 첫 진입때는 자신의 부서에 따라서 보여주는 등록문서함을 다르게 한다.
+			String deptId = memberInfo.getDept_id();
+			mav.addObject("deptId", deptId);
+		}else {
+			// flag = doc_dept_id 비공개문서를 열람하다가 실패했을때 redirect되는데 이때는 선택문서함 기준으로 보여준다.
+			mav.addObject("deptId", flag);
+		}
 		
 		return mav;
 	}
@@ -1046,7 +1053,7 @@ public class DocService {
 		return map;
 	}
 
-	public ModelAndView registeredDocDetail(String docId, HttpSession session) {
+	public ModelAndView registeredDocDetail(String docId, HttpSession session, RedirectAttributes ra) {
 
 		ModelAndView mav = new ModelAndView("/doc/registeredDocDetail");
 		String loginId = (String) session.getAttribute("id");
@@ -1077,21 +1084,13 @@ public class DocService {
 				
 			}else {
 				// 문서의 생산부서와 로그인 멤버의 부서가 다를 때
-				mav = new ModelAndView("redirect:/registeredDocList.go");
-				mav.addObject("msg", "접근 권한이 없습니다.");
+				mav = new ModelAndView("redirect:/registeredDocList.go?flag="+docMap.get("dept_id"));
+				ra.addFlashAttribute("msg", "접근 권한이 없습니다.");
 			}
 			
 		}
 		
 		return mav;
 	}
-
-
-
-
-
-
-
-
 
 }

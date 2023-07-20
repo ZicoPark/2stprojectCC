@@ -21,7 +21,7 @@ public interface DocDAO {
 
 	MemberDTO getMemberInfo(String loginId);
 
-	HashMap<String, String> getJobLevelMap(String job_level_id);
+	HashMap<String, String> getJobLevelMap(String jobLevelId);
 	
 	String getMemberSignFilePath(String memberId);
 	
@@ -43,7 +43,7 @@ public interface DocDAO {
 
 	ArrayList<DocDTO> getDocList(String loginId, int status);
 
-	ArrayList<AttachmentDTO> getAttachmentList(String id);
+	ArrayList<AttachmentDTO> getAttachmentList(String docId);
 	
 	int docDelete(String docId);
 	
@@ -98,37 +98,5 @@ public interface DocDAO {
 	void changeNoticeStatus(String loginId, String type, String docId);
 
 	String getDefaultDocForm(String docFormId);
-
-	
-
-	
-
-
-
-	
-
-
-
-	
-
-	
-
-	
-
-	
-
-	
-
-	
-
-	
-
-	
-
-	
-
-
-
-	
 
 }
