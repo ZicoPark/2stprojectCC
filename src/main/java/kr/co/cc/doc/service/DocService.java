@@ -705,7 +705,14 @@ public class DocService {
 						"</div>";
 				
 				String lineWritedContent = docFormUpdate(oriContent, oriLine, newLine);
-				docMap.put("afterContent", lineWritedContent);
+				
+				
+				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+				String createDate = sdf.format(docDTO.getCreate_at());
+				
+				String dateInitializedContent = docFormUpdate(lineWritedContent, "<span id=\"docFormCreateDate\" style=\"font-size: 16px; text-align: left;\">"+createDate, "<span id=\"docFormCreateDate\" style=\"font-size: 16px; text-align: left; font-style: italic; color: rgb(255, 0, 0)\">(기안일자 자동 입력)");
+				
+				docMap.put("afterContent", dateInitializedContent);
 				docMap.put("status", "2");
 				
 				int updateRow = dao.docUpdate(docMap);
