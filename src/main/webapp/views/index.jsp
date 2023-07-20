@@ -1,5 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
+
+
 <style>
 	[class*=sidebar-dark-] .sidebar a {
 		color: white;
@@ -11,6 +14,8 @@
 
 <!-- jQuery -->
 <script src="../../plugins/jquery/jquery.min.js"></script>
+
+
 
 
   <!-- Navbar -->
@@ -574,7 +579,7 @@
 	
 
 <script>
-
+loginChk();
 var socket;
 
 socket = new WebSocket('ws://localhost/alarm');
@@ -671,7 +676,17 @@ function goMyMainPage(userId) {
 
 
 
-</script>
+function loginChk() {
+     var loginId = '${sessionScope.id}';
+     if (!loginId) {
+         alert("로그인이 필요한 서비스입니다");
+         //window.location.href = './';
+         //alert("로그인이 필요한 서비스입니다");
+     } else {}
+   
+ }
 
+
+</script>
 
 
