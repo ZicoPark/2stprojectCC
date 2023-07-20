@@ -253,6 +253,7 @@
 					(SELECT MIN(ds2.order_rank) FROM doc_status ds2 GROUP BY ds2.doc_id) AS ds2 
 				WHERE ds.approval = 2 GROUP BY ds.doc_id) AS ds3 
 		ON d.id = ds3.doc_id WHERE d.status = 1 AND d.member_id = #{loginId}
+		ORDER BY objection_at DESC
 	</select>
 
 	<select id="objectionDocDetail" parameterType="string" resultType="hashmap">
@@ -432,4 +433,9 @@
 	<update id="changeNoticeStatus" parameterType="string">
 		UPDATE notice n SET n.status = 1 WHERE n.receive_id = #{loginId} AND n.type = #{type} AND n.identify_value = #{docId}
 	</update>
+	
+	<select id="getDefaultDocForm" parameterType="string" resultType="string">
+		SELECT df.content FROM doc_form df WHERE df.id = #{docFormId}
+	</select>
+	
 </mapper>

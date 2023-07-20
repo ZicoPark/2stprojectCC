@@ -298,10 +298,6 @@ function saveDoc(){
 	
 	if($('#subject').val().length==0){
 		alert('문서 제목을 입력하세요.');
-	}else if(approvalPriorityArr.includes('default')){
-		alert('결재선을 선택하세요.');
-	}else if(approvalMemberIdArr.includes('default')){
-		alert('결재선을 선택하세요.');
 	}else if(document.getElementById('publicRange').value == 'default'){
 		alert('공개범위를 선택하세요.');
 	}else{

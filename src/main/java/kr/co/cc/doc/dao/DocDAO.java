@@ -97,6 +97,8 @@ public interface DocDAO {
 
 	void changeNoticeStatus(String loginId, String type, String docId);
 
+	String getDefaultDocForm(String docFormId);
+
 	
 
 	
