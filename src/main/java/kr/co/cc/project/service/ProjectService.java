@@ -66,6 +66,7 @@ public class ProjectService {
 		dto.setStatus(params.get("status"));
 		dto.setProject_id(params.get("project_id"));
 		dto.setPublic_range(params.get("public_range"));
+		dto.setDel_chk(params.get("del_chk"));
 		int row = dao.commentWrite(dto);
 
 		String idx = dto.getId();
@@ -90,7 +91,8 @@ public class ProjectService {
 			}
 		}
 		page = "redirect:/projectDetail.go?id=" + params.get("project_id") + "&public_range="
-				+ params.get("public_range");
+				+ params.get("public_range") + "&del_chk="
+						+ params.get("del_chk");
 
 		return page;
 
@@ -202,6 +204,10 @@ public class ProjectService {
 	public ArrayList<HashMap<String, String>> getUserIdPhoto(String projectId) {
 
 		return dao.getUserIdPhoto(projectId);
+	}
+
+	public String getChk(String id) {
+		return dao.getChk(id);
 	}
 
 }

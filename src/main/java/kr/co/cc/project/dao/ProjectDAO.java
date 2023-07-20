@@ -65,6 +65,8 @@ public interface ProjectDAO {
 
 	ArrayList<HashMap<String, String>> getUserIdPhoto(String projectId);
 
+	String getChk(String id);
+
 
 
 

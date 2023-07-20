@@ -21,8 +21,15 @@ public class FreeBoardDTO {
 	private String admin_chk;
 
 	private String free_board_id;
+	private String afterContent;
 
 	
+	public String getAfterContent() {
+		return afterContent;
+	}
+	public void setAfterContent(String afterContent) {
+		this.afterContent = afterContent;
+	}
 	public String getFree_board_id() {
 		return free_board_id;
 	}

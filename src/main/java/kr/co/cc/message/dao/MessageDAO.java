@@ -71,6 +71,8 @@ public interface MessageDAO {
 
 	void readMessage(String id, String loginId);
 
+	String msReplyMember(String fromId);
+
 
 
 

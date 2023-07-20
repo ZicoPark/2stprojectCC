@@ -49,6 +49,7 @@
 			<input type="hidden" name="user_id" value="${user_id}" />
 			<input type="hidden" name="member_id" value="${member_id}" />
 			<input type="hidden" name="public_range" value="${public_range}" />
+			<input type="hidden" name="del_chk" value="${del_chk}" />
 				<section class="content">
 					<div class="row justify-content-center">
 						<div class="col-md-6">

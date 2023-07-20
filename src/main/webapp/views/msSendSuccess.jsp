@@ -28,6 +28,19 @@
 
 </head>
     <style>
+    
+    
+.btn-primary {
+    color: #fff;
+    background-color: #20c997;
+    border-color: #20c997;
+    box-shadow: none;
+}
+  
+.card-primary.card-outline {
+    border-top: 3px solid #20c997;
+}      
+    
         body {
             font-family: Arial, sans-serif;
         }

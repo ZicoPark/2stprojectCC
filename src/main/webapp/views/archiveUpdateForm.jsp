@@ -5,101 +5,118 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>AdminLTE 3 | Compose Message</title>
+<title>새 문서 작성</title>
 <link rel="icon" href="/img/CC_favicon.png">
-  <!-- Google Font: Source Sans Pro -->
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
-  <!-- Font Awesome -->
-  <link rel="stylesheet" href="../../plugins/fontawesome-free/css/all.min.css">
-  <!-- Theme style -->
-  <link rel="stylesheet" href="../../dist/css/adminlte.min.css">
-  <!-- summernote -->
-  <link rel="stylesheet" href="../../plugins/summernote/summernote-bs4.min.css">
+<link rel="stylesheet" href="/richtexteditor/rte_theme_default.css" />
+<script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
+
+<!-- Google Font: Source Sans Pro -->
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+<!-- Font Awesome -->
+<link rel="stylesheet" href="../../plugins/fontawesome-free/css/all.min.css">
+<!-- Theme style -->
+<link rel="stylesheet" href="../../dist/css/adminlte.min.css">
 </head>
-<body class="hold-transition sidebar-mini">
+<body>
 <jsp:include page = "index.jsp"></jsp:include>
 <div class="wrapper">
-  <!-- Navbar -->
-  
 
-  <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
-    <!-- Content Header (Page header) -->
-
-<form action="archiveUpdate.do" method="post" enctype="multipart/form-data">
-    <!-- Main content -->
-
-
-                <input type="text" name="member_id" value="${sessionScope.id}" readonly="readonly" hidden="true" required/>
-				<input type="text" name="id" value="${detailms.id}" readonly="readonly" hidden="true" required/>
-				문서번호 ${detailms.id}
-				${detailms.category}
-			
-                <div>
-                  <input class="form-control" name="subject" maxlength="19" onkeyup="counter(event, '20')" value=${detailms.subject}/>
-                  <span id="reCount">0 / 20</span>
-                </div>
-                <div class="form-group" name="content">
-                    <textarea id="compose-textarea" style="height: 300px" name="content">
-                      ${detailms.content}
-                    </textarea>
-                </div>
-                
-
-				<label for="fileInput" class="file-input-label">
-				    <i class="fas fa-paperclip"></i> 파일 첨부
-				</label>
-				<!--  파일 선택 버튼 숨겼음 !! 왜냐면 file 요소 떄문에 원래 있던 애들 사라짐 -->
-				<input type="file" name="attachment" multiple="multiple" onchange="displayFileNames(event)" id="fileInput" style="display: none;">
+	<section class="content-header">   
+	<h1>자료실 수정</h1>
+	</section>
+	<section class="content">
+	<form action="archiveUpdate.do" method="post" enctype="multipart/form-data">
+	<button type="button" onclick="saveFree()" class="btn btn-primary float-right">수정</button>
+        
+     <br>   
+        
+    <input type="text" name="member_id" value="${sessionScope.id}" readonly="readonly" hidden="true" required/>
+	<input type="text" name="id" value="${detailms.id}" readonly="readonly" hidden="true" required/>
+	문서번호 ${detailms.id}
+	<hr/>
+	${detailms.category}
+	<div class="row">
+	<div class="col-6">		
+	
+      <div>
+        <input class="form-control" name="subject" id="subject" value=${detailms.subject } maxlength="19" onkeyup="counter(event, '20')"/>
+        <span id="reCount">0 / 20</span>
+      </div>
+      
+      </div>
+      </div>
+      
+		<div id="div_editor">
 				
-				<div id="fileNames">
-				    <c:if test="${detailfile.size() > 0 }">
-				        <c:forEach items="${detailfile}" var="i">
-				            <div>
-				            	<input type="text" name="removeFile" value="${i.id}" hidden="true"/>${i.ori_file_name}
-				                
-				                <i class="fas fa-times cancel-icon" onclick="removeFileEvent(this)"></i>
-				            </div>
-				        </c:forEach>
-				    </c:if>
-				</div>
-								
-				<input type="text" name="deletedFiles" id="deletedFiles">
+			</div>
+			<textarea hidden="true" id="beforeContent">${detailms.content }</textarea>
+			<textarea hidden="true" id="afterContent" name="afterContent"></textarea>
 
-              <!-- /.card-body -->
-              <div class="card-footer">
-                <div class="float-right">
+              
 
-                  <button type="submit" class="btn btn-primary"><i class="far fa-envelope"></i> Send</button>
-                </div>
-  
-              <!-- /.card-footer -->
-            </div>
-            <!-- /.card -->
+	<div class="custom-file">
+	
+		<label class="custom-file-label" for="fileInput">
+		첨부파일을 선택하세요.
+		</label>
+	</div>
 
-  </form>
-</div>
-</div>
-    <!-- /.content -->
+	<!--  파일 선택 버튼 숨겼음 !! 왜냐면 file 요소 떄문에 원래 있던 애들 사라짐 -->
+	<input type="file" name="attachment" multiple="multiple" onchange="displayFileNames(event)" id="fileInput" style="display: none;">
+	
+	<div id="fileNames">
+	    <c:if test="${detailfile.size() > 0 }">
+	        <c:forEach items="${detailfile}" var="i">
+	            <div>
+	            	<input type="text" name="removeFile" value="${i.id}" hidden="true"/>${i.ori_file_name}
+	                
+	                <i class="fas fa-times cancel-icon" onclick="removeFileEvent(this)"></i>
+	            </div>
+	        </c:forEach>
+	    </c:if>
+	</div>
+					
+	<input type="hidden" name="deletedFiles" id="deletedFiles">
 
- 
-
-<!-- jQuery -->
-<script src="../../plugins/jquery/jquery.min.js"></script>
+				</form>
+			</section>
+		</div>
+	</div>
+</body>
 <!-- Bootstrap 4 -->
 <script src="../../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
 <!-- AdminLTE App -->
 <script src="../../dist/js/adminlte.min.js"></script>
-<!-- Summernote -->
-<script src="../../plugins/summernote/summernote-bs4.min.js"></script>
 <!-- AdminLTE for demo purposes -->
 <script src="../../dist/js/demo.js"></script>
-<!-- Page specific script -->
+<!-- bs-custom-file-input -->
+<script src="../../plugins/bs-custom-file-input/bs-custom-file-input.min.js"></script>
+
+<script type="text/javascript" src="/richtexteditor/rte.js"></script>  
+<script type="text/javascript" src='/richtexteditor/plugins/all_plugins.js'></script>
 <script>
-  $(function () {
-    //Add text editor
-    $('#compose-textarea').summernote()
-  })
+
+var config = {}; 
+config.editorResizeMode = "none"; 
+
+var editor = new RichTextEditor("#div_editor", config);
+
+var beforeContent = document.getElementById('beforeContent').value;
+editor.setHTMLCode(beforeContent);
+
+function saveFree(){
+	
+	var submitContent = editor.getHTMLCode();
+	$('textarea[name="afterContent"]').val(submitContent);
+
+	if($('#subject').val().length==0){
+		alert('제목을 입력해주세요.');
+	}else{
+		$('form').submit();
+	}
+	
+}
   
   
   function counter(event, limit){
