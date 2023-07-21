@@ -5,7 +5,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Creator Company</title>
+<title>결재완료함</title>
 <link rel="icon" href="/img/CC_favicon.png">
 <script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
 
