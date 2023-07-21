@@ -126,7 +126,7 @@
   <!-- /.navbar -->
 
   <!-- Main Sidebar Container -->
-  <aside class="main-sidebar sidebar-dark-primary elevation-4 bg-white">
+  <aside class="main-sidebar sidebar-dark-primary elevation-6 bg-white">
     <!-- Brand Logo -->
     <a onclick="goMyMainPage(${user.id})" class="brand-link" style="cursor: pointer;">
       <img src="../../dist/img/KakaoTalk_20230613_164257782.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-10" style="opacity: .8">
