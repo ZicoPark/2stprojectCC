@@ -55,6 +55,18 @@ a:hover {
 	border-color: #ffffff;
 	box-shadow: none;
 }
+
+  .statsearch {
+    border-collapse: collapse;
+    width: 100%;
+  }
+
+  .statsearch th,
+  .statsearch td {
+    border: 1px solid black;
+    text-align: center;
+    padding: 8px;
+  }
 </style>
 
 
@@ -295,40 +307,28 @@ a:hover {
 							</div>
 
 							<div class="col-md-3">
-								<div class="card card-primary">
+								<div class="card card-primary"  style="width: 480px;">
 									<div class="card-header border-0"
 										style="background-color: #20c997 !important;">
-										<h3 class="card-title"
-											style="font-size: 1.1rem; font-weight: 400; color: white">언젠가
-											쓸거임</h3>
-										<div class="card-tools">
-											<a href="/noticeBoard.go" class="btn btn-tool btn-sm">
-												더보기 </a>
-										</div>
+										<h3 class="card-title" style="font-size: 1.1rem; font-weight: 400; color: white"> 구독자 수 및 수익 예측</h3>
 									</div>
 									<div class="card-body">
 										<div class="cal">
-											<table class="Calendar">
+											<button id="statSearchBtn" type="button" value="스탯" class="btn btn-success btn-sm" onclick="fetchStatData()">데이터 조회</button>
+											
+											<table class="statsearch">
 												<thead>
-													<tr>
-														<td class="day" onClick="prevCalendar();"
-															style="cursor: pointer;">&#60;</td>
-														<td class="day" colspan="5"><span id="calYear"></span>년
-															<span id="calMonth"></span>월</td>
-														<td onClick="nextCalendar();" style="cursor: pointer;">&#62;</td>
-													</tr>
-													<tr>
-														<td class="day">일</td>
-														<td class="day">월</td>
-														<td class="day">화</td>
-														<td class="day">수</td>
-														<td class="day">목</td>
-														<td class="day">금</td>
-														<td class="day">토</td>
-													</tr>
-												</thead>
-
-						
+							                        <tr>
+							                            <td class="gudoksu">총 구독자 수</td>
+							                            <td class="monthearn">유튜브 월수익예측</td>
+							                            <td class="adearnrate">영상1개당 제휴수익예측</td>
+							                        </tr>
+							                    </thead>
+							                    <tbody id="statTable">
+							                        <tr>
+							                        	<td colspan="3">없음</td>
+							                        </tr>
+							                    </tbody>	
 											</table>
 										</div>
 									</div>
@@ -458,6 +458,42 @@ a:hover {
 			});
 		}
 	});
+	
+	function fetchStatData() {
+        // Perform the AJAX request
+        $.ajax({
+            url: "/findElem.do",
+            method: "GET",
+            dataType: "json",
+            success: function(data) {
+                console.log(data.statList);
+                statPrint(data.statList);
+                
+                console.log("AJAX request succeeded");
+            },
+            error: function() {
+                console.log("AJAX request failed");
+            }
+        });
+    }
+	
+	function statPrint(list){
+		
+		var statContent = '';
+		
+		statContent += '<tr>';
+		
+		for (var i = 0; i < list.length; i++) {
+			statContent += '<td>'+list[i]+'</td>';
+		}
+
+		statContent += '</tr>';
+		
+		$('#statTable').empty();
+		$('#statTable').append(statContent);
+		
+	}
+	
 </script>
 
 
