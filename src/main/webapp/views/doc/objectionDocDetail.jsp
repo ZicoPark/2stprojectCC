@@ -227,16 +227,12 @@ editor.setReadOnly();
 
 function rewriteDoc(){
 	
+	var prevDocId = '${doc.id}';
+	
 	var subject = '${doc.subject}';
 	// content는 위에 선언됨.
-	var status = 2; // 임시저장문서로 만들거니까 status는 2로 고정한다.
-	// member_id는 세션으로 받아오기
-	var docFormId = '${doc.doc_form_id}';
-	// deptId는 memberInfo에서 받아온다.
-	// jobLevelName는 memberInfo에서 받아온다.
-	var publicRange = '${doc.public_range}';
 	
-	var params = {subject, content, status, docFormId, publicRange};
+	var params = {prevDocId, subject, content};
 	
 	$.ajax({
 		
@@ -246,7 +242,7 @@ function rewriteDoc(){
 		dataType:'json',
 		success:function(data){
 			
-			if(data.updateRow != null && data.docId != null){
+			if(data.docId != null){
 				location.href='tempDocUpdateForm.go?id='+data.docId;
 			}
 		},

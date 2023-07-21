@@ -18,6 +18,7 @@
 
 <style>
 
+
 </style>
 </head>
 <body>
@@ -31,7 +32,7 @@
 
     <section class="content">
 		<button type="button" onclick="location.href='/findElem.do'">크롤링 요소따오기</button>
-
+		<button type="button" onclick="location.href='/connect.do'">크롤링 페이지따오기</button>
     </section>
   </div>
 </div>

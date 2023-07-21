@@ -17,7 +17,16 @@
   <script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
 
 <style>
-
+	.content-wrapper {
+      padding: 10px;
+    }
+    .elem-content {
+      font-size: 14px; /* Adjust the font size as needed */
+      line-height: 1.6; /* Adjust the line height as needed */
+      padding: 10px; /* Add padding to the content if desired */
+      border: 1px solid #ccc; /* Add a border to the content if desired */
+      background-color: #f9f9f9; /* Add background color to the content if desired */
+    }
 </style>
 </head>
 <body>
@@ -27,8 +36,8 @@
   <div class="content-wrapper">
     <section class="content-header">
     	<h1>유튜브 통계</h1>         
+	    ${elem}
     </section>
-    ${elem}
   </div>
 </div>
 <!-- ./wrapper -->
