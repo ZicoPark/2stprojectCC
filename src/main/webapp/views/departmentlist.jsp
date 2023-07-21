@@ -35,20 +35,6 @@
     
 
     <div id="board-search">
-	    <select id="dept">
-			  <option value="default">부서</option>
-			  <option value="dp1">총무팀</option>
-			  <option value="dp2">기획팀</option>
-			  <option value="dp3">촬영팀</option>
-			  <option value="dp4">편집팀</option>
-		</select>
-		<select id="level">
-			  <option value="default">직급</option>
-			  <option value="lv1">팀원</option>
-			  <option value="lv2">팀장</option>
-			  <option value="lv3">이사</option>
-			  <option value="lv4">사장</option>
-		</select>
         <div class="search-window">
                <div class="search-wrap">
                    <label for="search">아이디, 이름, 이메일　검색　</label>
@@ -103,19 +89,6 @@
 	var selectedDept = 'default';
 	var selectedLevel = 'default';
 
-	$('#dept').change(function(){
-		selectedDept = $(this).val();
-		listCall(showPage);
-		$('#pagination').twbsPagination('destroy');
-	});
-	
-	$('#level').change(function(){
-		selectedLevel = $(this).val();
-		console.log(selectedSort);
-		listCall(showPage);
-		$('#pagination').twbsPagination('destroy');
-	});
-
 
 	var departmentLookup = {
 	    '8e5f3282-1703-11ee-973f-0242ac110002': '총무팀',
@@ -154,8 +127,6 @@
 	      data:{
 	         'page':page,
 	         'search':searchText
-	         'dept':selectedDept,
-	    	 'level':selectedLevel
 	      },
 	      dataType:'json',           
 	      success:function(data){
