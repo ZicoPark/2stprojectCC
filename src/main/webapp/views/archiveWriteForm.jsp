@@ -32,7 +32,7 @@
 				<form action="archiveWrite.do" method="post" enctype="multipart/form-data">
 
 
-                  <button type="submit" class="btn btn-primary float-right"><i class="far fa-envelope"></i> 작성</button>
+                  <button type="button" onclick="pushContent()" class="btn btn-primary float-right"><i class="far fa-envelope"></i> 작성</button>
 	
 
 					<br>
@@ -47,7 +47,7 @@
 
 						<div class="col-12">
 							<br>
-							<input class="form-control" name="subject" maxlength="19" onkeyup="counter(event, '20')" placeholder="제목을 입력하세요">
+							<input class="form-control" id="subject" name="subject" maxlength="19" onkeyup="counter(event, '20')" placeholder="제목을 입력하세요">
 		                 	<span id="reCount">0 / 20</span>
 						</div>
 					</div>
@@ -57,7 +57,7 @@
 						<!-- 에디터 안에 들어갈 자리 -->
 					</div>
 					<textarea hidden="true" id="content" name="content"></textarea>
-					<input type="hidden" id="status" name="status"/>
+
 					<br>
 					<div class="custom-file">
 						<input type="file" multiple="multiple" id="attachment" name="attachment" class="custom-file-input"/>
@@ -89,12 +89,23 @@ config.editorResizeMode = "none"; // 에디터 크기조절 none
 
 var editor = new RichTextEditor("#div_editor", config);
 
-$(function () {
-    //Add text editor
-    $('#compose-textarea').summernote()
-  })
+
+function pushContent(){
+	
+	var submitContent = editor.getHTMLCode();
+	$('textarea[name="content"]').val(submitContent);
+
+	if($('#subject').val().length==0){
+		alert('제목을 입력해주세요.');
+	}else{
+		$('form').submit();
+	}
+	
+}
+
+
   
-	$(".modal-content").load("/msMemberList.go");
+
   
   function counter(event, limit){
 	    var val = event.target.value.length;

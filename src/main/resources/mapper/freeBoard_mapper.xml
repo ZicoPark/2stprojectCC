@@ -127,7 +127,7 @@
 	<update id="freeUpdate" parameterType="hashmap">
 		UPDATE free_board SET 
 		subject = #{subject}
-		,content = #{content}
+		,content = #{afterContent}
 		WHERE id = #{id}
 	</update>
 

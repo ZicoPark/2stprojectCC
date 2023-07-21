@@ -333,13 +333,15 @@ public class MessageService {
 
 	public String msReply(MultipartFile file, HashMap<String, String> params, HttpSession session) {
 		
-		String tofromId = params.get("from_id"); // 답장을 보낼 사람의 ID
 		String loginId = (String) session.getAttribute("id");
+		String tofromId = params.get("from_id"); // 답장을 보낼 사람의 ID
+		String toId = params.get("to_id");
 		MessageDTO dto = new MessageDTO();
 		
 		logger.info("params :"+params);
 		logger.info("files :"+file);
 
+		dto.setTo_id(toId);
 		dto.setFrom_id(loginId);
 		dto.setTofrom_id(tofromId);
 		dto.setTitle(params.get("title"));
@@ -432,6 +434,13 @@ public class MessageService {
 
 		public void readMessage(String id, String loginId) {
 			dao.readMessage(id, loginId);
+			
+		}
+
+
+		public String msReplyMember(String fromId) {
+			
+			return dao.msReplyMember(fromId);
 			
 		}
 

@@ -30,6 +30,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import kr.co.cc.doc.dao.DocDAO;
 import kr.co.cc.doc.dto.ApprovalDTO;
@@ -216,7 +217,7 @@ public class DocService {
 				lineWritedContent = docFormUpdate(idWritedContent, oriLine, newLine);
 				
 				// 기안일자에 등록날짜를 넣는다.
-				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 				String createDate = sdf.format(docDTO.getCreate_at());
 				String dateWritedContent = docFormUpdate(lineWritedContent, "<span id=\"docFormCreateDate\" style=\"font-size: 16px; text-align: left; font-style: italic; color: rgb(255, 0, 0)\">(기안일자 자동 입력)</span>", "<span id=\"docFormCreateDate\" style=\"font-size: 16px; text-align: left;\">"+createDate+"</span>");
 				logger.info("docDTO.getCreate_at() :"+docDTO.getCreate_at());
@@ -339,7 +340,7 @@ public class DocService {
 		return mav;
 	}
 
-	public ModelAndView tempDocUpdateForm(String id) {
+	public ModelAndView tempDocUpdateForm(String docId) {
 
 		ModelAndView mav = new ModelAndView("/doc/tempDocUpdateForm");
 			
@@ -354,7 +355,7 @@ public class DocService {
 		mav.addObject("memberList", memberList);
 		
 		// 임시저장된 문서의 정보 불러오기
-		DocDTO docDTO = dao.getWritedDoc(id);
+		DocDTO docDTO = dao.getWritedDoc(docId);
 		mav.addObject("docDTO", docDTO);
 		
 		// 기안자 이름 불러오기
@@ -366,7 +367,7 @@ public class DocService {
 		mav.addObject("docFormName", docFormDTO.getName());
 		
 		// 임시저장된 문서의 첨부파일 불러오기
-		ArrayList<AttachmentDTO> attachmentList = dao.getAttachmentList(id);
+		ArrayList<AttachmentDTO> attachmentList = dao.getAttachmentList(docId);
 		mav.addObject("attachmentList", attachmentList);
 		
 		return mav;
@@ -704,7 +705,14 @@ public class DocService {
 						"</div>";
 				
 				String lineWritedContent = docFormUpdate(oriContent, oriLine, newLine);
-				docMap.put("afterContent", lineWritedContent);
+				
+				
+				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+				String createDate = sdf.format(docDTO.getCreate_at());
+				
+				String dateInitializedContent = docFormUpdate(lineWritedContent, "<span id=\"docFormCreateDate\" style=\"font-size: 16px; text-align: left;\">"+createDate, "<span id=\"docFormCreateDate\" style=\"font-size: 16px; text-align: left; font-style: italic; color: rgb(255, 0, 0)\">(기안일자 자동 입력)");
+				
+				docMap.put("afterContent", dateInitializedContent);
 				docMap.put("status", "2");
 				
 				int updateRow = dao.docUpdate(docMap);
@@ -893,6 +901,7 @@ public class DocService {
 		String loginId = (String) session.getAttribute("id");
 		
 		int row = dao.objectionDocBlind(docId, loginId);
+		logger.info("writed row : "+row);
 		
 		return mav;
 	}
@@ -900,70 +909,56 @@ public class DocService {
 	public HashMap<String, Object> rewriteDoc(HashMap<String, String> params, HttpSession session) {
 		
 		HashMap<String, Object> map = new HashMap<String, Object>();
-		
-		// dto 만들어서 받아온 전자정보 문서를 넣는다.
-		DocDTO dto = new DocDTO();
-		dto.setSubject(params.get("subject"));
-		dto.setContent(params.get("content"));
-		
-		int status = Integer.parseInt(params.get("status"));
-		dto.setStatus(status); // 2 : 임시저장
-		dto.setDoc_form_id(params.get("docFormId")); // 기안문서 양식 id
+		// prevDocId, subject, content
 		
 		// 세션에서 기안자 정보 모두 가져오기
 		String loginId = (String) session.getAttribute("id");
 		MemberDTO memberInfo = dao.getMemberInfo(loginId);
 		
+		// 이전 문서의 정보를 가져온다.
+		DocDTO prevDocDTO = dao.getWritedDoc(params.get("prevDocId"));
+		
+		// dto 만들어서 받아온 전자정보 문서를 넣는다.
+		DocDTO dto = new DocDTO();
+		
+		dto.setSubject(prevDocDTO.getSubject());
+		dto.setDoc_form_id(prevDocDTO.getDoc_form_id());
+		dto.setPublic_range(prevDocDTO.getPublic_range());
+		
+		dto.setStatus(2); // 2 : 임시저장
+		
 		dto.setMember_id(memberInfo.getId());
 		dto.setDept_id(memberInfo.getDept_id());
 		
 		HashMap<String, String> jobLevelMap = dao.getJobLevelMap(memberInfo.getJob_level_id());
-		
-		String jobLevelName = jobLevelMap.get("name");
-		dto.setJob_level_name(jobLevelName);
-		
-		dto.setPublic_range(params.get("publicRange"));
-		
-		logger.info("params : "+params);
+		dto.setJob_level_name(jobLevelMap.get("name"));
 		
 		String docId = UUID.randomUUID().toString();
 		dto.setId(docId); // uuid를 자바에서 생성해서 doc의 PK 값으로 쓴다. // 얘가 문서번호임.
 		
-		int row = dao.docWrite(dto); // 완성된 문서를 데이터베이스에 등록한다.
+		// 임시저장으로 연결되기 위해서는 새 양식에 docId, deptName, name이랑 제목, 내용이 들어가야 한다.
+		String defaultContent = dao.getDefaultDocForm(prevDocDTO.getDoc_form_id());
+		String defaultDocPart = defaultContent.substring(defaultContent.indexOf("<thead id=\"docFormContent\">")-1);
 		
-		logger.info("inserted doc row : "+row);	
-		logger.info("docId : "+docId);
+		String memberName = memberInfo.getName();
 		
-		// 일단 반려된 문서를 그대로 재작성했지만, 결재선 라인을 다시 그려야 한다.
-		HashMap<String, String> docMap = new HashMap<String, String>();
-		docMap.put("id", docId);
+		HashMap<String, String> deptMap = dao.getDeptMap(memberInfo.getDept_id());
+		String deptName = deptMap.get("name");
+		
+		String nameWritedContent = docFormUpdate(defaultContent, "<span id=\"docFormCreateMemberName\" style=\"font-size: 16px; text-align: left; font-style: italic; color: rgb(255, 0, 0)\">(기안자 자동 입력)</span>", "<span id=\"docFormCreateMemberName\" style=\"font-size: 16px; text-align: left;\">"+memberName+"</span>");
+		String deptWritedContent = docFormUpdate(nameWritedContent, "<span id=\"docFormCreateDeptName\" style=\"font-size: 16px; text-align: left; font-style: italic; color: rgb(255, 0, 0)\">(소속 자동 입력)</span>", "<span id=\"docFormCreateDeptName\" style=\"font-size: 16px; text-align: left;\">"+deptName+"</span>");
+		String subjectWritedContent = docFormUpdate(deptWritedContent, "<span id=\"docFormSubject\" style=\"font-size: 16px; text-align: left;\">제목을 입력하세요.</span>", "<span id=\"docFormSubject\" style=\"font-size: 16px; text-align: left;\">"+prevDocDTO.getSubject()+"</span>");
+		String docIdWritedContent = docFormUpdate(subjectWritedContent, "<span id=\"docFormIssuedNumber\" style=\"font-size: 16px; text-align: left; font-style: italic; color: rgb(255, 0, 0);\">(문서번호 자동 입력)", "<span id=\"docFormIssuedNumber\" style=\"font-size: 16px; text-align: left;\">"+docId);
+		
+		String prevDocContent = params.get("content");
+		String prevDocPart = prevDocContent.substring(prevDocContent.indexOf("<thead id=\"docFormContent\">")-1);
+		
+		String contentWritedContent = docFormUpdate(docIdWritedContent, defaultDocPart, prevDocPart);
+		dto.setContent(contentWritedContent);
 
-		// 해당 문서를 불러온다.
-		DocDTO docDTO = dao.getWritedDoc(docId);
-		logger.info("doc content : "+docDTO.getContent());
+		int row = dao.docWrite(dto); // 완성된 문서를 데이터베이스에 등록한다.
+		logger.info("writed row : "+row);
 		
-		String oriContent = docDTO.getContent();
-		
-		// 결재선 도장 라인 잘라서 가져온다.
-		String oriLine = oriContent.substring(oriContent.indexOf("<div class=\"flex-container\" style=\"display: flex;\">"), oriContent.indexOf("<p style=\"text-align: center; \">"));
-		logger.info("oriLine : "+oriLine);
-		
-		// 기본값 도장 라인으로 대체한다.
-		String newLine = 
-				"<div class=\"flex-container\" style=\"display: flex;\">\r\n" + 
-				"<div style=\"width:100px; float:left;\">\r\n" + 
-				"<div class=\"approvalName \" style=\"width:100px; height:25px; border:1px solid black; font-size: 16px; text-align : center; background-color:lightgray;\">기안</div>\r\n" + 
-				"<div class=\"approvalSign \" style=\"width:100px; height:75px; border:1px solid black; font-size: 16px; color: rgb(255, 0, 0); font-style: italic; text-align : center;\">(기안 서명)</div>\r\n" + 
-				"<div class=\"approvalDate \" style=\"width:100px; height:25px; border:1px solid black; font-size: 16px; color: rgb(255, 0, 0); font-style: italic; text-align : center;\">(결재일)</div>\r\n" + 
-				"</div>\r\n" + 
-				"</div>";
-		
-		String lineWritedContent = docFormUpdate(oriContent, oriLine, newLine);
-		docMap.put("afterContent", lineWritedContent);
-		
-		int updateRow = dao.docUpdate(docMap);
-		
-		map.put("updateRow", updateRow);
 		map.put("docId", docId);
 		
 		return map;
@@ -1001,19 +996,25 @@ public class DocService {
 		return mav;
 	}
 
-	public ModelAndView registeredDocList(HttpSession session) {
+	public ModelAndView registeredDocList(String flag, HttpSession session) {
 
 		ModelAndView mav = new ModelAndView("/doc/registeredDocList");
-		
-		ArrayList<HashMap<String, String>> deptList = dao.getDeptList();
-		mav.addObject("deptList", deptList);
-		
+
 		// 세션에서 로그인 정보 모두 가져오기
 		String loginId = (String) session.getAttribute("id");
 		MemberDTO memberInfo = dao.getMemberInfo(loginId);
 		
-		String deptId = memberInfo.getDept_id();
-		mav.addObject("deptId", deptId);
+		ArrayList<HashMap<String, String>> deptList = dao.getDeptList();
+		mav.addObject("deptList", deptList);
+		
+		if(flag.equals("default")) {
+			// flag = default 첫 진입때는 자신의 부서에 따라서 보여주는 등록문서함을 다르게 한다.
+			String deptId = memberInfo.getDept_id();
+			mav.addObject("deptId", deptId);
+		}else {
+			// flag = doc_dept_id 비공개문서를 열람하다가 실패했을때 redirect되는데 이때는 선택문서함 기준으로 보여준다.
+			mav.addObject("deptId", flag);
+		}
 		
 		return mav;
 	}
@@ -1059,7 +1060,7 @@ public class DocService {
 		return map;
 	}
 
-	public ModelAndView registeredDocDetail(String docId, HttpSession session) {
+	public ModelAndView registeredDocDetail(String docId, HttpSession session, RedirectAttributes ra) {
 
 		ModelAndView mav = new ModelAndView("/doc/registeredDocDetail");
 		String loginId = (String) session.getAttribute("id");
@@ -1090,21 +1091,13 @@ public class DocService {
 				
 			}else {
 				// 문서의 생산부서와 로그인 멤버의 부서가 다를 때
-				mav = new ModelAndView("redirect:/registeredDocList.go");
-				mav.addObject("msg", "접근 권한이 없습니다.");
+				mav = new ModelAndView("redirect:/registeredDocList.go?flag="+docMap.get("dept_id"));
+				ra.addFlashAttribute("msg", "접근 권한이 없습니다.");
 			}
 			
 		}
 		
 		return mav;
 	}
-
-
-
-
-
-
-
-
 
 }

@@ -16,6 +16,20 @@
   <!-- summernote -->
   <link rel="stylesheet" href="../../plugins/summernote/summernote-bs4.min.css">
 </head>
+
+<style>
+
+.btn-primary {
+    color: #fff;
+    background-color: #20c997;
+    border-color: #20c997;
+    box-shadow: none;
+}
+  
+.card-primary.card-outline {
+    border-top: 3px solid #20c997;
+}  
+</style>
 <body class="hold-transition sidebar-mini">
 <jsp:include page = "index.jsp"></jsp:include>
 <div class="wrapper">
@@ -60,10 +74,7 @@
 	<div class="card-body p-0">
 	<ul class="nav nav-pills flex-column">
 	<li class="nav-item active">
-	<a href="#" class="nav-link">
-	<i class="far fa-envelope"></i> 전체 쪽지
-	<span class="badge bg-primary float-right">12</span>
-	</a>
+
 	</li>
 	<li class="nav-item">
 	<a href="/msReceiveList.go" class="nav-link">
@@ -94,8 +105,9 @@
               <!-- /.card-header -->
               <div class="card-body">
                 <div class="form-group">
-                <input type="text" name="from_id" value="${loginId}" readonly="readonly" hidden="true" required/>
-                <input type="text" class="form-control" name="to_id" value="${fromId}" placeholder="받는 사람: " />
+                <input type="text" name="from_id" value="${sessionScope.id}" readonly hidden="true" required/>
+                <input type="text" class="form-control" name="to_id" value="${fromId}" hidden="true" required/>
+                <input type="text" class="form-control" value="${member}" placeholder="받는 사람: " />
                 </div>
                 <div class="form-group">
                   <input class="form-control" name="title" placeholder="제목을 입력하세요">
