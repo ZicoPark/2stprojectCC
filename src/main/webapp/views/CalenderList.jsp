@@ -12,7 +12,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Calendar</title>
+  <title>캘린더</title>
 <link rel="icon" href="/img/CC_favicon.png">
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
@@ -73,12 +73,12 @@
 									<div class="external-event bg-info" draggable="true">휴식 시간</div>
 									<div class="external-event bg-primary" draggable="true">작업 시간</div>
 									<div class="external-event bg-danger" draggable="true">수면 시간</div> -->
-									<div class="checkbox">
+									<!-- <div class="checkbox">
 										<label for="drop-remove">
 											<input type="checkbox" id="drop-remove">
 												드래그로 목록에서 삭제
 										</label>
-									</div>
+									</div> -->
 								</div>
 							</div>
 						<!-- /.card-body -->

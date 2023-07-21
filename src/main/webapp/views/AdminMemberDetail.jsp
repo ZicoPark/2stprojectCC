@@ -95,7 +95,7 @@
 					</tr>
 					<tr>
 						<td>
-						    관리자 설정 : &nbsp;&nbsp;&nbsp;&nbsp; ${detail.admin_chk}
+						    관리자 설정 : &nbsp;&nbsp;&nbsp;&nbsp; ${detail.admin_chk ? '관리자' : '사원'}
 						    <select class="admin" name="admin">
 							    <option value="0">사원</option>
 							    <option value="1">관리자</option>
@@ -130,13 +130,15 @@
 							</select>
 						</td>
 						<td>
-							계정 상태 : &nbsp;&nbsp;&nbsp;&nbsp; ${detail.status}
+							계정 상태 : &nbsp;&nbsp;&nbsp;&nbsp; ${detail.status ? '재직' : '퇴사'}
 							<select name="status" class="status">
 								<option value="재직">재직</option>
 								<option value="퇴사">퇴사</option>
 							</select>
 						</td>
-						<td>퇴사일 : &nbsp;&nbsp;&nbsp;&nbsp; ${detail.end_at}</td>
+						<!-- <td>
+							퇴사일 : &nbsp;&nbsp;&nbsp;&nbsp; ${detail.end_at}
+						</td> -->
 					</tr>
 				</table>
 				<div id="but" style="display: inline-block;">
@@ -183,11 +185,11 @@
         }
     }
 
-    // 계정 상태 값 가져오기
-    var statusValue = '${detail.status}';
+ 	// 계정 상태 값 가져오기
+    var statusValue = '${detail.status ? "재직" : "퇴사"}';
     var statusSelect = document.querySelector('.status'); // 계정 상태 셀렉트 요소 가져오기
 
-    // 계정 상태 값에 따라 기본값 설정
+ 	// 계정 상태 값에 따라 기본값 설정
     for (var k = 0; k < statusSelect.options.length; k++) {
         if (statusSelect.options[k].value === statusValue) {
             statusSelect.selectedIndex = k; // 옵션 인덱스를 선택한 인덱스로 변경

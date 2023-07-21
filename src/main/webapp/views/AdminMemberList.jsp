@@ -97,8 +97,8 @@
 							<td>${member.name}</td>
 							<td>${member.user_id}</td>
 							<td>${member.dept_name}</td>
-							<td><span style="color: ${member.status ? 'blue' : 'red'}; display: inline-block; text-align: center; width: 100%;">${member.status ? 'Y' : 'N'}</span></td>
-							<td><span style="color: ${member.admin_chk ? 'blue' : 'red'}; display: inline-block; text-align: center; width: 100%;">${member.admin_chk ? 'Y' : 'N'}</span></td>
+							<td><span style="color: ${member.status ? 'blue' : 'red'}; display: inline-block; text-align: center; width: 100%;">${member.status ? '재직' : '퇴사'}</span></td>
+							<td><span style="color: ${member.admin_chk ? 'blue' : 'red'}; display: inline-block; text-align: center; width: 100%;">${member.admin_chk ? '관리자' : '사원'}</span></td>
 							<td id="but">
 						    	<button id="btn" onclick="location.href='AdminMemberDetail.go?id=${member.id}'">상세보기</button>
 						    </td>
@@ -125,8 +125,8 @@
 						        <td><%=list.get(i).getName()%></td>
 						        <td><%=list.get(i).getUser_id()%></td>
 						        <td><%=list.get(i).getDept_name()%></td>
-						        <td><span style="color: <%=list.get(i).getStatus() ? "blue" : "red"%>; display: inline-block; text-align: center; width: 100%;"><%=list.get(i).getStatus() ? 'Y' : 'N'%></span></td>
-						        <td><span style="color: <%=list.get(i).getAdmin_chk() ? "blue" : "red"%>; display: inline-block; text-align: center; width: 100%;"><%=list.get(i).getAdmin_chk() ? 'Y' : 'N'%></span></td>
+						        <td><span style="color: <%=list.get(i).getStatus() ? "blue" : "red"%>; display: inline-block; text-align: center; width: 100%;"><%=list.get(i).getStatus() ? "재직": "퇴사"%></span></td>
+						        <td><span style="color: <%=list.get(i).getAdmin_chk() ? "blue" : "red"%>; display: inline-block; text-align: center; width: 100%;"><%=list.get(i).getAdmin_chk() ? "관리자" : "사원"%></span></td>
 						        <td id="but">
 						            <button id="btn" onclick="location.href='AdminMemberDetail.go?id=<%=list.get(i).getUser_id()%>'">상세보기</button>
 						        </td>

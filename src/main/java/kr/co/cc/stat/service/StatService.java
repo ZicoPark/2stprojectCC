@@ -10,15 +10,17 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 @Service
 public class StatService {
 
 	Logger logger = LoggerFactory.getLogger(getClass());
-
+	@Value("${spring.servlet.multipart.location}") private String attachmentRoot;
+	
 	String driver_id = "webdriver.chrome.driver";
-	String driver_path = "./src/main/resources/static/chromedriver/chromedriver.exe";
+	String driver_path = attachmentRoot+"/chromedriver.exe";
 
 	WebDriver driver = null;
 	ChromeOptions options = null;
