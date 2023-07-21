@@ -85,7 +85,7 @@
 														<li class="list-inline-item"><c:if
 																test="${userId.profile_name eq null }">
 																<img alt="Avatar" class="table-avatar"
-																	src="photoView.do?path=cc.png">
+																	src="/img/CC.png">
 											        	cc.png
 											        </c:if> <c:if test="${userId.profile_name ne null }">
 																<img alt="Avatar" class="table-avatar"
@@ -165,7 +165,7 @@
 														<li class="list-inline-item"><c:if
 																test="${userId.profile_name eq null }">
 																<img alt="Avatar" class="table-avatar"
-																	src="photoView.do?path=cc.png">
+																	src="/img/CC.png">
 															</c:if> <c:if test="${userId.profile_name ne null }">
 																<img alt="Avatar" class="table-avatar"
 																	src="photoView.do?path=${userId.profile_name }">
