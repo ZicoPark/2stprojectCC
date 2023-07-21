@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>전 사원 연차/휴가 현황</title>
+  <title>연차 관리 (관리자)</title>
 <link rel="icon" href="/img/CC_favicon.png">
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
@@ -21,7 +21,7 @@
 <div class="wrapper">
   <div class="content-wrapper">
     <section class="content-header">
-            <h1>전 사원 연차/휴가 현황</h1>         
+            <h1>연차 관리 (관리자)</h1>         
     </section>
     <br/>
     <!-- Main content -->

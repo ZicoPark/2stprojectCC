@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>근태 변경 요청 리스트</title>
+  <title>근태 관리 (관리자)</title>
 <link rel="icon" href="/img/CC_favicon.png">
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
@@ -22,7 +22,7 @@
 <div class="wrapper">
   <div class="content-wrapper">
     <section class="content-header">
-            <h1>근태 변경 요청 리스트</h1>
+            <h1>근태 관리 (관리자)</h1>
     </section>
     <br/>
     <!-- Main content -->
