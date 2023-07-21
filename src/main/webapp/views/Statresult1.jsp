@@ -8,21 +8,8 @@
 <title>Insert title here</title>
 </head>
 <body>
-ㅁㅁㅁㅁㅁㅁㅁ
-	<c:if test="${full}">
-      ${elem}
-   </c:if>
-   
-   <c:if test="${!full}">
-      <c:forEach items="${elem}" var="item">
-         <ul>
-            <li class="title">
-               ${item.title}
-            </li>
-            <li>${item.content}</li>
-         </ul>
-      </c:forEach>
-      
-   </c:if>
+   <p><a href="connect.do">일반페이지 가져오기</a></p>
+   <p><a href="finElem.do">요소 가져오기</a></p>
+   <p><a href="event.do">이벤트 실행하기</a></p>
 </body>
 </html>

@@ -26,6 +26,19 @@ public class StatService {
 		System.setProperty(driver_id, driver_path); // 시스템에 selenium 등록
 		options = new ChromeOptions();
 	}
+	
+   public String connect(String url) {
+	      options.addArguments("--remote-allow-origins=*");
+	      driver = new ChromeDriver(options); // chrome driver = 가상 브라우저를 뜻함.
+	      driver.get(url);
+	      String result = driver.getPageSource(); // 페이지의 전체 소스를 떼어 온다.
+	      driver.close(); // 이걸 안해주면 가상 드라이버가 계속 떠 있게 된다.
+	      
+	      return result;
+	   }
+
+	
+	
 
 
 	public void findElem(String url) {
@@ -65,5 +78,10 @@ public class StatService {
 			 logger.info("adearnrate : " + adearnrate);
 	
 	}
+
+
+
+
+
 
 }
