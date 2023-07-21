@@ -127,25 +127,7 @@
 	          <div id="aList">
 	          
 	          </div>
-          
-<!--           <a href="#" class="dropdown-item">
-            <i class="fas fa-envelope mr-2"></i> 쪽지
-            <span class="float-right text-muted text-sm">3 mins</span>
-          </a> -->
-          
-          
-          <!-- <div class="dropdown-divider"></div>
-          <a href="#" class="dropdown-item">
-            <i class="fas fa-users mr-2"></i> 공지사항
-            <span class="float-right text-muted text-sm">12 hours</span>
-          </a>
-          <div class="dropdown-divider"></div>      
-          <a href="#" class="dropdown-item">
-            <i class="fas fa-file mr-2"></i> 전자결재 
-            <span class="float-right text-muted text-sm">2 days</span>
-          </a>  -->
-          
-         
+             
           
           
           <div class="dropdown-divider"></div>
@@ -153,13 +135,6 @@
         </div>
       </li>
 
-
-
-
-
-      
-      
-      
       <!-- 알림 끝 -->
 
 
@@ -415,12 +390,6 @@
                   <p>사내 게시판</p>
                 </a>
               </li>
-              <li class="nav-item">
-                <a href="../../index3.jsp" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>부제목3</p>
-                </a>
-              </li>
             </ul>
           </li>
 
@@ -434,34 +403,7 @@
               </p>
             </a>
           </li>
-          
-          
-                    <li class="nav-item">
-            <a href="#" class="nav-link">
-               <img src="../../dist/img/통계.png" class="nav-icon fas fa-tachometer-alt"/>
-              <p>
-                통계
 
-                <i class="right fas fa-angle-left"></i>
-              </p>
-            </a>
-            <ul class="nav nav-treeview">
-              <li class="nav-item">
-                <a href="/freeBoardList" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>부서별게시판</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="/stat.go" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>유튜브 통계</p>
-                </a>
-              </li>
-            </ul>
-          </li>
-          
-  
                     <li class="nav-item">
             <a href="#" class="nav-link">
               <i class="nav-icon fas fa-tachometer-alt"></i>
@@ -477,12 +419,6 @@
                   <p>사원 리스트</p>
                 </a>
               </li>
-              <!-- <li class="nav-item">
-                <a href="MemberONOFFList.go" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>사원 승인/삭제</p>
-                </a>
-              </li> -->
               <li class="nav-item">
                 <a href="/workHistoryList_Ad.go" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
@@ -511,24 +447,6 @@
                 <a href="/workWornList.go" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>경고 리스트</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="#" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>재직상태 리스트</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="/DeptCategory.go" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>부서 카테고리</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="/ArchiveCategory.go" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>자료실 카테고리</p>
                 </a>
               </li>
             </ul>
