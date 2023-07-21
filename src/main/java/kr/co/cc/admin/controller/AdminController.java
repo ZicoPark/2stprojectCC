@@ -1,6 +1,9 @@
 package kr.co.cc.admin.controller;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -53,7 +56,7 @@ public class AdminController {
 	    String deptName = request.getParameter("dept");
 	    String[] statusArray = request.getParameterValues("status");
 	    String[] adminArray = request.getParameterValues("admin");
-
+	    
 	    boolean status = false;
 	    boolean admin = false;
 
@@ -78,6 +81,7 @@ public class AdminController {
 	    logger.info("deptName체크 : "+deptName);
 	    logger.info("status체크 : "+status);
 	    logger.info("admin체크 : "+admin);
+	    //logger.info("end_at체크 : "+end_at);
 	    AdminDTO dto = new AdminDTO();
 	    dto.setId(user_id);
 	    dto.setJob_level_id(jobName);
@@ -86,6 +90,7 @@ public class AdminController {
 	    dto.setDept_name(deptName);
 	    dto.setStatus(status);
 	    dto.setAdmin_chk(admin);
+	    //dto.setEnd_at(end_at);
 	    // logger.info("dto확인 : "+dto);
 	    
 	    return service.MemberUpdate(dto, user_id);

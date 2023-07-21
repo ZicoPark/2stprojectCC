@@ -509,7 +509,7 @@ function alarmList() {
 			console.log(data);
 			var content = '';
 			if (data.length == 0) {
-				content += '<tr><th>새 알림이 없습니다.</th></tr>';
+				content += '<div style="text-align: center;"><tr><th><br/>새 알림이 없습니다.<br/><br/></th></tr></div>';
 			} else {
 				data.forEach(function(item) {
 					var link = '';
