@@ -6,7 +6,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>AdminLTE 3 | Projects</title>
+<title>이전 알림</title>
 <link rel="icon" href="/img/CC_favicon.png">
 <!-- CSS only -->
 <link
@@ -119,15 +119,6 @@
 								</div>
 
 							</div>
-							<div class="card-footer clearfix">
-								<ul class="pagination pagination-sm m-0 float-right">
-									<li class="page-item"><a class="page-link" href="#">«</a></li>
-									<li class="page-item"><a class="page-link" href="#">1</a></li>
-									<li class="page-item"><a class="page-link" href="#">2</a></li>
-									<li class="page-item"><a class="page-link" href="#">3</a></li>
-									<li class="page-item"><a class="page-link" href="#">»</a></li>
-								</ul>
-							</div>
 						</div>
 						<!-- /.card -->
 					</div>
@@ -173,7 +164,7 @@
 						console.log(data);
 						var content = '';
 						if (data.length == 0) {
-							content += '<tr><th colspan="5" style="text-align:center">알림이 없습니다.</th></tr>'
+							content += '<tr><th colspan="5" style="text-align:center">안 읽은 알림이 없습니다.</th></tr>'
 						} else {
 							data
 									.forEach(function(item) {
@@ -246,7 +237,7 @@
 						console.log('createChatroom.ajax () 성공');
 						var content = '';
 						if (data.length == 0) {
-							content += '<tr><th colspan="5" style="text-align:center">알림이 없습니다.</th></tr>'
+							content += '<tr><th colspan="5" style="text-align:center">읽은 알림이 없습니다.</th></tr>'
 						} else {
 							data
 									.forEach(function(item) {
