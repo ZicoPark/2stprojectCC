@@ -18,7 +18,7 @@
 <jsp:include page = "index.jsp"></jsp:include>
 <!-- Site wrapper -->
 <div class="wrapper">
-  <div class="content-wrapper">
+<%--   <div class="content-wrapper">
     <section class="content-header">
             <h1>공지사항</h1>         
     </section>
@@ -109,7 +109,111 @@
                
        </table>
     </section>
-  </div>
+  </div> --%>
+  
+
+
+
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+   
+    <section class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+          </div>
+          <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+            </ol>
+          </div>
+        </div>
+      </div><!-- /.container-fluid -->
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+      <div class="container-fluid">
+        <div class="row">
+ 
+        <div class="col-md-9" style="margin: 0 auto;">
+           <div class="card card-primary card-outline" style="border-top : 3px solid #20c997!important">
+<%--             <div class="card-header">
+              <h3 style="font-weight: bold;font-size: 30px;">${detailno.subject}</h3>
+				<span class="mailbox-read-time float-right"> 
+                  작성자&nbsp ${detailno.name}(${detailno.user_id})<br>
+             	</span>
+            </div> --%>
+            <!-- /.card-header -->
+
+              <div class="mailbox-read-info">
+                  <div class="mailbox-read-time"> 
+                 <h3 style="font-weight: bold;font-size: 30px;  color: black;">${detailno.subject}</h3>
+				<span class="mailbox-read-time float-right"> 
+                  작성자&nbsp ${detailno.name}(${detailno.user_id})<br>
+             	</span>
+                  작성일  &nbsp ${detailno.create_at}
+                  &nbsp &nbsp 조회수 &nbsp ${detailno.hit}
+                  </div>
+                 
+              </div>
+     
+
+              <!-- /.mailbox-controls -->
+              <div class="mailbox-read-message" style="height: 300px;">
+                <p>${detailno.content}</p>
+              </div>
+              <!-- /.mailbox-read-message -->
+            <div class="card-footer bg-white">
+              <ul class="mailbox-attachments d-flex align-items-stretch clearfix">
+			  	<c:if test="${detailFile.size() == 0 }">
+					<div>첨부파일 없음.</div>
+				</c:if>       
+				<c:if test="${detailFile.size() > 0 }">
+					<c:forEach items="${detailFile}" var="i">
+                  <div class="mailbox-attachment-info">
+                    <a class="mailbox-attachment-name"><i class="fas fa-paperclip"></i> &nbsp ${i.ori_file_name}</a>
+					&nbsp &nbsp
+                    <a href="msdownload.do?path=${i.id}" class="btn btn-default btn-sm float-right"><i class="fas fa-cloud-download-alt"></i></a>
+                    
+                  </div>
+
+            	</c:forEach>
+			</c:if>
+              </ul>
+            </div>
+            <div class="card-footer">
+              <div class="float-right">
+			    <c:if test="${loginid.admin_chk eq 1}">
+			     <button type="button" onclick="deleteNotice();" class="btn btn-default"><i class="far fa-trash-alt"></i></button>
+			    </c:if>
+                <button type="button" onclick="location.href='./noticeBoard.go'" class="btn btn-default"> 목록</button>
+              </div>
+
+            </div>
+            </div>
+            <!-- /.card-body -->
+    
+
+            <!-- /.card-footer -->
+            <!-- /.card-footer -->
+          </div>
+          <!-- /.card -->
+        </div>
+        <!-- /.col -->
+      </div>
+      <!-- /.row -->
+    </section>
+      </div><!-- /.container-fluid -->
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
 </div>
 <!-- ./wrapper -->
 <!-- jQuery -->
@@ -137,3 +241,5 @@
 
 </script>
 </html>
+
+   

@@ -268,12 +268,12 @@ function listPrint(list){
 	      content +='<tr>';
 
 	      content += '<td>' + count-- + '</td>'; // 번호를 반대로 표시
-	      content +='<td>'+item.category +'</td>';
-	      content +='<td><a href="archivedetail.do?id=' + item.id + '">'+item.subject +'</a></td>';
-	      content += '<td>' + item.name + ' ( ' + item.user_id + ' ) ' + '</td>';
-	      content +='<td id="userstate">'+ item.create_at +'</td>';
+	      content += '<td style="color: ' + (item.category === '문서양식' ? 'green' : item.category === '업무자료' ? 'blue' : 'black') + ';">' + item.category + '</td>';
+	      content +='<td><a style="color:black" href="archivedetail.do?id=' + item.id + '">'+item.subject +'</a></td>';
+	      content += '<td style="width: 15%;">' + item.name + ' ( ' + item.user_id + ' ) ' + '</td>';
+	      content +='<td style="width: 10%;" id="userstate">'+ item.create_at +'</td>';
 	      
-	      content +='<td id="hit"> ' + item.hit + '</td>';
+	      content +='<td style="width: 8%; text-align: center;" id="hit"> ' + item.hit + '</td>';
 	      content +='</tr>';
 	      
 	   });

@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import kr.co.cc.doc.service.DocService;
 
@@ -190,9 +191,9 @@ public class DocController {
 	}
 	
 	@RequestMapping(value="/registeredDocList.go")
-	public ModelAndView registeredDocList(HttpSession session) {
+	public ModelAndView registeredDocList(@RequestParam String flag, HttpSession session) {
 		
-		return service.registeredDocList(session);
+		return service.registeredDocList(flag, session);
 	}
 	
 	@RequestMapping(value="/registeredDocList.ajax")
@@ -203,8 +204,9 @@ public class DocController {
 	}
 	
 	@RequestMapping(value="/registeredDocDetail.go")
-	public ModelAndView registeredDocDetail(@RequestParam String id, HttpSession session) {
+	public ModelAndView registeredDocDetail(@RequestParam String id, HttpSession session, RedirectAttributes ra) {
 		
-		return service.registeredDocDetail(id, session);
+		return service.registeredDocDetail(id, session, ra);
 	}
+	
 }
