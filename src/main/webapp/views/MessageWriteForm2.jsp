@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>AdminLTE 3 | Compose Message</title>
+  <title>쪽지작성</title>
 <link rel="icon" href="/img/CC_favicon.png">
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
@@ -23,6 +23,19 @@
   
   
  <style>
+ 
+ 
+ .btn-primary {
+    color: #fff;
+    background-color: #20c997;
+    border-color: #20c997;
+    box-shadow: none;
+}
+  
+.card-primary.card-outline {
+    border-top: 3px solid #20c997;
+    
+    
   .table-wrapper {
     display: flex;
   }
@@ -47,44 +60,7 @@
   }
   
 
-  
-  
-/*      .chat-column1{
-       flex: 1;
-        padding: 10px;
-        border: 1px solid #ccc;
-        border-radius: 5px;
-        background-color: white;
-        overflow-y: auto;
-        height: 250px;
-        
-    }
-    
-   .chat-column2{
-      flex: 1;
-        padding: 10px;
-        border: 1px solid #ccc;
-        border-radius: 5px;
-        background-color: white;
-        overflow-y: auto;
-        height: 250px;
-        display: block;
-    }
-    
-     .listList{
-      flex: 1;
-        padding: 10px;
-        border: 1px solid #ccc;
-        border-radius: 5px;
-        background-color: #f8f8f8;
-        overflow-y: auto;
-        height: 550px;
-        max-width: 30%;
-    }
-    
-   .listList div {
-        display: block;
-    }    */
+ 
 </style> 
 </head>
 

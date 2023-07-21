@@ -214,7 +214,7 @@ a:hover {
 														<input id="url" type="url" name="youtubeLink"
 															placeholder="삽입할 영상의 URL을 입력해주세요"
 															style="height: 30px; width: 64%; font-size: 11px; padding: 7px 10px; border: 1px solid #ccc;">
-														<button type="button" id="sbt"
+														<button type="submit" id="sbt"
 															class="btn button-self float-right"
 															style="margin-left: 5px;">
 															<i class="fas fa-save">저장</i>

@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>AdminLTE 3 | Projects</title>
+  <title>자료실</title>
 <link rel="icon" href="/img/CC_favicon.png">
 
  <!-- CSS only -->
