@@ -526,7 +526,7 @@ function alarmList() {
 			console.log(data);
 			var content = '';
 			if (data.length == 0) {
-				content += '<tr><th style="text-align:center">새 알림이 없습니다.</th></tr>';
+				content += '<tr><th>새 알림이 없습니다.</th></tr>';
 			} else {
 				data.forEach(function(item) {
 					var link = '';
