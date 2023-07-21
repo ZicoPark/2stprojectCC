@@ -126,7 +126,7 @@
   <!-- /.navbar -->
 
   <!-- Main Sidebar Container -->
-  <aside class="main-sidebar sidebar-dark-primary elevation-4 bg-white">
+  <aside class="main-sidebar sidebar-dark-primary elevation-6 bg-white">
     <!-- Brand Logo -->
     <a onclick="goMyMainPage(${user.id})" class="brand-link" style="cursor: pointer;">
       <img src="../../dist/img/KakaoTalk_20230613_164257782.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-10" style="opacity: .8">
@@ -509,7 +509,7 @@ function alarmList() {
 			console.log(data);
 			var content = '';
 			if (data.length == 0) {
-				content += '<tr><th>새 알림이 없습니다.</th></tr>';
+				content += '<div style="text-align: center;"><tr><th><br/>새 알림이 없습니다.<br/><br/></th></tr></div>';
 			} else {
 				data.forEach(function(item) {
 					var link = '';

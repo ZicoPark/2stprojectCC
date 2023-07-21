@@ -56,17 +56,16 @@ a:hover {
 	box-shadow: none;
 }
 
-  .statsearch {
-    border-collapse: collapse;
-    width: 100%;
-  }
+.statsearch {
+	border-collapse: collapse;
+	width: 100%;
+}
 
-  .statsearch th,
-  .statsearch td {
-    border: 1px solid black;
-    text-align: center;
-    padding: 8px;
-  }
+.statsearch th, .statsearch td {
+	border: 1px solid black;
+	text-align: center;
+	padding: 8px;
+}
 </style>
 
 
@@ -127,8 +126,7 @@ a:hover {
 										style="FONT-SIZE: 15PX; COLOR: GREEN;">
 											${timeList.time_go} </a> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
 										&nbsp;&nbsp; &nbsp;&nbsp; &nbsp; <a
-										style="FONT-SIZE: 15PX; COLOR: RED;"> ${timeList.time_end}
-									</a></li>
+										style="FONT-SIZE: 15PX; COLOR: RED;"> ${timeList.time_end}</a></li>
 
 
 								</ul>
@@ -226,7 +224,7 @@ a:hover {
 														<input id="url" type="url" name="youtubeLink"
 															placeholder="삽입할 영상의 URL을 입력해주세요"
 															style="height: 30px; width: 64%; font-size: 11px; padding: 7px 10px; border: 1px solid #ccc;">
-														<button type="button" id="sbt"
+														<button type="submit" id="sbt"
 															class="btn button-self float-right"
 															style="margin-left: 5px;">
 															<i class="fas fa-save">저장</i>
@@ -256,7 +254,9 @@ a:hover {
 
 
 						<div class="row">
-							<div class="card card-primary" style="width: 500px;">
+						<div class="col-lg-6">
+						  <div class="col-md-6">
+						    <div class="card card-primary" style="width: 510px;">
 								<div class="card-header ui-sortable-handle"
 									style="cursor: move; background-color: #20c997 !important;">
 									<h3 class="card-title"
@@ -298,6 +298,8 @@ a:hover {
 									</ul>
 
 								</div>
+								
+								
 								<div class="card-footer clearfix">
 									<button onclick="location.href='personalWrite.go'"
 										class="btn button-self float-right">
@@ -305,39 +307,55 @@ a:hover {
 									</button>
 								</div>
 							</div>
-
-							<div class="col-md-3">
-								<div class="card card-primary"  style="width: 480px;">
+						</div>	
+					</div>	
+							
+								<div class="col-lg-6">	
+								  <div class="col-md-6">
+								    <div class="card card-primary" style="width: 510px;">
 									<div class="card-header border-0"
 										style="background-color: #20c997 !important;">
-										<h3 class="card-title" style="font-size: 1.1rem; font-weight: 400; color: white"> 구독자 수 및 수익 예측</h3>
+										<h3 class="card-title"
+											style="font-size: 1.1rem; font-weight: 400; color: white">
+											구독자 수 및 수익 예측</h3>
 									</div>
 									<div class="card-body">
+										<div class="col-md-12">
+											<div class="input-group">
+												<input type="search" id="statSearchText" value="" class="form-control form-control-sm" placeholder="유튜브 ID 입력(ex. UCaxbXRPhdHPXjM-e-F00LVA)">
+												<div class="input-group-append">
+													<button type="button" class="btn btn-sm btn-default" onclick="fetchStatData()">
+														<i class="fa fa-search"></i>
+													</button>
+												</div>
+											</div>
+										</div>
+										<br>
 										<div class="cal">
-											<button id="statSearchBtn" type="button" value="스탯" class="btn btn-success btn-sm" onclick="fetchStatData()">데이터 조회</button>
-											
-											<table class="statsearch">
-												<thead>
-							                        <tr>
-							                            <td class="gudoksu">총 구독자 수</td>
-							                            <td class="monthearn">유튜브 월수익예측</td>
-							                            <td class="adearnrate">영상1개당 제휴수익예측</td>
-							                        </tr>
-							                    </thead>
-							                    <tbody id="statTable">
-							                        <tr>
-							                        	<td colspan="3">없음</td>
-							                        </tr>
-							                    </tbody>	
-											</table>
+												<table class="table table-striped table-valign-middle">
+													<thead>
+														<tr>
+															<td class="gudoksu" style="width: 23%; font-size: 14px;">총 구독자 수</td>
+															<td class="monthearn" style="width: 35%; font-size: 14px;">유튜브 월수익예측</td>
+															<td class="adearnrate" style="width: 42%; font-size: 14px;">영상1개당
+																제휴수익예측</td>
+														</tr>
+													</thead>
+													<tbody id="statTable">
+														<tr>
+															<td colspan="3">없음</td>
+														</tr>
+													</tbody>
+												</table>
+											</div>
 										</div>
 									</div>
 								</div>
+								</div>
+								
 							</div>
 						</div>
 					</div>
-				</div>
-
 			</section>
 			<!-- right col -->
 		</div>
@@ -458,42 +476,47 @@ a:hover {
 			});
 		}
 	});
-	
+
 	function fetchStatData() {
-        // Perform the AJAX request
-        $.ajax({
-            url: "/findElem.do",
-            method: "GET",
-            dataType: "json",
-            success: function(data) {
-                console.log(data.statList);
-                statPrint(data.statList);
-                
-                console.log("AJAX request succeeded");
-            },
-            error: function() {
-                console.log("AJAX request failed");
-            }
-        });
-    }
-	
-	function statPrint(list){
+		// Perform the AJAX request
 		
+		var statSearchText = document.getElementById('statSearchText').value;
+		
+		$.ajax({
+			url : "/findStat.do",
+			method : "GET",
+			data : {
+				statSearchText:statSearchText
+			},
+			dataType : "json",
+			success : function(data) {
+				console.log(data.statList);
+				statPrint(data.statList);
+
+				console.log("AJAX request succeeded");
+			},
+			error : function() {
+				console.log("AJAX request failed");
+			}
+		});
+	}
+
+	function statPrint(list) {
+
 		var statContent = '';
-		
+
 		statContent += '<tr>';
-		
+
 		for (var i = 0; i < list.length; i++) {
-			statContent += '<td>'+list[i]+'</td>';
+			statContent += '<td>' + list[i] + '</td>';
 		}
 
 		statContent += '</tr>';
-		
+
 		$('#statTable').empty();
 		$('#statTable').append(statContent);
-		
+
 	}
-	
 </script>
 
 
