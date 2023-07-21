@@ -172,7 +172,7 @@
 			</div>
 			
 					<div id="div_editor">
-						<!-- 에디터 안에 들어갈 자리 -->
+			
 					</div>
 					<textarea hidden="true" id="content" name="content"></textarea>
                 

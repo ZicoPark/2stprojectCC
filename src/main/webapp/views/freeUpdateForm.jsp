@@ -50,7 +50,7 @@
 						</div>
 					</div>
 					<div id="div_editor">
-						<!-- 에디터 안에 들어갈 자리 -->
+						
 					</div>
 					<textarea hidden="true" id="beforeContent">${detailms.content }</textarea>
 					<textarea hidden="true" id="afterContent" name="afterContent"></textarea>

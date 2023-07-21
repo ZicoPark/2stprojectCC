@@ -107,9 +107,7 @@
    <div class="card-body p-0">
    <ul class="nav nav-pills flex-column">
    <li class="nav-item active">
-   <a href="#" class="nav-link">
-   <i class="far fa-envelope"></i> 전체 쪽지
-   </a>
+
    </li>
    <li class="nav-item">
    <a href="/msReceiveList.go" class="nav-link">

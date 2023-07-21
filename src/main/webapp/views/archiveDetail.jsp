@@ -62,7 +62,7 @@
      
               </div>
               <!-- /.mailbox-controls -->
-              <div class="mailbox-read-message" style="height: 300px;">
+              <div class="mailbox-read-message" style="height: 350px;">
                 <p>${detailms.content}</p>
               </div>
               <!-- /.mailbox-read-message -->

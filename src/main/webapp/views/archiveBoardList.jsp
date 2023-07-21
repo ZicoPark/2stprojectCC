@@ -150,12 +150,13 @@
       		</div>                  
 	    </div>                    
 	  </div>   
-	
-   <div>                      		
+	  </div>
+                     		
   <button onclick="location.href='archiveWrite.go'" class ="btn btn-primary float-right" style="margin-bottom: 10px;">
   <i class="fas fa-plus"></i>작성
 	</button>  
-  </div> 		
+	</div>	
+	
 		<div>
 		<input type ="hidden" id="adminchk" value= "${loginid}" />${loginid}
 		</div>
@@ -267,8 +268,8 @@ function listPrint(list){
 	      // 배열 요소들 반복문 실행 -> 행 구성 + 데이터 추가 
 	      content +='<tr>';
 
-	      content += '<td>' + count-- + '</td>'; // 번호를 반대로 표시
-	      content += '<td style="color: ' + (item.category === '문서양식' ? 'green' : item.category === '업무자료' ? 'blue' : 'black') + ';">' + item.category + '</td>';
+	      content += '<td style="width: 15%; text-align: center;">' + count-- + '</td>'; // 번호를 반대로 표시
+	      content += '<td style="width: 15%; color: ' + (item.category === '문서양식' ? 'green' : item.category === '업무자료' ? 'blue' : 'black') + ';">' + item.category + '</td>';
 	      content +='<td><a style="color:black" href="archivedetail.do?id=' + item.id + '">'+item.subject +'</a></td>';
 	      content += '<td style="width: 15%;">' + item.name + ' ( ' + item.user_id + ' ) ' + '</td>';
 	      content +='<td style="width: 10%;" id="userstate">'+ item.create_at +'</td>';

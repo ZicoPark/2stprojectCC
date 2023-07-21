@@ -101,6 +101,11 @@ function pushContent(){
 	
 }
 
+$(function () {
+	bsCustomFileInput.init();
+});
+  
+
     // 제목 입력란에 이벤트 리스너 추가
     $('#subjectInput').on('input', function () {
       var count = this.value.length;
@@ -116,38 +121,7 @@ function pushContent(){
     });
 
 
-// 첨부파일 목록 보여주고 안 보여주고 
-function displayFileNames(event) {
-    var fileNamesDiv = document.getElementById('fileNames');
 
-    var files = Array.from(event.target.files);
-    files.forEach(function(file) {
-        var fileNameDiv = document.createElement('div');
-        var fileNameSpan = document.createElement('span');
-        fileNameSpan.innerText = file.name;
-
-        var cancelIcon = document.createElement('i');
-        cancelIcon.className = 'fas fa-times cancel-icon';
-        cancelIcon.addEventListener('click', function() {
-            removeFile(this);
-        });
-
-        fileNameDiv.appendChild(fileNameSpan);
-        fileNameDiv.appendChild(cancelIcon);
-        fileNamesDiv.appendChild(fileNameDiv);
-    });
-}
-
-
-function removeFileEvent(icon) {
-    var fileNameDiv = $(icon).parent(); 
-    var fileNameInput = fileNameDiv.find('input[type="text"]'); 
-    var newFileName = fileNameInput.attr('value'); 
-
-    fileNameDiv.remove();
-
-	console.log(newFileName);
-}
 
 
 

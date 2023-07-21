@@ -126,8 +126,7 @@ a:hover {
 										style="FONT-SIZE: 15PX; COLOR: GREEN;">
 											${timeList.time_go} </a> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
 										&nbsp;&nbsp; &nbsp;&nbsp; &nbsp; <a
-										style="FONT-SIZE: 15PX; COLOR: RED;"> ${timeList.time_end}
-									</a></li>
+										style="FONT-SIZE: 15PX; COLOR: RED;"> ${timeList.time_end}</a></li>
 
 
 								</ul>
@@ -255,7 +254,9 @@ a:hover {
 
 
 						<div class="row">
-							<div class="card card-primary" style="width: 500px;">
+						<div class="col-lg-6">
+						  <div class="col-md-6">
+						    <div class="card card-primary" style="width: 510px;">
 								<div class="card-header ui-sortable-handle"
 									style="cursor: move; background-color: #20c997 !important;">
 									<h3 class="card-title"
@@ -297,6 +298,8 @@ a:hover {
 									</ul>
 
 								</div>
+								
+								
 								<div class="card-footer clearfix">
 									<button onclick="location.href='personalWrite.go'"
 										class="btn button-self float-right">
@@ -304,9 +307,12 @@ a:hover {
 									</button>
 								</div>
 							</div>
-
-							<div class="col-md-3">
-								<div class="card card-primary" style="width: 480px;">
+						</div>	
+					</div>	
+							
+								<div class="col-lg-6">	
+								  <div class="col-md-6">
+								    <div class="card card-primary" style="width: 510px;">
 									<div class="card-header border-0"
 										style="background-color: #20c997 !important;">
 										<h3 class="card-title"
@@ -326,12 +332,12 @@ a:hover {
 										</div>
 										<br>
 										<div class="cal">
-												<table class="statsearch table table-bordered">
+												<table class="table table-striped table-valign-middle">
 													<thead>
 														<tr>
-															<td class="gudoksu" style="width: 23%;">총 구독자 수</td>
-															<td class="monthearn" style="width: 35%;">유튜브 월수익예측</td>
-															<td class="adearnrate" style="width: 42%;">영상1개당
+															<td class="gudoksu" style="width: 23%; font-size: 14px;">총 구독자 수</td>
+															<td class="monthearn" style="width: 35%; font-size: 14px;">유튜브 월수익예측</td>
+															<td class="adearnrate" style="width: 42%; font-size: 14px;">영상1개당
 																제휴수익예측</td>
 														</tr>
 													</thead>
@@ -345,6 +351,8 @@ a:hover {
 										</div>
 									</div>
 								</div>
+								</div>
+								
 							</div>
 						</div>
 					</div>

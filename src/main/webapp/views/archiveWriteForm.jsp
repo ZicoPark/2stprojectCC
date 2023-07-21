@@ -54,7 +54,7 @@
 
 					<br>
 					<div id="div_editor">
-						<!-- 에디터 안에 들어갈 자리 -->
+					
 					</div>
 					<textarea hidden="true" id="content" name="content"></textarea>
 
@@ -65,8 +65,6 @@
 						첨부파일을 선택하세요.
 						</label>
 					</div>
-					
-
 				</form>
 			</section>
 		</div>
@@ -76,6 +74,7 @@
 <script src="../../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
 <!-- AdminLTE App -->
 <script src="../../dist/js/adminlte.min.js"></script>
+
 <!-- AdminLTE for demo purposes -->
 <script src="../../dist/js/demo.js"></script>
 <!-- bs-custom-file-input -->
@@ -103,7 +102,9 @@ function pushContent(){
 	
 }
 
-
+$(function () {
+	bsCustomFileInput.init();
+});
   
 
   
@@ -138,36 +139,7 @@ function pushContent(){
 	    }
 	  });
 
-	  function displayFileNames(event) {
-		    var fileNamesDiv = document.getElementById('fileNames');
-		    fileNamesDiv.innerHTML = '';
-		    
-		    var files = Array.from(event.target.files);
-		    files.forEach(function(file) {
-		      var fileNameSpan = document.createElement('span');
-		      fileNameSpan.innerText = file.name;
 
-		      var cancelIcon = document.createElement('i');
-		      cancelIcon.className = 'fas fa-times cancel-icon';
-		      cancelIcon.addEventListener('click', function() {
-		        removeFile(file, fileNameSpan);
-		      });
-
-		      var fileNameContainer = document.createElement('div');
-		      fileNameContainer.className = 'file-name-container';
-		      fileNameContainer.appendChild(fileNameSpan);
-		      fileNameContainer.appendChild(cancelIcon);
-
-		      fileNamesDiv.appendChild(fileNameContainer);
-		    });
-		  }
-
-		  function removeFile(file, fileNameSpan) {
-		    var fileInput = document.getElementById('fileInput');
-		    fileInput.value = '';
-
-		    fileNameSpan.parentNode.remove();
-		  }
 
 
 </script>
