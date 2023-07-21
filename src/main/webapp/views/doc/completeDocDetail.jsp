@@ -5,7 +5,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Creator Company</title>
+<title>결재완료문서 상세보기</title>
 <link rel="icon" href="/img/CC_favicon.png">
 <link rel="stylesheet" href="/richtexteditor/rte_theme_default.css" />
 <script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>

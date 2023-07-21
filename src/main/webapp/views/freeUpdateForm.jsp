@@ -6,7 +6,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>새 문서 작성</title>
+<title>게시글 수정</title>
 <link rel="icon" href="/img/CC_favicon.png">
 <link rel="stylesheet" href="/richtexteditor/rte_theme_default.css" />
 <script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
@@ -50,7 +50,7 @@
 						</div>
 					</div>
 					<div id="div_editor">
-						<!-- 에디터 안에 들어갈 자리 -->
+						
 					</div>
 					<textarea hidden="true" id="beforeContent">${detailms.content }</textarea>
 					<textarea hidden="true" id="afterContent" name="afterContent"></textarea>

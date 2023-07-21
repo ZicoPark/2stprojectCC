@@ -5,9 +5,11 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>AdminLTE 3 | Read Mail</title>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>자료실 상세보기</title>
+
 <link rel="icon" href="/img/CC_favicon.png">
 <!-- Google Font: Source Sans Pro -->
 <link rel="stylesheet"
@@ -24,7 +26,6 @@
 
 		<div class="content-wrapper">
 			<!-- Content Header (Page header) -->
-			
 
 			<section class="content-header">
 				<div class="container-fluid">
@@ -120,8 +121,6 @@
 		
 							<!-- /.card-body -->
 
-
-							<!-- /.card-footer -->
 							<!-- /.card-footer -->
 						</div>
 						<!-- /.card -->

@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>CreatorCompany</title>
+  <title>사내게시판 상세보기</title>
 <link rel="icon" href="/img/CC_favicon.png">
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
@@ -16,6 +16,59 @@
 </head>
 
 <style>
+
+/* 댓글 컨테이너 */
+.comment {
+  border: 1px solid #ccc0;
+  padding: 10px;
+  margin-bottom: 10px;
+
+  width: 500px;
+  margin: 20px;
+}
+
+/* 댓글 헤더 */
+.comment-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.username {
+  font-weight: bold;
+}
+
+.description {
+  font-size: 12px;
+  color: #888;
+}
+
+/* 댓글 내용 */
+.comment-content {
+  margin: 10px 0;
+}
+
+/* 댓글 액션 (수정, 삭제 링크) */
+.comment-actions {
+  display: flex;
+  justify-content: flex-end; 
+}
+
+.comment-actions a {
+  color: #333;
+  text-decoration: none;
+  padding: 5px 10px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  transition: background-color 0.3s ease;
+  margin-left: 5px; 
+}
+
+.comment-actions a:hover {
+  background-color: #f0f0f0;
+}
+
+
     .comment-form {
         margin-bottom: 20px;
     }
@@ -103,13 +156,9 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1>사내게시판</h1>
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item"><a href="#">Home</a></li>
-              <li class="breadcrumb-item"><a href="#">게시판</a></li>
-              <li class="breadcrumb-item active">사내게시판</li>
             </ol>
           </div>
         </div>
@@ -120,47 +169,53 @@
     <section class="content">
       <div class="container-fluid">
         <div class="row">
-          <div class="col-12">
-            <!-- Default box -->
-            <div class="card">
-<div class="card-header" style="background-color: #f5f5f5; border-radius: 10px;">
-  <div>
-    <h4 class="card-title">문서번호 ${detailms.id}</h4>
-  </div>
-  <br/>
-  <div>
-    <c:if test="${detailFile.size() == 0}">
-      <div></div>
-    </c:if>
-    <c:if test="${detailFile.size() > 0}">
-      <div class="mailbox-attachment-info">
-        <c:forEach items="${detailFile}" var="i" varStatus="status">
-          <a class="mailbox-attachment-name" href="msdownload.do?path=${i.id}">
-            <i class="fas fa-paperclip"></i> &nbsp;${i.ori_file_name}
-          </a>
-          <c:if test="${not status.last}">
-            &nbsp;&nbsp;
-          </c:if>
-        </c:forEach>
-      </div>
-    </c:if>
-  </div>
-</div>
-
-            
-              <!-- 제목, 작성자, 작성일 -->
-              <div class="card-body">
-                <span class="float-right">
-                  ${detailms.name} &nbsp;&nbsp; ${detailms.create_at}
-                </span>
-                <h3>${detailms.subject}</h3>
+       <div class="col-md-9" style="margin: 0 auto;">
+           <div class="card card-primary card-outline" style="border-top : 3px solid #20c997!important">
+            <div class="card-header">
+			문서번호 ${detailms.id}
+			<span class="mailbox-read-time float-right"> 
+               작성자 ${detailms.name} ( ${detailms.user_id } ) <br>
+          	</span>
+            </div>
+            <!-- /.card-header -->
+            <div class="card-body p-0">
+              <div class="mailbox-read-info">
+               	<h3 style="font-weight: bold;font-size: 30px;">${detailms.subject}</h3>
+			
+                  <div class="mailbox-read-time"> 
+                  작성일  &nbsp ${detailms.create_at}
+                  &nbsp &nbsp 조회수 &nbsp ${detailms.hit}
+                  </div>
+                 
               </div>
      
-              <!-- 내용 -->
-              <div class="card-body">
-                <p>${detailms.content}</p>
-                <p>조회수 &nbsp; ${detailms.hit}</p>
               </div>
+
+
+              <div class="mailbox-read-message" style="height: 350px;">
+                <p>${detailms.content}</p>
+              </div>
+              
+              
+            <div class="card-footer bg-white">
+              <ul class="mailbox-attachments d-flex align-items-stretch clearfix">
+			  	<c:if test="${detailFile.size() == 0 }">
+					<div></div>
+				</c:if>       
+				<c:if test="${detailFile.size() > 0 }">
+					<c:forEach items="${detailFile}" var="i">
+                  <div class="mailbox-attachment-info">
+                    <a class="mailbox-attachment-name"><i class="fas fa-paperclip"></i> &nbsp ${i.ori_file_name}</a>
+					&nbsp &nbsp
+                    <a href="msdownload.do?path=${i.id}" class="btn btn-default btn-sm float-right"><i class="fas fa-cloud-download-alt"></i></a>
+                    
+                  </div>
+
+            	</c:forEach>
+			</c:if>
+              </ul>
+            </div>
+            
               
           <div class="card-footer">
            <div class="float-right">
@@ -204,7 +259,7 @@
 
       <!-- 댓글 목록/ 댓글 수정 -->
             
-      <table>    
+      <table style="border: 1px solid #ccc; background-color: #f9f9f9; border-radius: 5px;">    
          
 
          <tbody id="list">
@@ -309,7 +364,7 @@ function listPrint(list) {
      list.forEach(function(item) {
        content += '<div class="comment">';
        content += '<div class="comment-header">';
-       content += '<span class="username">' + item.name + ' (' + item.user_id + ')</span>';
+       content += '<span class="username">' + item.name + ' (' + item.user_id + ')</span>'; 
        content += '<span class="description">' + item.create_at + '</span>';
        content += '</div>';
        content += '<div class="comment-content">' + item.content + '</div>';
@@ -338,56 +393,56 @@ function listPrint(list) {
 
 
 function showEditCommentForm(element, replyId, memberId) {
-   console.log("안녕");
-  if ('${sessionScope.id}' == memberId) {
-       var tdElement = $(element).parent(); // <td> 요소 선택
-       var trElement = $(tdElement).parent(); // <tr> 요소 선택
+	  console.log("안녕");
+	  if ('${sessionScope.id}' == memberId) {
+	    var tdElement = $(element).parent(); // <td> 요소 선택
+	    var trElement = $(tdElement).parent(); // <tr> 요소 선택
 
-       var currentContent = $(trElement).find('.comment-content').text(); // 현재 댓글 내용 가져오기
-       var textareaElement = $('<textarea rows="3" cols="55" class="form-control rounded-0"></textarea>').val(currentContent); // 새로운 textarea 요소 생성 및 현재 댓글 내용 삽입
+	    var currentContent = $(trElement).find('.comment-content').text(); // 현재 댓글 내용 가져오기
+	    var textareaElement = $('<textarea rows="3" cols="55" class="form-control rounded-0"></textarea>').val(currentContent); // 새로운 textarea 요소 생성 및 현재 댓글 내용 삽입
 
-       // 기존 댓글 내용 숨기고 textarea 표시
-       $(trElement).find('.comment-content').hide().after(textareaElement);
-       $(element).hide();
+	    // 기존 댓글 내용 숨기고 textarea 표시
+	    $(trElement).find('.comment-content').hide().after(textareaElement);
+	    $(element).hide();
+	    $('.comment-actions a[href^="replyDelete.do?id=' + replyId + '"]').hide();
+	    // 수정 완료 버튼 추가
+	    var buttonElement = $('<button type="button" class="btn btn-info btn-flat">완료</button>').click(function() {
+	      var modifiedContent = $(textareaElement).val(); // 수정된 댓글 내용 가져오기   
+		  // 삭제 버튼 숨기기
+		  
+	      
+	      if ('${sessionScope.id}' == memberId) {
+	        $.ajax({
+	          url: 'commentUpdate.ajax',
+	          type: 'post',
+	          data: {
+	            'content': currentContent,
+	            'id': replyId
+	          },
+	          dataType: 'json',
+	          success: function(data) {
+	            console.log(data);
+	          },
+	          error: function(e) {
+	            console.log(e);
+	          }
+	        });
+	      }
 
-       // 수정 완료 버튼 추가
-       var buttonElement = $('<button type="button" class="btn btn-info btn-flat">완료</button>').click(function() {
-         var modifiedContent = $(textareaElement).val(); // 수정된 댓글 내용 가져오기   
-   	
-        if('${sessionScope.id}' == memberId) {
-         $.ajax({
-            url:'commentUpdate.ajax',
-            type:'post',
-            data:{
-               'content': currentContent,
-               'id' : replyId
-            },
-            dataType:'json',
-            success:function(data){
-               console.log(data);
-               
-               
-            },
-            error:function(e){
-               console.log(e);
-            }
-         });
-         
-      }
-       
-        $(trElement).find('.comment-content').text(modifiedContent).show()
-         // textarea와 버튼 요소 제거
-         $(textareaElement).remove();
-         $(buttonElement).remove();
-         
-         $(element).show();
-       });
+	      $(trElement).find('.comment-content').text(modifiedContent).show();
+	      // textarea와 버튼 요소 제거
+	      $(textareaElement).remove();
+	      $(buttonElement).remove();
+	      $(element).show();
+	    });
 
-       $(trElement).append(buttonElement);
-       
-  }
-         
-}
+	    $(trElement).append(buttonElement);
+	    $('.comment-actions a[href^="replyDelete.do?id=' + replyId + '"]').show();
+	  }
+
+
+	}
+
   
 
 function confirmDelete(event, url) {

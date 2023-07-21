@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>AdminLTE 3 | Projects</title>
+  <title>쪽지 전송 성공</title>
 <link rel="icon" href="/img/CC_favicon.png">
 
  <!-- CSS only -->
@@ -90,8 +90,8 @@
         <div class="icon">📩</div>
 
     <div class="buttons">
-      <a href="#" class="button"><b>보낸 쪽지함</b></a>
-      <a href="#" class="button"><b>추가 쪽지 작성</b></a>
+      <a href="/msSendList.go" class="button"><b>보낸 쪽지함</b></a>
+      <a href="/msWrite.go" class="button"><b>추가 쪽지 작성</b></a>
   
   </div>
 </div>

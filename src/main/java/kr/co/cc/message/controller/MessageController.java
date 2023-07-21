@@ -271,7 +271,7 @@ public class MessageController {
     @RequestMapping(value = "/msDelete.do")
     public String msDelete(String id) throws Exception {
     	service.msDelete(id);
-       return "redirect:/msReceiveList.go";
+       return "redirect:/msRemoveList.go";
     }	
     
 
