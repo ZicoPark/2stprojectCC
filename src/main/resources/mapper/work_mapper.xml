@@ -29,7 +29,7 @@
 	</insert>
 	
 	<update id="timeEnd">
-		UPDATE working_hour SET time_end=#{param3} WHERE member_id=#{param1} AND date=#{param2}
+		UPDATE working_hour SET time_end=now() WHERE member_id=#{param1} AND date=#{param2}
 	</update>
 	
 	<select id="WorkChangeRequestChk">
