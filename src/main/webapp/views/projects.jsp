@@ -6,7 +6,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>CreatorCompany</title>
+<title>프로젝트 홈</title>
 <link rel="icon" href="/img/CC_favicon.png">
 <!-- Google Font: Source Sans Pro -->
 <link rel="stylesheet"

@@ -29,28 +29,6 @@
 
     <!-- Right navbar links -->
     <ul class="navbar-nav ml-auto">
-      <!-- Navbar Search -->
-      <li class="nav-item">
-        <a class="nav-link" data-widget="navbar-search" href="#" role="button">
-          <i class="fas fa-search"></i>
-        </a>
-        <div class="navbar-search-block">
-          <form class="form-inline">
-            <div class="input-group input-group-sm">
-              <input class="form-control form-control-navbar" type="search" placeholder="Search" aria-label="Search">
-              <div class="input-group-append">
-                <button class="btn btn-navbar" type="submit">
-                  <i class="fas fa-search"></i>
-                </button>
-                <button class="btn btn-navbar" type="button" data-widget="navbar-search">
-                  <i class="fas fa-times"></i>
-                </button>
-              </div>
-            </div>
-          </form>
-        </div>
-      </li>
-
       <!-- Messages Dropdown Menu -->
       <li class="nav-item dropdown">
       
@@ -148,7 +126,7 @@
   <!-- /.navbar -->
 
   <!-- Main Sidebar Container -->
-  <aside class="main-sidebar sidebar-dark-primary elevation-4 bg-white">
+  <aside class="main-sidebar sidebar-dark-primary elevation-6 bg-white">
     <!-- Brand Logo -->
     <a onclick="goMyMainPage(${user.id})" class="brand-link" style="cursor: pointer;">
       <img src="../../dist/img/KakaoTalk_20230613_164257782.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-10" style="opacity: .8">
@@ -302,24 +280,15 @@
 
           </li>
           
-  
-          
-                    <li class="nav-item">
-            <a href="#" class="nav-link">
+          <li class="nav-item">
+            <a href="/projects.go" class="nav-link">
               <img src="../../dist/img/그룹 업무.png" class="nav-icon fas fa-tachometer-alt"/>
               <p>
                 프로젝트 업무관리
                 <i class="right fas fa-angle-left"></i>
               </p>
             </a>
-            <ul class="nav nav-treeview">
-              <li class="nav-item">
-                <a href="projects.go" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>프로젝트</p>
-                </a>
-              </li>
-            </ul>
+
           </li>
           
                     <li class="nav-item">
@@ -352,27 +321,17 @@
             </ul>
           </li>
           
-          
-                    <li class="nav-item">
-            <a href="#" class="nav-link">
+          <li class="nav-item">
+            <a href="/CalenderList.go" class="nav-link">
               <img src="../../dist/img/달력.png" class="nav-icon fas fa-tachometer-alt"/>
               <p>
                 일정관리
                 <i class="right fas fa-angle-left"></i>
               </p>
             </a>
-            <ul class="nav nav-treeview">
-              <li class="nav-item">
-                <a href="/CalenderList.go" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>캘린더</p>
-                </a>
-              </li>
-            </ul>
-          </li>
-          
 
-          
+          </li>
+
           
                     <li class="nav-item">
             <a href="#" class="nav-link">
@@ -398,6 +357,26 @@
             </ul>
           </li>
 
+			<li class="nav-item">
+			            <a href="/chatRoom.go" class="nav-link">
+			              <img src="../../dist/img/채팅방.png" class="nav-icon fas fa-tachometer-alt"/>
+			              <p>
+			                채팅
+			                <i class="right fas fa-angle-left"></i>
+			              </p>
+			            </a>
+			          </li>
+			          
+			 <li class="nav-item">
+			            <a href="/notice.go" class="nav-link">
+			              <img src="../../dist/img/알림.png" class="nav-icon fas fa-tachometer-alt"/>
+			              <p>
+			                알림
+			                <i class="right fas fa-angle-left"></i>
+			              </p>
+			            </a>
+			          </li>
+
 
                     <li class="nav-item">
             <a href="/noticeBoard.go" class="nav-link">
@@ -411,7 +390,7 @@
 
                     <li class="nav-item">
             <a href="#" class="nav-link">
-              <i class="nav-icon fas fa-tachometer-alt"></i>
+              <img src="../../dist/img/관리자.png" class="nav-icon fas fa-tachometer-alt"/>
               <p>
                 관리자
                 <i class="right fas fa-angle-left"></i>
@@ -460,7 +439,7 @@
           
   		<li class="nav-item">
             <a href="/logout.do" class="nav-link">
-              <i class="nav-icon fas fa-tachometer-alt"></i>
+              <img src="../../dist/img/로그아웃.png" class="nav-icon fas fa-tachometer-alt"/>
               <p>
                 로그아웃
                 <i class="right fas fa-angle-left"></i>
