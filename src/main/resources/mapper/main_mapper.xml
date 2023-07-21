@@ -18,8 +18,14 @@
 
 	<select id="totalRequestDocWait" resultType="int">
 		SELECT COUNT(d.id)
-		FROM doc d INNER JOIN doc_status ds ON d.id = ds.doc_id
-			WHERE ds.member_id = #{loginId} AND d.status = 1 AND ds.approval = 0
+		FROM doc d INNER JOIN (
+			SELECT ds.* FROM doc_status ds 
+			WHERE ds.order_rank = (
+				SELECT MIN(ds2.order_rank) FROM doc_status ds2 
+				WHERE ds2.approval = 0 AND ds.doc_id = ds2.doc_id) 
+			AND ds.member_id = #{loginId}) AS ds3 ON d.id = ds3.doc_id 
+			AND ds3.doc_id NOT IN(
+				SELECT ds4.doc_id FROM doc_status ds4 WHERE ds4.approval = 2 GROUP BY ds4.doc_id)
 	</select>
 
 	<select id="totalCountPr" resultType="int">

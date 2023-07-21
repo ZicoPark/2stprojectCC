@@ -19,6 +19,24 @@
   <!-- Theme style -->
   <link rel="stylesheet" href="../../dist/css/adminlte.min.css">
 </head>
+<style>
+.btn-primary {
+    color: #fff;
+    background-color: #20c997;
+    border-color: #20c997;
+    box-shadow: none;
+}
+  
+.card-primary.card-outline {
+    border-top: 3px solid #20c997;
+}  
+
+   .date {
+    color: rgb(52 58 64 / 91%);
+    font-size: 14px;
+	text-align: right;
+
+</style>
 <body class="hold-transition sidebar-mini">
 <jsp:include page = "index.jsp"></jsp:include>
 <div class="wrapper">
@@ -59,10 +77,7 @@
 	<div class="card-body p-0">
 	<ul class="nav nav-pills flex-column">
 	<li class="nav-item active">
-	<a href="#" class="nav-link">
-	<i class="far fa-envelope"></i> 전체 쪽지
-	<span class="badge bg-primary float-right">12</span>
-	</a>
+
 	</li>
 	<li class="nav-item">
 	<a href="/msReceiveList.go" class="nav-link">
@@ -236,15 +251,30 @@ function listPrint(list){
 			  content += '<tr><td colspan="6">쪽지가 존재하지 않습니다.</td></tr>';
 			} else {
 			  list.forEach(function(item) {
+			    var sendAt = new Date(item.send_at);
+			    var currentDate = new Date();
+	
+			    var formattedDate;
+
 			    // 배열 요소들 반복문 실행 -> 행 구성 + 데이터 추가
 			    content += '<tr>';
 			    content += '<td><input type="hidden" value="' + item.id + '"></td>';
 			    content += '<td>' + item.name + '</td>';
 			    content += '<td><a href="msSendDetail.do?id=' + item.id + '">' + item.title + '</a></td>';
-			    content += '<td>' + item.send_at + '</td>';
-			    content += '</tr>';
-			  });
-			}
+			    
+			    if (
+					      sendAt.getDate() === currentDate.getDate() &&
+					      sendAt.getMonth() === currentDate.getMonth() &&
+					      sendAt.getFullYear() === currentDate.getFullYear()
+					    ) {
+					      formattedDate = sendAt.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
+					    } else {
+					      formattedDate = sendAt.toLocaleDateString('ko-KR', { year: '2-digit', month: '2-digit', day: '2-digit' });
+					    }
+					    content += '<td class="date">' + formattedDate + '</td>';
+					    content += '</tr>';
+					  });
+					}
 
 	   
 	   // list 요소의 내용 지우고 추가 - 페이징 처리 

@@ -250,8 +250,11 @@ public class MessageController {
 	@RequestMapping(value = "/msReply.go")
 	public ModelAndView msReplyForm(Model model, @RequestParam("to_id") String fromId) {
 	    // from_id 값을 가져와서 모델에 추가
+		
+		String member = service.msReplyMember(fromId);
 	    model.addAttribute("fromId", fromId);
-
+	    model.addAttribute("member", member);
+	    
 	    return new ModelAndView("msReply");
 	}
     

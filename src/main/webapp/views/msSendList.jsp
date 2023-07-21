@@ -21,7 +21,16 @@
 </head>
 
 <style>
-
+.btn-primary {
+    color: #fff;
+    background-color: #20c997;
+    border-color: #20c997;
+    box-shadow: none;
+}
+  
+.card-primary.card-outline {
+    border-top: 3px solid #20c997;
+}  
   
    .date {
     color: rgb(52 58 64 / 91%);
@@ -71,10 +80,6 @@
 	<div class="card-body p-0">
 	<ul class="nav nav-pills flex-column">
 	<li class="nav-item active">
-	<a href="#" class="nav-link">
-	<i class="far fa-envelope"></i> 전체 쪽지
-	<span class="badge bg-primary float-right">12</span>
-	</a>
 	</li>
 	<li class="nav-item">
 	<a href="/msReceiveList.go" class="nav-link">
