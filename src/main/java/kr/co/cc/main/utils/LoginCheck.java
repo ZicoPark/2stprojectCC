@@ -26,10 +26,9 @@ public class LoginCheck implements HandlerInterceptor{
 		boolean pass = true;
 		
 		HttpSession session = request.getSession();
-
+		
 		if(session.getAttribute("id")==null) {
 			response.sendRedirect("/");
-			
 			pass = false;
 		}
 		

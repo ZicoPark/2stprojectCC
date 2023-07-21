@@ -1,5 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
+
+
 <style>
 	[class*=sidebar-dark-] .sidebar a {
 		color: white;
@@ -13,6 +16,8 @@
 <script src="../../plugins/jquery/jquery.min.js"></script>
 
 
+
+
   <!-- Navbar -->
   <nav class="main-header navbar navbar-expand navbar-white navbar-light">
     <!-- Left navbar links -->
@@ -24,28 +29,6 @@
 
     <!-- Right navbar links -->
     <ul class="navbar-nav ml-auto">
-      <!-- Navbar Search -->
-      <li class="nav-item">
-        <a class="nav-link" data-widget="navbar-search" href="#" role="button">
-          <i class="fas fa-search"></i>
-        </a>
-        <div class="navbar-search-block">
-          <form class="form-inline">
-            <div class="input-group input-group-sm">
-              <input class="form-control form-control-navbar" type="search" placeholder="Search" aria-label="Search">
-              <div class="input-group-append">
-                <button class="btn btn-navbar" type="submit">
-                  <i class="fas fa-search"></i>
-                </button>
-                <button class="btn btn-navbar" type="button" data-widget="navbar-search">
-                  <i class="fas fa-times"></i>
-                </button>
-              </div>
-            </div>
-          </form>
-        </div>
-      </li>
-
       <!-- Messages Dropdown Menu -->
       <li class="nav-item dropdown">
       
@@ -127,25 +110,7 @@
 	          <div id="aList">
 	          
 	          </div>
-          
-<!--           <a href="#" class="dropdown-item">
-            <i class="fas fa-envelope mr-2"></i> 쪽지
-            <span class="float-right text-muted text-sm">3 mins</span>
-          </a> -->
-          
-          
-          <!-- <div class="dropdown-divider"></div>
-          <a href="#" class="dropdown-item">
-            <i class="fas fa-users mr-2"></i> 공지사항
-            <span class="float-right text-muted text-sm">12 hours</span>
-          </a>
-          <div class="dropdown-divider"></div>      
-          <a href="#" class="dropdown-item">
-            <i class="fas fa-file mr-2"></i> 전자결재 
-            <span class="float-right text-muted text-sm">2 days</span>
-          </a>  -->
-          
-         
+             
           
           
           <div class="dropdown-divider"></div>
@@ -153,13 +118,6 @@
         </div>
       </li>
 
-
-
-
-
-      
-      
-      
       <!-- 알림 끝 -->
 
 
@@ -168,7 +126,7 @@
   <!-- /.navbar -->
 
   <!-- Main Sidebar Container -->
-  <aside class="main-sidebar sidebar-dark-primary elevation-4 bg-white">
+  <aside class="main-sidebar sidebar-dark-primary elevation-6 bg-white">
     <!-- Brand Logo -->
     <a onclick="goMyMainPage(${user.id})" class="brand-link" style="cursor: pointer;">
       <img src="../../dist/img/KakaoTalk_20230613_164257782.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-10" style="opacity: .8">
@@ -263,7 +221,7 @@
 		</a>
 	<ul class="nav nav-treeview">
 			<li class="nav-item">
-			<a href="/registeredDocList.go" class="nav-link">
+			<a href="/registeredDocList.go?flag=default" class="nav-link">
 				<i class="far fa-circle nav-icon"></i>
 				<p>등록문서함</p>
 			</a>
@@ -322,24 +280,15 @@
 
           </li>
           
-  
-          
-                    <li class="nav-item">
-            <a href="#" class="nav-link">
+          <li class="nav-item">
+            <a href="/projects.go" class="nav-link">
               <img src="../../dist/img/그룹 업무.png" class="nav-icon fas fa-tachometer-alt"/>
               <p>
                 프로젝트 업무관리
                 <i class="right fas fa-angle-left"></i>
               </p>
             </a>
-            <ul class="nav nav-treeview">
-              <li class="nav-item">
-                <a href="projects.go" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>프로젝트</p>
-                </a>
-              </li>
-            </ul>
+
           </li>
           
                     <li class="nav-item">
@@ -372,27 +321,17 @@
             </ul>
           </li>
           
-          
-                    <li class="nav-item">
-            <a href="#" class="nav-link">
+          <li class="nav-item">
+            <a href="/CalenderList.go" class="nav-link">
               <img src="../../dist/img/달력.png" class="nav-icon fas fa-tachometer-alt"/>
               <p>
                 일정관리
                 <i class="right fas fa-angle-left"></i>
               </p>
             </a>
-            <ul class="nav nav-treeview">
-              <li class="nav-item">
-                <a href="/CalenderList.go" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>캘린더</p>
-                </a>
-              </li>
-            </ul>
-          </li>
-          
 
-          
+          </li>
+
           
                     <li class="nav-item">
             <a href="#" class="nav-link">
@@ -415,14 +354,28 @@
                   <p>사내 게시판</p>
                 </a>
               </li>
-              <li class="nav-item">
-                <a href="../../index3.jsp" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>부제목3</p>
-                </a>
-              </li>
             </ul>
           </li>
+
+			<li class="nav-item">
+			            <a href="/chatRoom.go" class="nav-link">
+			              <img src="../../dist/img/채팅방.png" class="nav-icon fas fa-tachometer-alt"/>
+			              <p>
+			                채팅
+			                <i class="right fas fa-angle-left"></i>
+			              </p>
+			            </a>
+			          </li>
+			          
+			 <li class="nav-item">
+			            <a href="/notice.go" class="nav-link">
+			              <img src="../../dist/img/알림.png" class="nav-icon fas fa-tachometer-alt"/>
+			              <p>
+			                알림
+			                <i class="right fas fa-angle-left"></i>
+			              </p>
+			            </a>
+			          </li>
 
 
                     <li class="nav-item">
@@ -434,37 +387,10 @@
               </p>
             </a>
           </li>
-          
-          
-                    <li class="nav-item">
-            <a href="#" class="nav-link">
-               <img src="../../dist/img/통계.png" class="nav-icon fas fa-tachometer-alt"/>
-              <p>
-                통계
 
-                <i class="right fas fa-angle-left"></i>
-              </p>
-            </a>
-            <ul class="nav nav-treeview">
-              <li class="nav-item">
-                <a href="/freeBoardList" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>부서별게시판</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="/stat.go" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>유튜브 통계</p>
-                </a>
-              </li>
-            </ul>
-          </li>
-          
-  
                     <li class="nav-item">
             <a href="#" class="nav-link">
-              <i class="nav-icon fas fa-tachometer-alt"></i>
+              <img src="../../dist/img/관리자.png" class="nav-icon fas fa-tachometer-alt"/>
               <p>
                 관리자
                 <i class="right fas fa-angle-left"></i>
@@ -477,12 +403,6 @@
                   <p>사원 리스트</p>
                 </a>
               </li>
-              <!-- <li class="nav-item">
-                <a href="MemberONOFFList.go" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>사원 승인/삭제</p>
-                </a>
-              </li> -->
               <li class="nav-item">
                 <a href="/workHistoryList_Ad.go" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
@@ -513,31 +433,13 @@
                   <p>경고 리스트</p>
                 </a>
               </li>
-              <li class="nav-item">
-                <a href="#" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>재직상태 리스트</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="/DeptCategory.go" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>부서 카테고리</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="/ArchiveCategory.go" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>자료실 카테고리</p>
-                </a>
-              </li>
             </ul>
           </li>
           
           
   		<li class="nav-item">
             <a href="/logout.do" class="nav-link">
-              <i class="nav-icon fas fa-tachometer-alt"></i>
+              <img src="../../dist/img/로그아웃.png" class="nav-icon fas fa-tachometer-alt"/>
               <p>
                 로그아웃
                 <i class="right fas fa-angle-left"></i>
@@ -567,7 +469,6 @@
 	
 
 <script>
-
 var socket;
 
 socket = new WebSocket('ws://localhost/alarm');
@@ -608,7 +509,7 @@ function alarmList() {
 			console.log(data);
 			var content = '';
 			if (data.length == 0) {
-				content += '<tr><th style="text-align:center">새 알림이 없습니다.</th></tr>';
+				content += '<tr><th>새 알림이 없습니다.</th></tr>';
 			} else {
 				data.forEach(function(item) {
 					var link = '';
@@ -663,8 +564,6 @@ function goMyMainPage(userId) {
 	}
 
 
-
 </script>
-
 
 

@@ -177,6 +177,7 @@ function listCall(page, deptId, opt, text){
 		}
 		
 	});
+	
 }
 
 function printList(list){
