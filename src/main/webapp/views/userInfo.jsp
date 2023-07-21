@@ -49,8 +49,7 @@
          <tr>
             <th>비밀번호</th>
             <td>
-               ******** &nbsp; &nbsp; &nbsp; &nbsp; 
-               <button class="btn btn-outline-dark" onclick="location.href='findPW.go'">비밀번호 변경</button>         
+               ********      
             </td>
          </tr>
          <tr>

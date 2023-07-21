@@ -6,34 +6,19 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>AdminLTE 3 | Projects</title>
+<title>공지사항 작성</title>
 <link rel="icon" href="/img/CC_favicon.png">
+<link rel="stylesheet" href="/richtexteditor/rte_theme_default.css" />
 <!-- Google Font: Source Sans Pro -->
 <link rel="stylesheet"
 	href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
 <!-- Font Awesome -->
+<script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
 <link rel="stylesheet"
 	href="../../plugins/fontawesome-free/css/all.min.css">
 <!-- Theme style -->
 <link rel="stylesheet" href="../../dist/css/adminlte.min.css">
 <style>
-table, th, td {
-	border: 1px solid black;
-	border-collapse: collapse;
-	padding: 5px 10px;
-}
-
-#login {
-	margin-bottom: 20px;
-}
-
-button {
-	margin: 5px;
-}
-
-table {
-	width: 500px;
-}
 </style>
 </head>
 <body>
@@ -42,52 +27,77 @@ table {
 	<div class="wrapper">
 		<div class="content-wrapper">
 			<section class="content-header">
-				<h1>공지사항</h1>
+				<h1>공지사항 작성</h1>
 			</section>
 			<!-- Main content -->
-			<section class="content">
+			<section class="content" >
 				<form action="noticeBoardWrite.do" method="post"
 					enctype="multipart/form-data">
-					<!-- multiUpload.do -->
-					<table
-						class="table table-bordered table-hover dataTable dtr-inline">
-						<tr>
-							<th>제목</th>
-							<td><input type="text" name="subject" id="subject" /></td>
-						</tr>
-						<tr>
-							<th>내용</th>
-							<td><textarea name="content" id="content"></textarea></td>
-						</tr>
-						<tr>
-							<th>첨부파일</th>
-							<td><input type="file" name="file" multiple="multiple" /></td>
-						</tr>
-						<tr>
-							<th colspan="2">
-								<button type="button" id="submit" onclick="nbWrite()">작성하기</button>
-							</th>
-						</tr>
-					</table>
+
+					<br>
+					<div class="row">
+						<div class="col-6">
+							<input type="text" name="member_id" value="${loginId}"
+								readonly="readonly" hidden="true" required />
+
+						</div>
+
+						<div class="col-12">
+							<br> <input class="form-control" id="subject" name="subject" placeholder="제목을 입력하세요" >
+						</div>
+					</div>
+
+					<br>
+					<div id="div_editor">
+						
+					</div>
+					<textarea hidden="true" id="content" name="content"></textarea>
+
+					<br>
+					<div class="custom-file">
+						<td><input type="file" name="file" multiple="multiple" /></td>
+					</div>
+
+
+					<button type="button" onclick="pushContent()"
+						class="btn btn-primary float-right">
+						<i class="far fa-envelope"></i> 작성
+					</button>
+
 				</form>
 			</section>
+
 		</div>
 	</div>
-	<!-- ./wrapper -->
-	<!-- jQuery -->
-	<script src="../../plugins/jquery/jquery.min.js"></script>
-	<!-- Bootstrap 4 -->
-	<script src="../../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
-	<!-- AdminLTE App -->
-	<script src="../../dist/js/adminlte.min.js"></script>
-	<!-- AdminLTE for demo purposes -->
-	<script src="../../dist/js/demo.js"></script>
+
 </body>
+<!-- Bootstrap 4 -->
+<script src="../../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<!-- AdminLTE App -->
+<script src="../../dist/js/adminlte.min.js"></script>
+<!-- AdminLTE for demo purposes -->
+<script src="../../dist/js/demo.js"></script>
+<!-- bs-custom-file-input -->
+<script src="../../plugins/bs-custom-file-input/bs-custom-file-input.min.js"></script>
+
+<script type="text/javascript" src="/richtexteditor/rte.js"></script>  
+<script type="text/javascript" src='/richtexteditor/plugins/all_plugins.js'></script>
 <script>
 	console.log(socket);
+	var config = {}; // 설정
+	config.editorResizeMode = "none"; // 에디터 크기조절 none
 
+	var editor = new RichTextEditor("#div_editor", config);
 	var overlayChk = true;
+	
+	function pushContent() {
 
+		var submitContent = editor.getHTMLCode();
+		$('textarea[name="content"]').val(submitContent);
+			$('form').submit();
+
+
+	}
 	function nbWrite() {
 		if (overlayChk == true) {
 			if ($('#subject').val() == '') {
@@ -101,5 +111,13 @@ table {
 			}
 		}
 	}
+
+
 </script>
 </html>
+
+
+
+
+
+

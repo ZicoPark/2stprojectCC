@@ -257,10 +257,6 @@ function saveDoc(){
 	
 	if($('#subject').val().length==0){
 		alert('문서 제목을 입력하세요.');
-	}else if(approvalPriorityArr.includes('default')){
-		alert('결재선을 선택하세요.');
-	}else if(approvalMemberIdArr.includes('default')){
-		alert('결재선을 선택하세요.');
 	}else if(document.getElementById('docForm').value == 'default'){
 		alert('양식을 선택하세요.');
 	}else if(document.getElementById('publicRange').value == 'default'){
@@ -328,6 +324,8 @@ function approvalTest(){
 	const findDuplicatesMemberId = approvalMemberIdArr => approvalMemberIdArr.filter((item, index) => approvalMemberIdArr.indexOf(item) !== index)
 	const duplicatesMemberIdArr = findDuplicatesMemberId(approvalMemberIdArr);
 
+	var loginId = '${sessionScope.id}';
+	
 	if(approvalPriorityArr.includes('default') || approvalMemberIdArr.includes('default')){
 		// 결재종류나 memberId에 default가 있어서는 안된다.
 		alert('선택되지 않은 결재종류나 결재자가 있습니다.');
@@ -348,6 +346,9 @@ function approvalTest(){
 		// 한 문서에 memberId가 중복되어 여러 개 있으면 안된다.
 		alert('동일한 결재자가 존재하면 안됩니다.');
 		deleteApprovalLine();
+	}else if(approvalMemberIdArr.includes(loginId)){
+		// 자기 자신이 결재자로 들어가면 안된다.
+		alert('자기 자신은 결재선에 들어갈 수 없습니다.');
 	}
 	
 }

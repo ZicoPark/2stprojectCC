@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Creator Company</title>
+  <title>개인 업무 수정</title>
 <link rel="icon" href="/img/CC_favicon.png">
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
@@ -27,7 +27,7 @@
     <section class="content-header">
       <div class="container-fluid">
           <div class="col-sm-6">
-            <h1>개인 업무 관리</h1>
+            <h1>개인 업무 수정</h1>
         </div>
       </div>
     </section>
@@ -36,7 +36,7 @@
 
     <section class="content">
     
-          <div class="card card-primary">
+          <div class="card card-primary" style="margin: 40px;">
             <div class="card-header">
               <h3 class="card-title">개인 업무 작성</h3>
 			<input type="hidden" type="text" name="id" value="${personal.id}" />
@@ -61,9 +61,7 @@
             <!-- /.card-body -->
           </div>
           <!-- /.card -->
-
-          <a href="/personal.go" class="btn btn-secondary">돌아가기</a>
-          <input type="submit" onclick="return confirm('수정하시겠습니까?');" value="수정하기" class="btn btn-success float-right">
+          <input type="submit"  style="margin-right: 40px;" onclick="return confirm('수정하시겠습니까?');" value="수정하기" class="btn btn-success float-right">
 
 </section>
     </form>

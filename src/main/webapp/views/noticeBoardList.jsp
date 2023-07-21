@@ -6,7 +6,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>AdminLTE 3 | Projects</title>
+<title>공지사항</title>
 <link rel="icon" href="/img/CC_favicon.png">
 
 <!-- CSS only -->
@@ -90,15 +90,6 @@
 						</c:forEach>
 
 					</tbody>
-					<tr>
-						<th colspan="6" id="paging">
-							<div class="container">
-								<nav aria-label="Page navigation">
-									<ul class="pagination justify-content-center" id="pagination"></ul>
-								</nav>
-							</div>
-						</th>
-					</tr>
 				</table>
 
 			</section>
@@ -134,13 +125,6 @@
 		alert(msg);
 	}
 	
-	//paging plugin
-	$('#pagination').twbsPagination({
-		startPage:1,		//시작페이지
-		totalPages:5,	//총 페이지 수
-		visiblePages:5,		//보여줄 페이지 [1][2][3][4][5]
-
-		}
 
 </script>
 </html>
