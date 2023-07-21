@@ -25,7 +25,7 @@ public class InterceptorConfig implements WebMvcConfigurer{
 		excludeList.add("/join*"); // join 뒤에 뭐가 오는 요청의 경우에 제외(회원가입)
 		excludeList.add("/login*");
 		excludeList.add("/*.ajax"); // .ajax로 끝나는 요청은 제외
-		
+		excludeList.add("/find*");
 		// static
 		excludeList.add("/resources/**"); // css 파일 접근 시 제외
 		excludeList.add("/img/**");

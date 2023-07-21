@@ -99,6 +99,8 @@ public interface WorkDAO {
 
 	ArrayList<WorkDTO> historyChange(String historyChange);
 
+	int adminChk(String id);
+
 
 
 

@@ -179,8 +179,8 @@ public class WorkController {
 	
 	// 일별 , 주별 사원 현황 / 관리자
 	@GetMapping(value="/workDailyList.go")
-	public ModelAndView workDailyList() {
-		return service.workDailyList();
+	public ModelAndView workDailyList(HttpSession session) {
+		return service.workDailyList(session);
 	}
 	
 	@GetMapping(value="/dailyListFind.ajax")
@@ -202,12 +202,12 @@ public class WorkController {
 	}
 	
 	@GetMapping(value="/weekListFind.do")
-	public ModelAndView weekListFind(@RequestParam Date date) {		
+	public ModelAndView weekListFind(@RequestParam Date date,HttpSession session) {		
 		logger.info("weekListFind date : " + date);
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		String week = sdf.format(date);			
 		
-		return service.weekListFind(week, "");
+		return service.weekListFind(week, "", session);
 	}
 	
 	@GetMapping(value="workWorn.do")
@@ -228,7 +228,7 @@ public class WorkController {
 			service.workWorn(params);
 			msg = "경고 처리가 완료되었습니다.";
 		}		
-		return service.weekListFind(weekRe,msg);
+		return service.weekListFind(weekRe,msg, session);
 	}
 	
 	@GetMapping(value="/wornListFind.ajax")
@@ -255,15 +255,15 @@ public class WorkController {
 	}
 	
 	@GetMapping(value="/workWeekList.go")
-	public ModelAndView workWeekList() {
+	public ModelAndView workWeekList(HttpSession session) {
 		LocalDate currentDate = LocalDate.now();
 		String week = currentDate.toString();
-		return service.weekListFind(week, "");
+		return service.weekListFind(week, "",session);
 	}
 	
 	@GetMapping(value="/workWornList.go")
-	public ModelAndView workWornList() {
-		return service.workWornList();
+	public ModelAndView workWornList(HttpSession session) {
+		return service.workWornList(session);
 	}
 	
 	@GetMapping(value="/wornDel.ajax")
@@ -306,8 +306,8 @@ public class WorkController {
 	
 	
 	@GetMapping(value="/workHolidayList_Ad.go")
-	public ModelAndView workHolidayList_Ad() {
-		return service.workHolidayList_Ad("");
+	public ModelAndView workHolidayList_Ad(HttpSession session) {
+		return service.workHolidayList_Ad("",session);
 	}
 	
 	@GetMapping(value="/holidayListFind.do")
@@ -368,21 +368,21 @@ public class WorkController {
 		return mav;
 	}
 	@GetMapping(value="/giveAnnualLeave.do")
-	public ModelAndView giveAnnualLeave() {
-		return service.giveAnnualLeave();
+	public ModelAndView giveAnnualLeave(HttpSession session) {
+		return service.giveAnnualLeave(session);
 	}
 	
 	
 	@GetMapping(value="/giveAnnualLeave_id.do")
-	public ModelAndView giveAnnualLeave_id(@RequestParam String galId) {
-		return service.giveAnnualLeave_id(galId);
+	public ModelAndView giveAnnualLeave_id(@RequestParam String galId,HttpSession session) {
+		return service.giveAnnualLeave_id(galId,session);
 	}
 	
 	@GetMapping(value="/holidayApproval.do")
 	public ModelAndView holidayApproval(@RequestParam String regist_id,@RequestParam String approval,
-			@RequestParam String id,@RequestParam int use_cnt, @RequestParam String type, @RequestParam String start_at, @RequestParam String end_at) {
+			@RequestParam String id,@RequestParam int use_cnt, @RequestParam String type, @RequestParam String start_at, @RequestParam String end_at,HttpSession session) {
 		
-		return service.holidayApproval(regist_id,approval,id,use_cnt,type,start_at,end_at);
+		return service.holidayApproval(regist_id,approval,id,use_cnt,type,start_at,end_at,session);
 	}
 	
 	@GetMapping(value="/approvalChange.ajax")

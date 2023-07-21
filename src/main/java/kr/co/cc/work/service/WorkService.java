@@ -81,8 +81,17 @@ public class WorkService {
 		if(flag.equals("WorkChangeAdmin")) {
 			mav.addObject("msg",msg);
 		}
+		
+		String id = (String) session.getAttribute("id");
+		int adminChk = dao.adminChk(id);
+		if(adminChk != 1) {
+			mav = new ModelAndView("AdminMemberListNotAdmin");
+		}
+		
 		return mav;
 	}
+	
+	
 	public int WorkChangeAdmin(String working_hour_id, String type, int approval) {
 		return dao.WorkChangeAdmin(working_hour_id,type,approval);
 		
@@ -102,11 +111,17 @@ public class WorkService {
 	
 	// 완료
 
-	public ModelAndView workDailyList() {		
+	public ModelAndView workDailyList(HttpSession session) {		
 		ModelAndView mav = new ModelAndView("workDailyList");
 		LocalDate currentDate = LocalDate.now();
 		ArrayList<WorkDTO> dto = dao.workDailyList(currentDate);
 		mav.addObject("dto",dto);
+		
+		String id = (String) session.getAttribute("id");
+		int adminChk = dao.adminChk(id);
+		if(adminChk != 1) {
+			mav = new ModelAndView("AdminMemberListNotAdmin");
+		}
 		return mav;
 	}
 
@@ -115,7 +130,7 @@ public class WorkService {
 	}
 	
 
-	public ModelAndView weekListFind(String week, String msg) {
+	public ModelAndView weekListFind(String week, String msg,HttpSession session) {
 		ModelAndView mav = new ModelAndView("workWeekList");		
 		String dayChk = dao.dayChk(week);
 		
@@ -133,6 +148,12 @@ public class WorkService {
 	        mav.addObject("dto", dto);    
 	    }
 		
+		String id = (String) session.getAttribute("id");
+		int adminChk = dao.adminChk(id);
+		if(adminChk != 1) {
+			mav = new ModelAndView("AdminMemberListNotAdmin");
+		}
+		
 		
 		return mav;
 	}
@@ -149,7 +170,7 @@ public class WorkService {
 	
 	
 
-	public ModelAndView workWornList() {
+	public ModelAndView workWornList(HttpSession session) {
 		ModelAndView mav = new ModelAndView("workWornList");
 		
 		ArrayList<WorkDTO> wornList = dao.workWornList();
@@ -160,6 +181,12 @@ public class WorkService {
 		ArrayList<WorkDTO> wornAllList = dao.wornAllList();
 		if(wornAllList!=null) {
 			mav.addObject("wornAllList", wornAllList);			
+		}
+		
+		String id = (String) session.getAttribute("id");
+		int adminChk = dao.adminChk(id);
+		if(adminChk != 1) {
+			mav = new ModelAndView("AdminMemberListNotAdmin");
 		}
 		return mav;
 	}
@@ -198,12 +225,17 @@ public class WorkService {
 		return mav;
 	}
 	
-	public ModelAndView workHolidayList_Ad(String msg) {
+	public ModelAndView workHolidayList_Ad(String msg, HttpSession session) {
 		ModelAndView mav = new ModelAndView("workHolidayList_Ad");
 		ArrayList<WorkDTO> dto = dao.workHolidayList_Ad();		
 		mav.addObject("dto", dto);
 		if(msg != "") {
 			mav.addObject("msg",msg);
+		}
+		String id = (String) session.getAttribute("id");
+		int adminChk = dao.adminChk(id);
+		if(adminChk != 1) {
+			mav = new ModelAndView("AdminMemberListNotAdmin");
 		}
 		return mav;
 	}
@@ -241,7 +273,7 @@ public class WorkService {
 		return dao.annualRegistrationGo();
 	}
 	
-	public ModelAndView giveAnnualLeave() {
+	public ModelAndView giveAnnualLeave(HttpSession session) {
 		int currentYear = LocalDate.now().getYear();
 		logger.info("currentYear : " + currentYear);
 		int currentYearChk = dao.currentYearChk(currentYear);
@@ -252,10 +284,10 @@ public class WorkService {
 			dao.giveAnnualLeave();
 		}		
 		
-		return workHolidayList_Ad(msg);
+		return workHolidayList_Ad(msg, session);
 	}
 
-	public ModelAndView giveAnnualLeave_id(String galId) {
+	public ModelAndView giveAnnualLeave_id(String galId, HttpSession session) {
 		
 		String msg = "아이디를 다시 확인해주세요.";
 		int idChk = dao.idChk(galId);
@@ -272,10 +304,10 @@ public class WorkService {
 				msg = galId + " 님에게 연차를 부여하였습니다. (연차 갯수 : 12-"+monthValue+"="+(12-monthValue)+")";
 			}
 		}
-		return workHolidayList_Ad(msg);
+		return workHolidayList_Ad(msg,session);
 	}
 
-	public ModelAndView holidayApproval(String regist_id,String approval, String id, int use_cnt, String type, String start_at, String end_at) {
+	public ModelAndView holidayApproval(String regist_id,String approval, String id, int use_cnt, String type, String start_at, String end_at, HttpSession session) {
 		
 		String msg = "이미 처리한 항목입니다.";
 		String haChk = dao.holidayApprovalChk(id);
@@ -298,7 +330,7 @@ public class WorkService {
 			dao.holidayApproval(approval,id);
 		}
 		
-		return workHolidayList_Ad(msg);
+		return workHolidayList_Ad(msg, session);
 	}
 	
 	
