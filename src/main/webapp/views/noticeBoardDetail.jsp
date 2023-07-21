@@ -147,6 +147,8 @@
 
               <div class="mailbox-read-info">
                   <div class="mailbox-read-time"> 
+                  <br/>
+                  <br/>
                  <h3 style="font-weight: bold;font-size: 30px;  color: black;">${detailno.subject}</h3>
 				<span class="mailbox-read-time float-right"> 
                   작성자&nbsp ${detailno.name}(${detailno.user_id})<br>
