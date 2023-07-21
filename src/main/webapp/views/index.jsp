@@ -572,7 +572,6 @@
 	
 
 <script>
-loginChk();
 var socket;
 
 socket = new WebSocket('ws://localhost/alarm');
@@ -666,18 +665,6 @@ function goMyMainPage(userId) {
 	console.log(userId);
 	  window.location.href = "/main.go?id=" + userId;
 	}
-
-
-
-function loginChk() {
-     var loginId = '${sessionScope.id}';
-     if (!loginId) {
-         alert("로그인이 필요한 서비스입니다");
-         //window.location.href = './';
-         //alert("로그인이 필요한 서비스입니다");
-     } else {}
-   
- }
 
 
 </script>
