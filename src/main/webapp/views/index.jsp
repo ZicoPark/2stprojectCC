@@ -1,5 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
+
+
 <style>
 	[class*=sidebar-dark-] .sidebar a {
 		color: white;
@@ -11,6 +14,8 @@
 
 <!-- jQuery -->
 <script src="../../plugins/jquery/jquery.min.js"></script>
+
+
 
 
   <!-- Navbar -->
@@ -485,7 +490,6 @@
 	
 
 <script>
-
 var socket;
 
 socket = new WebSocket('ws://localhost/alarm');
@@ -581,8 +585,6 @@ function goMyMainPage(userId) {
 	}
 
 
-
 </script>
-
 
 
