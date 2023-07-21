@@ -127,7 +127,7 @@ $(document).ready(function() {
 	          html += '<div class="user-block">';
 	          
 	          if(detail.member_profile_attachment_id == null){
-	        	  html += '<img class="img-circle img-bordered-sm" src="img/cc.png" alt="user image">'; 
+	        	  html += '<img class="img-circle img-bordered-sm" src="/img/CC.png" alt="user image">'; 
 	          }else{
 	        	  html += '<img class="img-circle img-bordered-sm" src="photoView.do?path='+detail.member_profile_attachment_id+'" alt="user image">';
 	          }

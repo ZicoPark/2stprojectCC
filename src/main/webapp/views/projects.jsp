@@ -31,7 +31,7 @@
 						</div>
 						<div class="col-sm-6">
 							<ol class="breadcrumb float-sm-right">
-								<li class="breadcrumb-item"><a href="#">Home</a></li>
+								<li class="breadcrumb-item"><a href="/projects.go">Home</a></li>
 								<li class="breadcrumb-item active">Projects</li>
 							</ol>
 						</div>
@@ -85,8 +85,7 @@
 														<li class="list-inline-item"><c:if
 																test="${userId.profile_name eq null }">
 																<img alt="Avatar" class="table-avatar"
-																	src="photoView.do?path=cc.png">
-											        	cc.png
+																	src="/img/CC.png">
 											        </c:if> <c:if test="${userId.profile_name ne null }">
 																<img alt="Avatar" class="table-avatar"
 																	src="photoView.do?path=${userId.profile_name }">
@@ -165,7 +164,7 @@
 														<li class="list-inline-item"><c:if
 																test="${userId.profile_name eq null }">
 																<img alt="Avatar" class="table-avatar"
-																	src="photoView.do?path=cc.png">
+																	src="/img/CC.png">
 															</c:if> <c:if test="${userId.profile_name ne null }">
 																<img alt="Avatar" class="table-avatar"
 																	src="photoView.do?path=${userId.profile_name }">
