@@ -41,7 +41,7 @@
 	
       <div>
         <input class="form-control" name="subject" id="subject" value=${detailms.subject } maxlength="19" onkeyup="counter(event, '20')"/>
-        <span id="reCount">0 / 20</span>
+   
       </div>
       
       </div>

@@ -48,7 +48,7 @@
 						<div class="col-12">
 							<br>
 							<input class="form-control" id="subject" name="subject" maxlength="19" onkeyup="counter(event, '20')" placeholder="제목을 입력하세요">
-		                 	<span id="reCount">0 / 20</span>
+		          
 						</div>
 					</div>
 
