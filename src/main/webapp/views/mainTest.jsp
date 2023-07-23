@@ -334,7 +334,7 @@ a:hover {
 										<div class="col-md-12">
 											<div id="youtuberImg" style="display: flex; align-items: center; justify-content: center; height: 100%;">
 												<img class="profile-user-img img-fluid img-circle"
-													src="img/cc.png"
+													src="/img/CC.png"
 													alt="message user image"
 													style="height: 130px; width: 130px;">
 											</div>
