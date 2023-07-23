@@ -1,8 +1,6 @@
 package kr.co.cc.stat.service;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import java.util.HashMap;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -20,7 +18,7 @@ public class StatService {
 	@Value("${spring.servlet.multipart.location}") private String attachmentRoot;
 	
 	String driver_id = "webdriver.chrome.driver";
-	String driver_path = attachmentRoot+"/chromedriver.exe";
+	String driver_path = "/usr/local/tomcat/webapps/upload/chromedriver";
 
 	WebDriver driver = null;
 	ChromeOptions options = null;
@@ -30,8 +28,19 @@ public class StatService {
 		options = new ChromeOptions();
 	}
 
-	public ArrayList<String> findElem(String url) {
+	public HashMap<String, Object> findStat(String url) {
+		
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		
 		options.addArguments("--remote-allow-origins=*");
+		
+		// https://synkc.tistory.com/entry/Chromedriver-DevToolsActivePort-file-doesnt-exist-%EC%97%90%EB%9F%AC-%ED%95%B4%EA%B2%B0%EB%B2%95
+		options.addArguments("--headless");
+		options.addArguments("--no-sandbox");
+		options.addArguments("--single-process");
+		options.addArguments("--disable-dev-shm-usage");
+		// 도커 내에서 크롬 실행하기 위해서 추가했음.(mobpolice)
+		
 		driver = new ChromeDriver(options);
 		driver.get(url);
 
@@ -47,36 +56,22 @@ public class StatService {
 		String monthearn = gak.findElement(By.cssSelector("span#mo-earn")).getText();
 		String adearnrate = gak.findElement(By.cssSelector("span#po-earn")).getText();
 
-		List<WebElement> gaklist = gak.findElements(By.cssSelector("span.item-key"));
+		map.put("gudoksu", gudoksu);
+		map.put("monthearn", monthearn);
+		map.put("adearnrate", adearnrate);
+		
+		WebElement elementName = driver.findElement(By.id("star-name"));
+		String youtuberName = elementName.getText();
+		
+		map.put("youtuberName", youtuberName);
+		
+		WebElement elementImg = driver.findElement(By.id("avatar-img"));
+		String youtuberImg = elementImg.getAttribute("src");
 
-		ArrayList<String> nameList = new ArrayList<String>();
-		for (WebElement webElement : gaklist) {
-			nameList.add(webElement.getText());
-		}
+		map.put("youtuberImg", youtuberImg);
 
-		logger.info("gudoksu : " + gudoksu);
-		logger.info("monthearn : " + monthearn);
-		logger.info("adearnrate : " + adearnrate);
-
-		ArrayList<String> list = new ArrayList<String>();
-		list.add(gudoksu);
-		list.add(monthearn);
-		list.add(adearnrate);
-
-		
-		List<WebElement> youtuberNamelist = gak.findElements(By.cssSelector("#main-content div.result-area span.num span.item.item-ani"));
-		ArrayList<String> youtuberName = new ArrayList<String>();
-		
-		for (WebElement webElement : youtuberNamelist) {
-			youtuberName.add(webElement.getText());
-			logger.info(""+webElement.getText());
-		}
-		
-		
-		
-		
 		driver.close();
 		
-		return list;
+		return map;
 	}
 }

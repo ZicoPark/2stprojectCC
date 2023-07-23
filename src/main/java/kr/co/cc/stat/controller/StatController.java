@@ -1,6 +1,5 @@
 package kr.co.cc.stat.controller;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
 import org.slf4j.Logger;
@@ -24,12 +23,7 @@ public class StatController {
 	@ResponseBody
 	public HashMap<String, Object> findStat(@RequestParam String statSearchText) {
 
-		HashMap<String, Object> map = new HashMap<String, Object>();
-		ArrayList<String> list = statservice.findElem("https://kr.noxinfluencer.com/youtube/channel-calculator/"+statSearchText);
-		
-		map.put("statList", list);
-		
-		return map;
+		return statservice.findStat("https://kr.noxinfluencer.com/youtube/channel-calculator/"+statSearchText);
 	}
 
 }

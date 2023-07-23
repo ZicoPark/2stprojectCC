@@ -15,7 +15,19 @@
 			<pattern>${LOG_PATTERN}</pattern> 		
 		</encoder>
 	</appender>
-		
+	
+	<appender name="file" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>/usr/local/tomcat/webapps/logs/cc.log</file>
+		<encoder>
+			<pattern>[%d{yyyy-MM-dd HH:mm:ss, ${logback.timezone:-Asia/Seoul}}] [%-5level] [%thread] %logger %msg%n</pattern>
+		</encoder>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<fileNamePattern>application.log.%d{yyyy-MM-dd}.gz</fileNamePattern>
+			<maxHistory>2</maxHistory>
+			<totalSizeCap>15MB</totalSizeCap>
+		</rollingPolicy>
+	</appender>
+	
 	<!-- SQL LOG 옵션 설정 (쿼리문과 걸린시간, 결과를 보도록 한다.)-->	
 	<logger name="jdbc.connection" level="OFF"/>
 	<logger name="jdbc.sqlonly" level="OFF"/>
@@ -27,6 +39,7 @@
    	<!-- Root Logger -->
 	<root>
 		<appender-ref ref="console" />
+		<appender-ref ref="file"/>
 	</root>
     
 </configuration>

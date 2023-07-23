@@ -331,19 +331,34 @@ a:hover {
 											</div>
 										</div>
 										<br>
+										<div class="col-md-12">
+											<div id="youtuberImg" style="display: flex; align-items: center; justify-content: center; height: 100%;">
+												<img class="profile-user-img img-fluid img-circle"
+													src="img/cc.png"
+													alt="message user image"
+													style="height: 130px; width: 130px;">
+											</div>
+										</div>
+										<div class="col-sm-12">
+											<div id="youtuberName">
+												<h3 class="profile-username text-center"
+												style="color: #1b916e; font-weight: bold;">--</h3>
+											</div>
+										</div>
+										<br>
 										<div class="cal">
 												<table class="table table-striped table-valign-middle">
 													<thead>
 														<tr>
-															<td class="gudoksu" style="width: 23%; font-size: 14px;">총 구독자 수</td>
-															<td class="monthearn" style="width: 35%; font-size: 14px;">유튜브 월수익예측</td>
-															<td class="adearnrate" style="width: 42%; font-size: 14px;">영상1개당
+															<td class="gudoksu" style="width: 23%; font-size: 14px; text-align: center;">총 구독자 수</td>
+															<td class="monthearn" style="width: 35%; font-size: 14px; text-align: center;">유튜브 월수익예측</td>
+															<td class="adearnrate" style="width: 42%; font-size: 14px; text-align: center;">영상1개당
 																제휴수익예측</td>
 														</tr>
 													</thead>
 													<tbody id="statTable">
 														<tr>
-															<td colspan="3">없음</td>
+															<td colspan="3" style="text-align: center;">없음</td>
 														</tr>
 													</tbody>
 												</table>
@@ -490,8 +505,7 @@ a:hover {
 			},
 			dataType : "json",
 			success : function(data) {
-				console.log(data.statList);
-				statPrint(data.statList);
+				statPrint(data);
 
 				console.log("AJAX request succeeded");
 			},
@@ -501,20 +515,36 @@ a:hover {
 		});
 	}
 
-	function statPrint(list) {
+	function statPrint(map) {
 
 		var statContent = '';
 
 		statContent += '<tr>';
-
-		for (var i = 0; i < list.length; i++) {
-			statContent += '<td>' + list[i] + '</td>';
-		}
-
+		statContent += '<td style="text-align: center;">' + map.gudoksu + '</td>';
+		statContent += '<td style="text-align: center;">' + map.monthearn + '</td>';
+		statContent += '<td style="text-align: center;">' + map.adearnrate + '</td>';
 		statContent += '</tr>';
 
 		$('#statTable').empty();
 		$('#statTable').append(statContent);
+
+		var youtuberImgContent = '';
+		
+		youtuberImgContent += '<img class="profile-user-img img-fluid img-circle" src="';
+		youtuberImgContent += map.youtuberImg
+		youtuberImgContent += '" alt="message user image" style="height: 130px; width: 130px;">';
+
+		$('#youtuberImg').empty();
+		$('#youtuberImg').append(youtuberImgContent);		
+		
+		var youtuberNameContent = '';
+		
+		youtuberNameContent += '<h3 class="profile-username text-center" style="color: #1b916e; font-weight: bold;">';
+		youtuberNameContent += map.youtuberName
+		youtuberNameContent += '</h3>';
+
+		$('#youtuberName').empty();
+		$('#youtuberName').append(youtuberNameContent);	
 
 	}
 </script>

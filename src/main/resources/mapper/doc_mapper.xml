@@ -238,7 +238,6 @@
 	<select id="getObjectionDocList" parameterType="string" resultType="hashmap">
 		SELECT d.id
 			, d.subject
-			, d.content
 			, d.status
 			, (SELECT m.name FROM member m WHERE m.id = d.member_id) AS create_member_name
 			, (SELECT df.name FROM doc_form df WHERE df.id = d.doc_form_id) AS doc_form_name
@@ -319,7 +318,6 @@
 	<select id="getCompleteDocList" parameterType="string" resultType="hashmap">
 		SELECT d.id
 			, d.subject
-			, d.content
 			, d.status
 			, (SELECT m.name FROM member m WHERE m.id = d.member_id) AS create_member_name
 			, (SELECT df.name FROM doc_form df WHERE df.id = d.doc_form_id) AS doc_form_name
