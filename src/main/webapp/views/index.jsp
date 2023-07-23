@@ -471,7 +471,7 @@
 <script>
 var socket;
 
-socket = new WebSocket('ws://localhost/alarm');
+socket = new WebSocket('ws://152.69.231.87/alarm');
 
 socket.onopen = function(event) {
     console.log('WebSocket 연결이 열렸습니다.');
