@@ -32,6 +32,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import kr.co.cc.alarm.config.WebSocketHandler;
 import kr.co.cc.doc.dao.DocDAO;
 import kr.co.cc.doc.dto.ApprovalDTO;
 import kr.co.cc.doc.dto.AttachmentDTO;
@@ -48,9 +49,11 @@ public class DocService {
 	@Value("${spring.servlet.multipart.location}") private String attachmentRoot;
 	
 	private final DocDAO dao;
+	private WebSocketHandler handler = null;
 	
-	public DocService(DocDAO dao){
+	public DocService(DocDAO dao, WebSocketHandler handler){
 		this.dao = dao;
+		this.handler = handler;
 	}
 
 	public ModelAndView docWriteForm(HttpSession session) {
@@ -296,6 +299,8 @@ public class DocService {
 	public void docNotice(String sendId, String receiveId, String type, String identifyValue) {
 		// 순서대로 보내는 아이디, 받는 아이디, 알림유형, 구분번호
 		
+		// docNotice 메서드가 실행될때는 알림을 보내기 위해 아래의 메서드를 실행한다.
+		handler.sendAlarm("알림이 왔습니다");
 		dao.docNotice(sendId, receiveId, type, identifyValue);
 	}
 

@@ -14,12 +14,14 @@ import javax.servlet.http.HttpSession;
 import org.mybatis.spring.annotation.MapperScan;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import kr.co.cc.alarm.config.WebSocketHandler;
 import kr.co.cc.archive.dto.ArchiveDTO;
 import kr.co.cc.member.dto.MemberDTO;
 import kr.co.cc.message.dao.MessageDAO;
@@ -33,13 +35,13 @@ public class MessageService {
 	
 	@Value("${spring.servlet.multipart.location}") private String root;
 	
-	
 	private final MessageDAO dao;
+	private WebSocketHandler handler = null;
 	
-	public MessageService(MessageDAO dao){
+	public MessageService(MessageDAO dao, WebSocketHandler handler){
 		this.dao = dao;
+		this.handler = handler;
 	}
-
 	
 	public HashMap<String, Object> msRemovelist(HttpSession session, HashMap<String, Object> params) {
 		
@@ -295,7 +297,9 @@ public class MessageService {
 	       
 	       
 	        logger.info("idx: " + idx);
-
+	        
+	        handler.sendAlarm("알림이 왔습니다");
+	        
 	        if (file != null && !file.isEmpty()) {
 	            // 입력받은 파일 이름
 	            String fileName = file.getOriginalFilename();
