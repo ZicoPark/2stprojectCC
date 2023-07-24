@@ -546,6 +546,69 @@ socket.onmessage = function(event) {
     var message = event.data;
     console.log('수신된 메시지: ' + message);
     // 메시지 처리 로직 구현
+    
+    $.ajax({
+		type:'post',
+		url:'alarmCount.ajax',
+		data: {
+			receive_id : '${sessionScope.id}'
+		},
+		dataType:'json',
+		success:function(data){
+			console.log(data);
+			
+			$('.badge.badge-warning.navbar-badge').html(data);
+		},
+		error:function(e){
+			console.log(e);
+		}		
+	});
+    
+	$.ajax({
+		url: 'alarmList.ajax',
+		type: 'post',
+		async: false,
+		data: {
+			loginId: '${sessionScope.id}'
+		},
+		dataType: 'json',
+		success: function(data) {
+			console.log('아작스 통신 성공');
+			console.log(data);
+			var content = '';
+			if (data.length == 0) {
+				content += '<div style="text-align: center;"><tr><th><br/>새 알림이 없습니다.<br/><br/></th></tr></div>';
+			} else {
+				data.forEach(function(item) {
+					var link = '';
+					if (item.type === '쪽지') {
+						link = 'msRcDetail.do?type=alarm&id=' + item.identify_value;
+					} else if (item.type === '공지사항') {
+						link = 'noticeBoardDetail.do?type=alarm&id=' + item.identify_value;
+					} else {
+						link = 'requestDocWaitDetail.go?type=alarm&id=' + item.identify_value;
+					}
+					var title = (item.title || item.subject || item.doc_subject).replace(/\s/g, ''); // 공백 제거 후
+					title = title.length > 5 ? title.substring(0, 5) + '...' : title; // 최대 5자 제한
+					content += '<a href="' + link + '" class="dropdown-item">' +
+				    '<span class="type" style="font-size: small; color: ' +
+				    (item.type === '쪽지' ? 'green' : (item.type === '공지사항' ? 'red' : 'blue')) + '">' +
+				    item.type + '</span>' +
+				    '<span style="margin-left: 30px; font-size: 80%;">' + title + '</span>' +  
+				    '<span class="float-right text-muted text-sm name" style="margin-left: 5px;">' + item.name + '</span>' +
+				    '</a>';
+				});
+			}
+
+			$('#aList').empty();
+			$('#aList').append(content);
+		},
+		error: function(e) {
+			console.log(e);
+		}
+	});
+    
+    
 };
 
 socket.onclose = function(event) {
