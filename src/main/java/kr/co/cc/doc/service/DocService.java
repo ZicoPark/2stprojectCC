@@ -285,6 +285,9 @@ public class DocService {
 				
 				if(orderRank==0) { // 지금 결재요청한 문서의 첫 결재자가 0순위라면 알림 테이블에 등록하자.
 					docNotice(memberInfo.getId(), approvalMemberId, "전자결재", docId);
+					
+					// docNotice 메서드가 실행될때는 알림을 보내기 위해 아래의 메서드를 실행한다.
+					handler.sendAlarm("알림이 왔습니다");
 				}
 				
 				orderRank++; // 0순위를 저장 후 결재순위가 1씩 증가함.
@@ -299,8 +302,6 @@ public class DocService {
 	public void docNotice(String sendId, String receiveId, String type, String identifyValue) {
 		// 순서대로 보내는 아이디, 받는 아이디, 알림유형, 구분번호
 		
-		// docNotice 메서드가 실행될때는 알림을 보내기 위해 아래의 메서드를 실행한다.
-		handler.sendAlarm("알림이 왔습니다");
 		dao.docNotice(sendId, receiveId, type, identifyValue);
 	}
 
@@ -597,6 +598,9 @@ public class DocService {
 				
 				if(orderRank==0) { // 지금 결재요청한 문서의 첫 결재자가 0순위라면 알림 테이블에 등록하자.
 					docNotice(memberInfo.getId(), approvalMemberId, "전자결재", params.get("id"));
+					
+					// docNotice 메서드가 실행될때는 알림을 보내기 위해 아래의 메서드를 실행한다.
+					handler.sendAlarm("알림이 왔습니다");
 				}
 				
 				orderRank++; // 0순위를 저장 후 결재순위가 1씩 증가함.
@@ -863,6 +867,9 @@ public class DocService {
 			String nextApprovalMemberId = dao.getNextApprovalMemberId(params.get("docId"));
 			logger.info("nextApprovalMemberId : "+nextApprovalMemberId);
 			docNotice(docDTO.getMember_id(), nextApprovalMemberId, "전자결재", params.get("docId"));
+			
+			// docNotice 메서드가 실행될때는 알림을 보내기 위해 아래의 메서드를 실행한다.
+			handler.sendAlarm("알림이 왔습니다");
 		}
 
 		return mav;
